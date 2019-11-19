@@ -24,3 +24,6 @@ yarn-error.log*
 
 # min files
 *.min.*
+
+# backup files
+*~
