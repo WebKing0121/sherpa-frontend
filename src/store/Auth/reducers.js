@@ -4,13 +4,13 @@ const initialState = {
 }
 
 export default function authReducer(state = initialState, action) {
-  const { type, token = '', is_authenticated = false } = action;
+  const { type, token = '' } = action;
   switch (type) {
     case 'SET_AUTH_STATE':
       return {
         ...state,
         token: token,
-        is_authenticated: is_authenticated
+        is_authenticated: true
       };
     case 'SET_UNAUTH_STATE':
       return {
