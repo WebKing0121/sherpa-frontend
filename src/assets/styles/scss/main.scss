@@ -1,0 +1,125 @@
+@import "./variables.scss";
+@import "./bootstrap-overrides.scss";
+
+.App-header {
+  background: var(--charcoal);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: var(--ghostBlue);
+  padding: .6rem;
+}
+
+:root {
+  --darkNavy:   #{$darkNavy};
+  --charcoal:   #{$charcoal};
+  --sherpaTeal: #{$sherpaTeal};
+  --sherpaBlue: #{$sherpaBlue};
+  --gray:       #{$gray};
+  --ghostBlue:  #{$ghostBlue};
+  --white:      #{$white};
+  --yellow:     #{$yellow};
+  --orange:     #{$orange};
+  --green:      #{$green};
+  --purple:     #{$purple};
+  --red:        #{$red};
+  --mediumGray: #{$mediumGray};
+  --lightGray:  #{$lightGray};
+
+/* Gradients */
+--tealBlueGradient: linear-gradient(
+  135deg, var(--sherpaTeal),
+  var(--sherpaBlue)
+  );
+
+--sherpaBlueGradient: linear-gradient(
+  135deg,
+  #4888FF,
+  var(--sherpaBlue)
+  );
+
+--sherpaTealGradient: linear-gradient(
+  135deg,
+  #45DFD7,
+  var(--sherpaTeal)
+  );
+
+--warningGradient: linear-gradient(
+  135deg,
+  var(--yellow),
+  var(--orange)
+  );
+
+}
+
+@font-face {
+  font-family: "Lato";
+  src: url("/assets/fonts/Lato-Regular.ttf") format("ttf");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/assets/fonts/Lato-Bold.ttf") format("ttf");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lato";
+  src: url("/assets/fonts/Lato-Black.ttf") format("ttf");
+  font-weight: 900;
+  font-style: normal;
+}
+
+body,html {
+  font-family: "Lato";
+  font-size: 16px;
+}
+
+h1,h2,h3,
+.textXL,.textL,.textM,.textS,.textXS {
+  font-family: "Lato";
+  font-weight: 900;
+}
+h1 {
+  /* 40px */
+  font-size: 2.5rem;
+  line-height: 1.25;
+}
+h2 {
+  /* 30px */
+  font-size: 1.875rem;
+  line-height: 1.2;
+}
+h3 {
+  /* 24px */
+  font-size: 1.5rem;
+  line-height: 1.25;
+}
+.textXL {
+  /* 20px */
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.textL {
+  /* 18px */
+  font-size: 1.125rem;
+  line-height: 1.22;
+}
+.textM {
+  /* 16px */
+  font-size: 1rem;
+  line-height: 1.25;
+}
+.textS {
+  /* 14px */
+  font-size: .875rem;
+  line-height: 1.29;
+}
+.textXS {
+  /* 12px */
+  font-size: .75rem;
+  line-height: 1.33;
+}
