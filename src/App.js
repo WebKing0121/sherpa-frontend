@@ -1,17 +1,17 @@
 import React from 'react';
-import './App.css';
-import SG from './components/StyleGuide.jsx';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import StylesPage from './containers/StylesPage/StylesPage.jsx';
 
 function App() {
   return (
-    <div className="App">
-      <header style={{marginBottom: "3rem"}} className="App-header">
-        <h1>Style Guide</h1>
-      </header>
-      <section className="styleGuide">
-        <SG name="Aaron"/>
-      </section>
-    </div>
+    <Router>
+      <div>
+        <Route exact path='/' component={StylesPage} />
+        <Switch>
+          <Route path='/Styles' component={StylesPage} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
