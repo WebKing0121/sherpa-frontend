@@ -1,13 +1,19 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticate } from '../../store/Auth/actions';
+import { authError, isAuthenticated } from '../../store/Auth/selectors';
+
 
 export default function LoginPage(props) {
   // state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const formError = useSelector(state => state.auth.error);
+  const formError = useSelector(authError);
+  const is_authenticated = useSelector(isAuthenticated);
   const dispatch = useDispatch();
+
+  // redirect if authenticated
+  if (is_authenticated) props.history.push("/");
 
   // onchange handlers
   const changeUsername = (e) => setUsername(e.target.value);
@@ -16,9 +22,10 @@ export default function LoginPage(props) {
   // submit handler
   const submit = (e) => {
     e.preventDefault();
-    dispatch(authenticate({ username, password }));
-
-    // TODO(Diego): re-route to campaigns-list
+    dispatch(authenticate(
+      { username, password },
+      () => props.history.push('/Styles')
+    ));
   };
 
   return (
@@ -28,7 +35,7 @@ export default function LoginPage(props) {
       <div>
         <form onSubmit={submit}>
           <input name="username" value={username} onChange={changeUsername} />
-          <input name="password" value={password} onChange={changePWHandler} />
+          <input name="password" type="password" value={password} onChange={changePWHandler} />
           <input type="submit" disabled={!username || !password} />
         </form>
       </div>
