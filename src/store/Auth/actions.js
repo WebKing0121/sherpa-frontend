@@ -1,5 +1,8 @@
 import AxiosInstance from '../../axiosConfig';
-import { setAuthToken, revokeAuthToken, saveToLocalStorage } from '../Auth/utils';
+import {
+  setAuthToken, revokeAuthToken,
+  saveToLocalStorage, removeFromLocalStorage
+} from '../Auth/utils';
 
 
 const setAuthenticated = ({ access = '', refresh = '' }) => ({
@@ -31,8 +34,10 @@ export const authenticate = (credentials, continuation) => {
 }
 
 export const logout = () => {
-  unsetAuthenticated();
-  revokeAuthToken('');
-  saveToLocalStorage('access');
-  saveToLocalStorage('refresh');
+  return (dispatch, _) => {
+    dispatch(unsetAuthenticated());
+    revokeAuthToken('');
+    removeFromLocalStorage('access');
+    removeFromLocalStorage('refresh');
+  }
 }

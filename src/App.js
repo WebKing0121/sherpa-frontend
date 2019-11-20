@@ -1,6 +1,7 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { Router, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+import { history } from './history';
 
 // pages
 import StylesPage from './containers/StylesPage/StylesPage.jsx';
@@ -11,16 +12,17 @@ import Header from './containers/Header/Header.jsx';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { isAuthenticated } from './store/Auth/selectors';
 
+
 function App() {
   const is_authenticated = useSelector(isAuthenticated);
   return (
-    <Router>
+    <Router history={history}>
       <div>
         <Header />
         <Route exact path='/' component={StylesPage} />
         <Switch>
           <ProtectedRoute is_authenticated={is_authenticated} path='/Styles' component={StylesPage} />
-          <Route path='/Login' component={LoginPage} />
+          <Route path='/login' component={LoginPage} />
         </Switch>
       </div>
     </Router>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Redirect } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { authenticate } from '../../store/Auth/actions';
 import { authError, isAuthenticated } from '../../store/Auth/selectors';
@@ -13,7 +14,7 @@ export default function LoginPage(props) {
   const dispatch = useDispatch();
 
   // redirect if authenticated
-  if (is_authenticated) props.history.push("/");
+  if (is_authenticated) return <Redirect to="/" />;
 
   // onchange handlers
   const changeUsername = (e) => setUsername(e.target.value);

@@ -1,6 +1,6 @@
 import axiosInstance from '../../axiosConfig';
 
-export const setAuthToken = ({ access, _ }) => {
+export const setAuthToken = ({ access }) => {
   axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
@@ -13,7 +13,7 @@ export const saveToLocalStorage = (key, value) => {
   window.localStorage.setItem(key, value);
 }
 
-export const removeToLocalStorage = (key) => {
+export const removeFromLocalStorage = (key) => {
   window.localStorage.removeItem(key)
 }
 
@@ -24,4 +24,11 @@ export const loadTokens = () => {
   const error = "";
 
   return { auth: { token, refreshToken, is_authenticated, error } };
+}
+
+export const setAuthTokenHeader = () => {
+  const { auth } = loadTokens();
+
+  if (auth.token)
+    setAuthToken({ access: auth.token });
 }

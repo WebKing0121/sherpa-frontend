@@ -6,6 +6,9 @@ import * as serviceWorker from './serviceWorker';
 import './assets/styles/css/main.css';
 import { Provider } from 'react-redux';
 import ReduxStore from './store/store';
+import { setAuthTokenHeader } from './store/Auth/utils';
+
+setAuthTokenHeader();
 
 ReactDOM.render(
   <Provider store={ReduxStore}><App /></Provider>,
