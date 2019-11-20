@@ -12,9 +12,12 @@ import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
 // components
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { isAuthenticated } from './store/Auth/selectors';
+import './App.css';
+import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
 
 function App() {
   const is_authenticated = useSelector(isAuthenticated);
+
   return (
     <Router history={history}>
       <div>
@@ -25,11 +28,11 @@ function App() {
         <Switch>
           <ProtectedRoute is_authenticated={is_authenticated} path='/' component={CampaignsPage} exact />
           <ProtectedRoute is_authenticated={is_authenticated} path='/styles' component={StylesPage} exact />
+          <ProtectedRoute is_authenticated={is_authenticated} path='/Prospects' component={ProspectsSearch} />
           <ProtectedRoute is_authenticated={is_authenticated} path='/' component={() => <h2>Page Not Found</h2>} />
         </Switch>
       </div>
-    </Router>
-  );
+    </Router>  );
 }
 
 export default App;

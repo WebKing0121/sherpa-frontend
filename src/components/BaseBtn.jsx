@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button } from 'reactstrap';
 
-function baseBtn(props) {
+function BaseBtn(props) {
   return (
     <Button {...props}>
       {props.children}
@@ -9,4 +9,4 @@ function baseBtn(props) {
   );
 }
 
-export default baseBtn;
+export default BaseBtn;

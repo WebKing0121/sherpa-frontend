@@ -3,26 +3,20 @@ import {
   Card, CardBody, CardTitle,
   Container, Row, Col
 } from 'reactstrap';
-import Btn from './BaseBtn.jsx';
+import Btn from '../components/BaseBtn.jsx';
+import styled from 'styled-components';
 
-const Colordiv = (props) => {
-  let style = {height: "90px"};
-
-  if (props.gradient) {
-    style.background = `var(--${props.gradient}Gradient)`;
-  } else {
-    style.backgroundColor = `var(--${props.color})`;
-  }
-
-  return <div style={style}></div>
-}
+const Colordiv = styled.div`
+  height: 90px;
+  background: ${props => props.gradient ? `var(--${props.gradient}Gradient)` : `var(--${props.color})`};
+`;
 
 const Colorbox = (props) => {
   return (
     <Card style={{marginBottom: "2rem"}}>
       <Colordiv gradient={props.gradient} color={props.color}/>
       <CardBody>
-        <CardTitle className="textM">{(props.color ? props.color : props.gradient)}</CardTitle>
+        <CardTitle className="textM m-0">{(props.color ? props.color : props.gradient)}</CardTitle>
       </CardBody>
     </Card>
   )
@@ -38,7 +32,7 @@ const Header = (props) => {
   )
 }
 
-function styleGuide() {
+function StyleGuide() {
   return (
     <Container className="pb-5">
       <section>
@@ -163,4 +157,4 @@ function styleGuide() {
   );
 }
 
-export default styleGuide;
+export default StyleGuide;

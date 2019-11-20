@@ -1,9 +1,5 @@
 @import "variables.scss";
 
-$theme-colors: (
-  "primary": $sherpaBlue
-);
-
 $btn-border-radius: 28px;
 $btn-border-radius-lg: 28px;
 $btn-border-radius-sm: 28px;
@@ -11,5 +7,31 @@ $btn-border-radius-sm: 28px;
 $input-btn-padding-x: 1rem;
 $input-btn-padding-x-sm: .75rem;
 $input-btn-padding-x-lg: 1.5rem;
+
+$theme-colors: (
+  "primary":    $sherpaBlue,
+  "secondary":  $sherpaTeal,
+  "success":    $green,
+  "info":       $orange,
+  "warning":    $warning,
+  "danger":     $red,
+  "light":      $mediumGray,
+  "dark":       $darkNavy
+);
+
+$grid-gutter-width: $padUnit;
+$spacer: $padUnit;
+
+$input-padding-x: 0;
+$input-padding-y: .8em;
+$input-bg: transparent;
+$input-color: $darkNavy;
+$input-placeholder-color: $darkNavy;
+$input-border-width: 0;
+$input-font-size: 1.125rem;
+$input-focus-border-color: transparent;
+$input-focus-box-shadow: none;
+
+// $list-group-item-padding-y: #{pad(3)};
 
 @import "~bootstrap/scss/bootstrap.scss";

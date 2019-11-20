@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import SG from '../../components/StyleGuide.jsx';
+import SG from '../../containers/StyleGuide.jsx';
 
 function StylesPage() {
   return (
