@@ -4,25 +4,28 @@ import { useSelector } from 'react-redux';
 import { history } from './history';
 
 // pages
+import Header from './containers/Header/Header.jsx';
 import StylesPage from './containers/StylesPage/StylesPage.jsx';
 import LoginPage from './containers/LoginPage/LoginPage';
-import Header from './containers/Header/Header.jsx';
+import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
 
 // components
 import { ProtectedRoute } from './components/ProtectedRoute';
 import { isAuthenticated } from './store/Auth/selectors';
-
 
 function App() {
   const is_authenticated = useSelector(isAuthenticated);
   return (
     <Router history={history}>
       <div>
-        <Header />
-        <Route exact path='/' component={StylesPage} />
+        {
+          is_authenticated ? <Header /> :
+            <Route exact path='/login' component={LoginPage} />
+        }
         <Switch>
-          <ProtectedRoute is_authenticated={is_authenticated} path='/Styles' component={StylesPage} />
-          <Route path='/login' component={LoginPage} />
+          <ProtectedRoute is_authenticated={is_authenticated} path='/' component={CampaignsPage} exact />
+          <ProtectedRoute is_authenticated={is_authenticated} path='/styles' component={StylesPage} exact />
+          <ProtectedRoute is_authenticated={is_authenticated} path='/' component={() => <h2>Page Not Found</h2>} />
         </Switch>
       </div>
     </Router>

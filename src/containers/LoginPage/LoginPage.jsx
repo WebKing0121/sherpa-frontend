@@ -25,7 +25,7 @@ export default function LoginPage(props) {
     e.preventDefault();
     dispatch(authenticate(
       { username, password },
-      () => props.history.push('/Styles')
+      () => props.history.push('/')
     ));
   };
 
