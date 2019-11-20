@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 // pages
 import StylesPage from './containers/StylesPage/StylesPage.jsx';
 import LoginPage from './containers/LoginPage/LoginPage';
+import Header from './containers/Header/Header.jsx';
 
 // components
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -15,6 +16,7 @@ function App() {
   return (
     <Router>
       <div>
+        <Header />
         <Route exact path='/' component={StylesPage} />
         <Switch>
           <ProtectedRoute is_authenticated={is_authenticated} path='/Styles' component={StylesPage} />
