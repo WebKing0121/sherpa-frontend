@@ -38,11 +38,15 @@ const StyledIcon = styled(Icon)`
   flex-basis: 50%;
 `;
 
-function IconHolster() {
+function IconHolster(props) {
+  if (!props.folder && !props.readable) {
+    return (<div></div>);
+  }
+
   return (
     <Holster className="iconHolster">
-      <StyledIcon width="25px" name='campaigns'/>
-      <UnreadIndicator/>
+      { props.folder && <StyledIcon width="24px" name='campaigns'/> }
+      { props.readable && !props.isRead && <UnreadIndicator/> }
     </Holster>
   );
 }

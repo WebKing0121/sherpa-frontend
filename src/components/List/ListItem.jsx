@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import arrow from '../../assets/images/icons/arrow.svg';
+import Icon from '../Icon.jsx';
 import IconHolster from './IconHolster.jsx';
 
 import {
@@ -20,6 +20,8 @@ const SubInfo = styled(ListGroupItemText)`
 
 const MainInfo = styled(ListGroupItemText)`
   line-height: 1.4 !important;
+  margin: 0;
+  margin-top: var(--pad1) !important;
 `;
 
 const ItemLink = styled.a`
@@ -44,7 +46,9 @@ const ItemHeader = styled.div`
   justify-content: space-between;
   margin-bottom: var(--pad1);
 `;
-
+const ItemName = styled(ListGroupItemHeading)`
+  font-weight: ${props => props.isBold ? "900" : "400"};
+`;
 const StatusWrapper = styled.div`
   display: flex;
   flex-direction: row;
@@ -69,18 +73,18 @@ function ListItem(props) {
   return (
     <StyledItem>
       <ItemContent>
-        { false && <IconHolster/> }
+        <IconHolster folder={props.item.folder} readable={props.item.readable} isRead={props.item.isRead}/>
         <ItemBody className="itemBody">
           <ItemHeader>
-            <ListGroupItemHeading className="itemName fw-bold m-0">Tillie Maldonado</ListGroupItemHeading>
+            <ItemName className="itemName m-0" isBold={!props.item.isRead}>{props.item.name}</ItemName>
             <StatusWrapper className="d-flex">
-              <ItemStatus status={props.status} className="textM">{props.status || "Initial Message Sent"}</ItemStatus>
-              <ItemLink href="#" className="stretched-link"><img className="ml-2" src={arrow} alt="next"/></ItemLink>
+              <ItemStatus className="textM">{props.indicator}</ItemStatus>
+              <ItemLink href={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next"/></ItemLink>
             </StatusWrapper>
           </ItemHeader>
 
-          <SubInfo className="textM">(970) 318-9788</SubInfo>
-          <MainInfo className="textL m-0">1250 S Monaco Pkwy Apt 29<br/>Colorado Springs, CO 80916</MainInfo>
+          <SubInfo className="textM m-0">{props.item.subInfo}</SubInfo>
+          <MainInfo className="textL">{props.item.mainInfo}</MainInfo>
         </ItemBody>
       </ItemContent>
     </StyledItem>
