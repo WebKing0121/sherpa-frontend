@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import arrow from '../assets/images/icons/arrow.svg';
+import arrow from '../../assets/images/icons/arrow.svg';
+import IconHolster from './IconHolster.jsx';
 
 import {
   ListGroupItem,
@@ -51,19 +52,37 @@ const StatusWrapper = styled.div`
   margin: 0;
 `;
 
+const ItemBody = styled.div`
+`;
+const ItemContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .itemBody {
+    flex-basis: 100%;
+    flex-shrink: 1;
+  }
+`;
+
 function ListItem(props) {
   return (
     <StyledItem>
-      <ItemHeader>
-        <ListGroupItemHeading className="itemName fw-bold m-0">Tillie Maldonado</ListGroupItemHeading>
-        <StatusWrapper className="d-flex">
-          <ItemStatus status={props.status} className="textM">{props.status || "Initial Message Sent"}</ItemStatus>
-          <ItemLink href="#" className="stretched-link"><img className="ml-2" src={arrow} alt="next"/></ItemLink>
-        </StatusWrapper>
-      </ItemHeader>
+      <ItemContent>
+        { false && <IconHolster/> }
+        <ItemBody className="itemBody">
+          <ItemHeader>
+            <ListGroupItemHeading className="itemName fw-bold m-0">Tillie Maldonado</ListGroupItemHeading>
+            <StatusWrapper className="d-flex">
+              <ItemStatus status={props.status} className="textM">{props.status || "Initial Message Sent"}</ItemStatus>
+              <ItemLink href="#" className="stretched-link"><img className="ml-2" src={arrow} alt="next"/></ItemLink>
+            </StatusWrapper>
+          </ItemHeader>
 
-      <SubInfo className="textM">(970) 318-9788</SubInfo>
-      <MainInfo className="textL m-0">1250 S Monaco Pkwy Apt 29<br/>Colorado Springs, CO 80916</MainInfo>
+          <SubInfo className="textM">(970) 318-9788</SubInfo>
+          <MainInfo className="textL m-0">1250 S Monaco Pkwy Apt 29<br/>Colorado Springs, CO 80916</MainInfo>
+        </ItemBody>
+      </ItemContent>
     </StyledItem>
   );
 }

@@ -7,8 +7,7 @@ import {
   InputGroupAddon
 } from 'reactstrap';
 import styled from 'styled-components';
-import search from '../assets/images/icons/search.svg';
-import filter from '../assets/images/icons/filter.svg';
+import Icon from './Icon.jsx';
 
 const StyledSearch = styled(Container)`
   padding: var(--pad2) var(--pad3) !important;
@@ -27,13 +26,16 @@ function SearchModule(props) {
           <StyledInputGroup className="mb-2">
             <Input type="text" name="Search" id="SearchField" placeholder="Search" />
             <InputGroupAddon addonType="append">
-              <Button className="p-0" color="link"><img src={search} width="34" alt="search"/></Button>
+              <Button className="p-0" color="link"><Icon name="search" width="34px"/></Button>
             </InputGroupAddon>
           </StyledInputGroup>
         </Col>
-        <Col className="d-flex align-items-center" xs="auto">
-          <Button className="p-0 mb-2" color="link"><img src={filter} alt="search"/></Button>
-        </Col>
+        {false &&
+          <Col className="d-flex align-items-center" xs="auto">
+            <Button className="p-0 mb-2" color="link"><Icon name="filter" /></Button>
+          </Col>
+        }
+
       </Row>
     </StyledSearch>
   );

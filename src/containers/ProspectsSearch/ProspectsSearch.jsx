@@ -1,7 +1,7 @@
 import React from 'react';
-import Header from '../../components/Header.jsx';
-import SearchModule from '../../components/SearchModule.jsx';
-import List from '../../components/List.jsx';
+import Header from '../../components/Header';
+import SearchModule from '../../components/SearchModule';
+import List from '../../components/List/List';
 
 function ProspectsSearch(props) {
   return (
