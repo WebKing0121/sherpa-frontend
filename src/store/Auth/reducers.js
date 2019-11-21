@@ -1,4 +1,4 @@
-const initialState = {
+export const initialState = {
   is_authenticated: false,
   token: '',
   refreshToken: '',
