@@ -1,14 +1,16 @@
 import React from 'react';
 import { ListGroup } from 'reactstrap';
-import Item from './ListItem';
+import ListItem from './ListItem';
 
-function List() {
+function List(props) {
+  const campaign = {};
+
   return (
     <ListGroup className="text-left">
-      <Item status="Dead"/>
-      <Item/>
-      <Item status="Refer to Agent"/>
-      <Item/>
+      <ListItem item={campaign}/>
+      <ListItem/>
+      <ListItem status="Refer to Agent"/>
+      <ListItem/>
     </ListGroup>
   );
 }
