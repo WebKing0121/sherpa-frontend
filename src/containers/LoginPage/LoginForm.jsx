@@ -1,4 +1,22 @@
 import React, { useState } from 'react';
+import styled from 'styled-components';
+import logo from '../../assets/images/sherpaLogo.png';
+import InputGroupBorder from '../../components/InputGroupBorder.jsx';
+import { Card, Input, Label, FormGroup, Button } from 'reactstrap';
+
+const StyledCard = styled(Card)`
+  padding: var(--pad5) var(--pad4);
+`;
+const LogoHolster = styled.div`
+  padding-bottom: var(--pad5);
+  text-align: center;
+`;
+const CardHeader = styled.h1`
+  margin-bottom: var(--pad5);
+`;
+const FullWidth = styled.div`
+  width: 100%;
+`;
 
 export default function LoginForm(props) {
   // state
@@ -15,16 +33,29 @@ export default function LoginForm(props) {
   };
 
   return (
-    <div>
-      <div>Welcome back.</div>
-      {formError ? <p>{formError}</p> : null}
-      <div>
-        <form onSubmit={onSubmit}>
-          <input name="username" value={username} onChange={changeUsername} />
-          <input name="password" type="password" value={password} onChange={changePWHandler} />
-          <input type="submit" disabled={!username || !password} />
-        </form>
-      </div>
-    </div>
+    <FullWidth>
+      <LogoHolster><img src={logo} alt="Sherpa Logo"/></LogoHolster>
+      <StyledCard className="text-center">
+        <CardHeader>Welcome back.</CardHeader>
+        {formError ? <p>{formError}</p> : null}
+        <div>
+          <form className="text-left" onSubmit={onSubmit}>
+            <FormGroup>
+              <Label for="username">Email</Label>
+              <InputGroupBorder>
+                <Input name="username" value={username} onChange={changeUsername} placeholder="Enter email address"/>
+              </InputGroupBorder>
+            </FormGroup>
+            <FormGroup>
+              <Label for="password">Password</Label>
+              <InputGroupBorder>
+                <Input name="password" type="password" value={password} onChange={changePWHandler} placeholder="Enter Password"/>
+              </InputGroupBorder>
+            </FormGroup>
+            <Button className="mt-4" block size="lg" color="primary" type="submit" disabled={!username || !password}>Log In</Button>
+          </form>
+        </div>
+      </StyledCard>
+    </FullWidth>
   );
 }

@@ -3,7 +3,7 @@ import {
   Card, CardBody, CardTitle,
   Container, Row, Col
 } from 'reactstrap';
-import Btn from '../components/BaseBtn.jsx';
+import Btn from '../../components/BaseBtn.jsx';
 import styled from 'styled-components';
 
 const Colordiv = styled.div`

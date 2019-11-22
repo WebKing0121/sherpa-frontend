@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import SG from '../../containers/StyleGuide.jsx';
+import SG from './StyleGuide.jsx';
 
 function StylesPage() {
   return (
@@ -9,7 +9,7 @@ function StylesPage() {
         <h1>Style Guide</h1>
       </header>
       <section className="styleGuide">
-        <SG name="Aaron" />
+        <SG/>
       </section>
     </div>
   );

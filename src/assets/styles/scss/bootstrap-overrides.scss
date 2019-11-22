@@ -26,12 +26,12 @@ $input-padding-x: 0;
 $input-padding-y: .8em;
 $input-bg: transparent;
 $input-color: $darkNavy;
-$input-placeholder-color: $darkNavy;
+$input-placeholder-color: $gray;
 $input-border-width: 0;
 $input-font-size: 1.125rem;
 $input-focus-border-color: transparent;
 $input-focus-box-shadow: none;
 
-// $list-group-item-padding-y: #{pad(3)};
+$label-margin-bottom: 0px;
 
 @import "~bootstrap/scss/bootstrap.scss";

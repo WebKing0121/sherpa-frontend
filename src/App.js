@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { history } from './history';
 
 // pages
-import Header from './containers/Header/Header.jsx';
+import Navbar from './components/Navbar.jsx';
 import StylesPage from './containers/StylesPage/StylesPage.jsx';
 import LoginPage from './containers/LoginPage/LoginPage';
 import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
@@ -22,7 +22,7 @@ function App() {
     <Router history={history}>
       <div>
         {
-          is_authenticated ? <Header /> :
+          is_authenticated ? <Navbar /> :
             <Route exact path='/login' component={LoginPage} />
         }
         <Switch>

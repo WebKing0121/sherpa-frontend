@@ -103,6 +103,7 @@ h1,h2,h3,
 h1 {
   /* 40px */
   font-size: 2.5rem;
+  font-size: calc(3vw + 1rem);
   line-height: 1.25;
   font-weight: 900 !important;
 
@@ -155,7 +156,7 @@ h3 {
 }
 
 :root {
-  --padUnit: $padUnit;
+  --padUnit: #{$padUnit};
 
   --pad1: #{pad(1)};
   --pad2: #{pad(2)};
@@ -164,4 +165,6 @@ h3 {
   --pad5: #{pad(5)};
   --pad6: #{pad(6)};
   --pad7: #{pad(7)};
+  --pad8: #{pad(8)};
+  --pad9: #{pad(9)};
 }
