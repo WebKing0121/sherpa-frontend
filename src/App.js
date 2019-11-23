@@ -23,14 +23,14 @@ function App() {
     <Router history={history}>
       <div>
         {
-          is_authenticated ? <Navbar /> :
+          is_authenticated ? <Navbar page={history} /> :
             <Route exact path='/login' component={LoginPage} />
         }
         <Switch>
           <ProtectedRoute is_authenticated={is_authenticated} path='/' component={CampaignsFolderPage} exact />
           <ProtectedRoute is_authenticated={is_authenticated} path='/folder/:id/campaigns' component={CampaignsPage} exact />
           <ProtectedRoute is_authenticated={is_authenticated} path='/styles' component={StylesPage} exact />
-          <ProtectedRoute is_authenticated={is_authenticated} path='/Prospects' component={ProspectsSearch} />
+          <ProtectedRoute is_authenticated={is_authenticated} path='/prospects' component={ProspectsSearch} />
           <ProtectedRoute is_authenticated={is_authenticated} path='/' component={() => <h2>Page Not Found</h2>} />
         </Switch>
       </div>

@@ -34,4 +34,13 @@ $input-focus-box-shadow: none;
 
 $label-margin-bottom: 0px;
 
+.navbar-dark .navbar-toggler {
+  border: none;
+}
+
+
+.navbar-dark .navbar-nav .nav-link {
+  color: white !important;
+}
+
 @import "~bootstrap/scss/bootstrap.scss";

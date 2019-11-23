@@ -1,14 +1,12 @@
 import StylesPage from './containers/StylesPage/StylesPage.jsx';
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
 import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
-import brain from "./assets/images/icons/brain.svg";
-import prospectSearch from "./assets/images/icons/prospectSearch.svg";
 
 const Routes = [
   {
-    path: "/",
-    name: "Camapaigns",
-    navIcon: "",
+    path: "/campaigns",
+    name: "Campaigns",
+    navIcon: "campaignsWhite",
     alt: "",
     exact: true,
     component: CampaignsPage,
@@ -17,7 +15,7 @@ const Routes = [
   {
     path: "/styles",
     name: "Styles",
-    navIcon: brain,
+    navIcon: "notesWhite",
     alt: "styles",
     exact: true,
     component: StylesPage,
@@ -26,7 +24,7 @@ const Routes = [
   {
     path: "/prospects",
     name: "Prospects",
-    navIcon: prospectSearch,
+    navIcon: "prospectSearchWhite",
     alt: "prospects",
     exact: true,
     component: ProspectsSearch,

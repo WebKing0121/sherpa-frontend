@@ -4,6 +4,7 @@ import styled from 'styled-components';
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
   padding: var(--pad4) var(--pad3);
+  margin-top: 70px;
 `;
 
 function Header(props) {
