@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon.jsx';
 import IconHolster from './IconHolster.jsx';
+import { Link } from 'react-router-dom';
 
 import {
   ListGroupItem,
@@ -73,13 +74,13 @@ function ListItem(props) {
   return (
     <StyledItem>
       <ItemContent>
-        <IconHolster folder={props.item.folder} readable={props.item.readable} isRead={props.item.isRead}/>
+        <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
         <ItemBody className="itemBody">
           <ItemHeader>
-            <ItemName className="itemName m-0" isBold={!props.item.isRead}>{props.item.name}</ItemName>
+            <ItemName className="itemName m-0" >{props.item.name}</ItemName>
             <StatusWrapper className="d-flex">
               <ItemStatus className="textM">{props.indicator}</ItemStatus>
-              <ItemLink href={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next"/></ItemLink>
+              <Link to={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next" /></Link>
             </StatusWrapper>
           </ItemHeader>
 

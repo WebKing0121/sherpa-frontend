@@ -4,20 +4,20 @@ import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { campaignsList } from '../../store/Campaigns/selectors';
-import { campaignsToItemList } from './utils';
-import { fetchCampaigns } from '../../store/Campaigns/actions';
+import { campaignFoldersList } from '../../store/CampaignFolders/selectors';
+import { campaignFoldersToItemList } from './utils';
+import { fetchCampaignFolders } from '../../store/CampaignFolders/actions';
 
 
-const CampaignsPage = (props) => {
-  const campaigns = useSelector(campaignsList);
+const CampaignsFolderListPage = () => {
+  const campaignFolders = useSelector(campaignFoldersList);
   const dispatch = useDispatch();
 
   // dispatch fetchCampaigns
-  useEffect(() => dispatch(fetchCampaigns()), []);
+  useEffect(() => dispatch(fetchCampaignFolders()), []);
 
   // transform campaigns to proper list item views
-  const listItems = campaignsToItemList(campaigns);
+  const listItems = campaignFoldersToItemList(campaignFolders);
 
   return (
     <div>
@@ -28,4 +28,4 @@ const CampaignsPage = (props) => {
   );
 };
 
-export default CampaignsPage;
+export default CampaignsFolderListPage;

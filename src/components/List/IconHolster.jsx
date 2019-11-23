@@ -39,14 +39,15 @@ const StyledIcon = styled(Icon)`
 `;
 
 function IconHolster(props) {
-  if (!props.folder && !props.readable) {
-    return (<div></div>);
+  const { icon, readable, isRead } = props;
+  if (!icon && !readable) {
+    return (<></>);
   }
 
   return (
     <Holster className="iconHolster">
-      { props.folder && <StyledIcon width="24px" name='campaigns'/> }
-      { props.readable && !props.isRead && <UnreadIndicator/> }
+      {icon && <StyledIcon width="24px" name='campaigns' />}
+      {readable && !isRead && <UnreadIndicator />}
     </Holster>
   );
 }

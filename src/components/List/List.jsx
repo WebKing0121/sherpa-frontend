@@ -6,10 +6,7 @@ function List(props) {
 
   return (
     <ListGroup className="text-left">
-      <ListItem item={props.item}/>
-      <ListItem item={props.item}/>
-      <ListItem item={props.item}/>
-      <ListItem item={props.item}/>
+      {props.items.map((item, idx) => <ListItem key={idx} item={item} />)}
     </ListGroup>
   );
 }
