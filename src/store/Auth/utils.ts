@@ -24,7 +24,7 @@ export const removeFromLocalStorage = (key: string) => {
 }
 
 export const getFromLocalStorage = (key: string, defaultValue: any) => {
-  const data: any = localStorage.getItem(key) || "";
+  const data: any = localStorage.getItem(key);
   return JSON.parse(data) || defaultValue;
 }
 

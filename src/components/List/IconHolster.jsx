@@ -16,7 +16,7 @@ const UnreadIndicator = styled.div`
     width: 10px;
     height: 10px;
     position: absolute;
-    top: 50%;
+    top: 5px;
     left: 50%;
     transform: translateX(-50%);
     border-radius: 50%;
@@ -25,7 +25,7 @@ const UnreadIndicator = styled.div`
 `;
 
 const Holster = styled.div`
-  flex-basis: auto;
+  flex-basis: 20px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -34,7 +34,7 @@ const Holster = styled.div`
   margin-right: var(--pad2);
 `;
 
-const StyledIcon = styled(Icon)`
+export const StyledIcon = styled(Icon)`
   flex-basis: 50%;
 `;
 
@@ -46,7 +46,7 @@ function IconHolster(props) {
 
   return (
     <Holster className="iconHolster">
-      {icon && <StyledIcon width="24px" name='campaigns' />}
+      {icon && icon}
       {readable && !isRead && <UnreadIndicator />}
     </Holster>
   );

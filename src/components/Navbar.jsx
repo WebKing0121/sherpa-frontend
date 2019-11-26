@@ -113,7 +113,7 @@ const NavArrow = (props) => {
 }
 
 const SherpNavbar = (props) => {
-  const [collapse, setCollapse] = useState(true);
+  const [collapse, setCollapse] = useState(false);
 
   const toggleNavbar = () => setCollapse(!collapse);
 

@@ -15,7 +15,7 @@ const StyledItem = styled(ListGroupItem)`
   padding-bottom: var(--pad2) !important;
 `;
 
-const SubInfo = styled(ListGroupItemText)`
+const SubInfo = styled.div`
   color: var(--gray);
 `;
 
