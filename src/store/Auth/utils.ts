@@ -1,8 +1,9 @@
 import axiosInstance from '../../axiosConfig';
+import { UserData } from './reducers';
 
 interface CreateToken {
-    access: string;
-    refresh?: string;
+  access: string;
+  refresh?: string;
 }
 
 export const setAuthToken = ({ access }: CreateToken) => {
@@ -22,18 +23,24 @@ export const removeFromLocalStorage = (key: string) => {
   window.localStorage.removeItem(key)
 }
 
+export const getFromLocalStorage = (key: string, defaultValue: any) => {
+  const data: any = localStorage.getItem(key) || "";
+  return JSON.parse(data) || defaultValue;
+}
+
 export const loadTokens = () => {
   const token = localStorage.getItem('access') || "";
   const refreshToken = localStorage.getItem('refresh') || "";
   const is_authenticated = token.length > 0;
   const error = "";
+  const userData: any = getFromLocalStorage('userData', { email: "", username: "", id: null });
 
-  return { auth: { token, refreshToken, is_authenticated, error } };
+  return { auth: { token, refreshToken, is_authenticated, error, userData } };
 }
 
 export const setAuthTokenHeader = () => {
   const { auth } = loadTokens();
 
   if (auth.token)
-      setAuthToken({ access: auth.token });
+    setAuthToken({ access: auth.token });
 }

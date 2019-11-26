@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
 import campaignFolders from './CampaignFolders/reducers';
+import prospects from './Prospects/reducers';
 import { loadTokens } from './Auth/utils';
 
 declare global {
@@ -15,7 +16,8 @@ declare global {
 const reducers = combineReducers({
   auth,
   campaigns,
-  campaignFolders
+  campaignFolders,
+  prospects
 });
 
 // for local stuff

@@ -1,31 +1,30 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
-
-function MainInfo() {
-  return (
-    <span>1234 Five Ave. <br /> Colorado Springs, CO 80915</span>
-  );
-}
-
-const prospect = {
-  name: "Lottie Ortiz",
-  readable: false,
-  isRead: false,
-  folder: false,
-  subInfo: "(559) 244-4245",
-  mainInfo: <MainInfo />,
-  indicator: "Initial Message Sent",
-  link: "#",
-};
+import { searchProspects } from '../../store/Prospects/actions';
+import { prospectsToItemList } from './utils';
+import { prospectsResults, prospectSearchState } from '../../store/Prospects/selectors';
 
 function ProspectsSearch(props) {
+  const prospects = useSelector(prospectsResults);
+  const isSearching = useSelector(prospectSearchState);
+  const dispatch = useDispatch();
+
+  // search function
+  const search = (term) => {
+    dispatch(searchProspects(term));
+  };
+
+  // transform prospect data into the appropriate data-interface for ItemList
+  const prospectList = prospectsToItemList(prospects);
+
   return (
     <div>
       <Header>Prospects Search</Header>
-      <SearchModule />
-      <List items={[prospect]} />
+      <SearchModule searchTerm={search} />
+      {isSearching ? <p>Loading...</p> : <List items={prospectList} />}
     </div>
   );
 }

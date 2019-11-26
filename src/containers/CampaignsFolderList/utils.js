@@ -26,7 +26,7 @@ export const campaignFolderToItemList = ({ id, name, totalCampaigns, hasUnreadSM
     readable: true,
     isRead: !hasUnreadSMS,
     link: { pathname: `/folder/${id}/campaigns` },
-    icon: <Icon name={'campaigns'} />
+    icon: <Icon name={'folder'} />
   };
 }
 

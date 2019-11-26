@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Container, Row, Col,
   Button,
@@ -16,14 +16,18 @@ const StyledSearch = styled(Container)`
 `;
 
 function SearchModule(props) {
+  const [searchTerm, setSearchTerm] = useState("");
+  const onChange = (e) => setSearchTerm(e.target.value);
+  const onClick = (e) => props.searchTerm(searchTerm);
+
   return (
     <StyledSearch>
       <Row>
         <Col>
           <InputGroupBorder className="mb-2">
-            <Input type="text" name="Search" id="SearchField" placeholder="Search" />
+            <Input type="text" name="Search" id="SearchField" placeholder="Search" value={searchTerm} onChange={onChange} />
             <InputGroupAddon addonType="append">
-              <Button className="p-0" color="link"><Icon name="search" width="34px"/></Button>
+              <Button className="p-0" color="link" onClick={onClick}><Icon name="search" width="34px" /></Button>
             </InputGroupAddon>
           </InputGroupBorder>
         </Col>
