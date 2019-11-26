@@ -6,6 +6,12 @@ import campaigns from './Campaigns/reducers';
 import campaignFolders from './CampaignFolders/reducers';
 import { loadTokens } from './Auth/utils';
 
+declare global {
+    interface Window {
+	__REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+    }
+}
+
 const reducers = combineReducers({
   auth,
   campaigns,

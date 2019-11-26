@@ -1,18 +1,31 @@
-export const initialState = {
+interface AuthState {
+    is_authenticated: boolean;
+    token: string;
+    refreshToken: string;
+    error: string;
+}
+
+interface AuthAction {
+    type: string;
+    access: string;
+    refresh: string;
+    error: string;
+}
+
+export const initialState: AuthState = {
   is_authenticated: false,
   token: '',
   refreshToken: '',
   error: ''
 }
 
-export default function authReducer(state = initialState, action) {
-  const { type, access, refresh } = action;
-  switch (type) {
+export default function authReducer(state = initialState, action: AuthAction) {
+  switch (action.type) {
     case 'SET_AUTH_STATE':
       return {
         ...state,
-        token: access,
-        refreshToken: refresh,
+        token: action.access,
+        refreshToken: action.refresh,
         is_authenticated: true,
         error: ''
       };

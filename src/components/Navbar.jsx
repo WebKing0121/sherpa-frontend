@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import logo from '../assets/images/sherpaLogo.png';
 import { Link } from 'react-router-dom';
-import Routes from './../routes.js';
+import Routes from './../routes.ts';
 import Icon from './Icon.jsx';
 
 import {
@@ -67,8 +67,8 @@ const NavScreen = styled.div`
 
 const NavIcon = (props) => {
   return (
-    <div style={{zIndex: 999}} onClick={props.onClick}>
-      <Icon name="emptyHamburgerWhite" width="32px"/>
+    <div style={{ zIndex: 999 }} onClick={props.onClick}>
+      <Icon name="emptyHamburgerWhite" width="32px" />
     </div>
   );
 }
@@ -107,7 +107,7 @@ const ArrowBtnHolster = styled.div`
 const NavArrow = (props) => {
   return (
     <ArrowBtnHolster isOpen={props.isOpen} onClick={props.onClick}>
-      <Icon name="arrowWhite" width="18px"/>
+      <Icon name="arrowWhite" width="18px" />
     </ArrowBtnHolster>
   );
 }
@@ -122,7 +122,7 @@ const SherpNavbar = (props) => {
 
     return (
       <StyledNavItem className={activeClass} key={idx}>
-        <Icon name={r.navIcon} width="22px" margin="mr-2"/>
+        <Icon name={r.navIcon} width="22px" margin="mr-2" />
         <NavLink className="navLink textL stretched-link" tag={Link} to={r.path} onClick={toggleNavbar}>{r.name}</NavLink>
       </StyledNavItem>
     )
@@ -131,10 +131,10 @@ const SherpNavbar = (props) => {
   return (
     <div>
       <StyledNavbar isOpen={collapse} fixed="top" color="dark" dark expand="md">
-        <NavbarBrand href="/"><img src={logo} alt="Lead Sherpa"/></NavbarBrand>
+        <NavbarBrand href="/"><img src={logo} alt="Lead Sherpa" /></NavbarBrand>
         <Nav className="messages" navbar>
           <NavItem>
-            <NavLink><Icon name="messagesWhite" width="40px"/></NavLink>
+            <NavLink><Icon name="messagesWhite" width="40px" /></NavLink>
           </NavItem>
         </Nav>
         <NavbarToggler tag={NavIcon} onClick={toggleNavbar} />

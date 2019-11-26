@@ -4,7 +4,6 @@ import {
   saveToLocalStorage, removeFromLocalStorage
 } from '../Auth/utils';
 
-
 export const setAuthenticated = ({ access = '', refresh = '' }) => ({
   type: 'SET_AUTH_STATE',
   access,
@@ -12,10 +11,11 @@ export const setAuthenticated = ({ access = '', refresh = '' }) => ({
 });
 
 export const unsetAuthenticated = () => ({ type: 'SET_UNAUTH_STATE' });
-export const setAuthError = (error) => ({ type: 'SET_AUTH_ERROR', error })
 
-export const authenticate = (credentials, continuation) => {
-  return (dispatch, _) => {
+export const setAuthError = (error: any) => ({ type: 'SET_AUTH_ERROR', error })
+
+export const authenticate = (credentials: any, continuation: any) => {
+  return (dispatch: any, _: any) => {
     return AxiosInstance
       .post('auth/jwt/create/', credentials)
       .then(({ data }) => {
@@ -32,8 +32,8 @@ export const authenticate = (credentials, continuation) => {
   };
 }
 
-export const logout = () => {
-  return (dispatch, _) => {
+export const logout = (): any => {
+  return (dispatch: any, _:any) => {
     dispatch(unsetAuthenticated());
     revokeAuthToken('');
     removeFromLocalStorage('access');

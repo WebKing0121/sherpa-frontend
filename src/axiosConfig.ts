@@ -9,8 +9,9 @@ const axiosInstance = axios.create({
 })
 
 // adds interceptor for 401's
-const okResponseInterceptor = response => response;
-const errorResponseInterceptor = error => {
+const okResponseInterceptor = (response: any) => response;
+
+const errorResponseInterceptor = (error: any) => {
   // Redirect to login screen if we get `Unauthorized`
   if (error.response.status === 401) {
     ReduxStore.dispatch(logout());
