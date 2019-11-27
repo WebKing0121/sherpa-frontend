@@ -1,4 +1,3 @@
-import StylesPage from './containers/StylesPage/StylesPage.jsx';
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
 import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
 
@@ -11,15 +10,6 @@ const Routes = [
     exact: true,
     component: CampaignsPage,
     mobile: true,
-  },
-  {
-    path: "/styles",
-    name: "Styles",
-    navIcon: "notesWhite",
-    alt: "styles",
-    exact: true,
-    component: StylesPage,
-    mobile: false,
   },
   {
     path: "/prospects",

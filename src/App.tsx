@@ -5,7 +5,6 @@ import { history } from './history';
 
 // pages
 import Navbar from './components/Navbar.jsx';
-import StylesPage from './containers/StylesPage/StylesPage.jsx';
 import LoginPage from './containers/LoginPage/LoginPage';
 import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
 import CampaignsFolderPage from './containers/CampaignsFolderList/CampaignsFolderList';
@@ -29,7 +28,6 @@ function App() {
         <Switch>
           <ProtectedRoute is_authenticated={is_authenticated} path='/' component={CampaignsFolderPage} exact />
           <ProtectedRoute is_authenticated={is_authenticated} path='/folder/:id/campaigns' component={CampaignsPage} exact />
-          <ProtectedRoute is_authenticated={is_authenticated} path='/styles' component={StylesPage} exact />
           <ProtectedRoute is_authenticated={is_authenticated} path='/prospects' component={ProspectsSearch} />
           <ProtectedRoute is_authenticated={is_authenticated} path='/' component={() => <h2>Page Not Found</h2>} />
         </Switch>
