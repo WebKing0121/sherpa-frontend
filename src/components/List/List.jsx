@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ListItem from './ListItem';
 import VirtualList from 'react-tiny-virtual-list';
 import SwipeListItem from '../SwipeableList/SwipeableListItem';
 
 
 function List(props) {
+  useEffect(() => {
+
+    window.onscroll = () => {
+      if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight && !props.isFetching) {
+        // you're at the bottom of the page
+        props.fetchMoreData(props.nextPageUrl, props.isFetching);
+      }
+    };
+    return () => window.onscroll = null;
+  }, [props.nextPageUrl, props.isSearching]);
   return (
     <>
       {

@@ -26,7 +26,8 @@ export default function reducer(state = initialState, action) {
         prospects: action.data.results,
         count: action.data.count,
         next: action.data.next,
-        previous: action.data.previous
+        previous: action.data.previous,
+        status: ""
       }
     default:
       return state;

@@ -14,32 +14,30 @@ export const setProspectSearchResults = (data) => ({
   data
 });
 
-const doSearchProspect = (url, dispatch) => {
-  dispatch(setProspectSearch("Loading"));
+const doSearchProspect = (url) => {
   return AxiosInstance.get(url)
     .then(({ data }) => {
       return data;
     })
     .catch(error => {
       console.log('Error fetching prospects', error.response);
-      dispatch(setProspectSearchError(error.response));
-    })
+      return error.response
+    });
 }
 
 export const searchProspects = (term) => (dispatch, _) => {
-  const url = `/prospects/?search=${term}`;
-  return doSearchProspect(url, dispatch);
+  const url = `/prospects/?search=${term}&page_size=20`;
+  return doSearchProspect(url);
 }
 
-export const searchProspectNextPage = (term) => (dispatch, getState) => {
-  const { prospects: { next } } = getState();
-
+export const searchProspectNextPage = (next) => {
   if (next)
-    return doSearchProspect(next, dispatch);
+    return doSearchProspect(next);
+
+  return new Promise((resolve, __) => resolve({}));
 }
 
-export const searchProspectPreviousPage = (term) => (dispatch, getState) => {
-  const { prospects: { previous } } = getState();
+export const searchProspectPreviousPage = (previous) => {
   if (previous)
-    return doSearchProspect(previous, dispatch);
+    return doSearchProspect(previous);
 }
