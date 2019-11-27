@@ -117,13 +117,13 @@ class SwipeableListItem extends React.Component {
 
     const left = evt.clientX - this.dragStartX;
     if (this.startPos === menuOpen) {
-      if(left < 0 ) {
+      if (left < 0) {
         this.left = menuOpen;
       } else {
         this.left = this.startPos + left;
       }
     } else if (this.startPos === 0) {
-      if(left > 0) {
+      if (left > 0) {
         this.left = 0;
       } else {
         this.left = left;
@@ -141,13 +141,13 @@ class SwipeableListItem extends React.Component {
     const left = touch.clientX - this.dragStartX;
 
     if (this.startPos === menuOpen) {
-      if(left < 0 ) {
+      if (left < 0) {
         this.left = menuOpen;
       } else {
         this.left = this.startPos + left;
       }
     } else if (this.startPos === 0) {
-      if(left > 0) {
+      if (left > 0) {
         this.left = 0;
       } else {
         this.left = left;
@@ -191,13 +191,13 @@ class SwipeableListItem extends React.Component {
   render() {
     return (
       <>
-        <div className="Wrapper" ref={div => (this.wrapper = div)}>
+        <div className="Wrapper" ref={div => (this.wrapper = div)} style={this.props.style}>
           <div ref={div => (this.background = div)} className="Background">
-              <SwipeMenu>
-                {this.props.actions.map((item, idx) =>
-                  <SwipeMenuAction className="action" key={idx} name={item.name} icon={item.icon} background={item.background}/>
-                )}
-              </SwipeMenu>
+            <SwipeMenu>
+              {this.props.actions.map((item, idx) =>
+                <SwipeMenuAction className="action" key={idx} name={item.name} icon={item.icon} background={item.background} />
+              )}
+            </SwipeMenu>
           </div>
           <div
             onClick={this.onClicked}

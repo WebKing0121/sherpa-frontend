@@ -76,7 +76,7 @@ const ItemContent = styled.div`
 
 function ListItem(props) {
   return (
-    <StyledItem>
+    <StyledItem style={props.style}>
       <ItemContent>
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
         <ItemBody className="itemBody">

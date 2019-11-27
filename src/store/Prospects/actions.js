@@ -15,9 +15,10 @@ export const setProspectSearchResults = (data) => ({
 });
 
 const doSearchProspect = (url, dispatch) => {
+  dispatch(setProspectSearch("Loading"));
   return AxiosInstance.get(url)
     .then(({ data }) => {
-      dispatch(setProspectSearchResults(data))
+      return data;
     })
     .catch(error => {
       console.log('Error fetching prospects', error.response);
