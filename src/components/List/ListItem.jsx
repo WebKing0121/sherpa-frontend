@@ -14,9 +14,11 @@ const StyledItem = styled(ListGroupItem)`
   padding-top: var(--pad2) !important;
   padding-bottom: var(--pad2) !important;
   width: 100%;
+  height: 100%;
   border-radius: 0 !important;
   border-left: none !important;
   border-right: none !important;
+  border-bottom: 1px solid rgba(0,0,0,0.125);
 `;
 
 const SubInfo = styled.div`
