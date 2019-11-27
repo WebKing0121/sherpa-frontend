@@ -13,6 +13,10 @@ import {
 const StyledItem = styled(ListGroupItem)`
   padding-top: var(--pad2) !important;
   padding-bottom: var(--pad2) !important;
+  width: 100%;
+  border-radius: 0 !important;
+  border-left: none !important;
+  border-right: none !important;
 `;
 
 const SubInfo = styled.div`
@@ -25,7 +29,7 @@ const MainInfo = styled(ListGroupItemText)`
   margin-top: var(--pad1) !important;
 `;
 
-const ItemLink = styled.a`
+const ItemLink = styled(Link)`
   &:hover,
   &:active {
     &:after{
@@ -80,7 +84,7 @@ function ListItem(props) {
             <ItemName className="itemName m-0" >{props.item.name}</ItemName>
             <StatusWrapper className="d-flex">
               <ItemStatus className="textM">{props.indicator}</ItemStatus>
-              <Link to={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next" /></Link>
+              <ItemLink to={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next" /></ItemLink>
             </StatusWrapper>
           </ItemHeader>
 
