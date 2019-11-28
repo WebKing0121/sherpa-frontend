@@ -48,6 +48,7 @@ function ProspectsSearch(props) {
       <Header>Prospects Search</Header>
       <SearchModule searchTerm={search} />
       <List
+        virtualize
         items={prospectList}
         nextPageUrl={nextPageUrl}
         fetchMoreData={fetchMoreData}
