@@ -27,7 +27,10 @@ function List(props) {
             let item = props.items[index];
             return (<SwipeListItem style={style} threshold=".25" actions={item.actions} key={index}><ListItem item={item} /></SwipeListItem>);
           }} /> :
-          <div className="text-left">{props.items.map((item, idx) => <SwipeListItem threshold=".25" actions={item.actions} key={idx}><ListItem item={item} /></SwipeListItem>)}</div>
+          <div className="text-left">{props.items.map((item, idx) => item.actions.length ? (
+            <SwipeListItem threshold=".25" actions={item.actions} key={idx}><ListItem item={item} /></SwipeListItem>
+          ) : <ListItem key={idx} item={item}></ListItem>
+          )}</div>
       }
     </>
   );

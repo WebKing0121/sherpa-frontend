@@ -9,7 +9,12 @@ const SwipeMenu = styled.div`
   position: absolute;
   width: 100%;
   right: 0;
-  justify-content: flex-end;
+  justify-content: flex-start;
+  padding-left: ${props => props.padLeft}px;
+
+  @media (max-width: 500px) {
+    flex-wrap: ${props => props.wrapList ? "wrap" : "nowrap"};
+  }
 `;
 
 class SwipeableListItem extends React.Component {
@@ -22,6 +27,16 @@ class SwipeableListItem extends React.Component {
   dragStartX = 0;
   left = 0;
   dragged = false;
+
+  // position & padding
+  numActions = this.props.actions.length;
+  viewportWidth = window.innerWidth;
+  vw = this.viewportWidth / 100;
+  actionSizeBase = 100 / (this.numActions + 1);
+  actionSize = Math.min(this.actionSizeBase,25);
+  menuOpen = -1 * (this.actionSize * this.numActions) * this.vw;
+  padLeft = 100 * this.vw - Math.abs(this.menuOpen);
+  wrap = this.numActions > 4;
 
   // FPS Limit
   startTime;
@@ -93,12 +108,8 @@ class SwipeableListItem extends React.Component {
 
       const threshold = this.startPos === 0 ? (this.props.threshold || 0.3) : (1 - this.props.threshold || 0.7);
 
-      const numActions = this.props.actions.length;
-      const viewportWidth = window.innerWidth;
-      const vw = viewportWidth / 100;
-
       if (this.left < this.listElement.offsetWidth * threshold * -1) {
-        this.left = -1 * (numActions * 20) * vw;
+        this.left = this.menuOpen;
         this.onSwiped();
       } else {
         this.left = 0;
@@ -110,15 +121,10 @@ class SwipeableListItem extends React.Component {
   }
 
   onMouseMove(evt) {
-    const numActions = this.props.actions.length;
-    const viewportWidth = window.innerWidth;
-    const vw = viewportWidth / 100;
-    const menuOpen = -1 * (numActions * 20) * vw;
-
     const left = evt.clientX - this.dragStartX;
-    if (this.startPos === menuOpen) {
+    if (this.startPos === this.menuOpen) {
       if (left < 0) {
-        this.left = menuOpen;
+        this.left = this.menuOpen;
       } else {
         this.left = this.startPos + left;
       }
@@ -132,17 +138,12 @@ class SwipeableListItem extends React.Component {
   }
 
   onTouchMove(evt) {
-    const numActions = this.props.actions.length;
-    const viewportWidth = window.innerWidth;
-    const vw = viewportWidth / 100;
-    const menuOpen = -1 * (numActions * 20) * vw;
-
     const touch = evt.targetTouches[0];
     const left = touch.clientX - this.dragStartX;
 
-    if (this.startPos === menuOpen) {
+    if (this.startPos === this.menuOpen) {
       if (left < 0) {
-        this.left = menuOpen;
+        this.left = this.menuOpen;
       } else {
         this.left = this.startPos + left;
       }
@@ -193,9 +194,9 @@ class SwipeableListItem extends React.Component {
       <>
         <div className="Wrapper" ref={div => (this.wrapper = div)} style={this.props.style}>
           <div ref={div => (this.background = div)} className="Background">
-            <SwipeMenu>
+            <SwipeMenu wrapList={this.wrap} padLeft={this.padLeft} className="swipeMenu">
               {this.props.actions.map((item, idx) =>
-                <SwipeMenuAction className="action" key={idx} name={item.name} icon={item.icon} background={item.background} />
+                <SwipeMenuAction wrapList={this.wrap} className="action" key={idx} size={this.actionSize} name={item.name} icon={item.icon} background={item.background} />
               )}
             </SwipeMenu>
           </div>
