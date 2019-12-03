@@ -22,7 +22,6 @@ const CampaignsFolderListPage = () => {
   return (
     <div>
       <Header>Campaigns</Header>
-      <SearchModule />
       <List items={listItems} />
     </div>
   );

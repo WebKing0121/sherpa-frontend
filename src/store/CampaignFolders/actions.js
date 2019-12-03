@@ -1,6 +1,8 @@
+import axios from 'axios';
 import AxiosInstance from '../../axiosConfig';
 import { SET_FETCH_CAMPAIGN_FOLDERS, SET_FETCH_CAMPAIGN_FOLDERS_ERROR } from './actionTypes';
-import { createAllFolder } from './transformers';
+import { createFolders, chkForMultipleMarkets } from './transformers';
+import { history } from '../../history';
 
 export const setFetchedCampaignFolders = (campaignFolders) => ({
   type: SET_FETCH_CAMPAIGN_FOLDERS,
@@ -16,35 +18,28 @@ export const fetchCampaignFolders = () => (dispatch, _) => {
   // NOTE: Needs to hit the Folder-endpoint in the future
   // For now we will render 1 folder called ALL that will contain
   // all campaigns
-  AxiosInstance.get('/campaigns/')
-    .then(({ count, next, previous, results }) => {
-      let mockData = [{
-        "id": 0,
-        "name": "Campaign 2019",
-        "company": 1,
-        "market": 2,
-        "tags": [
-          {
-            "name": "HOT",
-            "company": 1
-          }
-        ],
-        "isDefault": true,
-        "isArchived": false,
-        "createdDate": "2019-11-21T22:29:02Z",
-        "createdBy": 6,
-        "totalProspects": 2,
-        "responseRate": 0,
-        "totalLeads": 0,
-        "percentCompleteUnsent": "na",
-        "health": "good",
-        "priority": 1,
-        "owner": 6,
-        "hasUnreadSMS": true
-      }];
+  const fetchCampaigns = AxiosInstance.get('/campaigns/');
+  const fetchMarkets = AxiosInstance.get('/markets/');
 
-      dispatch(setFetchedCampaignFolders(createAllFolder(mockData)))
-    })
+  axios.all([fetchCampaigns, fetchMarkets])
+    .then(axios.spread((campaigns, markets) => {
+      const { data: { results: campsData } } = campaigns;
+      const { data: { results: marksData } } = markets;
+
+      const marketIds = chkForMultipleMarkets(campsData);
+
+      if (marketIds.length > 1) {
+        dispatch(
+          setFetchedCampaignFolders(
+            createFolders(campsData, marksData)
+          )
+        )
+      } else {
+        let id = marketIds[0];
+        history.push(`/folder/${id}/campaigns`);
+      }
+
+    }))
     .catch((error) => {
       console.log('error campaigns', error.response);
       dispatch(setFetchedCampaignFoldersError("Error when fetching campaigns"))
