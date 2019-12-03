@@ -1,56 +1,60 @@
 import React, { useState } from 'react';
+import { Collapse } from 'reactstrap';
 import styled from 'styled-components';
-import { useDispatch } from 'react-redux';
-import SearchModule from '../../../components/SearchModule';
-import List from '../../../components/List/List';
-import { prospectsToItemList } from '../utils';
-import { searchProspects, searchProspectNextPage } from '../../../store/Prospects/actions';
+import Icon from '../../../components/Icon';
+import SelectTemplate from './SelectTemplate';
+import ReviewSend from './ReviewSend';
 
-const Placeholder = styled.div`
-  padding: var(--pad3);
+const Pane = styled.div`
+  overflow: hidden;
 `;
 
-function MessagesTab(props) {
-  const [prospectResults, setProspects] = useState([]);
-  const [nextPageUrl, setNextPageUrl] = useState("");
-  const [isFetching, setIsSearching] = useState(false);
-  const prospectList = prospectsToItemList(prospectResults);
-  const dispatch = useDispatch();
+const ToggleHeader = styled.h3`
+  padding: var(--pad4) var(--pad3);
+  background: var(--ghostBlue);
+  color: var(--darkNavy);
+  margin: 0;
+  display: flex;
+  justify-content: space-between;
+`;
 
-  // load more data
-  const fetchMoreData = (url, isFetching) => {
-    if (!isFetching) {
-      setIsSearching(true);
+const Arrow = styled.div`
+  img {
+    transition: transform .3s;
+    transform: ${props => props.isOpen ? "rotate(-90deg)" : "rotate(90deg)"};;
+  }
+`;
 
-      // get the next batch of data
-      searchProspectNextPage(url).then(data => {
-        const { results = [], next = "" } = data || {};
-        setIsSearching(false);
-        setProspects([...prospectResults, ...results]);
-        setNextPageUrl(next);
-      });
-    }
-  };
+const SendTab = (props) => {
+  const [isOpen1, setIsOpen1] = useState(false);
+  const [isOpen2, setIsOpen2] = useState(false);
 
-  // search function
-  const search = (term) => {
-    setIsSearching(true);
+  const toggle1 = () => setIsOpen1(!isOpen1);
+  const toggle2 = () => setIsOpen2(!isOpen2);
 
-    // perform the search
-    dispatch(searchProspects(term)).then(data => {
-      const { results = [], next = "" } = data || {};
-      setIsSearching(false);
-      setProspects(results);
-      setNextPageUrl(next);
-    });
-  };
-  // I just copied over the same code that is used for
-  // the prospectSearch component
   return (
     <>
-      <Placeholder>This is the Send Tab</Placeholder>
+      <Pane>
+        <ToggleHeader className="fw-bold" onClick={toggle1}>
+          Select SMS Template
+          <Arrow isOpen={isOpen1}><Icon name="arrow" width="10px"/></Arrow>
+        </ToggleHeader>
+        <Collapse isOpen={isOpen1}>
+          <SelectTemplate/>
+        </Collapse>
+      </Pane>
+
+      <Pane>
+        <ToggleHeader className="fw-bold" onClick={toggle2}>
+          Review & Send
+          <Arrow isOpen={isOpen2}><Icon name="arrow" width="10px"/></Arrow>
+        </ToggleHeader>
+        <Collapse isOpen={isOpen2}>
+          <ReviewSend/>
+        </Collapse>
+      </Pane>
     </>
   );
 }
 
-export default MessagesTab;
+export default SendTab;
