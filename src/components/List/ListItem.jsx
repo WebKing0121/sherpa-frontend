@@ -11,8 +11,7 @@ import {
 } from 'reactstrap';
 
 const StyledItem = styled(ListGroupItem)`
-  padding-top: var(--pad2) !important;
-  padding-bottom: var(--pad2) !important;
+  padding: var(--pad2) var(--pad3) !important;
   width: 100%;
   height: 100%;
   border-radius: 0 !important;
@@ -41,9 +40,7 @@ const ItemLink = styled(Link)`
   }
 `;
 
-const ItemStatus = styled.h4`
-  color: var(--sherpaBlue);
-  color: ${props => props.status === "Dead" ? "var(--gray)" : "var(--sherpaBlue)"};
+const ItemIndicator = styled.h4`
   margin: 0;
 `;
 
@@ -85,7 +82,7 @@ function ListItem(props) {
           <ItemHeader>
             <ItemName className="itemName m-0" >{props.item.name}</ItemName>
             <StatusWrapper className="d-flex">
-              <ItemStatus className="textM">{props.indicator}</ItemStatus>
+              <ItemIndicator className="textM">{props.item.indicator}</ItemIndicator>
               <ItemLink to={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next" /></ItemLink>
             </StatusWrapper>
           </ItemHeader>

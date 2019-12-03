@@ -23,7 +23,7 @@ $grid-gutter-width: $padUnit;
 $spacer: $padUnit;
 
 $input-padding-x: 0;
-$input-padding-y: .8em;
+$input-padding-y: 1;
 $input-bg: transparent;
 $input-color: $darkNavy;
 $input-placeholder-color: $gray;
@@ -32,7 +32,21 @@ $input-font-size: 1.125rem;
 $input-focus-border-color: transparent;
 $input-focus-box-shadow: none;
 
+$nav-tabs-link-hover-border-color:  transparent;
+$nav-tabs-link-active-color:        transparent;
+$nav-tabs-link-active-bg:           transparent;
+$nav-tabs-link-active-border-color: transparent;
+$nav-tabs-border-color:             transparent;
+$nav-tabs-border-width:             0;
+
 $label-margin-bottom: 0px;
+
+.nav-tabs .nav-link {
+  border: none !important;
+}
+.nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
+  border: none !important;
+}
 
 .navbar-dark .navbar-toggler {
   border: none;
