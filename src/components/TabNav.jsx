@@ -7,6 +7,7 @@ const StyledNavLink = styled(NavLink)`
   padding: 0 !important;
   padding-bottom: .75em !important;
   color: var(--white) !important;
+  position: relative;
 
   &:after,
   &:before {
@@ -34,7 +35,6 @@ const StyledNavLink = styled(NavLink)`
 
   &.active {
     font-weight: 900;
-    position: relative;
 
     &:after {
       border-bottom-width: 5px;
