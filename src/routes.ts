@@ -3,7 +3,7 @@ import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
 
 const Routes = [
   {
-    path: "/campaigns",
+    path: "/",
     name: "Campaigns",
     navIcon: "campaignsWhite",
     alt: "",

@@ -11,34 +11,11 @@ export const setFetchedCampaignsError = (error) => ({
   error
 });
 
-export const fetchCampaigns = () => (dispatch, _) => {
-  AxiosInstance.get('/campaigns/')
-    .then(({ count, next, previous, results }) => {
-      let mockData = [{
-        "id": 0,
-        "name": "Campaign 2019",
-        "company": 1,
-        "market": 2,
-        "tags": [
-          {
-            "name": "HOT",
-            "company": 1
-          }
-        ],
-        "isDefault": true,
-        "isArchived": false,
-        "createdDate": "2019-11-21T22:29:02Z",
-        "createdBy": 6,
-        "totalProspects": 2,
-        "responseRate": 0,
-        "totalLeads": 0,
-        "percentCompleteUnsent": "na",
-        "health": "good",
-        "priority": 1,
-        "owner": 6,
-        "hasUnreadSMS": true
-      }];
-      dispatch(setFetchedCampaigns(mockData))
+export const fetchCampaigns = (id) => (dispatch, _) => {
+  AxiosInstance.get('/campaigns/', { id })
+    .then(({ data }) => {
+      const { results } = data;
+      dispatch(setFetchedCampaigns(results));
     })
     .catch((error) => {
       console.log('error campaigns', error.response);
