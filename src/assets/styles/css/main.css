@@ -7288,6 +7288,9 @@ h3 {
   font-size: .75rem;
   line-height: 1.33; }
 
+.gray {
+  color: #B5B5B5; }
+
 :root {
   --padUnit: 5vw;
   --pad1: 1.66667vw;
