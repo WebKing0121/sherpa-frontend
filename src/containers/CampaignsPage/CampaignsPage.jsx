@@ -26,9 +26,14 @@ const CampaignsPage = (props) => {
   // transform campaigns to proper list item views
   const listItems = campaignsToItemList(campaigns);
 
+  const headerInfo = {
+    fromText: "Show Markets",
+    hasBackButton: hasCampaignFolders,
+  }
+
   return (
     <div>
-      <TabbedHeader hasBackButton={hasCampaignFolders} prevRoute={'/'} fromText={'Show Markets'}>Campaigns</TabbedHeader>
+      <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
       <List items={listItems} />
     </div >
   );

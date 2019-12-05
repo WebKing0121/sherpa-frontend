@@ -21,7 +21,7 @@
   --white:      #{$white};
   --lightBlue:  #{$lightBlue};
   --highlight:  #{$highlight};
-
+  --blueHighlight: #{$blueHighlight};
 /* Gradients */
 --tealBlueGradient: linear-gradient(
   135deg,
@@ -160,6 +160,12 @@ h3 {
 }
 .gray {
   color: $gray;
+}
+.darkGray {
+  color: $darkGray;
+}
+.blue {
+  color: $sherpaBlue;
 }
 // spacing
 @function pad($num) {

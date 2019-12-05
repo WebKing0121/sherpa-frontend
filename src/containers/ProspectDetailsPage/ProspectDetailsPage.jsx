@@ -1,30 +1,25 @@
 import React, { useState } from 'react';
 import TabbedHeader from '../../components/TabbedHeader';
 import MessagesTab from './MessagesTab/MessagesTab';
-import SendTab from './SendTab/SendTab';
+import DetailsTab from './DetailsTab/DetailsTab';
 import NotesTab from './NotesTab/NotesTab';
 import { Button, TabContent, TabPane, Card, CardTitle, CardText, Row, Col } from 'reactstrap';
 import styled from 'styled-components';
 
 const StyledTabContent = styled(TabContent)`
-  /* padding: 0 var(--pad3); */
 `;
 
-function CampaignDetailsPage() {
+function ProspectDetailsPage() {
   const [activeTab, setActiveTab] = useState('1');
 
-  const toggleTab = (tab) => {
-    if(activeTab !== tab) setActiveTab(tab);
-  }
-
   const headerInfo = {
-    fromText: "Campaign List",
+    fromText: "Prospect List",
     hasBackButton: true,
     tabs: [
       {
         idx: "1",
-        name: "Send",
-        icon: "paper-plane"
+        name: "Details",
+        icon: "user"
       },
       {
         idx: "2",
@@ -39,12 +34,15 @@ function CampaignDetailsPage() {
     ]
   }
 
+  const toggleTab = (tab) => {
+    if(activeTab !== tab) setActiveTab(tab);
+  }
   return (
     <div>
-      <TabbedHeader data={headerInfo} toggleTab={toggleTab} activeTab={activeTab}>Greeley/Fort Collins - 2019-05-08</TabbedHeader>
+      <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={headerInfo}>Sean Vaughn</TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
         <TabPane tabId="1">
-          <SendTab/>
+          <DetailsTab/>
         </TabPane>
         <TabPane tabId="2">
           <MessagesTab/>
@@ -57,4 +55,4 @@ function CampaignDetailsPage() {
   );
 };
 
-export default CampaignDetailsPage;
+export default ProspectDetailsPage;

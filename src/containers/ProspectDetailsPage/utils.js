@@ -1,6 +1,8 @@
 import React from 'react';
-import MainInfo from './MainInfo';
-import Indicator from './Indicator';
+import MainInfo from './MessagesTab/MainInfo';
+import Indicator from './MessagesTab/Indicator';
+import SubInfo from './MessagesTab/SubInfo';
+import Title from './MessagesTab/Title';
 import { IListItem } from '../../components/List/utils';
 
 /*
@@ -8,24 +10,24 @@ import { IListItem } from '../../components/List/utils';
  * component to render.
  */
 
-
-
 export const prospectToItemList = (prospect) => {
   const {
-    id, name, phoneDisplay,
-    propertyAddress, propertyCity,
-    propertyState, propertyZip,
+    id, name = "hello", latestMessageReceived,
     hasUnreadSms, leadStageTitle } = prospect;
-  let addressData = { propertyAddress, propertyCity, propertyState, propertyZip };
+
+  const {
+    message = "You have the wrong number",
+    dt = "2019-12-02T21:08:27Z" } = latestMessageReceived || {};
+
   return {
     ...IListItem,
-    name,
-    subInfo: phoneDisplay,
-    mainInfo: <MainInfo addressData={addressData} />,
+    name: <Title name={name} isRead={!hasUnreadSms}/>,
+    subInfo: <SubInfo status={leadStageTitle}/>,
+    mainInfo: <MainInfo message={message}/>,
     readable: true,
     isRead: !hasUnreadSms,
-    link: `/prospectDetails`,
-    indicator: <Indicator status={leadStageTitle}/>,
+    link: `/campaigns/${id}/details`,
+    indicator: <Indicator time={dt}/>,
     actions: [
       {
         icon: "verified",

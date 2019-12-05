@@ -31,7 +31,7 @@ const BackArrowHolster = styled.div`
 function TabbedHeader(props) {
 
   const back = () => {
-    history.push(props.prevRoute);
+    history.goBack();
   }
 
   return (
@@ -40,9 +40,9 @@ function TabbedHeader(props) {
         {props.children}
       </h1>
 
-      {props.hasBackButton && <BackButton className="text-dark textL pl-0" color="link" onClick={back}><BackArrowHolster><BackArrow width="auto" name="arrowDark" /></BackArrowHolster>{props.fromText}</BackButton>}
+      {props.data.hasBackButton && <BackButton className="text-dark textL pl-0" color="link" onClick={back}><BackArrowHolster><BackArrow width="auto" name="arrowDark" /></BackArrowHolster>{props.data.fromText}</BackButton>}
 
-      {props.toggleTab && <TabNav activeTab={props.activeTab} toggleTab={props.toggleTab} />}
+      {props.toggleTab && <TabNav data={props.data.tabs} activeTab={props.activeTab} toggleTab={props.toggleTab} />}
     </StyledHeader>
   );
 }

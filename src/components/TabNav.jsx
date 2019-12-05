@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import Icon from './Icon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const StyledNavLink = styled(NavLink)`
   padding: 0 !important;
@@ -52,34 +52,22 @@ const StyledNav = styled(Nav)`
 `;
 
 function TabNav(props) {
-console.log(props.activeTab);
+
+  const tabs = props.data.map((item, key) =>
+    <NavItem key={key}>
+      <StyledNavLink
+        className={props.activeTab === item.idx ? 'active' : '' }
+        onClick={() => { props.toggleTab(item.idx); }}
+      >
+        <FontAwesomeIcon icon={item.icon} className="mr-1"/>{item.name}
+      </StyledNavLink>
+    </NavItem>
+  );
+
   return (
     <div>
       <StyledNav className="textXL mt-3" tabs>
-        <NavItem>
-          <StyledNavLink
-            className={props.activeTab === '1' ? 'active' : '' }
-            onClick={() => { props.toggleTab('1'); }}
-          >
-            <Icon name="sendWhite" margin="mr-1"/>Send
-          </StyledNavLink>
-        </NavItem>
-        <NavItem>
-          <StyledNavLink
-            className={props.activeTab === '2' ? 'active' : '' }
-            onClick={() => { props.toggleTab('2'); }}
-          >
-            <Icon name="messageTabWhite" margin="mr-1"/>Messages
-          </StyledNavLink>
-        </NavItem>
-        <NavItem>
-          <StyledNavLink
-            className={props.activeTab === '3' ? 'active' : '' }
-            onClick={() => { props.toggleTab('3'); }}
-          >
-            <Icon name="notesWhite" margin="mr-1"/>Notes
-          </StyledNavLink>
-        </NavItem>
+        {tabs}
       </StyledNav>
     </div>
   );

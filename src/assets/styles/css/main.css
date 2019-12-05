@@ -7167,6 +7167,7 @@ a.text-dark:hover, a.text-dark:focus {
   --white:      #ffffff;
   --lightBlue:  #65C8CE;
   --highlight:  #b2e4e7;
+  --blueHighlight: #c8d6fb;
   /* Gradients */
   --tealBlueGradient: linear-gradient(
   135deg,
@@ -7290,6 +7291,12 @@ h3 {
 
 .gray {
   color: #B5B5B5; }
+
+.darkGray {
+  color: #747474; }
+
+.blue {
+  color: #235bed; }
 
 :root {
   --padUnit: 5vw;

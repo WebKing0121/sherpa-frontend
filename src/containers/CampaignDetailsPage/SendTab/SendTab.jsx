@@ -26,8 +26,8 @@ const Arrow = styled.div`
 `;
 
 const SendTab = (props) => {
-  const [isOpen1, setIsOpen1] = useState(false);
-  const [isOpen2, setIsOpen2] = useState(false);
+  const [isOpen1, setIsOpen1] = useState(true);
+  const [isOpen2, setIsOpen2] = useState(true);
 
   const toggle1 = () => setIsOpen1(!isOpen1);
   const toggle2 = () => setIsOpen2(!isOpen2);

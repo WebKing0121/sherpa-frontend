@@ -8,11 +8,16 @@ const StyledButton = styled(Button)`
   border: none !important;
   font-weight: 900 !important;
   padding: 0 !important;
+
+  &:hover,
+  &:active {
+    text-decoration: underline !important;
+  }
 `;
 
 function TextBtn(props) {
   return (
-    <StyledButton color={props.color}>
+    <StyledButton color={props.color} {...props}>
       {props.children}
     </StyledButton>
   );
