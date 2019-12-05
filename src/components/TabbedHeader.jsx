@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import Icon from './Icon';
 import TabNav from './TabNav';
+import { history } from '../history';
 
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
@@ -28,15 +29,20 @@ const BackArrowHolster = styled.div`
 `;
 
 function TabbedHeader(props) {
+
+  const back = () => {
+    history.push(props.prevRoute);
+  }
+
   return (
     <StyledHeader {...props}>
       <h1 className="text-white text-left m-0">
-      {props.children}
+        {props.children}
       </h1>
 
-      <BackButton className="text-dark textL pl-0" color="link"><BackArrowHolster><BackArrow width="auto" name="arrowDark"/></BackArrowHolster>Campaigns List</BackButton>
+      {props.hasBackButton && <BackButton className="text-dark textL pl-0" color="link" onClick={back}><BackArrowHolster><BackArrow width="auto" name="arrowDark" /></BackArrowHolster>{props.fromText}</BackButton>}
 
-      {props.toggleTab && <TabNav activeTab={props.activeTab} toggleTab={props.toggleTab}/>}
+      {props.toggleTab && <TabNav activeTab={props.activeTab} toggleTab={props.toggleTab} />}
     </StyledHeader>
   );
 }
