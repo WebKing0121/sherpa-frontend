@@ -1,0 +1,183 @@
+@import "./variables.scss";
+@import "./bootstrap-overrides.scss";
+
+:root {
+  // Colors
+  --darkNavy:   #{$darkNavy};
+  --charcoal:   #{$charcoal};
+  --sherpaTeal: #{$sherpaTeal};
+  --sherpaBlue: #{$sherpaBlue};
+  --ghostBlue:  #{$ghostBlue};
+  --yellow:     #{$yellow};
+  --orange:     #{$orange};
+  --warning:    #{$warning};
+  --green:      #{$green};
+  --purple:     #{$purple};
+  --red:        #{$red};
+  --darkGray:   #{$darkGray};
+  --gray:       #{$gray};
+  --mediumGray: #{$mediumGray};
+  --lightGray:  #{$lightGray};
+  --white:      #{$white};
+  --lightBlue:  #{$lightBlue};
+  --highlight:  #{$highlight};
+
+/* Gradients */
+--tealBlueGradient: linear-gradient(
+  135deg,
+  var(--sherpaTeal),
+  var(--sherpaBlue)
+);
+--tealBlueGradientFlip: linear-gradient(
+  -45deg,
+  var(--sherpaTeal),
+  var(--sherpaBlue)
+);
+
+--sherpaBlueGradient: linear-gradient(
+  135deg,
+  #4888FF,
+  var(--sherpaBlue)
+);
+--sherpaBlueGradientFlip: linear-gradient(
+  -45deg,
+  #4888FF,
+  var(--sherpaBlue)
+);
+
+--sherpaTealGradient: linear-gradient(
+  135deg,
+  #45DFD7,
+  var(--sherpaTeal)
+);
+--sherpaTealGradientFlip: linear-gradient(
+  -45deg,
+  #45DFD7,
+  var(--sherpaTeal)
+);
+
+--warningGradient: linear-gradient(
+  135deg,
+  var(--yellow),
+  var(--orange)
+);
+--warningGradientFlip: linear-gradient(
+  -45deg,
+  var(--yellow),
+  var(--orange)
+);
+}
+
+// Fonts
+@font-face {
+  font-family: "Lato";
+  src:
+    local("Lato"),
+    local("Lato Regular"),
+    url("../../fonts/Lato-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lato";
+  src:
+    local("Lato-Bold"),
+    local("Lato Bold"),
+    url("../../fonts/Lato-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Lato";
+  src:
+    local("Lato-Black"),
+    local("Lato Black"),
+    url("../../fonts/Lato-Black.ttf") format("truetype");
+  font-weight: 900;
+  font-style: normal;
+}
+
+// Heading and text
+.fw-bold {font-weight: 700 !important;}
+.fw-regular {font-weight: 400 !important;}
+.fw-black {font-weight: 900 !important;}
+
+body,html {
+  font-family: "Lato";
+  font-size: 16px;
+}
+
+h1,h2,h3,
+.textXL,.textL,.textM,.textS,.textXS {
+  font-family: "Lato";
+}
+h1 {
+  /* 40px */
+  font-size: 2.5rem;
+  font-size: calc(3vw + 1rem);
+  line-height: 1.25;
+  font-weight: 900 !important;
+
+}
+h2 {
+  /* 30px */
+  font-size: 1.875rem;
+  line-height: 1.2;
+  font-weight: 900;
+
+}
+h3 {
+  /* 24px */
+  font-size: 1.5rem;
+  line-height: 1.25;
+  font-weight: 900;
+
+}
+.textXL {
+  /* 20px */
+  font-size: 1.25rem;
+  line-height: 1.2;
+}
+.textL {
+  /* 18px */
+  font-size: 1.125rem;
+  line-height: 1.22;
+}
+.textM {
+  /* 16px */
+  font-size: 1rem;
+  line-height: 1.25;
+}
+.textS {
+  /* 14px */
+  font-size: .875rem;
+  line-height: 1.29;
+}
+.textXS {
+  /* 12px */
+  font-size: .75rem;
+  line-height: 1.33;
+}
+.gray {
+  color: $gray;
+}
+// spacing
+@function pad($num) {
+  $padMult: $padUnit / 3;
+  $pad: $num * $padMult;
+  @return $pad;
+}
+
+:root {
+  --padUnit: #{$padUnit};
+
+  --pad1: #{pad(1)};
+  --pad2: #{pad(2)};
+  --pad3: #{pad(3)};
+  --pad4: #{pad(4)};
+  --pad5: #{pad(5)};
+  --pad6: #{pad(6)};
+  --pad7: #{pad(7)};
+  --pad8: #{pad(8)};
+  --pad9: #{pad(9)};
+}
