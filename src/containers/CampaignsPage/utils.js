@@ -13,7 +13,15 @@ export const campaignToItemList = ({ id, name, priority, totalLeads, hasUnreadSM
     subInfo: <SubInfo data={{ priority, totalLeads }} />,
     readable: true,
     isRead: !hasUnreadSMS,
-    link: `/campaigns/${id}/details`
+    link: `/campaigns/${id}/details`,
+    actions: [
+      {
+        icon: "archive",
+        name: "Archive",
+        link: "#",
+        background: "gray"
+      },
+    ]
   };
 }
 
