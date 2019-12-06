@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import logo from '../assets/images/sherpaLogo.png';
-import { Link } from 'react-router-dom';
-import Routes from './../routes.ts';
-import Icon from './Icon.jsx';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import styled from "styled-components";
+import logo from "../assets/images/sherpaLogo.png";
+import { Link } from "react-router-dom";
+import Routes from "./../routes.ts";
+import Icon from "./Icon.jsx";
 
 import {
   Collapse,
@@ -12,8 +13,9 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-} from 'reactstrap';
+  NavLink
+} from "reactstrap";
+import { logout } from "../store/Auth/actions";
 
 const StyledNavbar = styled(Navbar)`
   box-shadow: 0 0 36px -4px #00000091, 0 0 5px -1px #0000008c;
@@ -24,7 +26,6 @@ const StyledNavbar = styled(Navbar)`
   .messages {
     margin-right: var(--pad3);
   }
-
 `;
 
 const StyledNav = styled(Nav)`
@@ -44,34 +45,34 @@ const StyledNavItem = styled(NavItem)`
 
   &:active,
   &:hover {
-    background: rgba(0,0,0,.25);
-    border-left-color: rgba(0,0,0,.25);
+    background: rgba(0, 0, 0, 0.25);
+    border-left-color: rgba(0, 0, 0, 0.25);
   }
   &.active {
-    background: rgba(0,0,0,.6);
+    background: rgba(0, 0, 0, 0.6);
     border-left-color: var(--sherpaBlue);
   }
 `;
 
 const NavScreen = styled.div`
   position: absolute;
-  pointer-events:  ${props => props.isOpen ? "all" : "none"};
+  pointer-events: ${props => (props.isOpen ? "all" : "none")};
   top: 100%;
   left: 0;
   height: 100vh;
   width: 100vw;
-  background: rgba(0,0,0,.64);
-  transition: opacity .3s;
-  opacity: ${props => props.isOpen ? 1 : 0};
+  background: rgba(0, 0, 0, 0.64);
+  transition: opacity 0.3s;
+  opacity: ${props => (props.isOpen ? 1 : 0)};
 `;
 
-const NavIcon = (props) => {
+const NavIcon = props => {
   return (
     <div style={{ zIndex: 999 }} onClick={props.onClick}>
       <Icon name="emptyHamburgerWhite" width="32px" />
     </div>
   );
-}
+};
 
 const ArrowBtnHolster = styled.div`
   position: absolute;
@@ -80,14 +81,15 @@ const ArrowBtnHolster = styled.div`
   width: var(--pad7);
   height: var(--pad7);
   display: flex;
-  transition: transform: .15s;
-  transform: ${props => props.isOpen ? "translateY(40%)" : "translate(var(--pad1),40%)"};
+  transition: transform 0.15s;
+  transform: ${props =>
+    props.isOpen ? "translateY(40%)" : "translate(var(--pad1),40%)"};
   align-items: center;
   justify-content: center;
   z-index: 99;
 
   &:before {
-    content: '';
+    content: "";
     position: absolute;
     width: 100%;
     height: 100%;
@@ -99,20 +101,20 @@ const ArrowBtnHolster = styled.div`
   }
 
   img {
-    transition: transform .3s;
-    transform: rotate(${props => props.isOpen ? "0deg" : "180deg"});
+    transition: transform 0.3s;
+    transform: rotate(${props => (props.isOpen ? "0deg" : "180deg")});
   }
 `;
 
-const NavArrow = (props) => {
+const NavArrow = props => {
   return (
     <ArrowBtnHolster isOpen={props.isOpen} onClick={props.onClick}>
       <Icon name="arrowWhite" width="18px" />
     </ArrowBtnHolster>
   );
-}
+};
 
-const SherpNavbar = (props) => {
+const SherpNavbar = props => {
   const [collapse, setCollapse] = useState(false);
 
   const toggleNavbar = () => setCollapse(!collapse);
@@ -123,31 +125,52 @@ const SherpNavbar = (props) => {
     return (
       <StyledNavItem className={activeClass} key={idx}>
         <Icon name={r.navIcon} width="22px" margin="mr-2" />
-        <NavLink className="navLink textL stretched-link" tag={Link} to={r.path} onClick={toggleNavbar}>{r.name}</NavLink>
+        <NavLink
+          className="navLink textL stretched-link"
+          tag={Link}
+          to={r.path}
+          onClick={toggleNavbar}
+        >
+          {r.name}
+        </NavLink>
       </StyledNavItem>
-    )
-  })
+    );
+  });
+
+  const dispatch = useDispatch();
 
   return (
     <div>
       <StyledNavbar isOpen={collapse} fixed="top" color="dark" dark expand="md">
-        <NavbarBrand href="/"><img src={logo} alt="Lead Sherpa" /></NavbarBrand>
+        <NavbarBrand href="/">
+          <img src={logo} alt="Lead Sherpa" />
+        </NavbarBrand>
         <Nav className="messages" navbar>
           <NavItem>
-            <NavLink><Icon name="messagesWhite" width="40px" /></NavLink>
+            <NavLink>
+              <Icon name="messagesWhite" width="40px" />
+            </NavLink>
           </NavItem>
         </Nav>
         <NavbarToggler tag={NavIcon} onClick={toggleNavbar} />
         <NavArrow isOpen={collapse} className="arrow" onClick={toggleNavbar} />
         <Collapse isOpen={collapse} navbar>
+          <StyledNav navbar>{routes}</StyledNav>
           <StyledNav navbar>
-            {routes}
+            <NavItem>
+              <NavLink
+                onClick={() => dispatch(logout())}
+                className="navLink textL"
+              >
+                Log out
+              </NavLink>
+            </NavItem>
           </StyledNav>
         </Collapse>
         <NavScreen isOpen={collapse} onClick={toggleNavbar}></NavScreen>
       </StyledNavbar>
     </div>
   );
-}
+};
 
 export default SherpNavbar;
