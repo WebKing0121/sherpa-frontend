@@ -1,8 +1,12 @@
 import AxiosInstance from '../../axiosConfig';
-import { SEARCH_PROSPECTS, SET_SEARCH_PROSPECTS_ERROR, SET_SEARCHED_PROSPECTS } from './actionTypes';
+import {
+  SET_PROSPECTS_SEARCH_STATUS, SET_SEARCH_PROSPECTS_ERROR,
+  SET_SEARCHED_PROSPECTS, SET_MORE_PROSPECTS,
+  RESET_PROSPECT_DATA
+} from './actionTypes';
 
-export const setProspectSearch = (status) => ({
-  type: SEARCH_PROSPECTS,
+export const setProspectSearchStatus = (status) => ({
+  type: SET_PROSPECTS_SEARCH_STATUS,
   status
 })
 export const setProspectSearchError = (error) => ({
@@ -13,6 +17,15 @@ export const setProspectSearchResults = (data) => ({
   type: SET_SEARCHED_PROSPECTS,
   data
 });
+
+export const setMoreProspects = (data) => ({
+  type: SET_MORE_PROSPECTS,
+  data
+});
+
+export const resetProspectData = () => ({
+  type: RESET_PROSPECT_DATA
+})
 
 const doSearchProspect = (url) => {
   return AxiosInstance.get(url)
@@ -27,17 +40,29 @@ const doSearchProspect = (url) => {
 
 export const searchProspects = (term) => (dispatch, _) => {
   const url = `/prospects/?search=${term}&page_size=20`;
-  return doSearchProspect(url);
+
+  dispatch(resetProspectData());
+  dispatch(setProspectSearchStatus('Fetching'));
+
+  return doSearchProspect(url)
+    .then(data => {
+      dispatch(setProspectSearchResults(data));
+      return data;
+    })
+    .catch(error => {
+      console.log("ERROR", error);
+    });
 }
 
-export const searchProspectNextPage = (next) => {
-  if (next)
-    return doSearchProspect(next);
+export const searchProspectNextPage = () => (dispatch, getState) => {
+  let { prospects: { next = null, status = null } } = getState();
+
+  if (next && status !== 'Fetching') {
+    dispatch(setProspectSearchStatus('Fetching'));
+    return doSearchProspect(next).then(data => {
+      dispatch(setMoreProspects(data));
+    });
+  }
 
   return new Promise((resolve, __) => resolve({}));
-}
-
-export const searchProspectPreviousPage = (previous) => {
-  if (previous)
-    return doSearchProspect(previous);
 }

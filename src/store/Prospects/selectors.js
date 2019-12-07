@@ -1,3 +1,4 @@
 export const prospectsResults = (state) => state.prospects.prospects;
-export const prospectSearchState = (state) => state.prospects.prospectSearchState;
+export const prospectSearchState = (state) => state.prospects.status;
 export const propspectSearchResultsError = (state) => state.prospects.error;
+export const prospectNextPageUrl = (state) => state.prospects.next;

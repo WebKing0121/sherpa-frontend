@@ -1,6 +1,6 @@
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
-import CampaignsPage from './containers/CampaignsPage/CampaignsPage.jsx';
 import ProspectDetailsPage from './containers/ProspectDetailsPage/ProspectDetailsPage.jsx';
+import CampaignsFolders from './containers/CampaignsFolderList/CampaignsFolderList';
 
 const Routes = [
   {
@@ -9,7 +9,7 @@ const Routes = [
     navIcon: "campaignsWhite",
     alt: "",
     exact: true,
-    component: CampaignsPage,
+    component: CampaignsFolders,
     mobile: true,
   },
   {

@@ -1,58 +1,44 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from '../../components/Header';
 import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { searchProspects, searchProspectNextPage } from '../../store/Prospects/actions';
 import { prospectsToItemList } from './utils';
+import { prospectsResults, prospectSearchState } from '../../store/Prospects/selectors';
+import { DataLoader } from '../../components/LoadingData';
 
 
 function ProspectsSearch(props) {
-  const [prospectResults, setProspects] = useState([]);
-  const [nextPageUrl, setNextPageUrl] = useState("");
-  const [isFetching, setIsSearching] = useState(false);
+  const prospectResults = useSelector(prospectsResults);
+  const isFetching = useSelector(prospectSearchState);
   const dispatch = useDispatch();
 
   // search function
-  const search = (term) => {
-    setIsSearching(true);
+  const search = (term) => dispatch(searchProspects(term));
 
-    // perform the search
-    dispatch(searchProspects(term)).then(data => {
-      const { results = [], next = "" } = data || {};
-      setIsSearching(false);
-      setProspects(results);
-      setNextPageUrl(next);
-    });
-  };
+  // fetch next-page function
+  const fetchMoreData = () => dispatch(searchProspectNextPage());
 
-  // load more data
-  const fetchMoreData = (url, isFetching) => {
-    if (!isFetching) {
-      setIsSearching(true);
-
-      // get the next batch of data
-      searchProspectNextPage(url).then(data => {
-        const { results = [], next = "" } = data || {};
-        setIsSearching(false);
-        setProspects([...prospectResults, ...results]);
-        setNextPageUrl(next);
-      });
-    }
-  };
-
-  // transform prospect data into the appropriate data-interface for ItemList
+  // transform prospect data into the appropriate data-interface for
+  // ItemList
   const prospectList = prospectsToItemList(prospectResults);
+
   return (
     <div>
       <Header>Prospects Search</Header>
       <SearchModule searchTerm={search} />
-      <List
-        virtualize
-        items={prospectList}
-        nextPageUrl={nextPageUrl}
-        fetchMoreData={fetchMoreData}
-        isFetching={isFetching} />
+      <DataLoader
+        status={isFetching}
+        data={prospectResults}
+        renderData={() => (
+          <List
+            virtualize
+            items={prospectList}
+            fetchMoreData={fetchMoreData}
+            isFetching={isFetching === "Fetching"} />
+        )}
+      />
     </div>
   );
 }

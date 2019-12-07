@@ -4,15 +4,13 @@ import Indicator from './Indicator';
 import { IListItem } from '../../components/List/utils';
 
 /*
- * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
- * component to render.
+ * Helper functions to transform a prospect to an appropriate
+ * interface for the =ItemList= component to render.
  */
-
-
 
 export const prospectToItemList = (prospect) => {
   const {
-    id, name, phoneDisplay,
+    name, phoneDisplay,
     propertyAddress, propertyCity,
     propertyState, propertyZip,
     hasUnreadSms, leadStageTitle } = prospect;
@@ -25,7 +23,7 @@ export const prospectToItemList = (prospect) => {
     readable: true,
     isRead: !hasUnreadSms,
     link: `/prospectDetails`,
-    indicator: <Indicator status={leadStageTitle}/>,
+    indicator: <Indicator status={leadStageTitle} />,
     actions: [
       {
         icon: "verified",

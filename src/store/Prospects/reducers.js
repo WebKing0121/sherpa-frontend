@@ -1,4 +1,8 @@
-import { SEARCH_PROSPECTS, SET_SEARCH_PROSPECTS_ERROR, SET_SEARCHED_PROSPECTS } from './actionTypes';
+import {
+  SET_PROSPECTS_SEARCH_STATUS, SET_SEARCH_PROSPECTS_ERROR,
+  SET_SEARCHED_PROSPECTS, SET_MORE_PROSPECTS,
+  RESET_PROSPECT_DATA
+} from './actionTypes';
 
 const initialState = {
   count: 0,
@@ -6,11 +10,11 @@ const initialState = {
   previous: null,
   prospects: [],
   status: ""
-}
+};
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case SEARCH_PROSPECTS:
+    case SET_PROSPECTS_SEARCH_STATUS:
       return {
         ...state,
         status: action.status
@@ -19,7 +23,7 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         error: action.error
-      }
+      };
     case SET_SEARCHED_PROSPECTS:
       return {
         ...state,
@@ -27,8 +31,20 @@ export default function reducer(state = initialState, action) {
         count: action.data.count,
         next: action.data.next,
         previous: action.data.previous,
-        status: ""
-      }
+        status: "Success"
+      };
+    case SET_MORE_PROSPECTS:
+      let newProspects = [...state.prospects, ...action.data.results];
+      return {
+        ...state,
+        prospects: newProspects,
+        count: action.data.count,
+        next: action.data.next,
+        previous: action.data.previous,
+        status: "Success"
+      };
+    case RESET_PROSPECT_DATA:
+      return initialState;
     default:
       return state;
   }
