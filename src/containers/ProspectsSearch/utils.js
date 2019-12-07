@@ -10,11 +10,18 @@ import { IListItem } from '../../components/List/utils';
 
 export const prospectToItemList = (prospect) => {
   const {
-    name, phoneDisplay,
+    id, name, phoneDisplay,
     propertyAddress, propertyCity,
     propertyState, propertyZip,
     hasUnreadSms, leadStageTitle } = prospect;
-  let addressData = { propertyAddress, propertyCity, propertyState, propertyZip };
+
+  let addressData = {
+    propertyAddress,
+    propertyCity,
+    propertyState,
+    propertyZip
+  };
+
   return {
     ...IListItem,
     name,
@@ -22,34 +29,8 @@ export const prospectToItemList = (prospect) => {
     mainInfo: <MainInfo addressData={addressData} />,
     readable: true,
     isRead: !hasUnreadSms,
-    link: `/prospectDetails`,
-    indicator: <Indicator status={leadStageTitle} />,
-    actions: [
-      {
-        icon: "verified",
-        name: "Verified",
-        link: "#",
-        background: "green"
-      },
-      {
-        icon: "dnc",
-        name: "DNC",
-        link: "#",
-        background: "white"
-      },
-      {
-        icon: "priority",
-        name: "Priority",
-        link: "#",
-        background: "orange"
-      },
-      {
-        icon: "qualified",
-        name: "Qualified",
-        link: "#",
-        background: "purple"
-      }
-    ]
+    link: `/prospect/${id}/details`,
+    indicator: <Indicator status={leadStageTitle} />
   };
 }
 
