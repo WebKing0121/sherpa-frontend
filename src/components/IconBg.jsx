@@ -3,19 +3,26 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Circle = styled.div`
-  background: ${props => props.color ? "var(--" + props.color + ")" : "var(--blueHighlight)"};
+  background: ${props =>
+    props.color ? "var(--" + props.color + ")" : "var(--blueHighlight)"};
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   width: 44px;
   height: 44px;
+  color: ${props =>
+    props.textcol ? "var(--" + props.textcol + ")" : ""};
+
+  svg {
+    margin: ${props => props.nudge ? props.nudge : 0};
+  }
 `;
 
 const IconBg = (props) => {
 
   return (
-    <Circle>
+    <Circle {...props}>
       <FontAwesomeIcon {...props}/>
     </Circle>
   );

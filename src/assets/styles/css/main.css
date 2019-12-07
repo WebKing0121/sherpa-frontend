@@ -7149,25 +7149,26 @@ a.text-dark:hover, a.text-dark:focus {
     border-color: #dee2e6; } }
 
 :root {
-  --darkNavy:   #171E29;
-  --charcoal:   #232d3d;
-  --sherpaTeal: #14c4ce;
-  --sherpaBlue: #235bed;
-  --ghostBlue:  #f3f6ff;
-  --yellow:     #ffc344;
-  --orange:     #FF8646;
-  --warning:    #FFBA28;
-  --green:      #16CE16;
-  --purple:     #8B48E0;
-  --red:        #ff0000;
-  --darkGray:   #747474;
-  --gray:       #B5B5B5;
-  --mediumGray: #d8d8d8;
-  --lightGray:  #f3f3f3;
-  --white:      #ffffff;
-  --lightBlue:  #65C8CE;
-  --highlight:  #b2e4e7;
+  --darkNavy:      #171E29;
+  --charcoal:      #232d3d;
+  --sherpaTeal:    #14c4ce;
+  --sherpaBlue:    #235bed;
+  --ghostBlue:     #f3f6ff;
+  --yellow:        #ffc344;
+  --orange:        #FF8646;
+  --warning:       #FFBA28;
+  --green:         #16CE16;
+  --purple:        #8B48E0;
+  --red:           #ff0000;
+  --darkGray:      #747474;
+  --gray:          #B5B5B5;
+  --mediumGray:    #d8d8d8;
+  --lightGray:     #f3f3f3;
+  --white:         #ffffff;
+  --lightBlue:     #65C8CE;
+  --highlight:     #b2e4e7;
   --blueHighlight: #c8d6fb;
+  --coolGray:      #ecf1fd;
   /* Gradients */
   --tealBlueGradient: linear-gradient(
   135deg,

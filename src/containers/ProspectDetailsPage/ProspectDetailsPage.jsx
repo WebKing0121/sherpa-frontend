@@ -3,7 +3,7 @@ import TabbedHeader from '../../components/TabbedHeader';
 import MessagesTab from './MessagesTab/MessagesTab';
 import DetailsTab from './DetailsTab/DetailsTab';
 import NotesTab from './NotesTab/NotesTab';
-import { Button, TabContent, TabPane, Card, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 
 const StyledTabContent = styled(TabContent)`
