@@ -3,6 +3,12 @@ import ListItem from './ListItem';
 import VirtualList from 'react-tiny-virtual-list';
 import SwipeListItem from '../SwipeableList/SwipeableListItem';
 import { Spinner } from 'reactstrap';
+import styled from 'styled-components';
+
+const SpinWrap = styled.div`
+  padding: var(--pad5);
+  text-align: center;
+`;
 
 // NOTE: Break down this List component into a two different ones
 // VirtualList and List components to make it easier to test
@@ -40,7 +46,7 @@ function List(props) {
               </React.Fragment>
             );
           }} />
-        {props.isFetching ? <div><Spinner color="primary" /></div> : null}
+        {props.isFetching ? <SpinWrap><Spinner color="primary" size="lg"/></SpinWrap> : null}
       </>
     );
   };
