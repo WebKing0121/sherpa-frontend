@@ -12,9 +12,14 @@ const Wrapper = styled.div`
   border-bottom: 1px solid var(--mediumGray) !important;
   color: var(--sherpaBlue);
 
-
   select {
     color: inherit !important;
+    -webkit-appearance:     none;
+    -moz-appearance:        none;
+    -ms-appearance:         none;
+    -o-appearance:          none;
+    appearance:             none;
+    }
   }
 `;
 
