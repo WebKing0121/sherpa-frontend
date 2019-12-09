@@ -4,21 +4,23 @@ import InputSelect from '../../../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Pill = styled.div`
-  background: ${props => "var(--" + props.color + ")"};
-  color: ${props => props.color === "white" ? "var(--gray)" : "white"};
-  padding: var(--pad1) var(--pad2);
+  background: ${props => !props.active ? "white" : "var(--" + props.color + ")"};
+  color: ${props => !props.active ? "var(--gray)" : "white"};
+  padding: .6em var(--pad2);
   border-radius: 2em;
   border: 2px solid;
-  border-color: ${props => props.color === "white" ? "currentColor" : "var(--" + props.color + ")"};
-  margin: var(--pad3) var(--pad3) 0 0;
-
+  border-color: ${props => !props.active ? "currentColor" : "var(--" + props.color + ")"};
+  margin: var(--pad2) 0 0;
+  flex-basis: 48%;
+  flex-shrink: 2;
+  text-align: center;
 `;
 
 const StatusPills = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
-  justify-content: flex-start;
+  justify-content: space-between;
 `;
 
 const DetailsTab = (props) => {
@@ -35,35 +37,35 @@ const DetailsTab = (props) => {
     {
       status: "Verified",
       color: "green",
-      icon: "check"
+      icon: "check",
+      active: true
     },
     {
       status: "DNC",
-      color: "white",
-      icon: "phone-slash"
+      color: "red",
+      icon: "phone-slash",
+      active: true
     },
     {
       status: "Priority",
       color: "orange",
-      icon: "bolt"
+      icon: "bolt",
+      active: false
     },
     {
       status: "Qualified",
       color: "purple",
-      icon: "star"
-    },
-    {
-      status: "Wrong Number",
-      color: "yellow",
-      icon: "times-circle"
+      icon: "star",
+      active: true
     }
   ];
 
   const leadOptions = leadOpts.map((item, key) =>
     <option key={key}>{item}</option>
   );
+
   const pills = statusList.map((item, key) =>
-    <Pill key={key} color={item.color} className="textM fw-black"><FontAwesomeIcon className="mr-1" icon={item.icon}/>{item.status}</Pill>
+    <Pill key={key} color={item.color} active={item.active}className="textM fw-black"><FontAwesomeIcon className="mr-2" icon={item.icon}/>{item.status}</Pill>
   );
 
   return (
