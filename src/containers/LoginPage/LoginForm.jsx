@@ -17,6 +17,11 @@ const CardHeader = styled.h1`
 const FullWidth = styled.div`
   width: 100%;
 `;
+const Error = styled.p`
+  color: var(--red);
+  text-align: center;
+  line-height: 1.2;
+`;
 
 export default function LoginForm(props) {
   // state
@@ -37,7 +42,6 @@ export default function LoginForm(props) {
       <LogoHolster><img src={logo} alt="Sherpa Logo"/></LogoHolster>
       <StyledCard className="text-center">
         <CardHeader>Welcome back.</CardHeader>
-        {formError ? <p>{formError}</p> : null}
         <div>
           <form className="text-left" onSubmit={onSubmit}>
             <FormGroup>
@@ -52,6 +56,7 @@ export default function LoginForm(props) {
                 <Input name="password" type="password" value={password} onChange={changePWHandler} placeholder="Enter Password"/>
               </InputGroupBorder>
             </FormGroup>
+            {formError ? <Error>{formError}</Error> : null}
             <Button className="mt-4" block size="lg" color="primary" type="submit" disabled={!username || !password}>Log In</Button>
           </form>
         </div>
