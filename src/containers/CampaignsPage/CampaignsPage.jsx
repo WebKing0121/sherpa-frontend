@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { campaignsList } from '../../store/Campaigns/selectors';
 import { campaignFoldersList } from '../../store/CampaignFolders/selectors';
 import { campaignsToItemList } from './utils';
-import { fetchCampaigns } from '../../store/Campaigns/actions';
+import { fetchCampaigns, resetCampaignsData } from '../../store/Campaigns/actions';
 
 import TabbedHeader from '../../components/TabbedHeader';
 
@@ -29,6 +29,7 @@ const CampaignsPage = (props) => {
   const headerInfo = {
     fromText: "Show Markets",
     hasBackButton: hasCampaignFolders,
+    backAction: () => dispatch(resetCampaignsData()),
   }
 
   return (

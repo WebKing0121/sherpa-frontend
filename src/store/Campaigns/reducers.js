@@ -1,4 +1,4 @@
-import { FETCH_CAMPAIGNS, SET_FETCH_CAMPAIGNS, SET_FETCH_CAMPAIGNS_ERROR } from './actionTypes';
+import { FETCH_CAMPAIGNS, SET_FETCH_CAMPAIGNS, SET_FETCH_CAMPAIGNS_ERROR, RESET_CAMPAIGNS_DATA } from './actionTypes';
 
 // campaigns reducer
 export const initialState = {
@@ -29,6 +29,8 @@ export default function reducer(state = initialState, action) {
         error: action.error,
         status: 'error'
       }
+    case RESET_CAMPAIGNS_DATA:
+      return initialState;
     default:
       return state
   }
