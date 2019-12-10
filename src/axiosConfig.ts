@@ -22,11 +22,11 @@ const okResponseInterceptor = (response: any) => response;
 
 const errorResponseInterceptor = (error: any) => {
   // Redirect to login screen if we get `Unauthorized`
-  if (error.response.status === 401) {
+  const { auth } = loadTokens();
+  if (error.response.status === 401 && auth.refreshToken) {
     // get new access token
-    const { auth } = loadTokens();
     return axios
-      .post(`${process.env.REACT_APP_BASE_URL}auth/jwt/refresh/`, {
+      .post(`auth/jwt/refresh/`, {
         refresh: auth.refreshToken
       })
       .then(({ data }) => {
