@@ -1,6 +1,7 @@
-import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
-import ProspectDetailsPage from './containers/ProspectDetailsPage/ProspectDetailsPage.jsx';
-import CampaignsFolders from './containers/CampaignsFolderList/CampaignsFolderList';
+import ProspectsSearch from "./containers/ProspectsSearch/ProspectsSearch.jsx";
+import ProspectDetailsPage from "./containers/ProspectDetailsPage/ProspectDetailsPage.jsx";
+import CampaignsFolders from "./containers/CampaignsFolderList/CampaignsFolderList";
+import SupportPage from "./containers/Support/SupportPage.jsx";
 
 const Routes = [
   {
@@ -10,7 +11,7 @@ const Routes = [
     alt: "",
     exact: true,
     component: CampaignsFolders,
-    mobile: true,
+    mobile: true
   },
   {
     path: "/prospects",
@@ -19,7 +20,7 @@ const Routes = [
     alt: "prospects",
     exact: true,
     component: ProspectsSearch,
-    mobile: false,
+    mobile: false
   },
   {
     path: "/prospectDetails",
@@ -28,8 +29,17 @@ const Routes = [
     alt: "prospects",
     exact: true,
     component: ProspectDetailsPage,
-    mobile: false,
+    mobile: false
   },
-]
+  {
+    path: "/support",
+    name: "Support",
+    navIcon: "supportWhite",
+    alt: "support",
+    exact: true,
+    component: SupportPage,
+    mobile: false
+  }
+];
 
 export default Routes;

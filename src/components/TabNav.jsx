@@ -1,18 +1,18 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Nav, NavItem, NavLink } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import React from "react";
+import styled from "styled-components";
+import { Nav, NavItem, NavLink } from "reactstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const StyledNavLink = styled(NavLink)`
   padding: 0 !important;
-  padding-bottom: .75em !important;
+  padding-bottom: 0.75em !important;
   color: var(--white) !important;
   position: relative;
 
   &:after,
   &:before {
-    transition: border-bottom-width .25s, border-top-width .25s;
-    content: '';
+    transition: border-bottom-width 0.25s, border-top-width 0.25s;
+    content: "";
     position: absolute;
     z-index: 999;
     bottom: 0;
@@ -22,7 +22,7 @@ const StyledNavLink = styled(NavLink)`
     width: 105%;
     border-bottom: 0px solid var(--darkNavy);
     border-radius: 15px;
-    transform: translate(-50%,30%);
+    transform: translate(-50%, 30%);
   }
   &:before {
     height: 0;
@@ -30,7 +30,7 @@ const StyledNavLink = styled(NavLink)`
     border-right: 12px solid transparent;
     border-top: 0px solid var(--darkNavy);
     border-left: 12px solid transparent;
-    transform: translate(-50%,75%);
+    transform: translate(-50%, 75%);
   }
 
   &.active {
@@ -52,17 +52,19 @@ const StyledNav = styled(Nav)`
 `;
 
 function TabNav(props) {
-
-  const tabs = props.data.map((item, key) =>
+  const tabs = props.data.map((item, key) => (
     <NavItem key={key}>
       <StyledNavLink
-        className={props.activeTab === item.idx ? 'active' : '' }
-        onClick={() => { props.toggleTab(item.idx); }}
+        className={props.activeTab === item.idx ? "active" : ""}
+        onClick={() => {
+          props.toggleTab(item.idx);
+        }}
       >
-        <FontAwesomeIcon icon={item.icon} className="mr-1"/>{item.name}
+        <FontAwesomeIcon icon={item.icon} className="mr-1" />
+        {item.name}
       </StyledNavLink>
     </NavItem>
-  );
+  ));
 
   return (
     <div>
