@@ -13,6 +13,10 @@ const SpinWrap = styled.div`
   }
 `;
 
+const NoResults = styled.p`
+  padding: var(--pad3);
+`;
+
 const whenLoadingResults = (status, results) => status === "Fetching" && results.length === 0;
 
 const whenNoResults = (status, results) => results.length === 0 && status === "Success";
@@ -28,9 +32,9 @@ export const DataLoader = (props) => {
   return (
     <>
       {whenLoadingResults(status, data) ?
-        (<SpinWrap><Spinner color="primary"/></SpinWrap>) :
+        (<SpinWrap><Spinner color="primary" /></SpinWrap>) :
         (whenNoResults(status, data) ?
-          (<p> {emptyResultsMessage}</p>) :
+          (<NoResults> {emptyResultsMessage}</NoResults>) :
           (renderData()))}
     </>
   );

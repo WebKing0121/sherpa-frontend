@@ -17,6 +17,7 @@ const StyledSearch = styled(Container)`
 
 function SearchModule(props) {
   const [searchTerm, setSearchTerm] = useState("");
+
   const onChange = (e) => setSearchTerm(e.target.value);
   const onClick = (e) => props.searchTerm(searchTerm);
 
@@ -27,7 +28,7 @@ function SearchModule(props) {
           <InputGroupBorder className="mb-2">
             <Input type="text" name="Search" id="SearchField" placeholder="Search" value={searchTerm} onChange={onChange} />
             <InputGroupAddon addonType="append">
-              <Button className="p-0" color="link" onClick={onClick}><Icon name="search" width="34px" /></Button>
+              <Button disabled={searchTerm.length < 3} className="p-0" color="link" onClick={onClick}><Icon name="search" width="34px" /></Button>
             </InputGroupAddon>
           </InputGroupBorder>
         </Col>
