@@ -23,15 +23,6 @@ const Routes = [
     mobile: false
   },
   {
-    path: "/prospectDetails",
-    name: "Prospect Details",
-    navIcon: "prospectSearchWhite",
-    alt: "prospects",
-    exact: true,
-    component: ProspectDetailsPage,
-    mobile: false
-  },
-  {
     path: "/support",
     name: "Support",
     navIcon: "supportWhite",

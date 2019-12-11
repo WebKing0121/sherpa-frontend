@@ -29,7 +29,7 @@ function InputSelect(props) {
       <Input type="select" {...props}>
         {props.children}
       </Input>
-      <FontAwesomeIcon icon="chevron-up" rotation={180}/>
+      {props.icon}
     </Wrapper>
   );
 }

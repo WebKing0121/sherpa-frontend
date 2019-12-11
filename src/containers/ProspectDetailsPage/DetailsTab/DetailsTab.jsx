@@ -20,19 +20,18 @@ const PaddedSection = styled(Section)`
 `;
 
 const DetailsTab = (props) => {
-
   return (
     <>
       <StatusSection>
-        <Status/>
+        <Status />
       </StatusSection>
 
       <PaddedSection>
-        <Zillow/>
+        <Zillow />
       </PaddedSection>
 
       <PaddedSection>
-        <Fields/>
+        <Fields />
       </PaddedSection>
     </>
   );

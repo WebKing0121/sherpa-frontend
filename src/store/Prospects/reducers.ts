@@ -4,15 +4,24 @@ import {
   RESET_PROSPECT_DATA
 } from './actionTypes';
 
-const initialState = {
+interface IState {
+  count: number;
+  next: string | null;
+  previous: string | null;
+  prospects: Array<any>;
+  status: string | null;
+}
+
+
+const initialState: IState = {
   count: 0,
   next: null,
   previous: null,
   prospects: [],
-  status: ""
+  status: null
 };
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state: IState = initialState, action: any) {
   switch (action.type) {
     case SET_PROSPECTS_SEARCH_STATUS:
       return {

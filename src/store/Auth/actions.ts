@@ -60,5 +60,6 @@ export const logout = (): any => {
     removeFromLocalStorage("access");
     removeFromLocalStorage("refresh");
     removeFromLocalStorage("userData");
+    dispatch({ type: 'RESET' });
   };
 };
