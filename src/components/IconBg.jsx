@@ -9,13 +9,13 @@ const Circle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  width: ${props => props.width || "44px"};;
+  height: ${props => props.height || "44px"};;
   color: ${props =>
     props.textcol ? "var(--" + props.textcol + ")" : ""};
 
   svg {
-    margin: ${props => props.nudge ? props.nudge : 0};
+    margin: ${props => props.nudge || 0};
   }
 `;
 

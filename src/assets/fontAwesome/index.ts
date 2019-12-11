@@ -19,7 +19,8 @@ import {
   faMobileAlt,
   faShare,
   faBell,
-  faLayerGroup
+  faLayerGroup,
+  faFilter
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -42,5 +43,6 @@ library.add(
   faMobileAlt,
   faShare,
   faBell,
-  faLayerGroup
+  faLayerGroup,
+  faFilter
 );
