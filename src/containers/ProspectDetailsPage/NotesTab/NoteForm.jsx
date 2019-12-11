@@ -12,7 +12,7 @@ function NoteForm(props) {
   };
   return (
     <Form onSubmit={onSubmit}>
-      <InputGroupBorder full>
+      <InputGroupBorder border="full">
         <Input
           style={{ maxHeight: "50vh" }}
           type="textarea"

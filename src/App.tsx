@@ -32,7 +32,7 @@ function App() {
           <ProtectedRoute is_auth={is_auth} path="/" component={CampaignsFolderPage} exact />
           <ProtectedRoute is_auth={is_auth} path="/folder/:id/campaigns" component={CampaignsPage} exact />
           <ProtectedRoute is_auth={is_auth} path="/campaigns/:id/details" component={CampaignDetailsPage} exact />
-          <ProtectedRoute is_auth={is_auth} path="/prospectDetails" component={ProspectDetailsPage} exact />
+          <ProtectedRoute is_auth={is_auth} path="/prospect/:id/details" component={ProspectDetailsPage} exact />
           <ProtectedRoute is_auth={is_auth} path="/prospects" component={ProspectsSearch} />
           <ProtectedRoute is_auth={is_auth} path="/support" component={SupportPage} />
           <ProtectedRoute is_auth={is_auth} path="/" component={CampaignsFolderPage} />

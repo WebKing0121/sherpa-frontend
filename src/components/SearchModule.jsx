@@ -35,14 +35,14 @@ function SearchModule(props) {
                   width="36px"
                   height="36px"
                   textcol="white"
-                  icon="search"/>
+                  icon="search" />
               </Button>
             </InputGroupAddon>
           </InputGroupBorder>
         </Col>
-        {true &&
+        {props.showFilter &&
           <Col className="d-flex align-items-center" xs="auto">
-            <Filter/>
+            <Filter />
           </Col>
         }
 
