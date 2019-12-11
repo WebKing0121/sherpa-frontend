@@ -1,4 +1,3 @@
-import axios from "axios";
 import AxiosInstance from "../../axiosConfig";
 import { SET_FETCH_CAMPAIGN_FOLDERS, SET_FETCH_CAMPAIGN_FOLDERS_ERROR } from "./actionTypes";
 import { createFolders, chkForMultipleMarkets } from "./transformers";
@@ -32,7 +31,9 @@ export const fetchCampaignFolders = () => (dispatch, _) => {
           const {
             data: { results: marksData }
           } = markets;
+
           const marketIds = chkForMultipleMarkets(campsData);
+
           if (marketIds.length > 1) {
             dispatch(setFetchedCampaignFolders(createFolders(campsData, marksData)));
           } else {

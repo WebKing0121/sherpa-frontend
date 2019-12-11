@@ -1,5 +1,5 @@
 import AxiosInstance from '../../axiosConfig';
-import { SET_FETCH_CAMPAIGNS, SET_FETCH_CAMPAIGNS_ERROR } from './actionTypes';
+import { SET_FETCH_CAMPAIGNS, SET_FETCH_CAMPAIGNS_ERROR, RESET_CAMPAIGNS_DATA } from './actionTypes';
 
 export const setFetchedCampaigns = (campaigns) => ({
   type: SET_FETCH_CAMPAIGNS,
@@ -11,8 +11,12 @@ export const setFetchedCampaignsError = (error) => ({
   error
 });
 
+export const resetCampaignsData = () => ({
+  type: RESET_CAMPAIGNS_DATA
+})
+
 export const fetchCampaigns = (id) => (dispatch, _) => {
-  AxiosInstance.get('/campaigns/', { id })
+  AxiosInstance.get('/campaigns/', { params: { market: id } })
     .then(({ data }) => {
       const { results } = data;
       dispatch(setFetchedCampaigns(results));

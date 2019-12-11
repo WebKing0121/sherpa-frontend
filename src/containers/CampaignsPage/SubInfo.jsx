@@ -33,12 +33,12 @@ const Item = styled.div`
 
 export default function SubInfo(props) {
   const lDisabled = props.data.totalLeads === 0;
-  const pDisabled = props.data.priority === 0;
+  const pDisabled = props.data.priorityCount === 0;
 
   return (
     <Holster>
-      <Item disabled={lDisabled}><Icon name="person"width="12px"/>{props.data.totalLeads} Leads</Item>
-      <Item color="priority" disabled={pDisabled}><Icon name="priority" width="11px"/>{props.data.priority} Priority</Item>
+      <Item disabled={lDisabled}><Icon name="person" width="12px" />{props.data.totalLeads} Leads</Item>
+      <Item color="priority" disabled={pDisabled}><Icon name="priority" width="11px" />{props.data.priorityCount} Priority</Item>
     </Holster>
   );
 }

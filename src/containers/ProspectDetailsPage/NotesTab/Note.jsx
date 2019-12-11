@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { Button } from "reactstrap";
 import moment from "moment-timezone";
-import NoteModal from "./NoteModal";
 import NoteForm from "./NoteForm";
+import Modal from "../../../components/Modal";
 
 const ButtonBlock = styled.div`
   display: inline-flex;
@@ -83,14 +83,15 @@ const Timeline = styled.div`
 
 function Note(props) {
   const { note, deleteNote, updateNote } = props;
-  const { createdDate, text, createdByName } = note;
+  const { createdDate, text, createdBy } = note;
 
-  const [isEditing, setIsEditing] = useState(false);
+  const [modal, setModal] = useState(false);
   const [editText, setEditText] = useState(text);
 
   const handleUpdateNote = () => {
+    console.log(note);
     updateNote(note, editText);
-    setIsEditing(false);
+    setModal(false);
   };
 
   const getFormattedDateTime = () => {
@@ -110,10 +111,10 @@ function Note(props) {
       </Timeline>
       <div>
         <pre className="textL gray">{`${dateTime[0]}  |  ${dateTime[1]}`}</pre>
-        <h4 className="textL fw-bold">{createdByName}</h4>
+        <h4 className="textL fw-bold">Created By ID: {createdBy}</h4>
         <p className="textL">{text}</p>
         <ButtonBlock>
-          <Button size="lg" color="link" onClick={() => setIsEditing(true)}>
+          <Button size="lg" color="link" onClick={() => setModal(true)}>
             Edit
           </Button>
           <Button size="lg" color="link" onClick={deleteNote}>
@@ -121,9 +122,15 @@ function Note(props) {
           </Button>
         </ButtonBlock>
       </div>
-      <NoteModal toggle={() => setIsEditing(false)} isOpen={isEditing} title="Edit Note">
-        <NoteForm submitNote={handleUpdateNote} text={editText} setText={setEditText} note={note} />
-      </NoteModal>
+      <Modal toggle={() => setModal(false)} isOpen={modal} title="Edit Note">
+        <NoteForm
+          submitNote={handleUpdateNote}
+          text={editText}
+          setText={setEditText}
+          note={note}
+          btnText="Update Note"
+        />
+      </Modal>
     </NoteCard>
   );
 }
