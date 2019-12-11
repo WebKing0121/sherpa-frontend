@@ -4,7 +4,7 @@ import { Label, Input, InputGroupAddon, Button } from 'reactstrap';
 import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import { prospectDetailsData, agentSelector } from '../../../store/ProspectDetails/selectors';
+import { prospectDetailsData, agentSelector, prospectDetailsCampaigns } from '../../../store/ProspectDetails/selectors';
 import { fetchAgents } from '../../../store/ProspectDetails/actions';
 import InputSelect from '../../../components/InputSelect';
 
@@ -49,18 +49,19 @@ const FieldSelect = (props) => {
 
 const FieldsSection = (props) => {
   const prospect = useSelector(prospectDetailsData);
+  const campaigns = useSelector(prospectDetailsCampaigns);
   const agents = useSelector(agentSelector);
   const dispatch = useDispatch();
 
   useEffect(() => {
     // if there's a prospect we want to get the company-id to fetch agents
-
-    if (prospect.id) {
-      console.log("FETCHING AGENTS");
-      let companyId = prospect.campaigns[0].id;
+    console.log("CAMPAIGNS", campaigns);
+    if (campaigns.length > 0) {
+      console.log("FETCHING AGENTS", prospect);
+      let companyId = campaigns[0].id;
       dispatch(fetchAgents(companyId));
     }
-  }, [prospect]);
+  }, [campaigns]);
 
   const onChange = (e) => console.log("OOP", e.target.value);
   const agentOptions = agents.map((agent, idx) => (

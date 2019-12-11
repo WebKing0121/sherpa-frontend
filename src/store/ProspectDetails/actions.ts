@@ -86,10 +86,10 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
     .catch(error => console.log('Error fetching prospect detail', error.response));
 }
 
-export const updateProspect = (prospect: any) => (dispatch: any, _: any) => {
-  console.log("PROSPECT", prospect);
+export const updateProspect = (id: any, data: any) => (dispatch: any, _: any) => {
+  console.log("PROSPECT", data);
   return AxiosInstance
-    .put(`prospects/${prospect.id}/`)
+    .patch(`prospects/${id}/`, data)
     .then(({ data }) => {
       dispatch(setProspect(data))
     })

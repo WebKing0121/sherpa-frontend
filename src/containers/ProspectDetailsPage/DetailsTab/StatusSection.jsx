@@ -80,7 +80,7 @@ const DetailsTab = (props) => {
 
   // onchange status
   const onStatusChange = (attr) => () => {
-    dispatch(updateProspect({ ...prospect, [attr]: !prospect[attr] }));
+    dispatch(updateProspect(prospect.id, { [attr]: !prospect[attr] }));
   };
 
   // render pills
@@ -100,7 +100,7 @@ const DetailsTab = (props) => {
   // on change lead
   const onLeadStageChange = (e) => {
     let value = e.target.value;
-    dispatch(updateProspect({ ...prospect, leadStage: value }));
+    dispatch(updateProspect(prospect.id, { leadStage: value }));
   };
 
   return (
@@ -109,7 +109,7 @@ const DetailsTab = (props) => {
         name="status"
         id="statusSelect"
         onChange={onLeadStageChange}
-        defaultValue={prospect.leadStage}
+        value={prospect.leadStage}
         icon={
           <FontAwesomeIcon icon="chevron-up" rotation={180} />
         }
