@@ -1,7 +1,12 @@
 import AxiosInstance from "../../axiosConfig";
-import { SET_FETCH_CAMPAIGN_FOLDERS, SET_FETCH_CAMPAIGN_FOLDERS_ERROR } from "./actionTypes";
+import { SET_FETCH_CAMPAIGN_FOLDERS, SET_FETCH_CAMPAIGN_FOLDERS_ERROR, FETCH_CAMPAIGN_FOLDERS } from "./actionTypes";
 import { createFolders, chkForMultipleMarkets } from "./transformers";
 import { history } from "../../history";
+
+export const setFetchCampaignFoldersStatus = (status) => ({
+  type: FETCH_CAMPAIGN_FOLDERS,
+  status
+})
 
 export const setFetchedCampaignFolders = campaignFolders => ({
   type: SET_FETCH_CAMPAIGN_FOLDERS,
@@ -21,21 +26,23 @@ export const fetchCampaignFolders = () => (dispatch, _) => {
     dispatch(setFetchedCampaignFoldersError(message));
   };
 
+  dispatch(setFetchCampaignFoldersStatus('Fetching'));
+
   AxiosInstance.get("/campaigns/")
     .then(campaigns => {
       AxiosInstance.get("/markets/")
         .then(markets => {
           const {
-            data: { results: campsData }
+            data: { results: campaignsData }
           } = campaigns;
           const {
-            data: { results: marksData }
+            data: { results: marketsData }
           } = markets;
 
-          const marketIds = chkForMultipleMarkets(campsData);
+          const marketIds = chkForMultipleMarkets(campaignsData);
 
-          if (marketIds.length > 1) {
-            dispatch(setFetchedCampaignFolders(createFolders(campsData, marksData)));
+          if (marketIds.length > 1 || (marketIds.length === 0 && campaignsData.length === 0)) {
+            dispatch(setFetchedCampaignFolders(createFolders(campaignsData, marketsData)));
           } else {
             let id = marketIds[0];
             history.push(`/folder/${id}/campaigns`);

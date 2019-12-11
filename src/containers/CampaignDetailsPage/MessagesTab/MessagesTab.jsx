@@ -45,7 +45,7 @@ function MessagesTab(props) {
   // the prospectSearch component
   return (
     <>
-      <SearchModule searchTerm={search}/>
+      <SearchModule searchTerm={search} showSearch={true} />
       <List
         items={prospectList}
         nextPageUrl={nextPageUrl}

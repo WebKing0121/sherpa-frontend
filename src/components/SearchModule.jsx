@@ -25,21 +25,24 @@ function SearchModule(props) {
   return (
     <StyledSearch>
       <Row>
-        <Col>
-          <InputGroupBorder className="mb-2">
-            <Input type="text" name="Search" id="SearchField" placeholder="Search" value={searchTerm} onChange={onChange} />
-            <InputGroupAddon addonType="append">
-              <Button disabled={searchTerm.length < 3} className="p-0" color="link" onClick={onClick}>
-                <IconBg
-                  color="primary"
-                  width="36px"
-                  height="36px"
-                  textcol="white"
-                  icon="search" />
-              </Button>
-            </InputGroupAddon>
-          </InputGroupBorder>
-        </Col>
+        {props.showSearch &&
+          <Col>
+            <InputGroupBorder className="mb-2">
+              <Input type="text" name="Search" id="SearchField" placeholder="Search" value={searchTerm} onChange={onChange} />
+              <InputGroupAddon addonType="append">
+                <Button disabled={searchTerm.length < 3} className="p-0" color="link" onClick={onClick}>
+                  <IconBg
+                    color="primary"
+                    width="36px"
+                    height="36px"
+                    textcol="white"
+                    icon="search" />
+                </Button>
+              </InputGroupAddon>
+            </InputGroupBorder>
+          </Col>
+        }
+
         {props.showFilter &&
           <Col className="d-flex align-items-center" xs="auto">
             <Filter />

@@ -27,7 +27,7 @@ function ProspectsSearch(props) {
   return (
     <div>
       <Header>Prospects Search</Header>
-      <SearchModule searchTerm={search} showFilter={false} />
+      <SearchModule searchTerm={search} showFilter={false} showSearch={true} />
       <DataLoader
         status={isFetching}
         data={prospectResults}

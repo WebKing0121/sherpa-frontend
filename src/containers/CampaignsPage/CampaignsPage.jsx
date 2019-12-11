@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-// import SearchModule from '../../components/SearchModule';
+import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -35,6 +35,7 @@ const CampaignsPage = (props) => {
   return (
     <div>
       <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
+      <SearchModule showFilter={true} showSearch={false} />
       <List items={listItems} />
     </div >
   );

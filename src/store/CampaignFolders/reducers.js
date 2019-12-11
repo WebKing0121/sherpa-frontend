@@ -15,13 +15,13 @@ export default function reducer(state = initialState, action) {
     case FETCH_CAMPAIGN_FOLDERS:
       return {
         ...state,
-        status: "FETCHING"
+        status: 'Fetching'
       }
     case SET_FETCH_CAMPAIGN_FOLDERS:
       return {
         ...state,
         folders: action.campaignFolders,
-        status: 'success'
+        status: 'Success'
       }
     case SET_FETCH_CAMPAIGN_FOLDERS_ERROR:
       return {
