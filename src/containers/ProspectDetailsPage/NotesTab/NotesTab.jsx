@@ -41,7 +41,7 @@ moment.updateLocale("en", {
   longDateFormat: { LT: "h:mma" }
 });
 
-function NotesTab() {
+function NotesTab({ prospectId }) {
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(state => !state);
@@ -54,7 +54,7 @@ function NotesTab() {
     const note = {
       createdDateLocal: new Date().toISOString(),
       text: newNoteText,
-      prospect: 3,
+      prospect: prospectId,
       createdBy: userData.id
     };
     const fetchConfig = {
@@ -90,10 +90,10 @@ function NotesTab() {
     // populate notes list
     const fetchConfig = {
       method: "get",
-      url: "/prospect-notes?prospect=3"
+      url: `/prospect-notes?prospect=${prospectId}`
     };
     dispatch(notesRequest(fetchConfig, populateNotes));
-  }, [dispatch]);
+  }, [dispatch, prospectId]);
 
   const notes = useSelector(noteList);
 
@@ -118,7 +118,7 @@ function NotesTab() {
           Add Note
         </Button>
       </Heading>
-      <Modal isOpen={modal} toggle={toggle} heading="Add A Note">
+      <Modal isOpen={modal} toggle={toggle} title="Add a Note">
         <NoteForm
           submitNote={handleNewNote}
           text={newNoteText}

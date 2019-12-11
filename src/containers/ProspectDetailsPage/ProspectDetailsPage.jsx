@@ -22,7 +22,7 @@ function ProspectDetailsPage(props) {
   // fetch the prospect
   useEffect(() => {
     dispatch(fetchProspect(prospectId));
-  }, []);
+  }, [dispatch, prospectId]);
 
   const headerInfo = {
     fromText: "Prospect List",
@@ -68,7 +68,7 @@ function ProspectDetailsPage(props) {
               <MessagesTab />
             </TabPane>
             <TabPane tabId="3">
-              <NotesTab />
+              <NotesTab prospectId={prospectId} />
             </TabPane>
           </StyledTabContent>
         </div>
