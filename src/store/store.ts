@@ -7,6 +7,7 @@ import campaignFolders from "./CampaignFolders/reducers";
 import prospects from "./Prospects/reducers";
 import { loadTokens } from "./Auth/utils";
 import supportItems from "./Support/reducers";
+import prospectNotes from "./ProspectNotes/reducers";
 
 declare global {
   interface Window {
@@ -19,7 +20,8 @@ const reducers = combineReducers({
   campaigns,
   campaignFolders,
   prospects,
-  supportItems
+  supportItems,
+  prospectNotes
 });
 
 // for local stuff
