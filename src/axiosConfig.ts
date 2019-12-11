@@ -36,9 +36,11 @@ const errorResponseInterceptor = (error: any) => {
         };
         return axios.request(handleNewAccessToken(error, updatedTokens));
       })
-      .catch(error => console.log("Token cannot be refreshed ", error));
+      .catch(error => {
+        console.log("Token cannot be refreshed ", error);
+        ReduxStore.dispatch(logout());
+      });
   }
-  ReduxStore.dispatch(logout());
   return Promise.reject(error);
 };
 
