@@ -89,7 +89,6 @@ function Note(props) {
   const [editText, setEditText] = useState(text);
 
   const handleUpdateNote = () => {
-    console.log(note);
     updateNote(note, editText);
     setModal(false);
   };

@@ -25,10 +25,6 @@ const initialState: IState & IResults = {
 export default function(state = initialState, action: IAction) {
   switch (action.type) {
     case POPULATE_NOTES:
-<<<<<<< HEAD
-=======
-      console.log(action);
->>>>>>> 4fdd91569f154bd7eac60e6c806ea4be2def502b
       const { results, ...rest } = action.data!;
       return {
         ...rest,
