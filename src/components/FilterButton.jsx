@@ -77,7 +77,7 @@ function SearchModule(props) {
         <ToggleHeader className="fw-black textL" onClick={toggle1}>
           <Label for="ownedBy">Owned By</Label>
           <Arrow isOpen={isOpen1}>
-            <FontAwesomeIcon icon="chevron-up" rotation={isOpen1 ? "0" : "180"}
+            <FontAwesomeIcon icon="chevron-up" rotation={isOpen1 ? null : 180}
           />
           </Arrow>
         </ToggleHeader>
@@ -96,7 +96,7 @@ function SearchModule(props) {
         <ToggleHeader className="fw-black textL" onClick={toggle2}>
           <Label for="tags">Review & Send</Label>
           <Arrow isOpen={isOpen2}>
-            <FontAwesomeIcon icon="chevron-up" rotation={isOpen2 ? "0" : "180"}
+            <FontAwesomeIcon icon="chevron-up" rotation={isOpen2 ? null : 180}
           />
           </Arrow>
         </ToggleHeader>

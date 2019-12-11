@@ -31,7 +31,7 @@ function NotesTab(props) {
         toggle={toggle}
         heading="Add A Note"
         btnText="Submit Note">
-        <InputGroupBorder full>
+        <InputGroupBorder border="full">
           <Input style={{maxHeight: "50vh"}} type="textarea" placeholder="Enter Your Note..." value={value} rows="12"/>
         </InputGroupBorder>
       </Modal>

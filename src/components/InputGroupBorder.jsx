@@ -5,10 +5,10 @@ import { InputGroup } from 'reactstrap';
 const StyledInputGroup = styled(InputGroup)`
   --border: 1px solid var(--mediumGray) !important;
 
-  border-top: ${props => props.full ? "var(--border)" : "0"};
-  border-right: ${props => props.full ? "var(--border)" : "0"};
+  border-top: ${props => props.border === "full" ? "var(--border)" : "0"};
+  border-right: ${props => props.border === "full" ? "var(--border)" : "0"};
   border-bottom: var(--border);
-  border-left: ${props => props.full ? "var(--border)" : "0"};
+  border-left: ${props => props.border === "full" ? "var(--border)" : "0"};
 
   textarea {
     padding-left: var(--pad2);
@@ -18,7 +18,7 @@ const StyledInputGroup = styled(InputGroup)`
 
 function InputGroupBorder(props) {
   return (
-    <StyledInputGroup full={props.full} className="inputGroup">
+    <StyledInputGroup border={props.border} className="inputGroup">
       {props.children}
     </StyledInputGroup>
   );
