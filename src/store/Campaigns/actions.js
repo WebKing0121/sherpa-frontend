@@ -16,7 +16,7 @@ export const resetCampaignsData = () => ({
 })
 
 export const fetchCampaigns = (id) => (dispatch, _) => {
-  AxiosInstance.get('/campaigns/', { id })
+  AxiosInstance.get('/campaigns/', { params: { market: id } })
     .then(({ data }) => {
       const { results } = data;
       dispatch(setFetchedCampaigns(results));
