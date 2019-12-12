@@ -21,7 +21,10 @@ import {
   faBell,
   faLayerGroup,
   faFilter,
-  faBrain
+  faEnvelope,
+  faCreditCard,
+  faExclamationTriangle,
+  faBook
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -46,5 +49,8 @@ library.add(
   faBell,
   faLayerGroup,
   faFilter,
-  faBrain
+  faEnvelope,
+  faCreditCard,
+  faExclamationTriangle,
+  faBook
 );
