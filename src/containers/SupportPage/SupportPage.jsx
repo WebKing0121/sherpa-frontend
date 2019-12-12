@@ -7,12 +7,22 @@ import { supportItemsArray } from "../../store/Support/selectors";
 import { fetchSupportItems } from "../../store/Support/actions";
 
 const CardContainer = styled.div`
-  width: 90vw;
-  margin: 0 auto;
+  margin: var(--pad5) auto 0;
   display: flex;
   flex-direction: column;
 `;
 
+const SupportWrap = styled.div`
+  padding: var(--pad5) var(--pad3);
+  text-align: center;
+  background: var(--coolGray);
+`;
+const Subtitle = styled.p`
+  text-align: center;
+  max-width: 90%;
+  margin: 0 auto;
+  line-height: 1.4 !important;
+`;
 function SupportPage() {
   const support_items = useSelector(supportItemsArray);
   const dispatch = useDispatch();
@@ -24,15 +34,17 @@ function SupportPage() {
   return (
     <>
       <Header>Support</Header>
-      <h3 className="text-center mb-4 mt-5">How can we help?</h3>
-      <p className="text-center" style={{ maxWidth: "90vw", margin: "0 auto" }}>
-        We are dedicated to helping you succeed. Browse some of our support resources below.
-      </p>
-      <CardContainer>
-        {support_items.map((item, idx) => {
-          return <SupportCard key={idx} item={item} />;
-        })}
-      </CardContainer>
+      <SupportWrap>
+        <h2>How can we help?</h2>
+        <Subtitle className="textL">
+          We are dedicated to helping you succeed. Browse some of our support resources below.
+        </Subtitle>
+        <CardContainer>
+          {support_items.map((item, idx) => {
+            return <SupportCard key={idx} item={item} />;
+          })}
+        </CardContainer>
+      </SupportWrap>
     </>
   );
 }

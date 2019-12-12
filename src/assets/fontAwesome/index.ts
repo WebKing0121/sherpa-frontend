@@ -20,7 +20,8 @@ import {
   faShare,
   faBell,
   faLayerGroup,
-  faFilter
+  faFilter,
+  faBrain
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -44,5 +45,6 @@ library.add(
   faShare,
   faBell,
   faLayerGroup,
-  faFilter
+  faFilter,
+  faBrain
 );

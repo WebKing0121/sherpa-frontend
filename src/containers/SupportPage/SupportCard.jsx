@@ -1,36 +1,49 @@
 import React from "react";
 import styled from "styled-components";
-import { Card } from "reactstrap";
-import Icon from "../../components/Icon";
+import IconBg from "../../components/IconBg";
 
-const StyledCard = styled(Card)`
-  &.card {
-    box-sizing: border-box;
-    padding: 1rem;
-    margin: 1rem 0;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    box-shadow: 0 0 5px var(--gray);
-    img {
-      margin: 0 1rem;
-    }
-    a {
-      color: black;
-    }
+const StyledCard = styled.a`
+  box-sizing: border-box;
+  padding: var(--pad4) var(--pad3);
+  margin-bottom: var(--pad4);
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  box-shadow: 0 0 8px 0 rgba(0,0,0,.1);
+  background: white;
+  border-radius: 6px;
+  position: relative;
+  color: var(--darkNavy);
+  transition: box-shadow .15s;
+  justify-content: center;
+
+  &:hover,
+  &:active {
+    text-decoration: none;
+    color: var(--darkNavy);
+
+    box-shadow: 0 2px 4px rgba(0,0,0,.5);
   }
+
+`;
+
+const Content = styled.div`
+  text-align: left;
+  margin-left: var(--pad3);
+  flex-basis: 80%;
 `;
 
 function SupportCard(props) {
-  const { title, description, icon, alt, url } = props.item;
+  const { title, description, icon, color, alt, url } = props.item;
 
   return (
-    <StyledCard name={title} target="_blank" rel="noopener noreferrer">
-      <Icon name={icon || "alert"} alt={alt} width="60px" />
-      <a target="_blank" rel="noopener noreferrer" href="https://leadsherpa.freshdesk.com/support/home">
+    <StyledCard name={title} target="_blank" rel="noopener noreferrer" href={url}>
+      <IconBg format="hex" textcol={color} icon={icon || "brain"} alt={alt} size="2x" width="50px" height="50px"/>
+
+      <Content>
         <h3>{title}</h3>
         <div>{description}</div>
-      </a>
+      </Content>
     </StyledCard>
   );
 }
