@@ -2,6 +2,7 @@ import AxiosInstance from "../../axiosConfig";
 import { SET_FETCH_CAMPAIGN_FOLDERS, SET_FETCH_CAMPAIGN_FOLDERS_ERROR, FETCH_CAMPAIGN_FOLDERS } from "./actionTypes";
 import { createFolders, chkForMultipleMarkets } from "./transformers";
 import { history } from "../../history";
+import { saveToLocalStorage } from "./utils";
 
 export const setFetchCampaignFoldersStatus = (status) => ({
   type: FETCH_CAMPAIGN_FOLDERS,
@@ -42,7 +43,9 @@ export const fetchCampaignFolders = () => (dispatch, _) => {
           const marketIds = chkForMultipleMarkets(campaignsData);
 
           if (marketIds.length > 1 || (marketIds.length === 0 && campaignsData.length === 0)) {
-            dispatch(setFetchedCampaignFolders(createFolders(campaignsData, marketsData)));
+            const folderView = createFolders(campaignsData, marketsData);
+            dispatch(setFetchedCampaignFolders(folderView));
+            saveToLocalStorage("folderView", JSON.stringify(folderView));
           } else {
             let id = marketIds[0];
             history.push(`/folder/${id}/campaigns`);

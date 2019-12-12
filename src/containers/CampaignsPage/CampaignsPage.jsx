@@ -10,6 +10,7 @@ import { fetchCampaigns, resetCampaignsData, fetchSortedCampaigns } from '../../
 import { DataLoader } from '../../components/LoadingData';
 
 import TabbedHeader from '../../components/TabbedHeader';
+import { getFromLocalStorage } from '../../store/CampaignFolders/utils';
 
 const CampaignsPage = (props) => {
   const campaigns = useSelector(campaignsList);
@@ -35,7 +36,7 @@ const CampaignsPage = (props) => {
   ]
 
   // check there are campaign folders to navigate back too
-  const hasCampaignFolders = campaignFolders.length > 0;
+  const hasCampaignFolders = campaignFolders.length > 0 || getFromLocalStorage('folderView');
 
   // dispatch fetchCampaigns
   useEffect(() => dispatch(fetchCampaigns(marketId)), []);
@@ -65,9 +66,7 @@ const CampaignsPage = (props) => {
         status={isFetching}
         data={listItems}
         renderData={() => (
-          <List
-            virtualize
-            items={listItems} />
+          <List items={listItems} />
         )}
       />
     </div >
