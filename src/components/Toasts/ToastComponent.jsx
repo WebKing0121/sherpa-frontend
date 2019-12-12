@@ -3,7 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { removeAToast } from '../../store/Toasts/actions';
-import { Toast, ToastBody, ToastHeader } from 'reactstrap';
+import { Alert } from 'reactstrap';
+import styled from 'styled-components';
+
+const ShAlert = styled(Alert)`
+  margin: var(--pad2) var(--pad2) var(--pad1) !important;
+  transition: top .3s;
+`;
 
 const ToastComponent = ({ title, message }) => {
   const [show, setShow] = useState(true);
@@ -22,10 +28,9 @@ const ToastComponent = ({ title, message }) => {
   }, []);
 
   return (
-    <Toast isOpen={show}>
-      <ToastHeader toggle={toggle}>{title}</ToastHeader>
-      <ToastBody>{message}</ToastBody>
-    </Toast>
+    <ShAlert color="warning" isOpen={show} toggle={toggle}>
+      {message}
+    </ShAlert>
   );
 };
 
