@@ -1,14 +1,15 @@
-import { createStore, compose, applyMiddleware } from "redux";
-import thunkMiddleware from "redux-thunk";
-import { combineReducers } from "redux";
-import auth from "./Auth/reducers";
-import campaigns from "./Campaigns/reducers";
-import campaignFolders from "./CampaignFolders/reducers";
-import prospects from "./Prospects/reducers";
-import prospectDetails from "./ProspectDetails/reducers";
-import { loadTokens } from "./Auth/utils";
-import supportItems from "./Support/reducers";
-import prospectNotes from "./ProspectNotes/reducers";
+import { createStore, compose, applyMiddleware } from 'redux';
+import thunkMiddleware from 'redux-thunk';
+import { combineReducers } from 'redux';
+import auth from './Auth/reducers';
+import campaigns from './Campaigns/reducers';
+import campaignFolders from './CampaignFolders/reducers';
+import prospects from './Prospects/reducers';
+import prospectDetails from './ProspectDetails/reducers';
+import { loadTokens } from './Auth/utils';
+import supportItems from './Support/reducers';
+import prospectNotes from './ProspectNotes/reducers';
+import toasts from './Toasts/reducers';
 
 declare global {
   interface Window {
@@ -23,12 +24,13 @@ const reducers = combineReducers({
   prospects,
   supportItems,
   prospectDetails,
-  prospectNotes
+  prospectNotes,
+  toasts
 });
 
 const rootReducer = (state: any, action: any) => {
   // logout case where we want to reset all state from redux
-  if (action.type === "RESET") state = undefined;
+  if (action.type === 'RESET') state = undefined;
 
   return reducers(state, action);
 };

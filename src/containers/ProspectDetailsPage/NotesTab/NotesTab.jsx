@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import styled from "styled-components";
-import { Button } from "reactstrap";
-import moment from "moment-timezone";
+import React, { useState, useEffect, useMemo } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import styled from 'styled-components';
+import { Button } from 'reactstrap';
+import moment from 'moment-timezone';
 
-import { noteList } from "../../../store/ProspectNotes/selectors";
-import { getUserData } from "../../../store/Auth/selectors";
+import { noteList } from '../../../store/ProspectNotes/selectors';
+import { getUserData } from '../../../store/Auth/selectors';
 import {
   populateNotes,
   notesRequest,
@@ -13,11 +13,13 @@ import {
   addNote,
   updateNote,
   fetchNotes
-} from "../../../store/ProspectNotes/actions";
+} from '../../../store/ProspectNotes/actions';
 
-import Modal from "../../../components/Modal";
-import Note from "./Note";
-import NoteForm from "./NoteForm";
+import Modal from '../../../components/Modal';
+import Note from './Note';
+import NoteForm from './NoteForm';
+import ToastComponent from '../../../components/Toasts/ToastComponent';
+import { addNewToast } from '../../../store/Toasts/actions';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
@@ -37,15 +39,15 @@ const List = styled.ul`
 `;
 
 //update date format used in each note
-moment.updateLocale("en", {
-  longDateFormat: { LT: "h:mma" }
+moment.updateLocale('en', {
+  longDateFormat: { LT: 'h:mma' }
 });
 
 function NotesTab({ prospectId }) {
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(state => !state);
-  const [newNoteText, setNewNoteText] = useState("");
+  const [newNoteText, setNewNoteText] = useState('');
 
   const userData = useSelector(getUserData);
   const dispatch = useDispatch();
@@ -58,20 +60,21 @@ function NotesTab({ prospectId }) {
       createdBy: userData.id
     };
     const fetchConfig = {
-      method: "post",
+      method: 'post',
       url: `/prospect-notes/`,
       data: note
     };
     dispatch(notesRequest(fetchConfig, addNote));
     setModal(false);
-    setNewNoteText("");
+    setNewNoteText('');
+    dispatch(addNewToast('New note added!'));
   };
 
   const handleUpdateNote = (note, text) => {
     if (note.text === text) return;
     const updatedNote = { ...note, text };
     const fetchConfig = {
-      method: "patch",
+      method: 'patch',
       url: `/prospect-notes/${note.id}/`,
       data: updatedNote
     };
@@ -80,7 +83,7 @@ function NotesTab({ prospectId }) {
 
   const handleDeleteNote = id => {
     const fetchConfig = {
-      method: "delete",
+      method: 'delete',
       url: `/prospect-notes/${id}/`
     };
     dispatch(notesRequest(fetchConfig, deleteNote, id));
@@ -89,7 +92,7 @@ function NotesTab({ prospectId }) {
   useEffect(() => {
     // populate notes list
     const fetchConfig = {
-      method: "get",
+      method: 'get',
       url: `/prospect-notes?prospect=${prospectId}`
     };
     dispatch(notesRequest(fetchConfig, populateNotes));
@@ -114,16 +117,16 @@ function NotesTab({ prospectId }) {
     <>
       <Heading>
         <h3>Notes</h3>
-        <Button color="primary" onClick={toggle}>
+        <Button color='primary' onClick={toggle}>
           Add Note
         </Button>
       </Heading>
-      <Modal isOpen={modal} toggle={toggle} title="Add a Note">
+      <Modal isOpen={modal} toggle={toggle} title='Add a Note'>
         <NoteForm
           submitNote={handleNewNote}
           text={newNoteText}
           setText={setNewNoteText}
-          btnText="Submit Note"
+          btnText='Submit Note'
         />
       </Modal>
       <List>{memoizedNotes}</List>
