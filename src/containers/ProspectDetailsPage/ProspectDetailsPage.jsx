@@ -54,6 +54,7 @@ function ProspectDetailsPage(props) {
     <DataLoader
       data={prospect.id ? [prospect] : []}
       status={isFetching}
+      fullPage={true}
       emptyResultsMessage={'Could not find the prospect'}
       renderData={() => (
         <div>

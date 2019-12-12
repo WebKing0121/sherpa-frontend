@@ -5,7 +5,8 @@ import styled from 'styled-components';
 const SpinWrap = styled.div`
   text-align: center;
   padding: var(--pad8);
-
+  margin-top: ${props => props.topPad ? "calc(31px + 5vw + 1rem)" : 0};
+  
   [class*="spinner"] {
     width: 4rem;
     height: 4rem;
@@ -32,7 +33,7 @@ export const DataLoader = (props) => {
   return (
     <>
       {whenLoadingResults(status, data) ?
-        (<SpinWrap><Spinner color="primary" /></SpinWrap>) :
+        (<SpinWrap topPad={props.fullPage}><Spinner color="primary" /></SpinWrap>) :
         (whenNoResults(status, data) ?
           (<NoResults> {emptyResultsMessage}</NoResults>) :
           (renderData()))}
