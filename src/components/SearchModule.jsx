@@ -7,9 +7,9 @@ import {
 } from 'reactstrap';
 import styled from 'styled-components';
 import IconBg from './IconBg';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import InputGroupBorder from './InputGroupBorder';
 import Filter from './FilterButton';
+import SortModule from './SortModule';
 
 const StyledSearch = styled(Container)`
   padding: var(--pad2) var(--pad3) !important;
@@ -40,6 +40,15 @@ function SearchModule(props) {
                 </Button>
               </InputGroupAddon>
             </InputGroupBorder>
+          </Col>
+        }
+
+        {props.showSort &&
+          <Col>
+            <SortModule
+              marketId={props.marketId}
+              sortOptions={props.sortingOptions}
+              sortChange={props.sortChange} />
           </Col>
         }
 

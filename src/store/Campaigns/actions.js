@@ -34,3 +34,19 @@ export const fetchCampaigns = (id) => (dispatch, _) => {
       dispatch(setFetchedCampaignsError("Error when fetching campaigns"))
     });
 }
+
+export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
+
+  dispatch(setFetchedCampaignStatus('Fetching'));
+
+  AxiosInstance.get('/campaigns/', { params: { market: marketId, ordering: sortBy } })
+    .then(({ data }) => {
+      const { results } = data;
+      dispatch(setFetchedCampaigns(results));
+    })
+    .catch((error) => {
+      console.log('Error fetching sorted campaigns', error.response);
+      dispatch(setFetchedCampaignsError('Error when fetching sorted campaigns'))
+    });
+
+}
