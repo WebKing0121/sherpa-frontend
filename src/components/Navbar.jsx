@@ -19,7 +19,8 @@ import { logout } from "../store/Auth/actions";
 
 const StyledNavbar = styled(Navbar)`
   box-shadow: 0 0 36px -4px #00000091, 0 0 5px -1px #0000008c;
-
+  min-height: calc(31px + 5vw + 1rem);
+  
   .navbar-brand {
     flex-grow: 1;
   }

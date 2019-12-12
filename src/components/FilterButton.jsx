@@ -71,7 +71,7 @@ function SearchModule(props) {
     <Modal
       isOpen={modal}
       toggle={toggle}
-      heading="Filters"
+      title="Filters"
       btnText="Apply Filters">
       <Pane>
         <ToggleHeader className="fw-black textL" onClick={toggle1}>
