@@ -109,7 +109,7 @@ const DetailsTab = (props) => {
         name="status"
         id="statusSelect"
         onChange={onLeadStageChange}
-        value={prospect.leadStage}
+        value={prospect.leadStage || ""}
         icon={
           <FontAwesomeIcon icon="chevron-up" rotation={180} />
         }

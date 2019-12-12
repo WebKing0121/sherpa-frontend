@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState }  from 'react';
 import ListItem from './ListItem';
 import VirtualList from 'react-tiny-virtual-list';
 import SwipeListItem from '../SwipeableList/SwipeableListItem';
@@ -14,6 +14,19 @@ const SpinWrap = styled.div`
 // VirtualList and List components to make it easier to test
 // and easier to read.
 function List(props) {
+  const [itemHeight, setItemHeight] = useState(props.itemSize);
+
+  useEffect(() => {
+    let item = document.getElementById("1");
+
+    if(item) {
+      let itemSize = item.offsetHeight;
+      setItemHeight(itemSize);
+    }
+    },[]
+  );
+
+
   const renderVirtualList = () => {
     return (
       <>
@@ -22,7 +35,7 @@ function List(props) {
           width='100%'
           height={600}
           itemCount={props.items.length}
-          itemSize={150}
+          itemSize={itemHeight}
           onScroll={(top, event) => {
             let pageOffset = event.srcElement.scrollHeight;
             let offset = event.srcElement.offsetHeight + top;
@@ -41,7 +54,7 @@ function List(props) {
                   threshold=".25"
                   actions={item.actions}
                   key={index}>
-                  <ListItem item={item} />
+                  <ListItem id={index} item={item} />
                 </SwipeListItem>
               </React.Fragment>
             );

@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 
 const StyledItem = styled(ListGroupItem)`
-  padding: var(--pad2) var(--pad3) !important;
+  padding: 0 !important;
   width: 100%;
   height: 100%;
   border-radius: 0 !important;
@@ -67,6 +67,9 @@ const ItemContent = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
+  padding: var(--pad2) var(--pad3);
+
+
   .itemBody {
     flex-basis: 100%;
     flex-shrink: 1;
@@ -76,7 +79,7 @@ const ItemContent = styled.div`
 function ListItem(props) {
   return (
     <StyledItem style={props.style}>
-      <ItemContent>
+      <ItemContent id={props.id} >
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
         <ItemBody className="itemBody">
           <ItemHeader>

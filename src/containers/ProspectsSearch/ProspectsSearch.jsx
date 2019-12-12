@@ -35,6 +35,7 @@ function ProspectsSearch(props) {
         renderData={() => (
           <List
             virtualize
+            itemSize={150}
             items={prospectList}
             fetchMoreData={fetchMoreData}
             isFetching={isFetching === "Fetching"} />
