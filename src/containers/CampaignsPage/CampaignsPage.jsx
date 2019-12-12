@@ -3,16 +3,18 @@ import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { campaignsList } from '../../store/Campaigns/selectors';
+import { campaignsList, campaignsStatus } from '../../store/Campaigns/selectors';
 import { campaignFoldersList } from '../../store/CampaignFolders/selectors';
 import { campaignsToItemList } from './utils';
 import { fetchCampaigns, resetCampaignsData } from '../../store/Campaigns/actions';
+import { DataLoader } from '../../components/LoadingData';
 
 import TabbedHeader from '../../components/TabbedHeader';
 
 const CampaignsPage = (props) => {
   const campaigns = useSelector(campaignsList);
   const campaignFolders = useSelector(campaignFoldersList);
+  const isFetching = useSelector(campaignsStatus);
   const dispatch = useDispatch();
 
   const { match: { params: { id: marketId } } } = props;
@@ -36,7 +38,15 @@ const CampaignsPage = (props) => {
     <div>
       <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
       <SearchModule showFilter={true} showSearch={false} />
-      <List items={listItems} />
+      <DataLoader
+        status={isFetching}
+        data={listItems}
+        renderData={() => (
+          <List
+            virtualize
+            items={listItems} />
+        )}
+      />
     </div >
   );
 };

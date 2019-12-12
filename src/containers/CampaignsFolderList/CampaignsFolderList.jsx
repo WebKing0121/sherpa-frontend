@@ -27,7 +27,9 @@ const CampaignsFolderListPage = () => {
         data={listItems}
         emptyResultsMessage="Currently You Have No Campaigns to Display."
         renderData={() => (
-          <List items={listItems} />
+          <List
+            virtualize
+            items={listItems} />
         )}
       />
     </div>

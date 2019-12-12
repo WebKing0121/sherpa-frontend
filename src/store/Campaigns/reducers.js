@@ -15,13 +15,13 @@ export default function reducer(state = initialState, action) {
     case FETCH_CAMPAIGNS:
       return {
         ...state,
-        status: "loading"
+        status: 'Fetching'
       }
     case SET_FETCH_CAMPAIGNS:
       return {
         ...state,
         campaigns: action.campaigns,
-        status: 'success'
+        status: 'Success'
       }
     case SET_FETCH_CAMPAIGNS_ERROR:
       return {
