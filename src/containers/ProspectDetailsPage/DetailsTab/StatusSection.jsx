@@ -27,6 +27,23 @@ const StatusPills = styled.div`
   justify-content: space-between;
 `;
 
+const OPEN = 'open';
+const VERIFIED = 'verified';
+const UNVERIFIED = 'unverified';
+
+const getNewVerifiedStatus = (status) => {
+  switch (status) {
+    case OPEN:
+      return VERIFIED;
+    case UNVERIFIED:
+      return VERIFIED;
+    case VERIFIED:
+      return UNVERIFIED;
+    default:
+      return OPEN;
+  }
+}
+
 const DetailsTab = (props) => {
   const leadStages = useSelector(leadStagesSelector);
   const prospect = useSelector(prospectDetailsData);
@@ -80,7 +97,14 @@ const DetailsTab = (props) => {
 
   // onchange status
   const onStatusChange = (attr) => () => {
-    dispatch(updateProspect(prospect.id, { [attr]: !prospect[attr] }));
+    let value = !prospect[attr];
+    // special case for verified status as it is not a boolean but a
+    // string
+    if (attr === "ownerVerifiedStatus") {
+      let currentValue = prospect[attr];
+      value = getNewVerifiedStatus(currentValue);
+    }
+    dispatch(updateProspect(prospect.id, { [attr]: value }));
   };
 
   // render pills

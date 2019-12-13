@@ -39,7 +39,7 @@ export const fetchLeadStages = () => (dispatch: any, getState: any) => {
   if (leadStages.length === 0) {
     const leadStageNotSelected = {
       leadStageTitle: 'Select a Lead Stage',
-      id: null
+      id: ""
     };
     AxiosInstance
       .get('leadstages/')
