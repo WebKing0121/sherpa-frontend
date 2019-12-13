@@ -1,15 +1,13 @@
 import React, { useState } from 'react';
-import styled from 'styled-components';
 import { useDispatch } from 'react-redux';
 import SearchModule from '../../../components/SearchModule';
 import List from '../../../components/List/List';
 import { prospectsToItemList } from '../utils';
 import { searchProspects, searchProspectNextPage } from '../../../store/Prospects/actions';
 
-
 function MessagesTab(props) {
   const [prospectResults, setProspects] = useState([]);
-  const [nextPageUrl, setNextPageUrl] = useState("");
+  const [nextPageUrl, setNextPageUrl] = useState('');
   const [isFetching, setIsSearching] = useState(false);
   const prospectList = prospectsToItemList(prospectResults);
   const dispatch = useDispatch();
@@ -21,7 +19,7 @@ function MessagesTab(props) {
 
       // get the next batch of data
       searchProspectNextPage(url).then(data => {
-        const { results = [], next = "" } = data || {};
+        const { results = [], next = '' } = data || {};
         setIsSearching(false);
         setProspects([...prospectResults, ...results]);
         setNextPageUrl(next);
@@ -30,12 +28,12 @@ function MessagesTab(props) {
   };
 
   // search function
-  const search = (term) => {
+  const search = term => {
     setIsSearching(true);
 
     // perform the search
     dispatch(searchProspects(term)).then(data => {
-      const { results = [], next = "" } = data || {};
+      const { results = [], next = '' } = data || {};
       setIsSearching(false);
       setProspects(results);
       setNextPageUrl(next);
@@ -50,7 +48,8 @@ function MessagesTab(props) {
         items={prospectList}
         nextPageUrl={nextPageUrl}
         fetchMoreData={fetchMoreData}
-        isFetching={isFetching} />
+        isFetching={isFetching}
+      />
     </>
   );
 }

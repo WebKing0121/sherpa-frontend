@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from "reactstrap";
-import styled from "styled-components";
+import React from 'react';
+import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import styled from 'styled-components';
 
 const Heading = styled(ModalHeader)`
   background: var(--tealBlueGradient);
@@ -29,7 +29,7 @@ function Shmodal(props) {
   return (
     <ModalWrap>
       <Modal isOpen={isOpen}>
-        <Heading tag="h3" toggle={toggle}>
+        <Heading tag='h3' toggle={toggle}>
           {title}
         </Heading>
         <Body>{children}</Body>

@@ -1,8 +1,7 @@
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import ToastComponent from './ToastComponent';
 import { getToasts } from '../../store/Toasts/selectors';
-import { addNewToast } from '../../store/Toasts/actions';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`

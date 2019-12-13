@@ -1,5 +1,4 @@
-import axiosInstance from "../../axiosConfig";
-import { UserData } from "./reducers";
+import axiosInstance from '../../axiosConfig';
 
 export interface CreateToken {
   access: string;
@@ -7,11 +6,11 @@ export interface CreateToken {
 }
 
 export const setAuthToken = ({ access }: CreateToken) => {
-  axiosInstance.defaults.headers.common["Authorization"] = `Bearer ${access}`;
+  axiosInstance.defaults.headers.common['Authorization'] = `Bearer ${access}`;
 };
 
 export const revokeAuthToken = (_: any) => {
-  delete axiosInstance.defaults.headers.common["Authorization"];
+  delete axiosInstance.defaults.headers.common['Authorization'];
 };
 
 // local-storage store keyval
@@ -29,13 +28,13 @@ export const getFromLocalStorage = (key: string, defaultValue: any) => {
 };
 
 export const loadTokens = () => {
-  const token = localStorage.getItem("access") || "";
-  const refreshToken = localStorage.getItem("refresh") || "";
+  const token = localStorage.getItem('access') || '';
+  const refreshToken = localStorage.getItem('refresh') || '';
   const is_authenticated = token.length > 0;
-  const error = "";
-  const userData: any = getFromLocalStorage("userData", {
-    email: "",
-    username: "",
+  const error = '';
+  const userData: any = getFromLocalStorage('userData', {
+    email: '',
+    username: '',
     id: null
   });
 

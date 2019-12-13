@@ -1,5 +1,4 @@
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
-import ProspectDetailsPage from './containers/ProspectDetailsPage/ProspectDetailsPage.jsx';
 import CampaignsFolders from './containers/CampaignsFolderList/CampaignsFolderList';
 import SupportPage from './containers/SupportPage/SupportPage.jsx';
 

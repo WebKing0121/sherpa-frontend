@@ -1,14 +1,12 @@
 /* eslint react/no-multi-comp: 0, react/prop-types: 0 */
 
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { removeAToast } from '../../store/Toasts/actions';
 import { Alert } from 'reactstrap';
 import styled from 'styled-components';
 
 const ShAlert = styled(Alert)`
   margin: var(--pad2) var(--pad2) var(--pad1) !important;
-  transition: top .3s;
+  transition: top 0.3s;
 `;
 
 const ToastComponent = ({ title, message }) => {
@@ -28,7 +26,7 @@ const ToastComponent = ({ title, message }) => {
   }, []);
 
   return (
-    <ShAlert color="warning" isOpen={show} toggle={toggle}>
+    <ShAlert color='warning' isOpen={show} toggle={toggle}>
       {message}
     </ShAlert>
   );

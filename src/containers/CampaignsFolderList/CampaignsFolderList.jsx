@@ -14,7 +14,7 @@ const CampaignsFolderListPage = () => {
   const dispatch = useDispatch();
 
   // dispatch fetchCampaigns
-  useEffect(() => dispatch(fetchCampaignFolders()), []);
+  useEffect(() => dispatch(fetchCampaignFolders()), [dispatch]);
 
   // transform campaigns to proper list item views
   const listItems = campaignFoldersToItemList(campaignFolders);
@@ -25,10 +25,8 @@ const CampaignsFolderListPage = () => {
       <DataLoader
         status={isFetching}
         data={listItems}
-        emptyResultsMessage="Currently You Have No Campaigns to Display."
-        renderData={() => (
-          <List items={listItems} />
-        )}
+        emptyResultsMessage='Currently You Have No Campaigns to Display.'
+        renderData={() => <List items={listItems} />}
       />
     </div>
   );

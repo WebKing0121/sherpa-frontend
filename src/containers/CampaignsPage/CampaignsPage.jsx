@@ -12,13 +12,17 @@ import { DataLoader } from '../../components/LoadingData';
 import TabbedHeader from '../../components/TabbedHeader';
 import { getFromLocalStorage } from '../../store/CampaignFolders/utils';
 
-const CampaignsPage = (props) => {
+const CampaignsPage = props => {
   const campaigns = useSelector(campaignsList);
   const campaignFolders = useSelector(campaignFoldersList);
   const isFetching = useSelector(campaignsStatus);
   const dispatch = useDispatch();
 
-  const { match: { params: { id: marketId } } } = props;
+  const {
+    match: {
+      params: { id: marketId }
+    }
+  } = props;
 
   const sortingOptions = [
     {
@@ -33,22 +37,22 @@ const CampaignsPage = (props) => {
       name: 'Status %',
       value: 'status'
     }
-  ]
+  ];
 
   // check there are campaign folders to navigate back too
   const hasCampaignFolders = campaignFolders.length > 0 || getFromLocalStorage('folderView');
 
   // dispatch fetchCampaigns
-  useEffect(() => dispatch(fetchCampaigns(marketId)), []);
+  useEffect(() => dispatch(fetchCampaigns(marketId)), [dispatch, marketId]);
 
   // transform campaigns to proper list item views
   const listItems = campaignsToItemList(campaigns);
 
   const headerInfo = {
-    fromText: "Show Markets",
+    fromText: 'Show Markets',
     hasBackButton: hasCampaignFolders,
-    backAction: () => dispatch(resetCampaignsData()),
-  }
+    backAction: () => dispatch(resetCampaignsData())
+  };
 
   return (
     <div>
@@ -62,14 +66,8 @@ const CampaignsPage = (props) => {
         marketId={marketId}
       />
 
-      <DataLoader
-        status={isFetching}
-        data={listItems}
-        renderData={() => (
-          <List items={listItems} />
-        )}
-      />
-    </div >
+      <DataLoader status={isFetching} data={listItems} renderData={() => <List items={listItems} />} />
+    </div>
   );
 };
 

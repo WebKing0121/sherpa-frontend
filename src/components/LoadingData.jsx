@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Spinner } from 'reactstrap';
 import styled from 'styled-components';
 import { Fetching, Success, FetchError } from '../variables';

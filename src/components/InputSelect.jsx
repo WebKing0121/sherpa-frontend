@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Input } from 'reactstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const Wrapper = styled.div`
   position: relative;
@@ -26,7 +25,7 @@ const Wrapper = styled.div`
 function InputSelect(props) {
   return (
     <Wrapper>
-      <Input type="select" {...props}>
+      <Input type='select' {...props}>
         {props.children}
       </Input>
       {props.icon}

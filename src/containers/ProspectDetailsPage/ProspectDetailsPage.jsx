@@ -5,7 +5,7 @@ import DetailsTab from './DetailsTab/DetailsTab';
 import NotesTab from '../../components/NotesTab/NotesTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
-import { fetchProspect, updateProspect } from '../../store/ProspectDetails/actions';
+import { fetchProspect } from '../../store/ProspectDetails/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { prospectDetailsData, prospectDetailsStatus } from '../../store/ProspectDetails/selectors';
 import { DataLoader } from '../../components/LoadingData';
