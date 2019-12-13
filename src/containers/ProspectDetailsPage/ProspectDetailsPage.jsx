@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import TabbedHeader from '../../components/TabbedHeader';
 import MessagesTab from './MessagesTab/MessagesTab';
 import DetailsTab from './DetailsTab/DetailsTab';
-import NotesTab from './NotesTab/NotesTab';
+import NotesTab from '../../components/NotesTab/NotesTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
-import { fetchProspect } from '../../store/ProspectDetails/actions';
+import { fetchProspect, updateProspect } from '../../store/ProspectDetails/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { prospectDetailsData, prospectDetailsStatus } from '../../store/ProspectDetails/selectors';
 import { DataLoader } from '../../components/LoadingData';
+import { fetchProspectNotes, updateProspectNotes } from '../../store/ProspectNotes/actions';
+import { prospectNotesList, prospectNotesStatus } from '../../store/ProspectNotes/selectors';
 
 const StyledTabContent = styled(TabContent)``;
 
@@ -50,6 +52,17 @@ function ProspectDetailsPage(props) {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  const notesList = useSelector(prospectNotesList);
+
+  const notesProps = {
+    fetchNotes: fetchProspectNotes,
+    updateNotes: updateProspectNotes,
+    subject: 'prospect',
+    subjectId: prospectId,
+    notesList,
+    notesStatus: prospectNotesStatus
+  };
+
   return (
     <DataLoader
       data={prospect.id ? [prospect] : []}
@@ -62,9 +75,9 @@ function ProspectDetailsPage(props) {
             {prospect.name}
           </TabbedHeader>
           <StyledTabContent activeTab={activeTab}>
-            <TabPane tabId="1">{activeTab === '1' && <DetailsTab />}</TabPane>
-            <TabPane tabId="2">{activeTab === '2' && <MessagesTab />}</TabPane>
-            <TabPane tabId="3">{activeTab === '3' && <NotesTab prospectId={prospectId} />}</TabPane>
+            <TabPane tabId='1'>{activeTab === '1' && <DetailsTab />}</TabPane>
+            <TabPane tabId='2'>{activeTab === '2' && <MessagesTab />}</TabPane>
+            <TabPane tabId='3'>{activeTab === '3' && <NotesTab {...notesProps} />}</TabPane>
           </StyledTabContent>
         </div>
       )}

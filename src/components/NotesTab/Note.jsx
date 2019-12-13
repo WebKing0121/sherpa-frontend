@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Button } from "reactstrap";
-import moment from "moment-timezone";
-import NoteForm from "./NoteForm";
-import Modal from "../../../components/Modal";
+import React, { useState } from 'react';
+import styled from 'styled-components';
+import { Button } from 'reactstrap';
+import moment from 'moment-timezone';
+import NoteForm from './NoteForm';
+import Modal from '../Modal';
 
 const ButtonBlock = styled.div`
   display: inline-flex;
@@ -14,7 +14,7 @@ const ButtonBlock = styled.div`
     margin-right: var(--pad5);
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       top: 50%;
       right: calc(-1 * var(--pad5) / 2);
@@ -70,7 +70,7 @@ const Timeline = styled.div`
     position: absolute;
 
     &:before {
-      content: "";
+      content: '';
       width: 100%;
       height: 100%;
       top: var(--pad7);
@@ -88,46 +88,52 @@ function Note(props) {
   const [modal, setModal] = useState(false);
   const [editText, setEditText] = useState(text);
 
-  const handleUpdateNote = () => {
+  const handleupdateNote = () => {
     updateNote(note, editText);
     setModal(false);
   };
 
   const getFormattedDateTime = () => {
     const zone = moment.tz.guess();
-    const date = moment.tz(createdDate, zone).format("L");
-    const time = moment.tz(createdDate, zone).format("LT");
+    const date = moment.tz(createdDate, zone).format('L');
+    const time = moment.tz(createdDate, zone).format('LT');
     return [date, time];
   };
 
   const dateTime = getFormattedDateTime();
 
+  const getFormattedName = name => {
+    return name.replace(/(?:^|\s)\S/g, letter => letter.toUpperCase());
+  };
+
   return (
     <NoteCard>
       <Timeline>
-        <div className="greenCircle"></div>
-        <div className="grayBar"></div>
+        <div className='greenCircle'></div>
+        <div className='grayBar'></div>
       </Timeline>
       <div>
-        <pre className="textL gray">{`${dateTime[0]}  |  ${dateTime[1]}`}</pre>
-        <h4 className="textL fw-bold">Created By ID: {createdBy}</h4>
-        <p className="textL">{text}</p>
+        <pre className='textL gray'>{`${dateTime[0]}  |  ${dateTime[1]}`}</pre>
+        <h4 className='textL fw-bold'>
+          {createdBy && createdBy.fullName && getFormattedName(createdBy.fullName)}
+        </h4>
+        <p className='textL'>{text}</p>
         <ButtonBlock>
-          <Button size="lg" color="link" onClick={() => setModal(true)}>
+          <Button size='lg' color='link' onClick={() => setModal(true)}>
             Edit
           </Button>
-          <Button size="lg" color="link" onClick={deleteNote}>
+          <Button size='lg' color='link' onClick={deleteNote}>
             Delete
           </Button>
         </ButtonBlock>
       </div>
-      <Modal toggle={() => setModal(false)} isOpen={modal} title="Edit Note">
+      <Modal toggle={() => setModal(false)} isOpen={modal} title='Edit Note'>
         <NoteForm
-          submitNote={handleUpdateNote}
+          submitNote={handleupdateNote}
           text={editText}
           setText={setEditText}
           note={note}
-          btnText="Update Note"
+          btnText='Update Note'
         />
       </Modal>
     </NoteCard>

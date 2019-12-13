@@ -1,7 +1,7 @@
 import {
-  POPULATE_PROSPECT_NOTES,
-  SET_PROSPECT_NOTE_ERROR,
-  SET_PROSPECT_NOTES_STATUS
+  POPULATE_CAMPAIGN_NOTES,
+  SET_CAMPAIGN_NOTE_ERROR,
+  SET_CAMPAIGN_NOTES_STATUS
 } from './actionTypes';
 import { INote, IResults } from './actions';
 
@@ -31,19 +31,19 @@ const initialState: IState & IResults = {
 
 export default function(state = initialState, action: IAction) {
   switch (action.type) {
-    case SET_PROSPECT_NOTES_STATUS:
+    case SET_CAMPAIGN_NOTES_STATUS:
       return {
         ...state,
         status: action.status
       };
-    case POPULATE_PROSPECT_NOTES:
+    case POPULATE_CAMPAIGN_NOTES:
       const { results, ...rest } = action.data!;
       return {
         ...rest,
         list: results,
         status: 'Success'
       };
-    case SET_PROSPECT_NOTE_ERROR:
+    case SET_CAMPAIGN_NOTE_ERROR:
       return {
         ...state,
         error: action.error,

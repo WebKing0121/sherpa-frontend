@@ -9,6 +9,7 @@ import prospectDetails from './ProspectDetails/reducers';
 import { loadTokens } from './Auth/utils';
 import supportItems from './Support/reducers';
 import prospectNotes from './ProspectNotes/reducers';
+import campaignNotes from './CampaignNotes/reducers';
 import toasts from './Toasts/reducers';
 
 declare global {
@@ -25,6 +26,7 @@ const reducers = combineReducers({
   supportItems,
   prospectDetails,
   prospectNotes,
+  campaignNotes,
   toasts
 });
 

@@ -1,6 +1,10 @@
-import { ADD_NOTE, DELETE_NOTE, UPDATE_NOTE, POPULATE_NOTES, SET_ERROR } from "./actionTypes";
-import AxiosInstance from "../../axiosConfig";
-import { Dispatch } from "redux";
+import {
+  POPULATE_PROSPECT_NOTES,
+  SET_PROSPECT_NOTE_ERROR,
+  SET_PROSPECT_NOTES_STATUS
+} from './actionTypes';
+import AxiosInstance from '../../axiosConfig';
+import { Dispatch } from 'redux';
 
 export interface INote {
   id?: number;
@@ -17,46 +21,43 @@ export interface IResults {
   results?: INote[];
 }
 
-export const populateNotes = (data: IResults) => ({
-  type: POPULATE_NOTES,
+export const populateProspectNotes = (data: IResults) => ({
+  type: POPULATE_PROSPECT_NOTES,
   data
 });
 
-export const addNote = (note: INote) => ({
-  type: ADD_NOTE,
-  note
-});
-
-export const deleteNote = (id: number) => ({
-  type: DELETE_NOTE,
-  id
-});
-
-export const updateNote = (note: string) => ({
-  type: UPDATE_NOTE,
-  note
-});
-
-export const setNotesError = (error: string) => ({
-  type: SET_ERROR,
+export const setProspectNotesError = (error: string) => ({
+  type: SET_PROSPECT_NOTE_ERROR,
   error
 });
 
+export const setProspectNotesStatus = (status: string) => ({
+  type: SET_PROSPECT_NOTES_STATUS,
+  status
+});
+
 export interface IAxiosConfig {
-  method: "GET" | "POST" | "PATCH" | "DELETE";
+  method: 'GET' | 'POST' | 'PATCH' | 'DELETE';
   url: string;
   data?: INote;
 }
 
-export const notesRequest = (config: IAxiosConfig, callback: Function, id?: number) => (
-  dispatch: Dispatch
-) => {
-  AxiosInstance(config)
-    .then(({ data }) => {
-      dispatch(callback(data || id));
-    })
-    .catch(error => {
-      console.log(`prospects-notes ${config.method} error `, error);
-      dispatch(setNotesError(error));
-    });
+const handleError = (message: string, error: any, dispatch: any) => {
+  console.log(message, error);
+  dispatch(setProspectNotesError(error));
+};
+
+export const fetchProspectNotes = (id: number) => (dispatch: Dispatch) => {
+  const params = { expand: 'created_by', prospect: id };
+  dispatch(setProspectNotesStatus('Fetching'));
+  AxiosInstance.get('/prospect-notes', { params })
+    .then(({ data }) => dispatch(populateProspectNotes(data)))
+    .catch(error => handleError(`prospects-notes GET error `, error, dispatch));
+};
+
+export const updateProspectNotes = (config: IAxiosConfig, id: number) => (dispatch: any) => {
+  const fetchConfig = { ...config, url: `/prospect-notes${config.url}` };
+  AxiosInstance(fetchConfig)
+    .then(() => dispatch(fetchProspectNotes(id)))
+    .catch(error => handleError(`prospects-notes ${config.method} error `, error, dispatch));
 };
