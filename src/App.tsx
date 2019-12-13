@@ -18,6 +18,7 @@ import { isAuthenticated } from './store/Auth/selectors';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
 import ToastContainer from './components/Toasts/ToastContainer';
+import NoDesktop from './components/NoDesktop';
 
 //font awesome
 import './assets/fontAwesome/index.ts';
@@ -56,6 +57,7 @@ function App() {
         </Switch>
         {is_auth && <ToastContainer />}
       </div>
+      <NoDesktop />
     </Router>
   );
 }
