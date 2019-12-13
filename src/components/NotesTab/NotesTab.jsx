@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import moment from 'moment-timezone';
 
-// import { noteList } from '../../store/ProspectNotes/selectors';
 import { getUserData } from '../../store/Auth/selectors';
 
 import Modal from '../Modal';
@@ -13,6 +12,7 @@ import NoteForm from './NoteForm';
 import { addNewToast } from '../../store/Toasts/actions';
 import { DataLoader } from '../LoadingData';
 import { setProspectNotesStatus } from '../../store/ProspectNotes/actions';
+import { Fetching } from '../../variables';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
@@ -114,7 +114,8 @@ function NotesTab(props) {
       <DataLoader
         status={isFetching}
         data={notesList}
-        emptyResultsMessage='Currently You Have No notess to Display.'
+        emptyResultsMessage='Currently there are no notes to display.'
+        unload={() => dispatch(setProspectNotesStatus(Fetching))}
         renderData={() => <List>{memoizedNotes}</List>}
       />
     </>

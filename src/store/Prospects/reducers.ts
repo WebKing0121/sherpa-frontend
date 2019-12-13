@@ -1,8 +1,11 @@
 import {
-  SET_PROSPECTS_SEARCH_STATUS, SET_SEARCH_PROSPECTS_ERROR,
-  SET_SEARCHED_PROSPECTS, SET_MORE_PROSPECTS,
+  SET_PROSPECTS_SEARCH_STATUS,
+  SET_SEARCH_PROSPECTS_ERROR,
+  SET_SEARCHED_PROSPECTS,
+  SET_MORE_PROSPECTS,
   RESET_PROSPECT_DATA
 } from './actionTypes';
+import { Success } from '../../variables';
 
 interface IState {
   count: number;
@@ -11,7 +14,6 @@ interface IState {
   prospects: Array<any>;
   status: string | null;
 }
-
 
 const initialState: IState = {
   count: 0,
@@ -40,7 +42,7 @@ export default function reducer(state: IState = initialState, action: any) {
         count: action.data.count,
         next: action.data.next,
         previous: action.data.previous,
-        status: "Success"
+        status: Success
       };
     case SET_MORE_PROSPECTS:
       let newProspects = [...state.prospects, ...action.data.results];
@@ -50,7 +52,7 @@ export default function reducer(state: IState = initialState, action: any) {
         count: action.data.count,
         next: action.data.next,
         previous: action.data.previous,
-        status: "Success"
+        status: Success
       };
     case RESET_PROSPECT_DATA:
       return initialState;

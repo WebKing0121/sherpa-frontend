@@ -1,5 +1,10 @@
-import { FETCH_SUPPORT_ITEMS, SET_FETCH_SUPPORT_ITEMS, SET_FETCH_SUPPORT_ITEMS_ERROR } from "./actionTypes";
-import { ISupportItems } from "./actions";
+import {
+  FETCH_SUPPORT_ITEMS,
+  SET_FETCH_SUPPORT_ITEMS,
+  SET_FETCH_SUPPORT_ITEMS_ERROR
+} from './actionTypes';
+import { ISupportItems } from './actions';
+import { Fetching, Success, FetchError } from '../../variables';
 
 interface ISupportAction {
   type?: string;
@@ -16,7 +21,7 @@ export interface ISupportState {
 // support reducer
 export const initialState: ISupportState = {
   items: [],
-  error: ""
+  error: ''
 };
 
 export default function reducer(state = initialState, action: ISupportAction) {
@@ -24,19 +29,19 @@ export default function reducer(state = initialState, action: ISupportAction) {
     case FETCH_SUPPORT_ITEMS:
       return {
         ...state,
-        status: "FETCHING"
+        status: Fetching
       };
     case SET_FETCH_SUPPORT_ITEMS:
       return {
         ...state,
         items: action.items,
-        status: "success"
+        status: Success
       };
     case SET_FETCH_SUPPORT_ITEMS_ERROR:
       return {
         ...state,
         error: action.error,
-        status: "error"
+        status: FetchError
       };
     default:
       return state;

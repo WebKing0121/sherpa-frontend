@@ -5,6 +5,7 @@ import {
   SET_PROSPECT_DETAILS_TAB_AGENTS,
   SET_PROSPECT_FETCH_STATUS
 } from './actionTypes.js';
+import { Fetching } from '../../variables';
 
 
 const setProspectFetchStatus = (status: any) => ({
@@ -73,7 +74,7 @@ export const fetchAgents = (id: any) => (dispatch: any, getState: any) => {
 }
 
 export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
-  dispatch(setProspectFetchStatus("Fetching"));
+  dispatch(setProspectFetchStatus(Fetching));
 
   return AxiosInstance
     .get(`prospects/${id}/?expand=campaigns`)

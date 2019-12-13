@@ -1,9 +1,11 @@
 import {
-  SET_PROSPECT_DATA, SET_PROSPECT_CAMPAIGNS,
+  SET_PROSPECT_DATA,
+  SET_PROSPECT_CAMPAIGNS,
   SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
   SET_PROSPECT_DETAILS_TAB_AGENTS,
   SET_PROSPECT_FETCH_STATUS
 } from './actionTypes';
+import { Success, Fetching } from '../../variables';
 
 interface ProspectDetailsTabData {
   agents: Array<any> | undefined;
@@ -26,12 +28,12 @@ const initial_state: IState = {
   prev: null,
   prospect: {},
   prospectCampaigns: [],
-  status: "",
+  status: Fetching,
   prospectDetailsTab: <ProspectDetailsTabData>{
     agents: [],
     leadStages: []
   }
-}
+};
 
 export default function reducer(state: IState = initial_state, action: any) {
   switch (action.type) {
@@ -44,7 +46,7 @@ export default function reducer(state: IState = initial_state, action: any) {
       return {
         ...state,
         prospect: action.prospect,
-        status: "Success"
+        status: Success
       };
     case SET_PROSPECT_CAMPAIGNS:
       return {

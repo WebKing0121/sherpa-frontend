@@ -5,6 +5,7 @@ import {
 } from './actionTypes';
 import AxiosInstance from '../../axiosConfig';
 import { Dispatch } from 'redux';
+import { Fetching } from '../../variables';
 
 export interface INote {
   id?: number;
@@ -49,7 +50,7 @@ const handleError = (message: string, error: any, dispatch: any) => {
 
 export const fetchCampaignNotes = (id: number) => (dispatch: Dispatch) => {
   const params = { expand: 'created_by', campaign: id };
-  dispatch(setCampaignNotesStatus('Fetching'));
+  dispatch(setCampaignNotesStatus(Fetching));
   AxiosInstance.get('/campaign-notes', { params })
     .then(({ data }) => dispatch(populateCampaignNotes(data)))
     .catch(error => handleError(`campaign-notes GET error `, error, dispatch));

@@ -4,6 +4,7 @@ import {
   SET_CAMPAIGN_NOTES_STATUS
 } from './actionTypes';
 import { INote, IResults } from './actions';
+import { Fetching, Success, FetchError } from '../../variables';
 
 interface IAction {
   type: string;
@@ -26,7 +27,7 @@ const initialState: IState & IResults = {
   previous: null,
   error: '',
   list: [],
-  status: 'Fetching'
+  status: Fetching
 };
 
 export default function(state = initialState, action: IAction) {
@@ -41,13 +42,13 @@ export default function(state = initialState, action: IAction) {
       return {
         ...rest,
         list: results,
-        status: 'Success'
+        status: Success
       };
     case SET_CAMPAIGN_NOTE_ERROR:
       return {
         ...state,
         error: action.error,
-        status: 'Error'
+        status: FetchError
       };
     default:
       return state;

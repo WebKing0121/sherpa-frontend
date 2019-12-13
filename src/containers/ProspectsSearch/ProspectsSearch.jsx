@@ -7,7 +7,7 @@ import { searchProspects, searchProspectNextPage } from '../../store/Prospects/a
 import { prospectsToItemList } from './utils';
 import { prospectsResults, prospectSearchState } from '../../store/Prospects/selectors';
 import { DataLoader } from '../../components/LoadingData';
-
+import { Fetching } from '../../variables';
 
 function ProspectsSearch(props) {
   const prospectResults = useSelector(prospectsResults);
@@ -15,7 +15,7 @@ function ProspectsSearch(props) {
   const dispatch = useDispatch();
 
   // search function
-  const search = (term) => dispatch(searchProspects(term));
+  const search = term => dispatch(searchProspects(term));
 
   // fetch next-page function
   const fetchMoreData = () => dispatch(searchProspectNextPage());
@@ -31,14 +31,15 @@ function ProspectsSearch(props) {
       <DataLoader
         status={isFetching}
         data={prospectResults}
-        emptyResultsMessage="No prospects were found that matches your search."
+        emptyResultsMessage='No prospects were found that matches your search.'
         renderData={() => (
           <List
             virtualize
             itemSize={150}
             items={prospectList}
             fetchMoreData={fetchMoreData}
-            isFetching={isFetching === "Fetching"} />
+            isFetching={isFetching === Fetching}
+          />
         )}
       />
     </div>
