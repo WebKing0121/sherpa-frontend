@@ -6,12 +6,8 @@ import SendTab from './SendTab/SendTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 import NotesTab from '../../components/NotesTab/NotesTab';
-import {
-  fetchCampaignNotes,
-  updateCampaignNotes,
-  setCampaignNotesStatus
-} from '../../store/CampaignNotes/actions';
-import { campaignNotesList } from '../../store/CampaignNotes/selectors';
+import { fetchCampaignNotes, updateCampaignNotes } from '../../store/CampaignNotes/actions';
+import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignNotes/selectors';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
@@ -54,7 +50,7 @@ function CampaignDetailsPage(props) {
     subject: 'campaign',
     subjectId: campaignId,
     notesList,
-    notesStatus: setCampaignNotesStatus
+    notesStatus: campaignNotesStatus
   };
 
   return (

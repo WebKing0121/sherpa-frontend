@@ -34,8 +34,14 @@ const whenError = status => {
 // TODO: Cleanup Redux Actions to settle on an API that this component
 // can use to make a generic data-loader component
 export const DataLoader = props => {
-  let { data, status, emptyResultsMessage = 'No Results Found', renderData, fullPage } = props;
-  const errorMessage = 'Cannot be displayed at this time.  Please try again later.';
+  let {
+    data,
+    status,
+    emptyResultsMessage = 'No Results Found',
+    errorMessage = 'Cannot be displayed at this time.  Please try again later.',
+    renderData,
+    fullPage
+  } = props;
 
   return (
     <>
