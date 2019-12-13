@@ -12,10 +12,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Pane = styled.div`
   overflow: hidden;
+
+  .form-group {
+    margin: 0;
+  }
+
+  .custom-control {
+    &:last-child {
+      margin: 0;
+    }
+  }
+
   &:first-child {
     padding-bottom: var(--pad3);
     border-bottom: 1px solid var(--mediumGray);
   }
+
   &:last-child {
     padding-top: var(--pad3);
   }
@@ -73,43 +85,48 @@ function SearchModule(props) {
       toggle={toggle}
       title="Filters"
       btnText="Apply Filters">
-      <Pane>
-        <ToggleHeader className="fw-black textL" onClick={toggle1}>
-          <Label for="ownedBy">Owned By</Label>
-          <Arrow isOpen={isOpen1}>
-            <FontAwesomeIcon icon="chevron-up" rotation={isOpen1 ? null : 180}
-          />
-          </Arrow>
-        </ToggleHeader>
-        <Collapse isOpen={isOpen1}>
-          <div className="content">
-            <FormGroup>
-              <Checkbox type="checkbox" label="Zack Russel" id="ownedBy1"/>
-              <Checkbox type="checkbox" label="Adam Smith" id="ownedBy2"/>
-              <Checkbox type="checkbox" label="Jason Nickle" id="ownedBy3"/>
-            </FormGroup>
-          </div>
-        </Collapse>
-      </Pane>
+      <div>
+        <Pane>
+          <ToggleHeader className="fw-black textL" onClick={toggle1}>
+            <Label for="ownedBy">Owned By</Label>
+            <Arrow isOpen={isOpen1}>
+              <FontAwesomeIcon icon="chevron-up" rotation={isOpen1 ? null : 180}
+            />
+            </Arrow>
+          </ToggleHeader>
+          <Collapse isOpen={isOpen1}>
+            <div className="content">
+              <FormGroup>
+                <Checkbox type="checkbox" label="Zack Russel" id="ownedBy1"/>
+                <Checkbox type="checkbox" label="Adam Smith" id="ownedBy2"/>
+                <Checkbox type="checkbox" label="Jason Nickle" id="ownedBy3"/>
+              </FormGroup>
+            </div>
+          </Collapse>
+        </Pane>
 
-      <Pane>
-        <ToggleHeader className="fw-black textL" onClick={toggle2}>
-          <Label for="tags">Review & Send</Label>
-          <Arrow isOpen={isOpen2}>
-            <FontAwesomeIcon icon="chevron-up" rotation={isOpen2 ? null : 180}
-          />
-          </Arrow>
-        </ToggleHeader>
-        <Collapse isOpen={isOpen2}>
-          <div className="content">
-          <FormGroup>
-            <Checkbox type="checkbox" label="Follow-Up" id="tags1"/>
-            <Checkbox type="checkbox" label="Initial Send" id="tags2"/>
-            <Checkbox type="checkbox" label="Probate" id="tags3"/>
-          </FormGroup>
-          </div>
-        </Collapse>
-      </Pane>
+        <Pane>
+          <ToggleHeader className="fw-black textL" onClick={toggle2}>
+            <Label for="tags">Review & Send</Label>
+            <Arrow isOpen={isOpen2}>
+              <FontAwesomeIcon icon="chevron-up" rotation={isOpen2 ? null : 180}
+            />
+            </Arrow>
+          </ToggleHeader>
+          <Collapse isOpen={isOpen2}>
+            <div className="content">
+            <FormGroup>
+              <Checkbox type="checkbox" label="Follow-Up" id="tags1"/>
+              <Checkbox type="checkbox" label="Initial Send" id="tags2"/>
+              <Checkbox type="checkbox" label="Probate" id="tags3"/>
+            </FormGroup>
+            </div>
+          </Collapse>
+        </Pane>
+      </div>
+      <Button color="primary" size="lg" block className="mt-4">
+        Apply Filters
+      </Button>
 
     </Modal>
     </>
