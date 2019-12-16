@@ -1,4 +1,7 @@
 import axiosInstance from '../../axiosConfig';
+import axios from 'axios';
+import { setAuthenticated, logout } from './actions';
+import ReduxStore from '../store';
 
 export interface CreateToken {
   access: string;
@@ -45,4 +48,26 @@ export const setAuthTokenHeader = () => {
   const { auth } = loadTokens();
 
   if (auth.token) setAuthToken({ access: auth.token });
+};
+
+const baseURL = process.env.REACT_APP_BASE_URL;
+
+// updates access token if is an error 401 AND refresh token is valid
+const updateClientToken = (error: any, { access, refresh }: CreateToken) => {
+  const originalRequest = error.config;
+  originalRequest.headers['Authorization'] = `Bearer ${access}`;
+  saveToLocalStorage('access', access);
+  setAuthToken({ access });
+  ReduxStore.dispatch(setAuthenticated({ access, refresh }));
+  return originalRequest;
+};
+
+export const getNewAccessToken = (refresh: string, error: any) => {
+  return axios
+    .post(`${baseURL}auth/jwt/refresh/`, { refresh })
+    .then(({ data: { access } }) => axios.request(updateClientToken(error, { access, refresh })))
+    .catch(error => {
+      console.log('Token cannot be refreshed ', error.response);
+      ReduxStore.dispatch(logout());
+    });
 };

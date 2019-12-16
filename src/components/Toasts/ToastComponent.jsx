@@ -10,7 +10,7 @@ const ShAlert = styled(Alert)`
   transition: top 0.3s;
 `;
 
-const ToastComponent = ({ message, id }) => {
+const ToastComponent = ({ message, id, color }) => {
   const [show, setShow] = useState(true);
 
   const toggle = () => setShow(false);
@@ -24,7 +24,7 @@ const ToastComponent = ({ message, id }) => {
   }, [id]);
 
   return (
-    <ShAlert color='warning' isOpen={show} toggle={toggle}>
+    <ShAlert color={color || 'warning'} isOpen={show} toggle={toggle}>
       {message}
     </ShAlert>
   );

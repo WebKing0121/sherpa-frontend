@@ -20,8 +20,8 @@ const Wrapper = styled.div`
 
 function ToastContainer() {
   const toasts = useSelector(getToasts);
-  const mappedToasts = toasts.map(({ message, id }) => (
-    <ToastComponent key={id} id={id} message={message} />
+  const mappedToasts = toasts.map(({ message, id, color }) => (
+    <ToastComponent color={color} key={id} id={id} message={message} />
   ));
 
   const dispatch = useDispatch();

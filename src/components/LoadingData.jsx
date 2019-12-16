@@ -38,7 +38,7 @@ export const DataLoader = props => {
     data,
     status,
     emptyResultsMessage = 'No Results Found',
-    errorMessage = 'Cannot be displayed at this time.  Please try again later.',
+    networkError = 'Cannot be displayed at this time.  Please try again later.',
     renderData,
     fullPage
   } = props;
@@ -50,7 +50,7 @@ export const DataLoader = props => {
           <Spinner color='primary' />
         </SpinWrap>
       ) : whenNoResults(status, data) ? (
-        <NoResults> {(whenError() && errorMessage) || emptyResultsMessage}</NoResults>
+        <NoResults> {(whenError() && networkError) || emptyResultsMessage}</NoResults>
       ) : (
         renderData()
       )}
