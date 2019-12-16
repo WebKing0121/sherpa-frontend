@@ -18,11 +18,11 @@ const Message = styled.div`
   display: none;
 
   padding: 2em;
-  font-size: calc(28px + .6vw);
+  font-size: calc(22px + .6vw);
   line-height: 1.4;
 
   .content {
-    max-width: 900px;
+    max-width: 840px;
     position: relative;
   }
 
@@ -45,7 +45,7 @@ const Message = styled.div`
     bottom: 0;
     left: 50%;
     transform: translateX(-50%);
-    width: 250px;
+    width: 148px;
     padding-bottom: 50px;
   }
 
