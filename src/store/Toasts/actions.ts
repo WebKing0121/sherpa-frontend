@@ -1,13 +1,19 @@
-import { ADD_TOAST, DELETE_TOAST, RESET_TOAST_ARRAY } from './actionTypes';
+import { ADD_TOAST, RESET_TOAST_ARRAY } from './actionTypes';
 
-export const addNewToast = (toast: any) => ({
+export interface IToast {
+  message?: string;
+  id?: string;
+  color?: string;
+}
+
+export interface IAction {
+  type: string;
+  toast?: IToast;
+}
+
+export const addNewToast = (toast: IToast) => ({
   type: ADD_TOAST,
   toast
-});
-
-export const removeAToast = (id: any) => ({
-  type: DELETE_TOAST,
-  id
 });
 
 export const emptyToastArray = () => ({

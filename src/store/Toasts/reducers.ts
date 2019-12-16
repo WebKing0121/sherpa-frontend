@@ -1,10 +1,15 @@
-import { ADD_TOAST, DELETE_TOAST, RESET_TOAST_ARRAY } from './actionTypes';
+import { ADD_TOAST, RESET_TOAST_ARRAY } from './actionTypes';
+import { IAction, IToast } from './actions';
 
-const initialState: any = {
+export interface IState {
+  list: IToast[];
+}
+
+const initialState: IState = {
   list: []
 };
 
-export default function toasts(state = initialState, action: any) {
+export default function toastsReducer(state = initialState, action: IAction) {
   switch (action.type) {
     case ADD_TOAST: {
       const toast = action.toast;
@@ -14,12 +19,6 @@ export default function toasts(state = initialState, action: any) {
         list: [...state.list, newToast]
       };
     }
-    case DELETE_TOAST:
-      const newList = state.list.filter((toast: any) => toast.id !== action.id);
-      return {
-        ...state,
-        list: newList
-      };
     case RESET_TOAST_ARRAY:
       return {
         ...state,
