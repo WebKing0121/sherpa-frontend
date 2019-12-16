@@ -8,15 +8,11 @@ import { toastLingerTime } from '../../variables';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 100vh;
   pointer-events: none;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10000;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
   * {
     pointer-events: all;
   }
