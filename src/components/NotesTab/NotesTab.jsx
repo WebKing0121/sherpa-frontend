@@ -11,8 +11,7 @@ import Note from './Note';
 import NoteForm from './NoteForm';
 import { addNewToast } from '../../store/Toasts/actions';
 import { DataLoader } from '../LoadingData';
-import { setProspectNotesStatus } from '../../store/ProspectNotes/actions';
-import { Fetching } from '../../variables';
+import { messageNewNote, messageUpdateNote, messageDeleteNote } from '../../variables';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
@@ -37,7 +36,7 @@ function NotesTab(props) {
   const [newNoteText, setNewNoteText] = useState('');
 
   const userData = useSelector(getUserData);
-  const isFetching = useSelector(notesStatus);
+  const notes_status = useSelector(notesStatus);
   const dispatch = useDispatch();
 
   const handleNewNote = () => {
@@ -54,7 +53,7 @@ function NotesTab(props) {
     dispatch(updateNotes(fetchConfig, subjectId));
     setModal(false);
     setNewNoteText('');
-    dispatch(addNewToast({ title: '', message: 'New note added!' }));
+    dispatch(addNewToast({ message: messageNewNote }));
   };
 
   const handleupdateNote = (note, text) => {
@@ -67,6 +66,7 @@ function NotesTab(props) {
       data: updatedNote
     };
     dispatch(updateNotes(fetchConfig, subjectId));
+    dispatch(addNewToast({ message: messageUpdateNote }));
   };
 
   const handledeleteNote = id => {
@@ -75,6 +75,7 @@ function NotesTab(props) {
       url: `/${id}/`
     };
     dispatch(updateNotes(fetchConfig, subjectId));
+    dispatch(addNewToast({ message: messageDeleteNote }));
   };
 
   useEffect(() => {
@@ -112,10 +113,9 @@ function NotesTab(props) {
         />
       </Modal>
       <DataLoader
-        status={isFetching}
+        status={notes_status}
         data={notesList}
         emptyResultsMessage='Currently there are no notes to display.'
-        unload={() => dispatch(setProspectNotesStatus(Fetching))}
         renderData={() => <List>{memoizedNotes}</List>}
       />
     </>

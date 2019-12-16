@@ -15,7 +15,7 @@ interface IAction {
   status?: string;
 }
 
-interface IState {
+export interface IState {
   error?: string;
   list?: INote[];
   status?: string;

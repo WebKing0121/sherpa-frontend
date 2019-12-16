@@ -43,7 +43,7 @@ export interface IAxiosConfig {
   data?: INote;
 }
 
-const handleError = (message: string, error: any, dispatch: any) => {
+const handleError = (message: string, error: string, dispatch: any) => {
   console.log(message, error);
   dispatch(setProspectNotesError(error));
 };

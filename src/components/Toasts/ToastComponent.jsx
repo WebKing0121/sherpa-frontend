@@ -3,27 +3,25 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'reactstrap';
 import styled from 'styled-components';
+import { toastLingerTime } from '../../variables';
 
 const ShAlert = styled(Alert)`
   margin: var(--pad2) var(--pad2) var(--pad1) !important;
   transition: top 0.3s;
 `;
 
-const ToastComponent = ({ title, message }) => {
+const ToastComponent = ({ message, id }) => {
   const [show, setShow] = useState(true);
 
   const toggle = () => setShow(false);
-  // const dispatch = useDispatch();
 
   useEffect(() => {
     let timeout;
-    timeout = setTimeout(() => {
-      setShow(false);
-    }, 3400);
+    timeout = setTimeout(() => setShow(false), toastLingerTime);
     return () => {
       clearTimeout(timeout);
     };
-  }, []);
+  }, [id]);
 
   return (
     <ShAlert color='warning' isOpen={show} toggle={toggle}>

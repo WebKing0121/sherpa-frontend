@@ -4,7 +4,6 @@ import InputGroupBorder from '../InputGroupBorder';
 
 function NoteForm(props) {
   const { text, setText, submitNote, note, btnText } = props;
-
   const onSubmit = e => {
     e.preventDefault();
     if (!text) return;

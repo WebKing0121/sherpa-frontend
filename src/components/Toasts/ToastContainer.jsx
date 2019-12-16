@@ -1,27 +1,42 @@
-import React from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import ToastComponent from './ToastComponent';
 import { getToasts } from '../../store/Toasts/selectors';
 import styled from 'styled-components';
+import { emptyToastArray } from '../../store/Toasts/actions';
+import { toastLingerTime } from '../../variables';
 
 const Wrapper = styled.div`
   width: 100%;
+  height: 100vh;
+  pointer-events: none;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 10000;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  * {
+    pointer-events: all;
+  }
 `;
 
 function ToastContainer() {
   const toasts = useSelector(getToasts);
+  const mappedToasts = toasts.map(({ message, id }) => (
+    <ToastComponent key={id} id={id} message={message} />
+  ));
 
-  return (
-    <Wrapper>
-      {toasts.map(({ title, message, id }) => (
-        <ToastComponent key={id} title={title} message={message + ' ' + id} />
-      ))}
-    </Wrapper>
-  );
+  const dispatch = useDispatch();
+
+  // automatically clear toast array after last toast has faded away
+  useEffect(() => {
+    let timeout;
+    toasts.length && (timeout = setTimeout(() => dispatch(emptyToastArray()), toastLingerTime + 400));
+    return () => clearTimeout(timeout);
+  }, [dispatch, toasts]);
+  return <Wrapper>{mappedToasts}</Wrapper>;
 }
 
 export default ToastContainer;
