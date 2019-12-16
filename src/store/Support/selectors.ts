@@ -1,9 +1,9 @@
-import { ISupportState } from "./reducers";
+import { IState } from './reducers';
 
-interface IState {
-  supportItems: ISupportState;
+interface ISupportState {
+  supportItems: IState;
 }
 
-export const supportItemsArray = ({ supportItems }: IState) => supportItems.items;
-
-export const supportItemsError = ({ supportItems }: IState) => supportItems.error;
+export const supportItemsArray = ({ supportItems }: ISupportState) => supportItems.items;
+export const supportItemsError = ({ supportItems }: ISupportState) => supportItems.error;
+export const supportItemsStatus = ({ supportItems }: ISupportState) => supportItems.status;

@@ -1,41 +1,43 @@
 import {
-  FETCH_SUPPORT_ITEMS,
   SET_FETCH_SUPPORT_ITEMS,
-  SET_FETCH_SUPPORT_ITEMS_ERROR
+  SET_FETCH_SUPPORT_ITEMS_ERROR,
+  SET_SUPPORT_ITEMS_STATUS
 } from './actionTypes';
 import { ISupportItems } from './actions';
 import { Fetching, Success, FetchError } from '../../variables';
 
-interface ISupportAction {
+interface IAction {
   type?: string;
   items?: ISupportItems[];
   error?: string;
+  status?: string;
 }
 
-export interface ISupportState {
-  items: ISupportItems[] | undefined;
-  error: string | undefined;
+export interface IState {
+  items?: ISupportItems[];
+  error?: string;
   status?: string;
 }
 
 // support reducer
-export const initialState: ISupportState = {
+export const initialState: IState = {
   items: [],
-  error: ''
+  error: '',
+  status: Fetching
 };
 
-export default function reducer(state = initialState, action: ISupportAction) {
+export default function supportItems(state = initialState, action: IAction) {
   switch (action.type) {
-    case FETCH_SUPPORT_ITEMS:
-      return {
-        ...state,
-        status: Fetching
-      };
     case SET_FETCH_SUPPORT_ITEMS:
       return {
         ...state,
         items: action.items,
         status: Success
+      };
+    case SET_SUPPORT_ITEMS_STATUS:
+      return {
+        ...state,
+        status: action.status
       };
     case SET_FETCH_SUPPORT_ITEMS_ERROR:
       return {

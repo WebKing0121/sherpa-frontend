@@ -1,5 +1,10 @@
-import AxiosInstance from "../../axiosConfig";
-import { SET_FETCH_SUPPORT_ITEMS, SET_FETCH_SUPPORT_ITEMS_ERROR } from "./actionTypes";
+import AxiosInstance from '../../axiosConfig';
+import {
+  SET_FETCH_SUPPORT_ITEMS,
+  SET_FETCH_SUPPORT_ITEMS_ERROR,
+  SET_SUPPORT_ITEMS_STATUS
+} from './actionTypes';
+import { Fetching } from '../../variables';
 
 export interface ISupportItems {
   id: number;
@@ -14,18 +19,26 @@ export const setFetchedSupportItems = (items: ISupportItems[]) => ({
   items
 });
 
+export const setSupportItemsStatus = (status: string) => ({
+  type: SET_SUPPORT_ITEMS_STATUS,
+  status
+});
+
 export const setFetchedSupportItemsError = (error: string) => ({
   type: SET_FETCH_SUPPORT_ITEMS_ERROR,
   error
 });
 
+const handleError = (message: string, error: string, dispatch: any) => {
+  console.log(message, error);
+  dispatch(setFetchedSupportItemsError('Error when fetching support'));
+};
+
 export const fetchSupportItems = () => (dispatch: any) => {
-  AxiosInstance.get("/support-links/")
+  dispatch(setSupportItemsStatus(Fetching));
+  AxiosInstance.get('/support-links/')
     .then(({ data }) => {
       dispatch(setFetchedSupportItems(data.results));
     })
-    .catch(error => {
-      console.log("error support", error.response);
-      dispatch(setFetchedSupportItemsError("Error when fetching support"));
-    });
+    .catch(error => handleError('Support pages GET error', error.results, dispatch));
 };

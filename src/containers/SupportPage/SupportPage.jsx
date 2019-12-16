@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import styled from "styled-components";
-import Header from "../../components/Header";
-import { useSelector, useDispatch } from "react-redux";
-import SupportCard from "./SupportCard";
-import { supportItemsArray } from "../../store/Support/selectors";
-import { fetchSupportItems } from "../../store/Support/actions";
+import React, { useEffect } from 'react';
+import styled from 'styled-components';
+import Header from '../../components/Header';
+import { useSelector, useDispatch } from 'react-redux';
+import SupportCard from './SupportCard';
+import { supportItemsArray, supportItemsStatus } from '../../store/Support/selectors';
+import { fetchSupportItems } from '../../store/Support/actions';
+import { DataLoader } from '../../components/LoadingData';
 
 const CardContainer = styled.div`
   margin: var(--pad5) auto 0;
@@ -25,7 +26,12 @@ const Subtitle = styled.p`
 `;
 function SupportPage() {
   const support_items = useSelector(supportItemsArray);
+  const support_status = useSelector(supportItemsStatus);
   const dispatch = useDispatch();
+
+  const mappedSupportItems = support_items.map((item, idx) => {
+    return <SupportCard key={idx} item={item} />;
+  });
 
   useEffect(() => {
     dispatch(fetchSupportItems());
@@ -36,14 +42,15 @@ function SupportPage() {
       <Header>Support</Header>
       <SupportWrap>
         <h2>How can we help?</h2>
-        <Subtitle className="textL">
+        <Subtitle className='textL'>
           We are dedicated to helping you succeed. Browse some of our support resources below.
         </Subtitle>
-        <CardContainer>
-          {support_items.map((item, idx) => {
-            return <SupportCard key={idx} item={item} />;
-          })}
-        </CardContainer>
+        <DataLoader
+          status={support_status}
+          data={support_items}
+          emptyResultsMessage='At this time there are no support links'
+          renderData={() => <CardContainer>{mappedSupportItems}</CardContainer>}
+        />
       </SupportWrap>
     </>
   );
