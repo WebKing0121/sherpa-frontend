@@ -26,7 +26,7 @@ const initial_state: IState = {
   prev: null,
   prospect: {},
   prospectCampaigns: [],
-  status: "",
+  status: "Fetching",
   prospectDetailsTab: <ProspectDetailsTabData>{
     agents: [],
     leadStages: []

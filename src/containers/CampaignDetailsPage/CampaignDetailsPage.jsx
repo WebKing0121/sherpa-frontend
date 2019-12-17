@@ -3,7 +3,7 @@ import TabbedHeader from '../../components/TabbedHeader';
 import MessagesTab from './MessagesTab/MessagesTab';
 import SendTab from './SendTab/SendTab';
 import NotesTab from './NotesTab/NotesTab';
-import { Button, TabContent, TabPane, Card, CardTitle, CardText, Row, Col } from 'reactstrap';
+import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 
 const StyledTabContent = styled(TabContent)`
@@ -14,8 +14,8 @@ function CampaignDetailsPage() {
   const [activeTab, setActiveTab] = useState('1');
 
   const toggleTab = (tab) => {
-    if(activeTab !== tab) setActiveTab(tab);
-  }
+    if (activeTab !== tab) setActiveTab(tab);
+  };
 
   const headerInfo = {
     fromText: "Campaign List",
@@ -30,7 +30,7 @@ function CampaignDetailsPage() {
         idx: "2",
         name: "Messages",
         icon: "comment-dots"
-      } ,
+      },
       {
         idx: "3",
         name: "Notes",
@@ -44,13 +44,13 @@ function CampaignDetailsPage() {
       <TabbedHeader data={headerInfo} toggleTab={toggleTab} activeTab={activeTab}>Greeley/Fort Collins - 2019-05-08</TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
         <TabPane tabId="1">
-          <SendTab/>
+          <SendTab />
         </TabPane>
         <TabPane tabId="2">
-          <MessagesTab/>
+          <MessagesTab />
         </TabPane>
         <TabPane tabId="3">
-          <NotesTab/>
+          <NotesTab />
         </TabPane>
       </StyledTabContent>
     </div>

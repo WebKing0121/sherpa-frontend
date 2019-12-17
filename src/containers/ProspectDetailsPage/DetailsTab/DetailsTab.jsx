@@ -8,7 +8,9 @@ import Fields from './FieldsSection';
 const Section = styled.div`
   padding-left: var(--pad3);
   padding-right: var(--pad3);
-  border-bottom: 1px solid var(--mediumGray);
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--mediumGray);
+  }
 `;
 const StatusSection = styled(Section)`
   padding-top: var(--pad1);

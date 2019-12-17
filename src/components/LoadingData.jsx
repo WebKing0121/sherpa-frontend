@@ -18,7 +18,7 @@ const NoResults = styled.p`
   padding: var(--pad3);
 `;
 
-const whenLoadingResults = (status, results) => (status === "" || status === "Fetching") && results.length === 0;
+const whenLoadingResults = (status, results) => status === "Fetching" && results.length === 0;
 
 const whenNoResults = (status, results) => results.length === 0 && status === "Success";
 
