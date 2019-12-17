@@ -3,7 +3,8 @@ import {
   SET_PROSPECT_DATA, SET_PROSPECT_CAMPAIGNS,
   SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
   SET_PROSPECT_DETAILS_TAB_AGENTS,
-  SET_PROSPECT_FETCH_STATUS
+  SET_PROSPECT_FETCH_STATUS,
+  SET_PROSPECT_SMS_RELAY_MAP
 } from './actionTypes.js';
 import { Fetching } from '../../variables';
 import { profilesToUsers } from './transformers';
@@ -23,6 +24,11 @@ const setProspectCampaigns = (prospectCampaigns: any) => ({
   type: SET_PROSPECT_CAMPAIGNS,
   prospectCampaigns
 });
+
+const setProspectSmsRelayMap = (smsRelayMap: any) => ({
+  type: SET_PROSPECT_SMS_RELAY_MAP,
+  smsRelayMap
+})
 
 const setProspectDetailsTabLeadStages = (leadStages: any) => ({
   type: SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
@@ -78,9 +84,15 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
     .get(`prospects/${id}/?expand=campaigns,sms_relay_map`)
     .then(({ data }) => {
       let prospect = data;
-      let campaigns = prospect.campaigns;
+      const campaigns = prospect.campaigns;
+      const smsRelayMap = prospect.smsRelayMap || { rep: { id: null } };
+
+      delete prospect.campaigns;
+      delete prospect.smsRelayMap;
+
       dispatch(setProspect(prospect));
       dispatch(setProspectCampaigns(campaigns));
+      dispatch(setProspectSmsRelayMap(smsRelayMap));
     })
     .catch(error => console.log('Error fetching prospect detail', error.response));
 }
@@ -98,7 +110,6 @@ export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
   return AxiosInstance
     .post('sms-relay-maps/', payload)
     .then(({ data }) => {
-      // dispatch(setProspect(data));
       console.log('relay data', data);
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
@@ -113,5 +124,12 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
     .catch(error => console.log('Error updating prospect detail', error.response));
 }
 
-// export const prospectUpdateOwner
+export const updateCampaignAgent = (id: any, payload: any) => (dispatch: any, _: any) => {
+  return AxiosInstance
+    .patch(`campaigns/${id}/`, payload)
+    .then(({ data }) => {
+      dispatch(setProspectCampaigns([data]))
+    })
+    .catch(error => console.log('Error updating prospect detail', error.response));
+}
 

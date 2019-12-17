@@ -3,7 +3,8 @@ import {
   SET_PROSPECT_CAMPAIGNS,
   SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
   SET_PROSPECT_DETAILS_TAB_AGENTS,
-  SET_PROSPECT_FETCH_STATUS
+  SET_PROSPECT_FETCH_STATUS,
+  SET_PROSPECT_SMS_RELAY_MAP
 } from './actionTypes';
 import { Success, Fetching } from '../../variables';
 
@@ -18,6 +19,7 @@ interface IState {
   prev: string | null;
   prospect: any;
   prospectCampaigns: Array<any>;
+  smsRelayMap: any;
   status: string | null;
   prospectDetailsTab: ProspectDetailsTabData;
 }
@@ -29,6 +31,7 @@ const initial_state: IState = {
   prospect: {},
   prospectCampaigns: [],
   status: Fetching,
+  smsRelayMap: { rep: { id: null } },
   prospectDetailsTab: <ProspectDetailsTabData>{
     agents: [],
     leadStages: []
@@ -52,6 +55,11 @@ export default function reducer(state: IState = initial_state, action: any) {
       return {
         ...state,
         prospectCampaigns: action.prospectCampaigns
+      };
+    case SET_PROSPECT_SMS_RELAY_MAP:
+      return {
+        ...state,
+        smsRelayMap: action.smsRelayMap
       };
     case SET_PROSPECT_DETAILS_TAB_LEADSTAGES:
       return {

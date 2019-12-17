@@ -1,7 +1,9 @@
 export const prospectDetailsData = (state) => state.prospectDetails.prospect;
-export const prospectDetailsId = (state) => ({
+export const prospectDetails = (state) => ({
   prospectId: state.prospectDetails.prospect.id,
-  reminderDateLocal: state.prospectDetails.prospect.reminderDateLocal
+  reminderDateLocal: state.prospectDetails.prospect.reminderDateLocal,
+  sherpaPhoneNumber: state.prospectDetails.prospect.sherpaPhoneNumber,
+  smsRelayMap: state.prospectDetails.smsRelayMap
 });
 export const prospectDetailsStatus = (state) => state.prospectDetails.status;
 export const prospectDetailsCampaigns = (state) => state.prospectDetails.prospectCampaigns;
@@ -10,3 +12,9 @@ export const prospectDetailsAgent = (state) => state.prospectDetails.prospect.sm
 // details tab selectors
 export const leadStagesSelector = (state) => state.prospectDetails.prospectDetailsTab.leadStages;
 export const agentSelector = (state) => state.prospectDetails.prospectDetailsTab.agents;
+export const selectedAgent = (state) => {
+  const campaigns = state.prospectDetails.prospectCampaigns;
+  if (campaigns.length > 0)
+    return campaigns[0].owner;
+  return "";
+}

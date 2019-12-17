@@ -7,8 +7,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import InputSelect from '../../../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../../components/Modal';
-import { agentSelector, prospectDetailsCampaigns, prospectDetailsId } from '../../../store/ProspectDetails/selectors';
-import { fetchAgents, setProspectReminder, setProspectRelay } from '../../../store/ProspectDetails/actions';
+import {
+  agentSelector,
+  prospectDetailsCampaigns,
+  prospectDetails,
+  selectedAgent
+} from '../../../store/ProspectDetails/selectors';
+import {
+  fetchAgents,
+  setProspectReminder,
+  setProspectRelay,
+  updateCampaignAgent
+} from '../../../store/ProspectDetails/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
 
@@ -67,7 +77,7 @@ const FieldSelect = props => {
         name={props.status}
         id={props.id}
         onChange={props.onChange}
-        defaultValue={props.defaultValue}
+        value={props.value}
         icon={props.icon}
       >
         {props.children}
@@ -121,7 +131,7 @@ const RenderAgentOptions = (agents) => {
 
 const RenderRelayOptions = (relayData) => {
   const emptyRelayOption = {
-    id: null,
+    id: "",
     fullName: "",
     phone: "None",
     role: "",
@@ -140,9 +150,15 @@ const RenderRelayOptions = (relayData) => {
 const FieldsSection = (props) => {
   const campaigns = useSelector(prospectDetailsCampaigns);
   const agents = useSelector(agentSelector);
+  const agent = useSelector(selectedAgent);
   const dispatch = useDispatch();
-  const { prospectId, reminderDateLocal } = useSelector(prospectDetailsId);
   const [modal, setModal] = useState(false);
+  const {
+    prospectId,
+    reminderDateLocal,
+    sherpaPhoneNumber,
+    smsRelayMap: { rep: { id } }
+  } = useSelector(prospectDetails);
 
   useEffect(() => {
     // if there's a prospect we want to get the company-id to fetch agents
@@ -154,21 +170,28 @@ const FieldsSection = (props) => {
 
   // agent controls
   const onAgentChange = (e) => {
-    // dispatch()
-    console.log('hi');
+    const { target: { value } } = e;
+    const { id, name, company, market, createdBy, priorityCount } = campaigns[0];
+    let payload = { name, company, market, createdBy, priorityCount, owner: value };
+    dispatch(updateCampaignAgent(id, payload));
   };
 
   // SMS RELAY
   const onRelayChange = (e) => {
-    let value = e.target.value;
+    let { target: { value } } = e;
     dispatch(setProspectRelay({ prospect: prospectId, rep: parseInt(value) }));
   };
 
   // REMINDERS
   const onBlur = (selectedDT) => {
-    dispatch(setProspectReminder(prospectId, { time: selectedDT.utc().format() }));
+    dispatch(
+      setProspectReminder(
+        prospectId,
+        { time: selectedDT.utc().format() }
+      )
+    );
   };
-
+  console.log("ID", id);
   return (
     <>
       <FieldSelect
@@ -176,7 +199,7 @@ const FieldsSection = (props) => {
         id="statusSelect"
         label="Agent"
         onChange={onAgentChange}
-        defaultValue={""}
+        value={agent}
         icon={
           <IconBg icon="headset" size="lg" />
         }
@@ -184,18 +207,19 @@ const FieldsSection = (props) => {
         {RenderAgentOptions(agents)}
       </FieldSelect>
 
-      <FieldSelect
-        id="relay"
-        name="sms_relay"
-        label="SMS & Call Relay"
-        placeholder="Select Call Relay Number"
-        onChange={onRelayChange}
-        defaultValue={null}
-        icon={
-          <IconBg icon="mobile-alt" size="lg" />
-        } >
-        {RenderRelayOptions(agents)}
-      </FieldSelect>
+      {sherpaPhoneNumber ?
+        <FieldSelect
+          id="relay"
+          name="sms_relay"
+          label="SMS & Call Relay"
+          placeholder="Select Call Relay Number"
+          onChange={onRelayChange}
+          value={id}
+          icon={
+            <IconBg icon="mobile-alt" size="lg" />
+          } >
+          {RenderRelayOptions(agents)}
+        </FieldSelect> : null}
 
       <FieldDateTime
         id="reminder"
