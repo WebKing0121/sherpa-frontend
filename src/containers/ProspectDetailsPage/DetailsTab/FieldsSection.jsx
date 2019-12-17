@@ -184,12 +184,14 @@ const FieldsSection = (props) => {
 
   // REMINDERS
   const onBlur = (selectedDT) => {
-    dispatch(
-      setProspectReminder(
-        prospectId,
-        { time: selectedDT.utc().format() }
-      )
-    );
+    if (selectedDT) {
+      dispatch(
+        setProspectReminder(
+          prospectId,
+          { time: selectedDT.utc().format() }
+        )
+      );
+    }
   };
   console.log("ID", id);
   return (
