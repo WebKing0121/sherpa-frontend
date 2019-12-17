@@ -62,3 +62,8 @@ export const createAllFolder = (data) => {
     totalCampaigns: data.length
   }
 }
+
+// Only show data that has not been archived
+export const unArchivedData = (data) => {
+  return data.filter(x => !x.isArchived);
+}

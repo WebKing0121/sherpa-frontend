@@ -6,6 +6,7 @@ import {
   FETCH_CAMPAIGNS
 } from './actionTypes';
 import { Fetching } from '../../variables';
+import { unArchivedData } from './transformers';
 
 export const setFetchedCampaignStatus = status => ({
   type: FETCH_CAMPAIGNS,
@@ -32,7 +33,8 @@ export const fetchCampaigns = id => (dispatch, _) => {
   AxiosInstance.get('/campaigns/', { params: { market: id } })
     .then(({ data }) => {
       const { results } = data;
-      dispatch(setFetchedCampaigns(results));
+
+      dispatch(setFetchedCampaigns(unArchivedData(results)));
     })
     .catch(error => {
       console.log('error campaigns', error.response);
@@ -46,7 +48,8 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
   AxiosInstance.get('/campaigns/', { params: { market: marketId, ordering: sortBy } })
     .then(({ data }) => {
       const { results } = data;
-      dispatch(setFetchedCampaigns(results));
+
+      dispatch(setFetchedCampaigns(unArchivedData(results)));
     })
     .catch(error => {
       console.log('Error fetching sorted campaigns', error.response);
