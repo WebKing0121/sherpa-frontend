@@ -37,7 +37,7 @@ const Pane = styled.div`
   }
 `;
 
-const Checkbox = styled(CustomInput)`
+const Radio = styled(CustomInput)`
   font-size: 1.25rem;
   line-height: 1.2;
   margin-bottom: .6em;
@@ -97,9 +97,9 @@ function SearchModule(props) {
           <Collapse isOpen={isOpen1}>
             <div className="content">
               <FormGroup>
-                <Checkbox type="checkbox" label="Zack Russel" id="ownedBy1"/>
-                <Checkbox type="checkbox" label="Adam Smith" id="ownedBy2"/>
-                <Checkbox type="checkbox" label="Jason Nickle" id="ownedBy3"/>
+                <Radio type="radio" name="ownedBy" label="Zack Russel" id="ownedBy1"/>
+                <Radio type="radio" name="ownedBy" label="Adam Smith" id="ownedBy2"/>
+                <Radio type="radio" name="ownedBy" label="Jason Nickle" id="ownedBy3"/>
               </FormGroup>
             </div>
           </Collapse>
@@ -116,9 +116,9 @@ function SearchModule(props) {
           <Collapse isOpen={isOpen2}>
             <div className="content">
             <FormGroup>
-              <Checkbox type="checkbox" label="Follow-Up" id="tags1"/>
-              <Checkbox type="checkbox" label="Initial Send" id="tags2"/>
-              <Checkbox type="checkbox" label="Probate" id="tags3"/>
+              <Radio type="radio" name="reviewSend" label="Follow-Up" id="tags1"/>
+              <Radio type="radio" name="reviewSend" label="Initial Send" id="tags2"/>
+              <Radio type="radio" name="reviewSend" label="Probate" id="tags3"/>
             </FormGroup>
             </div>
           </Collapse>
