@@ -4,15 +4,13 @@ import { Label, Input, InputGroupAddon, Button, FormGroup, CustomInput } from 'r
 import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import {
-  prospectDetailsData,
-  agentSelector,
-  prospectDetailsCampaigns
-} from '../../../store/ProspectDetails/selectors';
-import { fetchAgents } from '../../../store/ProspectDetails/actions';
 import InputSelect from '../../../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../../components/Modal';
+import { agentSelector, prospectDetailsCampaigns, prospectDetailsId } from '../../../store/ProspectDetails/selectors';
+import { fetchAgents, setProspectReminder, setProspectRelay } from '../../../store/ProspectDetails/actions';
+import Datetime from 'react-datetime';
+import moment from 'moment-timezone';
 
 const BtnHolster = styled.div`
   display: flex;
@@ -78,51 +76,135 @@ const FieldSelect = props => {
   );
 };
 
-const FieldsSection = props => {
-  const prospect = useSelector(prospectDetailsData);
+const FieldDateTime = (props) => {
+  const renderInput = (_props, openCalendar, closeCalendar) => {
+    return (
+      <div>
+        <FieldWrapper>
+          <Label>{props.label}</Label>
+          <InputGroupBorder className="mb-2">
+            <Input {..._props} />
+            <InputGroupAddon addonType="append">
+              <Button className="p-0" color="link" onClick={openCalendar}>
+                <IconBg icon={props.icon} size="lg" />
+              </Button>
+            </InputGroupAddon>
+          </InputGroupBorder>
+        </FieldWrapper>
+      </div>
+    );
+  };
+
+  return (
+    <Datetime renderInput={renderInput} onBlur={props.onBlur} defaultValue={props.defaultValue} />
+  );
+};
+
+const RenderAgentOptions = (agents) => {
+  let emptyAgentOption = {
+    id: "",
+    fullName: "Select an Agent",
+    phone: "",
+    role: "",
+  };
+  let newAgents = [emptyAgentOption, ...agents];
+  return newAgents.map((agent, idx) => (
+    <option
+      key={idx}
+      value={agent.id}
+      disabled={idx === 0}
+    >
+      {agent.fullName}
+    </option>
+  ));
+}
+
+const RenderRelayOptions = (relayData) => {
+  const emptyRelayOption = {
+    id: null,
+    fullName: "",
+    phone: "None",
+    role: "",
+  };
+  let newRelay = [emptyRelayOption, ...relayData];
+  return newRelay.map((relay, idx) => (
+    <option
+      key={idx}
+      value={relay.id}
+    >
+      {relay.phone}
+    </option>
+  ));
+};
+
+const FieldsSection = (props) => {
   const campaigns = useSelector(prospectDetailsCampaigns);
   const agents = useSelector(agentSelector);
   const dispatch = useDispatch();
+  const { prospectId, reminderDateLocal } = useSelector(prospectDetailsId);
   const [modal, setModal] = useState(false);
 
   useEffect(() => {
     // if there's a prospect we want to get the company-id to fetch agents
-    console.log('CAMPAIGNS', campaigns);
     if (campaigns.length > 0) {
-      console.log('FETCHING AGENTS', prospect);
       let companyId = campaigns[0].id;
       dispatch(fetchAgents(companyId));
     }
-  }, [campaigns, dispatch, prospect]);
+  }, [dispatch, campaigns]);
 
-  const onChange = e => console.log('OOP', e.target.value);
-  const agentOptions = agents.map((agent, idx) => (
-    <option key={idx} value={agent.fullname}>
-      {agent.fullname}
-    </option>
-  ));
+  // agent controls
+  const onAgentChange = (e) => {
+    // dispatch()
+    console.log('hi');
+  };
+
+  // SMS RELAY
+  const onRelayChange = (e) => {
+    let value = e.target.value;
+    dispatch(setProspectRelay({ prospect: prospectId, rep: parseInt(value) }));
+  };
+
+  // REMINDERS
+  const onBlur = (selectedDT) => {
+    dispatch(setProspectReminder(prospectId, { time: selectedDT.utc().format() }));
+  };
 
   return (
     <>
       <FieldSelect
-        name='status'
-        id='statusSelect'
-        label='Agent'
-        onChange={onChange}
-        defaultValue={''}
-        icon={<IconBg icon='headset' size='lg' />}
+        name="status"
+        id="statusSelect"
+        label="Agent"
+        onChange={onAgentChange}
+        defaultValue={""}
+        icon={
+          <IconBg icon="headset" size="lg" />
+        }
       >
-        {agentOptions}
+        {RenderAgentOptions(agents)}
       </FieldSelect>
 
-      <Field
-        id='relay'
-        label='SMS & Call Relay'
-        placeholder='Select Call Relay Number'
-        icon='mobile-alt'
-      />
+      <FieldSelect
+        id="relay"
+        name="sms_relay"
+        label="SMS & Call Relay"
+        placeholder="Select Call Relay Number"
+        onChange={onRelayChange}
+        defaultValue={null}
+        icon={
+          <IconBg icon="mobile-alt" size="lg" />
+        } >
+        {RenderRelayOptions(agents)}
+      </FieldSelect>
 
-      <Field id='reminder' label='Reminder' placeholder='Set a Reminder' icon='bell' />
+      <FieldDateTime
+        id="reminder"
+        label="Reminder"
+        placeholder="Set a Reminder"
+        icon="bell"
+        onBlur={onBlur}
+        defaultValue={new moment(reminderDateLocal)}
+      />
 
       <Label>CRM Options</Label>
 
@@ -137,14 +219,13 @@ const FieldsSection = props => {
         <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
           <Label><h4>Complete your action using the following campaign:</h4></Label>
           <FormGroup className="mt-1 mb-3">
-            <Radio type="radio" name="campaigns" label="San Francisco" id="camp1"/>
-            <Radio type="radio" name="campaigns" label="Seattle/Tac" id="camp2"/>
-            <Radio type="radio" name="campaigns" label="Another Campaign" id="camp3"/>
+            <Radio type="radio" name="campaigns" label="San Francisco" id="camp1" />
+            <Radio type="radio" name="campaigns" label="Seattle/Tac" id="camp2" />
+            <Radio type="radio" name="campaigns" label="Another Campaign" id="camp3" />
           </FormGroup>
           <Button color="primary" block size="lg">Submit</Button>
         </Modal>
       </BtnHolster>
-
     </>
   );
 };

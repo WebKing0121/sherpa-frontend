@@ -29,7 +29,7 @@ const initial_state: IState = {
   prospect: {},
   prospectCampaigns: [],
   status: Fetching,
-  prospectDetailsTab: {
+  prospectDetailsTab: <ProspectDetailsTabData>{
     agents: [],
     leadStages: []
   }

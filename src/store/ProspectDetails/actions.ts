@@ -6,6 +6,7 @@ import {
   SET_PROSPECT_FETCH_STATUS
 } from './actionTypes.js';
 import { Fetching } from '../../variables';
+import { profilesToUsers } from './transformers';
 
 
 const setProspectFetchStatus = (status: any) => ({
@@ -58,15 +59,12 @@ export const fetchAgents = (id: any) => (dispatch: any, getState: any) => {
 
   // don't refetch agents if already loaded
   if (agents.length === 0) {
-    let emptyAgent = {
-      fullname: "Select an Agent",
-      phone: "",
-      role: "",
-    }
     AxiosInstance
       .get(`companies/${id}/`)
       .then(response => {
-        dispatch(setProspectDetailsTabAgents([emptyAgent, ...response.data.users]));
+        dispatch(setProspectDetailsTabAgents(
+          profilesToUsers(response.data)
+        ));
         return response.data
       })
       .catch(error => console.log('Error fetching agents', error));
@@ -77,7 +75,7 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
   dispatch(setProspectFetchStatus(Fetching));
 
   return AxiosInstance
-    .get(`prospects/${id}/?expand=campaigns`)
+    .get(`prospects/${id}/?expand=campaigns,sms_relay_map`)
     .then(({ data }) => {
       let prospect = data;
       let campaigns = prospect.campaigns;
@@ -88,7 +86,6 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
 }
 
 export const updateProspect = (id: any, data: any) => (dispatch: any, _: any) => {
-  console.log("PROSPECT", data);
   return AxiosInstance
     .patch(`prospects/${id}/`, data)
     .then(({ data }) => {
@@ -96,3 +93,25 @@ export const updateProspect = (id: any, data: any) => (dispatch: any, _: any) =>
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
 }
+
+export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
+  return AxiosInstance
+    .post('sms-relay-maps/', payload)
+    .then(({ data }) => {
+      // dispatch(setProspect(data));
+      console.log('relay data', data);
+    })
+    .catch(error => console.log('Error updating prospect detail', error.response));
+}
+
+export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: any) => {
+  return AxiosInstance
+    .post(`prospects/${id}/set_reminder/`, data)
+    .then(({ data }) => {
+      dispatch(setProspect(data))
+    })
+    .catch(error => console.log('Error updating prospect detail', error.response));
+}
+
+// export const prospectUpdateOwner
+

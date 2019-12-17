@@ -52,8 +52,8 @@ export const DataLoader = props => {
       ) : whenNoResults(status, data) ? (
         <NoResults> {(whenError() && networkError) || emptyResultsMessage}</NoResults>
       ) : (
-        renderData()
-      )}
+            renderData()
+          )}
     </>
   );
 };
