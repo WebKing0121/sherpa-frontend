@@ -4,7 +4,8 @@ import {
   SET_SEARCH_PROSPECTS_ERROR,
   SET_SEARCHED_PROSPECTS,
   SET_MORE_PROSPECTS,
-  RESET_PROSPECT_DATA
+  RESET_PROSPECT_DATA,
+  SET_PROSPECTS_FETCH_MORE_STATUS
 } from './actionTypes';
 import { Fetching } from '../../variables';
 
@@ -12,6 +13,12 @@ export const setProspectSearchStatus = status => ({
   type: SET_PROSPECTS_SEARCH_STATUS,
   status
 });
+
+export const setProspectFetchMoreStatus = status => ({
+  type: SET_PROSPECTS_FETCH_MORE_STATUS,
+  status
+});
+
 export const setProspectSearchError = error => ({
   type: SET_SEARCH_PROSPECTS_ERROR,
   error
@@ -63,7 +70,7 @@ export const searchProspectNextPage = () => (dispatch, getState) => {
   } = getState();
 
   if (next && status !== Fetching) {
-    dispatch(setProspectSearchStatus(Fetching));
+    dispatch(setProspectFetchMoreStatus(Fetching));
     return doSearchProspect(next).then(data => {
       dispatch(setMoreProspects(data));
     });

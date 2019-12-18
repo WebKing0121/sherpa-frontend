@@ -3,7 +3,8 @@ import {
   SET_SEARCH_PROSPECTS_ERROR,
   SET_SEARCHED_PROSPECTS,
   SET_MORE_PROSPECTS,
-  RESET_PROSPECT_DATA
+  RESET_PROSPECT_DATA,
+  SET_PROSPECTS_FETCH_MORE_STATUS
 } from './actionTypes';
 import { Success } from '../../variables';
 
@@ -13,6 +14,7 @@ interface IState {
   previous: string | null;
   prospects: Array<any>;
   status: string | null;
+  fetchMoreStatus: string | null;
 }
 
 const initialState: IState = {
@@ -20,7 +22,8 @@ const initialState: IState = {
   next: null,
   previous: null,
   prospects: [],
-  status: null
+  status: null,
+  fetchMoreStatus: null
 };
 
 export default function reducer(state: IState = initialState, action: any) {
@@ -29,6 +32,11 @@ export default function reducer(state: IState = initialState, action: any) {
       return {
         ...state,
         status: action.status
+      };
+    case SET_PROSPECTS_FETCH_MORE_STATUS:
+      return {
+        ...state,
+        fetchMoreStatus: action.status
       };
     case SET_SEARCH_PROSPECTS_ERROR:
       return {
@@ -52,7 +60,7 @@ export default function reducer(state: IState = initialState, action: any) {
         count: action.data.count,
         next: action.data.next,
         previous: action.data.previous,
-        status: Success
+        fetchMoreStatus: Success
       };
     case RESET_PROSPECT_DATA:
       return initialState;

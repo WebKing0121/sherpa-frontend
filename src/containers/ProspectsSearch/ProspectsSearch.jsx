@@ -5,13 +5,14 @@ import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { searchProspects, searchProspectNextPage } from '../../store/Prospects/actions';
 import { prospectsToItemList } from './utils';
-import { prospectsResults, prospectSearchState } from '../../store/Prospects/selectors';
+import { prospectsResults, prospectSearchState, prospectFetchMoreStatus } from '../../store/Prospects/selectors';
 import { DataLoader } from '../../components/LoadingData';
 import { Fetching } from '../../variables';
 
 function ProspectsSearch(props) {
   const prospectResults = useSelector(prospectsResults);
   const isFetching = useSelector(prospectSearchState);
+  const isFetchingMore = useSelector(prospectFetchMoreStatus);
   const dispatch = useDispatch();
 
   // search function
@@ -38,7 +39,7 @@ function ProspectsSearch(props) {
             itemSize={150}
             items={prospectList}
             fetchMoreData={fetchMoreData}
-            isFetching={isFetching === Fetching}
+            isFetching={isFetchingMore === Fetching}
           />
         )}
       />
