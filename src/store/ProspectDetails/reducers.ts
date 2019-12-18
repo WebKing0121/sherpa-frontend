@@ -6,11 +6,19 @@ import {
   SET_PROSPECT_FETCH_STATUS,
   SET_PROSPECT_SMS_RELAY_MAP
 } from './actionTypes';
-import { Success, Fetching } from '../../variables';
+import { Success, Fetching, Initial } from '../../variables';
+
+interface ProspectDetailsStatus {
+  verifiedBtnStatus: string;
+  dncBtnStatus: string;
+  priorityBtnStatus: string;
+  qualifiedBtnStatus: string;
+}
 
 interface ProspectDetailsTabData {
   agents: Array<any> | undefined;
   leadStages: Array<any> | undefined;
+  prospectStatus: ProspectDetailsStatus;
 }
 
 interface IState {
@@ -34,7 +42,13 @@ const initial_state: IState = {
   smsRelayMap: { rep: { id: null } },
   prospectDetailsTab: <ProspectDetailsTabData>{
     agents: [],
-    leadStages: []
+    leadStages: [],
+    prospectStatus: {
+      verifiedBtnStatus: "",
+      dncBtnStatus: "",
+      priorityBtnStatus: "",
+      qualifiedBtnStatus: ""
+    }
   }
 };
 
@@ -45,6 +59,17 @@ export default function reducer(state: IState = initial_state, action: any) {
         ...state,
         status: action.status
       };
+    case 'SET_PROSPECT_UPDATE_ACTION_STATUS':
+      return {
+        ...state,
+        prospectDetailsTab: {
+          ...state.prospectDetailsTab,
+          prospectStatus: {
+            ...state.prospectDetailsTab.prospectStatus,
+            [action.prospectStatus]: action.status
+          }
+        }
+      }
     case SET_PROSPECT_DATA:
       return {
         ...state,

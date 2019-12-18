@@ -3,8 +3,18 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import InputSelect from '../../../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { fetchLeadStages, updateProspect } from '../../../store/ProspectDetails/actions';
-import { prospectDetailsData, leadStagesSelector } from '../../../store/ProspectDetails/selectors';
+import {
+  fetchLeadStages, updateVerifiedStatus,
+  updateDncStatus, updatePriorityStatus,
+  updateQualifiedStatus, updateLeadstage
+} from '../../../store/ProspectDetails/actions';
+import {
+  prospectDetailsData,
+  leadStagesSelector,
+  prospectBtnStatus
+} from '../../../store/ProspectDetails/selectors';
+import { LoadingSpinner } from '../../../components/LoadingSpinner';
+import { Updating } from '../../../variables';
 
 const Pill = styled.div`
   background: ${props => (!props.active ? 'white' : 'var(--' + props.color + ')')};
@@ -46,6 +56,7 @@ const getNewVerifiedStatus = status => {
 const DetailsTab = props => {
   const leadStages = useSelector(leadStagesSelector);
   const prospect = useSelector(prospectDetailsData);
+  const actionBtnStatus = useSelector(prospectBtnStatus);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -61,32 +72,40 @@ const DetailsTab = props => {
 
   const statusList = [
     {
-      status: 'Verified',
+      text: 'Verified',
       color: 'green',
       icon: 'check',
       active: ownerVerifiedStatus === 'verified',
-      attr: 'ownerVerifiedStatus'
+      attr: 'ownerVerifiedStatus',
+      action: updateVerifiedStatus,
+      status: actionBtnStatus.verifiedBtnStatus
     },
     {
-      status: 'DNC',
+      text: 'DNC',
       color: 'red',
       icon: 'phone-slash',
       active: doNotCall,
-      attr: 'doNotCall'
+      attr: 'doNotCall',
+      action: updateDncStatus,
+      status: actionBtnStatus.dncBtnStatus
     },
     {
-      status: 'Priority',
+      text: 'Priority',
       color: 'orange',
       icon: 'bolt',
       active: isPriority,
-      attr: 'isPriority'
+      attr: 'isPriority',
+      action: updatePriorityStatus,
+      status: actionBtnStatus.priorityBtnStatus
     },
     {
-      status: 'Qualified',
+      text: 'Qualified',
       color: 'purple',
       icon: 'star',
       active: isQualifiedLead,
-      attr: 'isQualifiedLead'
+      attr: 'isQualifiedLead',
+      action: updateQualifiedStatus,
+      status: actionBtnStatus.qualifiedBtnStatus
     }
   ];
 
@@ -98,7 +117,7 @@ const DetailsTab = props => {
   ));
 
   // onchange status
-  const onStatusChange = attr => () => {
+  const onStatusChange = (attr, action) => () => {
     let value = !prospect[attr];
     // special case for verified status as it is not a boolean but a
     // string
@@ -106,7 +125,7 @@ const DetailsTab = props => {
       let currentValue = prospect[attr];
       value = getNewVerifiedStatus(currentValue);
     }
-    dispatch(updateProspect(prospect.id, { [attr]: value }));
+    dispatch(action(prospect.id, { [attr]: value }));
   };
 
   // render pills
@@ -114,20 +133,25 @@ const DetailsTab = props => {
     <Pill
       key={key}
       attr={item.attr}
-      onClick={onStatusChange(item.attr)}
+      onClick={onStatusChange(item.attr, item.action)}
       color={item.color}
       active={item.active}
-      className='textM fw-black'
-    >
-      <FontAwesomeIcon className='mr-2' icon={item.icon} />
-      {item.status}
+      className="textM fw-black">
+      <LoadingSpinner
+        isLoading={item.status === Updating}
+        renderContent={() => (
+          <>
+            <FontAwesomeIcon className="mr-2" icon={item.icon} />
+            {item.text}
+          </>)}
+      />
     </Pill>
   ));
 
   // on change lead
   const onLeadStageChange = e => {
     let value = e.target.value;
-    dispatch(updateProspect(prospect.id, { leadStage: value }));
+    dispatch(updateLeadstage(prospect.id, { leadStage: value }));
   };
 
   return (

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import ReduxStore from './store/store';
 import { loadTokens, getNewAccessToken } from './store/Auth/utils';
 import { addNewToast } from './store/Toasts/actions';
@@ -9,7 +9,11 @@ const baseURL = process.env.REACT_APP_BASE_URL;
 const axiosInstance = axios.create({ baseURL });
 
 // adds interceptor for 401's
-const okResponseInterceptor = (response: any) => response;
+const okResponseInterceptor = (response: any) => {
+  return new Promise<AxiosResponse<any>>((resolve: any, _: any) => {
+    setTimeout(() => resolve(response), 500)
+  })
+};
 
 const errorResponseInterceptor = (error: any) => {
   const { status } = error.response;

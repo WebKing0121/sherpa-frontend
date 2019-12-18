@@ -1,7 +1,9 @@
 // data fetch status
+export const Initial = 'Initial';
 export const Fetching = 'Fetching';
 export const Success = 'Success';
 export const FetchError = 'FetchError';
+export const Updating = 'Updating';
 
 // toast stuff
 export const toastLingerTime = 5000;

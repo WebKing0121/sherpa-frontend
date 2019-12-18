@@ -6,14 +6,20 @@ import {
   SET_PROSPECT_FETCH_STATUS,
   SET_PROSPECT_SMS_RELAY_MAP
 } from './actionTypes.js';
-import { Fetching } from '../../variables';
+import { Fetching, Updating, Success } from '../../variables';
 import { profilesToUsers } from './transformers';
 
 
 const setProspectFetchStatus = (status: any) => ({
   type: SET_PROSPECT_FETCH_STATUS,
   status
-})
+});
+
+const setProspectUpdateStatus = (prospectStatus: string, status: string, ) => ({
+  type: 'SET_PROSPECT_UPDATE_ACTION_STATUS',
+  prospectStatus,
+  status
+});
 
 const setProspect = (prospect: any) => ({
   type: SET_PROSPECT_DATA,
@@ -28,7 +34,7 @@ const setProspectCampaigns = (prospectCampaigns: any) => ({
 const setProspectSmsRelayMap = (smsRelayMap: any) => ({
   type: SET_PROSPECT_SMS_RELAY_MAP,
   smsRelayMap
-})
+});
 
 const setProspectDetailsTabLeadStages = (leadStages: any) => ({
   type: SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
@@ -58,7 +64,7 @@ export const fetchLeadStages = () => (dispatch: any, getState: any) => {
       })
       .catch(error => console.log('Error fetching lead stages', error.response));
   }
-}
+};
 
 export const fetchAgents = (id: any) => (dispatch: any, getState: any) => {
   let { prospectDetails: { prospectDetailsTab: { agents = [] } } } = getState();
@@ -75,7 +81,7 @@ export const fetchAgents = (id: any) => (dispatch: any, getState: any) => {
       })
       .catch(error => console.log('Error fetching agents', error));
   }
-}
+};
 
 export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
   dispatch(setProspectFetchStatus(Fetching));
@@ -95,16 +101,44 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
       dispatch(setProspectSmsRelayMap(smsRelayMap));
     })
     .catch(error => console.log('Error fetching prospect detail', error.response));
-}
+};
 
-export const updateProspect = (id: any, data: any) => (dispatch: any, _: any) => {
-  return AxiosInstance
-    .patch(`prospects/${id}/`, data)
+export const updateProspect = async (id: any, data: any, dispatch: any, onSuccess: any = () => null) => {
+  return AxiosInstance.patch(`prospects/${id}/`, data)
     .then(({ data }) => {
+      onSuccess();
       dispatch(setProspect(data))
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
-}
+};
+
+export const updateVerifiedStatus = (id: string, payload: any) => (dispatch: any, _: any) => {
+  dispatch(setProspectUpdateStatus('verifiedBtnStatus', Updating));
+  const onSuccess = () => dispatch(setProspectUpdateStatus('verifiedBtnStatus', Success));
+  return updateProspect(id, payload, dispatch, onSuccess);
+};
+
+export const updateDncStatus = (id: string, payload: any) => (dispatch: any, _: any) => {
+  dispatch(setProspectUpdateStatus('dncBtnStatus', Updating));
+  const onSuccess = () => dispatch(setProspectUpdateStatus('dncBtnStatus', Success));
+  return updateProspect(id, payload, dispatch, onSuccess);
+};
+
+export const updatePriorityStatus = (id: string, payload: any) => (dispatch: any, _: any) => {
+  dispatch(setProspectUpdateStatus('priorityBtnStatus', Updating));
+  const onSuccess = () => dispatch(setProspectUpdateStatus('priorityBtnStatus', Success));
+  return updateProspect(id, payload, dispatch, onSuccess);
+};
+
+export const updateQualifiedStatus = (id: string, payload: any) => (dispatch: any, _: any) => {
+  dispatch(setProspectUpdateStatus('qualifiedBtnStatus', Updating));
+  const onSuccess = () => dispatch(setProspectUpdateStatus('qualifiedBtnStatus', Success));
+  return updateProspect(id, payload, dispatch, onSuccess);
+};
+
+export const updateLeadstage = (id: string, payload: any) => (dispatch: any, _: any) => {
+  return updateProspect(id, payload, dispatch);
+};
 
 export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
   return AxiosInstance
@@ -113,7 +147,7 @@ export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
       console.log('relay data', data);
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
-}
+};
 
 export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: any) => {
   return AxiosInstance
@@ -122,7 +156,7 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
       dispatch(setProspect(data))
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
-}
+};
 
 export const updateCampaignAgent = (id: any, payload: any) => (dispatch: any, _: any) => {
   return AxiosInstance
@@ -131,5 +165,5 @@ export const updateCampaignAgent = (id: any, payload: any) => (dispatch: any, _:
       dispatch(setProspectCampaigns([data]))
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
-}
+};
 

@@ -5,9 +5,11 @@ export const prospectDetails = (state) => ({
   sherpaPhoneNumber: state.prospectDetails.prospect.sherpaPhoneNumber,
   smsRelayMap: state.prospectDetails.smsRelayMap
 });
+export const prospectDetailUpdateStatus = (state) => state.prospectDetails.actionBtnStatus;
 export const prospectDetailsStatus = (state) => state.prospectDetails.status;
 export const prospectDetailsCampaigns = (state) => state.prospectDetails.prospectCampaigns;
 export const prospectDetailsAgent = (state) => state.prospectDetails.prospect.smsRelayMap;
+
 
 // details tab selectors
 export const leadStagesSelector = (state) => state.prospectDetails.prospectDetailsTab.leadStages;
@@ -18,3 +20,5 @@ export const selectedAgent = (state) => {
     return campaigns[0].owner;
   return "";
 }
+// selectors for the action btns
+export const prospectBtnStatus = (state) => state.prospectDetails.prospectDetailsTab.prospectStatus;
