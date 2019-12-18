@@ -86,22 +86,33 @@ const FieldSelect = props => {
   );
 };
 
+const ModalBackPlate = styled.div`
+  content: '';
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  z-index: 99;
+  top: 0;
+  left: 0;
+  background: #0000005c;
+  display: none;
+`;
+
 const FieldDateTime = (props) => {
   const renderInput = (_props, openCalendar, closeCalendar) => {
     return (
-      <div>
-        <FieldWrapper>
-          <Label>{props.label}</Label>
-          <InputGroupBorder className="mb-2">
-            <Input {..._props} />
-            <InputGroupAddon addonType="append">
-              <Button className="p-0" color="link" onClick={openCalendar}>
-                <IconBg icon={props.icon} size="lg" />
-              </Button>
-            </InputGroupAddon>
-          </InputGroupBorder>
-        </FieldWrapper>
-      </div>
+      <>
+        <Label>{props.label}</Label>
+        <InputGroupBorder className="mb-2">
+          <Input {..._props} />
+          <InputGroupAddon addonType="append">
+            <Button className="p-0" color="link" onClick={openCalendar}>
+              <IconBg icon={props.icon} size="lg" />
+            </Button>
+          </InputGroupAddon>
+        </InputGroupBorder>
+        <ModalBackPlate className="modalBackPlate" onClick={closeCalendar}/>
+      </>
     );
   };
 
@@ -193,7 +204,7 @@ const FieldsSection = (props) => {
       );
     }
   };
-  console.log("ID", id);
+
   return (
     <>
       <FieldSelect
@@ -223,35 +234,38 @@ const FieldsSection = (props) => {
           {RenderRelayOptions(agents)}
         </FieldSelect> : null}
 
-      <FieldDateTime
-        id="reminder"
-        label="Reminder"
-        placeholder="Set a Reminder"
-        icon="bell"
-        onBlur={onBlur}
-        defaultValue={new moment(reminderDateLocal)}
-      />
+      <FieldWrapper>
+        <FieldDateTime
+          id="reminder"
+          label="Reminder"
+          placeholder="Set a Reminder"
+          icon="bell"
+          onBlur={onBlur}
+          defaultValue={new moment(reminderDateLocal)}
+        />
+      </FieldWrapper>
 
-      <Label>CRM Options</Label>
-
-      <BtnHolster>
-        <Button id='zapier' color="primary" className="fw-bold" onClick={() => setModal(true)}>Email to CRM</Button>
-        <Button id='crm' color="primary" className="fw-bold" onClick={() => setModal(true)}>Push to Zapier</Button>
-        {/*  This should be the success state below:
-        <Button id='crm' color="success" className="fw-bold">
-          <FontAwesomeIcon icon="check" className="mr-1" />
-          Sent!
-        </Button> */}
-        <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
-          <Label><h4>Complete your action using the following campaign:</h4></Label>
-          <FormGroup className="mt-1 mb-3">
-            <Radio type="radio" name="campaigns" label="San Francisco" id="camp1" />
-            <Radio type="radio" name="campaigns" label="Seattle/Tac" id="camp2" />
-            <Radio type="radio" name="campaigns" label="Another Campaign" id="camp3" />
-          </FormGroup>
-          <Button color="primary" block size="lg">Submit</Button>
-        </Modal>
-      </BtnHolster>
+      <FieldWrapper>
+        <Label>CRM Options</Label>
+        <BtnHolster>
+          <Button id='zapier' color="primary" className="fw-bold" onClick={() => setModal(true)}>Email to CRM</Button>
+          <Button id='crm' color="primary" className="fw-bold" onClick={() => setModal(true)}>Push to Zapier</Button>
+          {/*  This should be the success state below:
+          <Button id='crm' color="success" className="fw-bold">
+            <FontAwesomeIcon icon="check" className="mr-1" />
+            Sent!
+          </Button> */}
+          <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
+            <Label><h4>Complete your action using the following campaign:</h4></Label>
+            <FormGroup className="mt-1 mb-3">
+              <Radio type="radio" name="campaigns" label="San Francisco" id="camp1" />
+              <Radio type="radio" name="campaigns" label="Seattle/Tac" id="camp2" />
+              <Radio type="radio" name="campaigns" label="Another Campaign" id="camp3" />
+            </FormGroup>
+            <Button color="primary" block size="lg">Submit</Button>
+          </Modal>
+        </BtnHolster>
+      </FieldWrapper>
     </>
   );
 };
