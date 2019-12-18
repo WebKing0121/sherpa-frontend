@@ -61,7 +61,15 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/ad
 
 ### Deployment
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
+Currently we only have a development environment. To deploy from your local machine you'll need to have the proper aws credentials setup with the frontend IAM user.
+
+1) Install [aws-cli 1.x](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-welcome.html)
+2) `aws configure` you'll need to ask for the IAM user credentials
+3) `npm run deploy-dev`
+4) Frontend application available at `https://next-dev.leadsherpa.com`
+
+TODO: In the future CircleCI could deploy automatically when pushing to the `develop` branch
+TODO: Will need to setup a staging & production environment
 
 ### `yarn build` fails to minify
 
