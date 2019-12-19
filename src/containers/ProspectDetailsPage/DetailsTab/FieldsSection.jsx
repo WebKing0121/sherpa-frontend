@@ -5,7 +5,6 @@ import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import InputSelect from '../../../components/InputSelect';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Modal from '../../../components/Modal';
 import {
   agentSelector,
@@ -17,7 +16,7 @@ import {
   fetchAgents,
   setProspectReminder,
   setProspectRelay,
-  updateCampaignAgent
+  updateProspectAgent
 } from '../../../store/ProspectDetails/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
@@ -111,7 +110,7 @@ const FieldDateTime = (props) => {
             </Button>
           </InputGroupAddon>
         </InputGroupBorder>
-        <ModalBackPlate className="modalBackPlate" onClick={closeCalendar}/>
+        <ModalBackPlate className="modalBackPlate" onClick={closeCalendar} />
       </>
     );
   };
@@ -182,9 +181,8 @@ const FieldsSection = (props) => {
   // agent controls
   const onAgentChange = (e) => {
     const { target: { value } } = e;
-    const { id, name, company, market, createdBy, priorityCount } = campaigns[0];
-    let payload = { name, company, market, createdBy, priorityCount, owner: value };
-    dispatch(updateCampaignAgent(id, payload));
+    let payload = { agent: value };
+    dispatch(updateProspectAgent(prospectId, payload));
   };
 
   // SMS RELAY
@@ -212,7 +210,7 @@ const FieldsSection = (props) => {
         id="statusSelect"
         label="Agent"
         onChange={onAgentChange}
-        value={agent}
+        value={agent || ""}
         icon={
           <IconBg icon="headset" size="lg" />
         }

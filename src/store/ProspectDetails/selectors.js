@@ -14,11 +14,6 @@ export const prospectDetailsAgent = (state) => state.prospectDetails.prospect.sm
 // details tab selectors
 export const leadStagesSelector = (state) => state.prospectDetails.prospectDetailsTab.leadStages;
 export const agentSelector = (state) => state.prospectDetails.prospectDetailsTab.agents;
-export const selectedAgent = (state) => {
-  const campaigns = state.prospectDetails.prospectCampaigns;
-  if (campaigns.length > 0)
-    return campaigns[0].owner;
-  return "";
-}
+export const selectedAgent = (state) => state.prospectDetails.prospect.agent;
 // selectors for the action btns
 export const prospectBtnStatus = (state) => state.prospectDetails.prospectDetailsTab.prospectStatus;

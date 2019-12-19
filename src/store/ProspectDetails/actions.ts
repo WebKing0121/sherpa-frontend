@@ -140,6 +140,10 @@ export const updateLeadstage = (id: string, payload: any) => (dispatch: any, _: 
   return updateProspect(id, payload, dispatch);
 };
 
+export const updateProspectAgent = (id: string, payload: any) => (dispatch: any, _: any) => {
+  return updateProspect(id, payload, dispatch);
+};
+
 export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
   return AxiosInstance
     .post('sms-relay-maps/', payload)
@@ -154,15 +158,6 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
     .post(`prospects/${id}/set_reminder/`, data)
     .then(({ data }) => {
       dispatch(setProspect(data))
-    })
-    .catch(error => console.log('Error updating prospect detail', error.response));
-};
-
-export const updateCampaignAgent = (id: any, payload: any) => (dispatch: any, _: any) => {
-  return AxiosInstance
-    .patch(`campaigns/${id}/`, payload)
-    .then(({ data }) => {
-      dispatch(setProspectCampaigns([data]))
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
 };
