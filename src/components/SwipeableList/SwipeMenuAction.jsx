@@ -27,11 +27,15 @@ const Action = styled.div`
 `;
 
 const ActionLink = styled.a`
+  &:after {
+    transition: background-color .3s, opacity .3s;
+  }
+
   &:hover,
   &:active {
     &:after{
       background: var(--darkNavy);
-      opacity: .3;
+      opacity: .1;
     }
   }
 `;
@@ -39,7 +43,7 @@ const ActionLink = styled.a`
 function SwipeMenuAction(props) {
 
   return (
-    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background} onClick={props.onClick}>
+    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background}>
       <Icon margin="mb-2" height="26px" width="auto" name={"action-" + props.icon}/>
       <ActionLink className="stretched-link">{props.name}</ActionLink>
     </Action>
