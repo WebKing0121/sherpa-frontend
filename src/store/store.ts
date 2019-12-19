@@ -1,15 +1,17 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { combineReducers } from 'redux';
+import { loadTokens } from './Auth/utils';
+
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
 import campaignFolders from './CampaignFolders/reducers';
+import campaignNotes from './CampaignNotes/reducers';
+import filters from './Filters/reducers.js';
 import prospects from './Prospects/reducers';
 import prospectDetails from './ProspectDetails/reducers';
-import { loadTokens } from './Auth/utils';
-import supportItems from './Support/reducers';
 import prospectNotes from './ProspectNotes/reducers';
-import campaignNotes from './CampaignNotes/reducers';
+import supportItems from './Support/reducers';
 import toastsReducer from './Toasts/reducers';
 
 declare global {
@@ -22,11 +24,12 @@ const reducers = combineReducers({
   auth,
   campaigns,
   campaignFolders,
+  campaignNotes,
+  filters,
   prospects,
-  supportItems,
   prospectDetails,
   prospectNotes,
-  campaignNotes,
+  supportItems,
   toastsReducer
 });
 

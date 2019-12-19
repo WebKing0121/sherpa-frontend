@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Button,
   Collapse,
@@ -9,6 +9,9 @@ import {
 import Modal from './Modal';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchOwners } from '../store/Filters/actions';
+import { owners } from '../store/Filters/selectors';
 
 const Pane = styled.div`
   overflow: hidden;
@@ -65,14 +68,34 @@ const Arrow = styled.div`
 
 function SearchModule(props) {
   const [modal, setModal] = useState(false);
+  const ownersList = useSelector(owners);
+  const dispatch = useDispatch();
 
   const toggle = () => setModal(!modal);
 
   const [isOpen1, setIsOpen1] = useState(true);
-  const [isOpen2, setIsOpen2] = useState(true);
+  // const [isOpen2, setIsOpen2] = useState(true);
 
   const toggle1 = () => setIsOpen1(!isOpen1);
-  const toggle2 = () => setIsOpen2(!isOpen2);
+  // const toggle2 = () => setIsOpen2(!isOpen2);
+
+  // fetch owners to filter by
+  useEffect(() => dispatch(fetchOwners(1)), [dispatch]);
+
+  const ownerOptions = ownersList.map(owner => {
+    const { user } = owner;
+    const first = user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1);
+    const last = user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1);
+    return (
+      <Radio
+        key={`owner-${owner.id}`}
+        type='radio'
+        name='ownedBy'
+        label={`${first} ${last}`}
+        id={owner.id}
+      />
+    )
+  });
 
   return (
     <>
@@ -97,9 +120,7 @@ function SearchModule(props) {
             <Collapse isOpen={isOpen1}>
               <div className="content">
                 <FormGroup>
-                  <Radio type="radio" name="ownedBy" label="Zack Russel" id="ownedBy1" />
-                  <Radio type="radio" name="ownedBy" label="Adam Smith" id="ownedBy2" />
-                  <Radio type="radio" name="ownedBy" label="Jason Nickle" id="ownedBy3" />
+                  {ownerOptions}
                 </FormGroup>
               </div>
             </Collapse>
