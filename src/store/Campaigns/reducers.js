@@ -2,7 +2,8 @@ import {
   FETCH_CAMPAIGNS,
   SET_FETCH_CAMPAIGNS,
   SET_FETCH_CAMPAIGNS_ERROR,
-  RESET_CAMPAIGNS_DATA
+  RESET_CAMPAIGNS_DATA,
+  ARCHIVE_CAMPAIGN
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../variables';
 
@@ -35,6 +36,15 @@ export default function reducer(state = initialState, action) {
         error: action.error,
         status: FetchError
       };
+    case ARCHIVE_CAMPAIGN:
+      const { campaigns } = state;
+      const { data } = action;
+      let newCampaignsList = campaigns.filter((x) => x.id !== data.id);
+      return {
+        ...state,
+        campaigns: newCampaignsList,
+        status: Success
+      }
     case RESET_CAMPAIGNS_DATA:
       return initialState;
     default:

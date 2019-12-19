@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon.jsx';
+import { useDispatch } from 'react-redux';
 
 const Action = styled.div`
   position: relative;
@@ -41,10 +42,10 @@ const ActionLink = styled.a`
 `;
 
 function SwipeMenuAction(props) {
-
+  const dispatch = useDispatch();
   return (
-    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background}>
-      <Icon margin="mb-2" height="26px" width="auto" name={"action-" + props.icon}/>
+    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background} onClick={() => dispatch(props.handleClick)}>
+      <Icon margin="mb-2" height="26px" width="auto" name={"action-" + props.icon} />
       <ActionLink className="stretched-link">{props.name}</ActionLink>
     </Action>
   );

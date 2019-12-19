@@ -3,7 +3,8 @@ import {
   SET_FETCH_CAMPAIGNS,
   SET_FETCH_CAMPAIGNS_ERROR,
   RESET_CAMPAIGNS_DATA,
-  FETCH_CAMPAIGNS
+  FETCH_CAMPAIGNS,
+  ARCHIVE_CAMPAIGN,
 } from './actionTypes';
 import { Fetching } from '../../variables';
 import { unArchivedData } from './transformers';
@@ -26,6 +27,11 @@ export const setFetchedCampaignsError = error => ({
 export const resetCampaignsData = () => ({
   type: RESET_CAMPAIGNS_DATA
 });
+
+export const setArchiveCampaign = data => ({
+  type: ARCHIVE_CAMPAIGN,
+  data
+})
 
 export const fetchCampaigns = id => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
@@ -54,5 +60,26 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     .catch(error => {
       console.log('Error fetching sorted campaigns', error.response);
       dispatch(setFetchedCampaignsError('Error when fetching sorted campaigns'));
+    });
+};
+
+export const archiveCampaign = data => (dispatch, _) => {
+  const { id, name, company, market, createdBy, priorityCount } = data;
+
+  const body = {
+    name,
+    company,
+    market,
+    createdBy,
+    priorityCount,
+    isArchived: true
+  }
+
+  AxiosInstance.put(`/campaigns/${id}/`, body)
+    .then(({ data }) => {
+      dispatch(setArchiveCampaign(data));
+    })
+    .catch(error => {
+      console.log('Error archiving camapign: ', error);
     });
 };

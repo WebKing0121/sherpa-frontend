@@ -1,4 +1,4 @@
-import React, { useEffect, useState }  from 'react';
+import React, { useEffect, useState } from 'react';
 import ListItem from './ListItem';
 import VirtualList from 'react-tiny-virtual-list';
 import SwipeListItem from '../SwipeableList/SwipeableListItem';
@@ -19,11 +19,11 @@ function List(props) {
   useEffect(() => {
     let item = document.getElementById("1");
 
-    if(item) {
+    if (item) {
       let itemSize = item.offsetHeight;
       setItemHeight(itemSize);
     }
-    },[]
+  }, []
   );
 
 
@@ -59,7 +59,7 @@ function List(props) {
               </React.Fragment>
             );
           }} />
-        {props.isFetching ? <SpinWrap><Spinner color="primary" size="lg"/></SpinWrap> : null}
+        {props.isFetching ? <SpinWrap><Spinner color="primary" size="lg" /></SpinWrap> : null}
       </>
     );
   };
@@ -75,7 +75,7 @@ function List(props) {
                 (<SwipeListItem
                   threshold=".25"
                   actions={item.actions}
-                  key={idx}>
+                  key={item.id}>
                   <ListItem item={item} />
                 </SwipeListItem>) :
                 (<ListItem key={idx} item={item} />);

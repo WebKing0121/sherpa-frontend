@@ -33,7 +33,7 @@ class SwipeableListItem extends React.Component {
   viewportWidth = window.innerWidth;
   vw = this.viewportWidth / 100;
   actionSizeBase = 100 / (this.numActions + 1);
-  actionSize = Math.min(this.actionSizeBase,25);
+  actionSize = Math.min(this.actionSizeBase, 25);
   menuOpen = -1 * (this.actionSize * this.numActions) * this.vw;
   padLeft = 100 * this.vw - Math.abs(this.menuOpen);
   wrap = this.numActions > 4;
@@ -196,7 +196,16 @@ class SwipeableListItem extends React.Component {
           <div ref={div => (this.background = div)} className="Background">
             <SwipeMenu wrapList={this.wrap} padLeft={this.padLeft} className="swipeMenu">
               {this.props.actions.map((item, idx) =>
-                <SwipeMenuAction wrapList={this.wrap} className="action" key={idx} size={this.actionSize} name={item.name} icon={item.icon} background={item.background} />
+                <SwipeMenuAction
+                  wrapList={this.wrap}
+                  className="action"
+                  key={idx}
+                  size={this.actionSize}
+                  name={item.name}
+                  icon={item.icon}
+                  background={item.background}
+                  handleClick={item.link}
+                />
               )}
             </SwipeMenu>
           </div>
