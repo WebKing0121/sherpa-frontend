@@ -256,7 +256,7 @@ const FieldsSection = (props) => {
             Sent!
           </Button> */}
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
-            <Label><h4>Complete your action using the following campaign:</h4></Label>
+            <Label className="fw-black textL mb-2" for="campaigns">Complete your action using the following campaign:</Label>
             <FormGroup className="mt-1 mb-3">
               <Radio type="radio" name="campaigns" label="San Francisco" id="camp1" />
               <Radio type="radio" name="campaigns" label="Seattle/Tac" id="camp2" />

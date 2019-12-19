@@ -16,20 +16,65 @@ import {
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { Updating } from '../../../variables';
 
-const Pill = styled.div`
-  background: ${props => (!props.active ? 'white' : 'var(--' + props.color + ')')};
+const StatusAction = styled.div`
+  background: ${props => {
+    let bg = '';
+
+    if(!props.active) {
+      bg = 'white';
+    } else {
+      bg = 'var(--' + props.color + ')';
+    }
+    if (props.isLoading) {
+      bg = 'var(--lightGray)';
+    }
+
+    return bg;
+  }};
+  transform: ${props => {
+    let scl = 'scale(1)';
+
+    if (props.isLoading) {
+      scl = 'scale(.95)';
+    }
+
+    return scl;
+  }};
   color: ${props => (!props.active ? 'var(--gray)' : 'white')};
   padding: 0.6em var(--pad2);
   border-radius: 2em;
   border: 2px solid;
-  border-color: ${props => (!props.active ? 'currentColor' : 'var(--' + props.color + ')')};
+  border-color: ${props => {
+    let bc = '';
+
+    if(!props.active) {
+      bc = 'currentColor';
+    } else {
+      bc = 'var(--' + props.color + ')';
+    }
+
+    if (props.isLoading) {
+      bc = 'var(--gray)';
+    }
+
+    return bc;
+  }};
   margin: var(--pad2) 0 0;
   flex-basis: 48%;
   flex-shrink: 2;
   text-align: center;
+
+  transition: background-color .2s, transform .25s cubic-bezier(0.15, 0.75, 1, 1.45);
+
+  .spinner-border {
+    width: 1.125em;
+    height: 1.125em;
+    border-width: .2em;
+    color: var(--gray) !important;
+  }
 `;
 
-const StatusPills = styled.div`
+const StatusActions = styled.div`
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
@@ -128,15 +173,17 @@ const DetailsTab = props => {
     dispatch(action(prospect.id, { [attr]: value }));
   };
 
-  // render pills
-  const pills = statusList.map((item, key) => (
-    <Pill
+  // render statusActions
+  const statusActions = statusList.map((item, key) => (
+    <StatusAction
       key={key}
       attr={item.attr}
       onClick={onStatusChange(item.attr, item.action)}
       color={item.color}
       active={item.active}
-      className="textM fw-black">
+      className="textM fw-black"
+      isLoading={item.status === Updating}
+      >
       <LoadingSpinner
         isLoading={item.status === Updating}
         renderContent={() => (
@@ -145,7 +192,7 @@ const DetailsTab = props => {
             {item.text}
           </>)}
       />
-    </Pill>
+    </StatusAction>
   ));
 
   // on change lead
@@ -166,7 +213,7 @@ const DetailsTab = props => {
         {leadOptions}
       </InputSelect>
 
-      <StatusPills>{pills}</StatusPills>
+      <StatusActions>{statusActions}</StatusActions>
     </>
   );
 };

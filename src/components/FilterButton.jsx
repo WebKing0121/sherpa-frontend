@@ -23,12 +23,12 @@ const Pane = styled.div`
     }
   }
 
-  &:first-child {
-    padding-bottom: var(--pad3);
+  &:not(:last-child) {
     border-bottom: 1px solid var(--mediumGray);
+    padding-bottom: var(--pad3);
   }
 
-  &:last-child {
+  &:not(:first-child) {
     padding-top: var(--pad3);
   }
 
