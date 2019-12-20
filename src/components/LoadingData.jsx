@@ -46,14 +46,18 @@ export const DataLoader = props => {
   return (
     <>
       {whenLoadingResults(status, data) ? (
-        <SpinWrap topPad={fullPage}>
+        <SpinWrap topPad={fullPage} data-test='spinner'>
           <Spinner color='primary' />
         </SpinWrap>
-      ) : whenNoResults(status, data) ? (
-        <NoResults> {(whenError() && networkError) || emptyResultsMessage}</NoResults>
       ) : (
+        <div data-test='displayed-data'>
+          {whenNoResults(status, data) ? (
+            <NoResults> {(whenError() && networkError) || emptyResultsMessage}</NoResults>
+          ) : (
             renderData()
           )}
+        </div>
+      )}
     </>
   );
 };

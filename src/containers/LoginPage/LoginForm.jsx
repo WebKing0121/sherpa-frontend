@@ -25,39 +25,63 @@ const Error = styled.p`
 
 export default function LoginForm(props) {
   // state
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const { submit, formError } = props;
 
   // onchange handlers
-  const changeUsername = (e) => setUsername(e.target.value);
-  const changePWHandler = (e) => setPassword(e.target.value);
-  const onSubmit = (e) => {
+  const changeUsername = e => setUsername(e.target.value);
+  const changePWHandler = e => setPassword(e.target.value);
+  const onSubmit = e => {
     e.preventDefault();
     submit(username, password);
   };
 
   return (
     <FullWidth>
-      <LogoHolster><img src={logo} alt="Sherpa Logo"/></LogoHolster>
-      <StyledCard className="text-center">
+      <LogoHolster>
+        <img src={logo} alt='Sherpa Logo' />
+      </LogoHolster>
+      <StyledCard className='text-center'>
         <CardHeader>Welcome back.</CardHeader>
         <div>
-          <form className="text-left" onSubmit={onSubmit}>
+          <form className='text-left' onSubmit={onSubmit} data-test='login-form'>
             <FormGroup>
-              <Label for="username">Email</Label>
+              <Label for='username'>Email</Label>
               <InputGroupBorder>
-                <Input name="username" value={username} onChange={changeUsername} placeholder="Enter email address"/>
+                <Input
+                  name='username'
+                  value={username}
+                  onChange={changeUsername}
+                  placeholder='Enter email address'
+                  required
+                />
               </InputGroupBorder>
             </FormGroup>
             <FormGroup>
-              <Label for="password">Password</Label>
+              <Label for='password'>Password</Label>
               <InputGroupBorder>
-                <Input name="password" type="password" value={password} onChange={changePWHandler} placeholder="Enter Password"/>
+                <Input
+                  name='password'
+                  type='password'
+                  value={password}
+                  onChange={changePWHandler}
+                  placeholder='Enter Password'
+                  required
+                />
               </InputGroupBorder>
             </FormGroup>
-            {formError ? <Error>{formError}</Error> : null}
-            <Button className="mt-4" block size="lg" color="primary" type="submit" disabled={!username || !password}>Log In</Button>
+            {formError ? <Error data-test='login-form-error'>{formError}</Error> : null}
+            <Button
+              className='mt-4'
+              block
+              size='lg'
+              color='primary'
+              type='submit'
+              disabled={!username || !password}
+            >
+              Log In
+            </Button>
           </form>
         </div>
       </StyledCard>

@@ -27,3 +27,6 @@ yarn-error.log*
 
 # backup files
 *~
+
+/cypress/videos
+/cypress/screenshots

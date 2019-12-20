@@ -11,9 +11,15 @@ import { setAuthTokenHeader } from './store/Auth/utils';
 setAuthTokenHeader();
 
 ReactDOM.render(
-  <Provider store={ReduxStore}><App /></Provider>,
+  <Provider store={ReduxStore}>
+    <App />
+  </Provider>,
   document.getElementById('root')
 );
+
+if (window.Cypress) {
+  window.store = ReduxStore;
+}
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
