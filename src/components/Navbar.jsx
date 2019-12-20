@@ -129,7 +129,7 @@ const SherpNavbar = props => {
   return (
     <div>
       <StyledNavbar isOpen={collapse} fixed='top' color='dark' dark expand='md' data-test='navbar'>
-        <NavbarBrand data-test='navbar-brand'>
+        <NavbarBrand tag='div' data-test='navbar-brand'>
           <Link to='/'>
             <img src={logo} alt='Lead Sherpa' />
           </Link>
