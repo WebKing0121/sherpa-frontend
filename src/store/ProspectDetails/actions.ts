@@ -4,7 +4,10 @@ import {
   SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
   SET_PROSPECT_DETAILS_TAB_AGENTS,
   SET_PROSPECT_FETCH_STATUS,
-  SET_PROSPECT_SMS_RELAY_MAP
+  SET_PROSPECT_SMS_RELAY_MAP,
+  SET_PROSPECT_CAMPAIGN_ID,
+  SET_PROSPECT_UPDATE_ACTION_STATUS,
+  CLEAR_PROSPECT_CAMPAIGN_ID
 } from './actionTypes.js';
 import { Fetching, Updating, Success } from '../../variables';
 import { profilesToUsers } from './transformers';
@@ -16,7 +19,7 @@ const setProspectFetchStatus = (status: any) => ({
 });
 
 const setProspectUpdateStatus = (prospectStatus: string, status: string, ) => ({
-  type: 'SET_PROSPECT_UPDATE_ACTION_STATUS',
+  type: SET_PROSPECT_UPDATE_ACTION_STATUS,
   prospectStatus,
   status
 });
@@ -30,6 +33,15 @@ const setProspectCampaigns = (prospectCampaigns: any) => ({
   type: SET_PROSPECT_CAMPAIGNS,
   prospectCampaigns
 });
+
+export const setProspectActiveCampaign = (prospectCampaignId: number | null) => ({
+  type: SET_PROSPECT_CAMPAIGN_ID,
+  prospectCampaignId
+})
+
+export const clearDefaultCampaign = () => ({
+  type: CLEAR_PROSPECT_CAMPAIGN_ID
+})
 
 const setProspectSmsRelayMap = (smsRelayMap: any) => ({
   type: SET_PROSPECT_SMS_RELAY_MAP,
@@ -90,7 +102,9 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
     .get(`prospects/${id}/?expand=campaigns,sms_relay_map`)
     .then(({ data }) => {
       let prospect = data;
-      const campaigns = prospect.campaigns;
+      const campaigns = [
+        ...prospect.campaigns,
+      ];
       const smsRelayMap = prospect.smsRelayMap || { rep: { id: null } };
 
       delete prospect.campaigns;
@@ -99,6 +113,8 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
       dispatch(setProspect(prospect));
       dispatch(setProspectCampaigns(campaigns));
       dispatch(setProspectSmsRelayMap(smsRelayMap));
+      if (campaigns.length === 1)
+        dispatch(setProspectActiveCampaign(campaigns[0].id));
     })
     .catch(error => console.log('Error fetching prospect detail', error.response));
 };

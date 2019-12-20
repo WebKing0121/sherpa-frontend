@@ -15,5 +15,6 @@ export const prospectDetailsAgent = (state) => state.prospectDetails.prospect.sm
 export const leadStagesSelector = (state) => state.prospectDetails.prospectDetailsTab.leadStages;
 export const agentSelector = (state) => state.prospectDetails.prospectDetailsTab.agents;
 export const selectedAgent = (state) => state.prospectDetails.prospect.agent;
+export const activeCampaignSelector = (state) => state.prospectDetails.activeCampaign;
 // selectors for the action btns
 export const prospectBtnStatus = (state) => state.prospectDetails.prospectDetailsTab.prospectStatus;

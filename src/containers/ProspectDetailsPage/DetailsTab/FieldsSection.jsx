@@ -10,13 +10,16 @@ import {
   agentSelector,
   prospectDetailsCampaigns,
   prospectDetails,
-  selectedAgent
+  selectedAgent,
+  activeCampaignSelector
 } from '../../../store/ProspectDetails/selectors';
 import {
   fetchAgents,
   setProspectReminder,
   setProspectRelay,
-  updateProspectAgent
+  updateProspectAgent,
+  clearDefaultCampaign,
+  setProspectActiveCampaign
 } from '../../../store/ProspectDetails/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
@@ -157,8 +160,10 @@ const RenderRelayOptions = (relayData) => {
   ));
 };
 
+//TODO(Diego): Add new selector for selected-campaign
 const FieldsSection = (props) => {
   const campaigns = useSelector(prospectDetailsCampaigns);
+  const activeCampaign = useSelector(activeCampaignSelector);
   const agents = useSelector(agentSelector);
   const agent = useSelector(selectedAgent);
   const dispatch = useDispatch();
@@ -170,12 +175,14 @@ const FieldsSection = (props) => {
     smsRelayMap: { rep: { id } }
   } = useSelector(prospectDetails);
 
+  // fetch agents
   useEffect(() => {
     // if there's a prospect we want to get the company-id to fetch agents
     if (campaigns.length > 0) {
       let companyId = campaigns[0].id;
       dispatch(fetchAgents(companyId));
     }
+    return () => dispatch(clearDefaultCampaign());
   }, [dispatch, campaigns]);
 
   // agent controls
@@ -201,6 +208,16 @@ const FieldsSection = (props) => {
         )
       );
     }
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log('SUBMITTING', activeCampaign);
+  };
+
+  const campaignOnChange = (campaignId) => (e) => {
+    console.log('ID', campaignId);
+    setProspectActiveCampaign(campaignId);
   };
 
   return (
@@ -254,13 +271,23 @@ const FieldsSection = (props) => {
             Sent!
           </Button> */}
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
-            <Label className="fw-black textL mb-2" for="campaigns">Complete your action using the following campaign:</Label>
-            <FormGroup className="mt-1 mb-3">
-              <Radio type="radio" name="campaigns" label="San Francisco" id="camp1" />
-              <Radio type="radio" name="campaigns" label="Seattle/Tac" id="camp2" />
-              <Radio type="radio" name="campaigns" label="Another Campaign" id="camp3" />
-            </FormGroup>
-            <Button color="primary" block size="lg">Submit</Button>
+            <form onSubmit={onSubmit} >
+              <Label className="fw-black textL mb-2" >Complete your action using the following campaign:</Label>
+              <FormGroup className="mt-1 mb-3" htmlFor="campaigns">
+                {campaigns.map((campaign, idx) => (
+                  <Radio
+                    key={idx}
+                    type="radio"
+                    name="campaigns"
+                    label={campaign.name}
+                    defaultChecked={activeCampaign === campaign.id}
+                    value={campaign.id}
+                    onChange={campaignOnChange(campaign.id)}
+                    id={idx} />
+                ))}
+              </FormGroup>
+              <Button color="primary" block size="lg">Submit</Button>
+            </form>
           </Modal>
         </BtnHolster>
       </FieldWrapper>
