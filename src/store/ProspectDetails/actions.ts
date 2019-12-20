@@ -2,7 +2,6 @@ import AxiosInstance from '../../axiosConfig';
 import {
   SET_PROSPECT_DATA, SET_PROSPECT_CAMPAIGNS,
   SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
-  SET_PROSPECT_DETAILS_TAB_AGENTS,
   SET_PROSPECT_FETCH_STATUS,
   SET_PROSPECT_SMS_RELAY_MAP,
   SET_PROSPECT_CAMPAIGN_ID,
@@ -10,7 +9,6 @@ import {
   CLEAR_PROSPECT_CAMPAIGN_ID
 } from './actionTypes.js';
 import { Fetching, Updating, Success } from '../../variables';
-import { profilesToUsers } from './transformers';
 
 
 const setProspectFetchStatus = (status: any) => ({
@@ -53,11 +51,6 @@ const setProspectDetailsTabLeadStages = (leadStages: any) => ({
   leadStages
 });
 
-const setProspectDetailsTabAgents = (agents: any) => ({
-  type: SET_PROSPECT_DETAILS_TAB_AGENTS,
-  agents
-});
-
 export const fetchLeadStages = () => (dispatch: any, getState: any) => {
   let { prospectDetails: { prospectDetailsTab: { leadStages = [] } } } = getState();
 
@@ -75,23 +68,6 @@ export const fetchLeadStages = () => (dispatch: any, getState: any) => {
         return response.data
       })
       .catch(error => console.log('Error fetching lead stages', error.response));
-  }
-};
-
-export const fetchAgents = (id: any) => (dispatch: any, getState: any) => {
-  let { prospectDetails: { prospectDetailsTab: { agents = [] } } } = getState();
-
-  // don't refetch agents if already loaded
-  if (agents.length === 0) {
-    AxiosInstance
-      .get(`companies/${id}/`)
-      .then(response => {
-        dispatch(setProspectDetailsTabAgents(
-          profilesToUsers(response.data)
-        ));
-        return response.data
-      })
-      .catch(error => console.log('Error fetching agents', error));
   }
 };
 

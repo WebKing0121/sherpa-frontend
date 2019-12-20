@@ -1,3 +1,5 @@
+import { profilesToAgents } from './transformers';
+
 export const prospectDetailsData = (state) => state.prospectDetails.prospect;
 export const prospectDetails = (state) => ({
   prospectId: state.prospectDetails.prospect.id,
@@ -13,7 +15,11 @@ export const prospectDetailsAgent = (state) => state.prospectDetails.prospect.sm
 
 // details tab selectors
 export const leadStagesSelector = (state) => state.prospectDetails.prospectDetailsTab.leadStages;
-export const agentSelector = (state) => state.prospectDetails.prospectDetailsTab.agents;
+export const agentSelector = (state) => {
+  let { auth: { userData: { company: { profiles } } } } = state;
+
+  return profilesToAgents(profiles);
+};
 export const selectedAgent = (state) => state.prospectDetails.prospect.agent;
 export const activeCampaignSelector = (state) => state.prospectDetails.activeCampaign;
 // selectors for the action btns

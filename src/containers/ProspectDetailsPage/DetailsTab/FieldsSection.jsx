@@ -14,7 +14,6 @@ import {
   activeCampaignSelector
 } from '../../../store/ProspectDetails/selectors';
 import {
-  fetchAgents,
   setProspectReminder,
   setProspectRelay,
   updateProspectAgent,
@@ -54,22 +53,6 @@ const FieldWrapper = styled.div`
     margin-bottom: var(--pad4);
   }
 `;
-
-const Field = props => {
-  return (
-    <FieldWrapper>
-      <Label>{props.label}</Label>
-      <InputGroupBorder className='mb-2'>
-        <Input type='text' name={props.id} id={props.id} placeholder={props.placeholder} />
-        <InputGroupAddon addonType='append'>
-          <Button className='p-0' color='link' onClick={props.onclick}>
-            <IconBg icon={props.icon} size='lg' />
-          </Button>
-        </InputGroupAddon>
-      </InputGroupBorder>
-    </FieldWrapper>
-  );
-};
 
 const FieldSelect = props => {
   return (
@@ -160,7 +143,8 @@ const RenderRelayOptions = (relayData) => {
   ));
 };
 
-//TODO(Diego): Add new selector for selected-campaign
+// TODO: Break all these fields into their own
+// sub-component to avoid re-renders
 const FieldsSection = (props) => {
   const campaigns = useSelector(prospectDetailsCampaigns);
   const activeCampaign = useSelector(activeCampaignSelector);
@@ -175,15 +159,8 @@ const FieldsSection = (props) => {
     smsRelayMap: { rep: { id } }
   } = useSelector(prospectDetails);
 
-  // fetch agents
-  useEffect(() => {
-    // if there's a prospect we want to get the company-id to fetch agents
-    if (campaigns.length > 0) {
-      let companyId = campaigns[0].id;
-      dispatch(fetchAgents(companyId));
-    }
-    return () => dispatch(clearDefaultCampaign());
-  }, [dispatch, campaigns]);
+  // clears active-campaign when navigating away
+  useEffect(() => () => dispatch(clearDefaultCampaign()), []);
 
   // agent controls
   const onAgentChange = (e) => {
@@ -195,7 +172,10 @@ const FieldsSection = (props) => {
   // SMS RELAY
   const onRelayChange = (e) => {
     let { target: { value } } = e;
-    dispatch(setProspectRelay({ prospect: prospectId, rep: parseInt(value) }));
+    dispatch(setProspectRelay({
+      prospect: prospectId,
+      rep: parseInt(value)
+    }));
   };
 
   // REMINDERS
@@ -216,7 +196,6 @@ const FieldsSection = (props) => {
   };
 
   const campaignOnChange = (campaignId) => (e) => {
-    console.log('ID', campaignId);
     setProspectActiveCampaign(campaignId);
   };
 
@@ -265,11 +244,7 @@ const FieldsSection = (props) => {
         <BtnHolster>
           <Button id='zapier' color="primary" className="fw-bold" onClick={() => setModal(true)}>Email to CRM</Button>
           <Button id='crm' color="primary" className="fw-bold" onClick={() => setModal(true)}>Push to Zapier</Button>
-          {/*  This should be the success state below:
-          <Button id='crm' color="success" className="fw-bold">
-            <FontAwesomeIcon icon="check" className="mr-1" />
-            Sent!
-          </Button> */}
+
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
             <form onSubmit={onSubmit} >
               <Label className="fw-black textL mb-2" >Complete your action using the following campaign:</Label>

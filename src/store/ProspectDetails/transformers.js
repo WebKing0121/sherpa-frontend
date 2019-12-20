@@ -1,8 +1,9 @@
-export const profilesToUsers = (data) => {
-  let profiles = data.profiles;
-  let timezone = data.timezone;
-
+export const profilesToAgents = (profiles) => {
   return profiles.map(
-    (profile) => ({ timezone, phone: profile.phone, ...profile.user, id: profile.id })
+    (profile) => ({
+      phone: profile.phone || "",
+      ...profile.user,
+      id: profile.id
+    })
   );
 }
