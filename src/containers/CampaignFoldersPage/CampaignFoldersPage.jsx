@@ -8,7 +8,7 @@ import { campaignFoldersToItemList } from './utils';
 import { fetchCampaignFolders } from '../../store/CampaignFolders/actions';
 import { DataLoader } from '../../components/LoadingData';
 
-const CampaignsFolderListPage = () => {
+const CampaignFoldersPage = () => {
   const campaignFolders = useSelector(campaignFoldersList);
   const isFetching = useSelector(campaignFoldersStatus);
   const dispatch = useDispatch();
@@ -20,7 +20,7 @@ const CampaignsFolderListPage = () => {
   const listItems = campaignFoldersToItemList(campaignFolders);
 
   return (
-    <div>
+    <>
       <Header>Campaigns</Header>
       <DataLoader
         status={isFetching}
@@ -28,8 +28,8 @@ const CampaignsFolderListPage = () => {
         emptyResultsMessage='Currently You Have No Campaigns to Display.'
         renderData={() => <List items={listItems} />}
       />
-    </div>
+    </>
   );
 };
 
-export default CampaignsFolderListPage;
+export default CampaignFoldersPage;

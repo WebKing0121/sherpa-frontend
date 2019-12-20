@@ -1,5 +1,5 @@
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
-import CampaignsFolders from './containers/CampaignsFolderList/CampaignsFolderList';
+import CampaignsFolders from './containers/CampaignFoldersPage/CampaignFoldersPage';
 import SupportPage from './containers/SupportPage/SupportPage.jsx';
 
 const Routes = [

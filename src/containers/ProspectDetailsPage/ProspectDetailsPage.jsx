@@ -11,6 +11,7 @@ import { prospectDetailsData, prospectDetailsStatus } from '../../store/Prospect
 import { DataLoader } from '../../components/LoadingData';
 import { fetchProspectNotes, updateProspectNotes } from '../../store/ProspectNotes/actions';
 import { prospectNotesList, prospectNotesStatus } from '../../store/ProspectNotes/selectors';
+import { prospectHeaderInfo } from '../../variables';
 
 const StyledTabContent = styled(TabContent)``;
 
@@ -25,28 +26,6 @@ function ProspectDetailsPage(props) {
   useEffect(() => {
     dispatch(fetchProspect(prospectId));
   }, [dispatch, prospectId]);
-
-  const headerInfo = {
-    fromText: 'Prospect List',
-    hasBackButton: true,
-    tabs: [
-      {
-        idx: '1',
-        name: 'Details',
-        icon: 'user'
-      },
-      {
-        idx: '2',
-        name: 'Messages',
-        icon: 'comment-dots'
-      },
-      {
-        idx: '3',
-        name: 'Notes',
-        icon: 'sticky-note'
-      }
-    ]
-  };
 
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -70,8 +49,8 @@ function ProspectDetailsPage(props) {
       fullPage={true}
       emptyResultsMessage={'Could not find the prospect'}
       renderData={() => (
-        <div>
-          <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={headerInfo}>
+        <>
+          <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={prospectHeaderInfo}>
             {prospect.name}
           </TabbedHeader>
           <StyledTabContent activeTab={activeTab}>
@@ -79,7 +58,7 @@ function ProspectDetailsPage(props) {
             <TabPane tabId='2'>{activeTab === '2' && <MessagesTab />}</TabPane>
             <TabPane tabId='3'>{activeTab === '3' && <NotesTab {...notesProps} />}</TabPane>
           </StyledTabContent>
-        </div>
+        </>
       )}
     />
   );

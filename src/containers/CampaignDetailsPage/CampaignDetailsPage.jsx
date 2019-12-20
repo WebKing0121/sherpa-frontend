@@ -8,6 +8,7 @@ import styled from 'styled-components';
 import NotesTab from '../../components/NotesTab/NotesTab';
 import { fetchCampaignNotes, updateCampaignNotes } from '../../store/CampaignNotes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignNotes/selectors';
+import { campaignHeaderInfo } from '../../variables';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
@@ -18,28 +19,6 @@ function CampaignDetailsPage(props) {
   const campaignId = props.match.params.id;
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
-  };
-
-  const headerInfo = {
-    fromText: 'Campaign List',
-    hasBackButton: true,
-    tabs: [
-      {
-        idx: '1',
-        name: 'Send',
-        icon: 'paper-plane'
-      },
-      {
-        idx: '2',
-        name: 'Messages',
-        icon: 'comment-dots'
-      },
-      {
-        idx: '3',
-        name: 'Notes',
-        icon: 'sticky-note'
-      }
-    ]
   };
 
   const notesList = useSelector(campaignNotesList);
@@ -54,8 +33,8 @@ function CampaignDetailsPage(props) {
   };
 
   return (
-    <div>
-      <TabbedHeader data={headerInfo} toggleTab={toggleTab} activeTab={activeTab}>
+    <>
+      <TabbedHeader data={campaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>
         Greeley/Fort Collins - 2019-05-08
       </TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
@@ -63,7 +42,7 @@ function CampaignDetailsPage(props) {
         <TabPane tabId='2'>{activeTab === '2' && <MessagesTab />}</TabPane>
         <TabPane tabId='3'>{activeTab === '3' && <NotesTab {...notesProps} />}</TabPane>
       </StyledTabContent>
-    </div>
+    </>
   );
 }
 

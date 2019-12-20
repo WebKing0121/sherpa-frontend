@@ -26,7 +26,7 @@ function ProspectsSearch(props) {
   const prospectList = prospectsToItemList(prospectResults);
 
   return (
-    <div>
+    <>
       <Header>Prospects Search</Header>
       <SearchModule searchTerm={search} showFilter={false} showSearch={true} />
       <DataLoader
@@ -43,7 +43,7 @@ function ProspectsSearch(props) {
           />
         )}
       />
-    </div>
+    </>
   );
 }
 

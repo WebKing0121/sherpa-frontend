@@ -55,7 +55,7 @@ const CampaignsPage = props => {
   };
 
   return (
-    <div>
+    <>
       <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
       <SearchModule
         showFilter={true}
@@ -65,9 +65,8 @@ const CampaignsPage = props => {
         sortChange={fetchSortedCampaigns}
         marketId={marketId}
       />
-
       <DataLoader status={isFetching} data={listItems} renderData={() => <List items={listItems} />} />
-    </div>
+    </>
   );
 };
 

@@ -13,12 +13,12 @@ const Item = styled.div`
   line-height: 1.25;
   font-weight: bold;
 
-  color: ${props => props.color === "priority" ? "var(--orange)" : "currentColor"};
+  color: ${props => (props.color === 'priority' ? 'var(--orange)' : 'currentColor')};
 
   &[disabled] {
     color: var(--mediumGray);
     img {
-      opacity: .2;
+      opacity: 0.2;
     }
   }
 
@@ -37,8 +37,14 @@ export default function SubInfo(props) {
 
   return (
     <Holster>
-      <Item disabled={lDisabled}><Icon name="person" width="12px" />{props.data.totalLeads} Leads</Item>
-      <Item color="priority" disabled={pDisabled}><Icon name="priority" width="11px" />{props.data.priorityCount} Priority</Item>
+      <Item disabled={lDisabled}>
+        <Icon name='person' width='12px' />
+        {props.data.totalLeads} Leads
+      </Item>
+      <Item color='priority' disabled={pDisabled}>
+        <Icon name='priority' width='11px' />
+        {props.data.priorityCount} Priority
+      </Item>
     </Holster>
   );
 }

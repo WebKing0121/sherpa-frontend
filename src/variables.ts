@@ -14,3 +14,47 @@ export const messageUpdateNote = 'Note updated';
 export const messageDeleteNote = 'Note Deleted';
 
 export const generalNetworkError = 'Something went wrong!  Please refresh or try again later.';
+
+export const campaignHeaderInfo = {
+  fromText: 'Campaign List',
+  hasBackButton: true,
+  tabs: [
+    {
+      idx: '1',
+      name: 'Send',
+      icon: 'paper-plane'
+    },
+    {
+      idx: '2',
+      name: 'Messages',
+      icon: 'comment-dots'
+    },
+    {
+      idx: '3',
+      name: 'Notes',
+      icon: 'sticky-note'
+    }
+  ]
+};
+
+export const prospectHeaderInfo = {
+  fromText: 'Prospect List',
+  hasBackButton: true,
+  tabs: [
+    {
+      idx: '1',
+      name: 'Details',
+      icon: 'user'
+    },
+    {
+      idx: '2',
+      name: 'Messages',
+      icon: 'comment-dots'
+    },
+    {
+      idx: '3',
+      name: 'Notes',
+      icon: 'sticky-note'
+    }
+  ]
+};

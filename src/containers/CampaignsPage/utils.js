@@ -7,7 +7,7 @@ import { archiveCampaign } from '../../store/Campaigns/actions';
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.
  */
-export const campaignToItemList = (campaign) => {
+export const campaignToItemList = campaign => {
   const { id, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
   return {
     ...IListItem,
@@ -19,13 +19,13 @@ export const campaignToItemList = (campaign) => {
     link: `/campaigns/${id}/details`,
     actions: [
       {
-        icon: "archive",
-        name: "Archive",
+        icon: 'archive',
+        name: 'Archive',
         link: archiveCampaign(campaign),
-        background: "gray"
-      },
+        background: 'gray'
+      }
     ]
   };
-}
+};
 
-export const campaignsToItemList = (campaigns) => campaigns.map(campaignToItemList);
+export const campaignsToItemList = campaigns => campaigns.map(campaignToItemList);
