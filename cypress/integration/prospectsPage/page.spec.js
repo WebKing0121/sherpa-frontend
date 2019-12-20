@@ -5,7 +5,7 @@ describe('Prospect page', () => {
     cy.waitForCall();
   });
 
-  it('should render prosects page route', () => {
+  it('renders prosects page route', () => {
     cy.visit('prospects');
 
     cy.location().should(location => {
@@ -13,7 +13,7 @@ describe('Prospect page', () => {
     });
   });
 
-  it('should display results', () => {
+  it('displays results', () => {
     cy.testApiData();
   });
 });

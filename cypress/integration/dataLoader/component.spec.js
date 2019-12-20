@@ -10,12 +10,12 @@ describe('data loader wrapper component', () => {
     cy.visit('support');
   });
 
-  it('should display the spinner and not display data', () => {
+  it('displays the spinner and not display data', () => {
     cy.get(spinner, { timeout }).should('exist');
     cy.get(data, { timeout }).should('not.exist');
   });
 
-  it('should display the data and not display spinner', () => {
+  it('displays the data and not display spinner', () => {
     cy.waitForCall();
     cy.get(spinner, { timeout }).should('not.exist');
     cy.get(data, { timeout }).should('exist');

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import moment from 'moment-timezone';
@@ -106,23 +106,31 @@ function Note(props) {
     return name.replace(/(?:^|\s)\S/g, letter => letter.toUpperCase());
   };
 
+  const buttonBlock = useRef();
+
+  const handleDeleteClick = () => {
+    //disables edit and delete buttons when note is deleted
+    buttonBlock.current.style.pointerEvents = 'none';
+    deleteNote();
+  };
+
   return (
     <NoteCard>
       <Timeline>
         <div className='greenCircle'></div>
         <div className='grayBar'></div>
       </Timeline>
-      <div>
+      <div data-test='note-details'>
         <pre className='textL gray'>{`${dateTime[0]}  |  ${dateTime[1]}`}</pre>
         <h4 className='textL fw-bold'>
           {createdBy && createdBy.fullName && getFormattedName(createdBy.fullName)}
         </h4>
         <p className='textL'>{text}</p>
-        <ButtonBlock>
+        <ButtonBlock ref={buttonBlock}>
           <Button size='lg' color='link' onClick={() => setModal(true)}>
             Edit
           </Button>
-          <Button size='lg' color='link' onClick={deleteNote}>
+          <Button size='lg' color='link' onClick={handleDeleteClick}>
             Delete
           </Button>
         </ButtonBlock>

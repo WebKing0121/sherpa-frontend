@@ -11,15 +11,15 @@ describe('Navbar', () => {
     cy.get('[data-test=navbar-arrow]').click();
   });
 
-  it('should expand navbar', () => {
+  it('expands navbar', () => {
     cy.get('[data-test=navbar-collapse').should('be.visible');
   });
 
-  it('should have 3 routes', () => {
+  it('has 3 routes', () => {
     cy.get('[data-test=routes] > li').should('have.length', 3);
   });
 
-  it('should click campaign link and change to campaign route', () => {
+  it('changes to campaign route when campaign link is clicked', () => {
     cy.get('[data-test=routes] > li')
       .contains('Campaigns')
       .click();
@@ -29,7 +29,7 @@ describe('Navbar', () => {
     });
   });
 
-  it('should click prospects link and change to prospects route', () => {
+  it('changes to prospects route when prospects link is clicked', () => {
     cy.get('[data-test=routes] > li')
       .contains('Prospects')
       .click();
@@ -39,7 +39,7 @@ describe('Navbar', () => {
     });
   });
 
-  it('should click support link and change to support route', () => {
+  it('changes to support route when support link is clicked', () => {
     cy.get('[data-test=routes] > li')
       .contains('Support')
       .click();
@@ -49,11 +49,11 @@ describe('Navbar', () => {
     });
   });
 
-  it('should find navbar brand element', () => {
+  it('renders navbar brand element', () => {
     cy.get('[data-test=navbar-brand').should('exist');
   });
 
-  it('should click navbar brand logo to load root route', () => {
+  it('loads root route when navbar brand logo is clicked', () => {
     cy.get('[data-test=routes] > li')
       .contains('Support')
       .click();
@@ -69,14 +69,14 @@ describe('Navbar', () => {
     });
   });
 
-  it('should expand and collapse navbar', () => {
+  it('expands and collapses navbar', () => {
     cy.get('[data-test=navbar-arrow]').click();
     cy.get('[data-test=navbar-collapse').should('be.visible');
     cy.get('[data-test=navbar-arrow]').click();
     cy.get('[data-test=navbar-collapse').should('not.be.visible');
   });
 
-  it('should log user out', () => {
+  it('logs user out', () => {
     cy.get('[data-test=logout-link]').click();
 
     cy.location().should(location => {

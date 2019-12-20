@@ -100,7 +100,7 @@ function NotesTab(props) {
     <>
       <Heading>
         <h3>Notes</h3>
-        <Button color='primary' onClick={toggle}>
+        <Button color='primary' onClick={toggle} data-test='add-note-btn'>
           Add Note
         </Button>
       </Heading>

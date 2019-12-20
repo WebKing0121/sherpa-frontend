@@ -4,11 +4,7 @@ import Icon from '../Icon.jsx';
 import IconHolster from './IconHolster.jsx';
 import { Link } from 'react-router-dom';
 
-import {
-  ListGroupItem,
-  ListGroupItemHeading,
-  ListGroupItemText
-} from 'reactstrap';
+import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 
 const StyledItem = styled(ListGroupItem)`
   padding: 0 !important;
@@ -17,7 +13,7 @@ const StyledItem = styled(ListGroupItem)`
   border-radius: 0 !important;
   border-left: none !important;
   border-right: none !important;
-  border-bottom: 1px solid rgba(0,0,0,0.125);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 `;
 
 const SubInfo = styled.div`
@@ -33,9 +29,9 @@ const MainInfo = styled(ListGroupItemText)`
 const ItemLink = styled(Link)`
   &:hover,
   &:active {
-    &:after{
+    &:after {
       background: var(--darkNavy);
-      opacity: .03;
+      opacity: 0.03;
     }
   }
 `;
@@ -51,7 +47,7 @@ const ItemHeader = styled.div`
   margin-bottom: var(--pad1);
 `;
 const ItemName = styled(ListGroupItemHeading)`
-  font-weight: ${props => props.isBold ? "900" : "400"};
+  font-weight: ${props => (props.isBold ? '900' : '400')};
 `;
 const StatusWrapper = styled.div`
   display: flex;
@@ -60,15 +56,13 @@ const StatusWrapper = styled.div`
   margin: 0;
 `;
 
-const ItemBody = styled.div`
-`;
+const ItemBody = styled.div``;
 const ItemContent = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
 
   padding: var(--pad2) var(--pad3);
-
 
   .itemBody {
     flex-basis: 100%;
@@ -78,20 +72,22 @@ const ItemContent = styled.div`
 
 function ListItem(props) {
   return (
-    <StyledItem style={props.style}>
-      <ItemContent id={props.id} >
+    <StyledItem style={props.style} data-test='list-item'>
+      <ItemContent id={props.id}>
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
-        <ItemBody className="itemBody">
+        <ItemBody className='itemBody'>
           <ItemHeader>
-            <ItemName className="itemName m-0" >{props.item.name}</ItemName>
-            <StatusWrapper className="d-flex">
-              <ItemIndicator className="textM">{props.item.indicator}</ItemIndicator>
-              <ItemLink to={props.item.link} className="stretched-link"><Icon margin="ml-2" width="10px" name="arrow" alt="next" /></ItemLink>
+            <ItemName className='itemName m-0'>{props.item.name}</ItemName>
+            <StatusWrapper className='d-flex'>
+              <ItemIndicator className='textM'>{props.item.indicator}</ItemIndicator>
+              <ItemLink data-test='list-item-link' to={props.item.link} className='stretched-link'>
+                <Icon margin='ml-2' width='10px' name='arrow' alt='next' />
+              </ItemLink>
             </StatusWrapper>
           </ItemHeader>
 
-          <SubInfo className="textM m-0">{props.item.subInfo}</SubInfo>
-          <MainInfo className="textL">{props.item.mainInfo}</MainInfo>
+          <SubInfo className='textM m-0'>{props.item.subInfo}</SubInfo>
+          <MainInfo className='textL'>{props.item.mainInfo}</MainInfo>
         </ItemBody>
       </ItemContent>
     </StyledItem>

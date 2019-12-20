@@ -9,7 +9,7 @@ describe('Login form', () => {
     cy.visit('login');
   });
 
-  it('should have both login fields', () => {
+  it('has both login fields', () => {
     cy.get('input').should('have.length', 2);
   });
 

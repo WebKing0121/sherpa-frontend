@@ -21,7 +21,7 @@ function NoteForm(props) {
           onChange={e => setText(e.target.value)}
         />
       </InputGroupBorder>
-      <Button style={{ marginTop: '15px' }} color='primary' block size='lg'>
+      <Button style={{ marginTop: '15px' }} color='primary' block size='lg' data-test='note-form-btn'>
         {btnText}
       </Button>
     </Form>
