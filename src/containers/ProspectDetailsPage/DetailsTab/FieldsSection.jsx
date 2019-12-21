@@ -18,7 +18,8 @@ import {
   setProspectRelay,
   updateProspectAgent,
   clearDefaultCampaign,
-  setProspectActiveCampaign
+  setProspectActiveCampaign,
+  removeRelay
 } from '../../../store/ProspectDetails/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
@@ -106,39 +107,14 @@ const FieldDateTime = (props) => {
   );
 };
 
-const RenderAgentOptions = (agents) => {
-  let emptyAgentOption = {
-    id: "",
-    fullName: "Select an Agent",
-    phone: "",
-    role: "",
-  };
-  let newAgents = [emptyAgentOption, ...agents];
+const RenderAgentOptions = (agents, emptyOption) => {
+  let newAgents = [emptyOption, ...agents];
   return newAgents.map((agent, idx) => (
     <option
       key={idx}
       value={agent.id}
-      disabled={idx === 0}
     >
       {agent.fullName}
-    </option>
-  ));
-}
-
-const RenderRelayOptions = (relayData) => {
-  const emptyRelayOption = {
-    id: "",
-    fullName: "",
-    phone: "None",
-    role: "",
-  };
-  let newRelay = [emptyRelayOption, ...relayData];
-  return newRelay.map((relay, idx) => (
-    <option
-      key={idx}
-      value={relay.id}
-    >
-      {relay.phone}
     </option>
   ));
 };
@@ -163,6 +139,12 @@ const FieldsSection = (props) => {
   useEffect(() => () => dispatch(clearDefaultCampaign()), []);
 
   // agent controls
+  const emptyAgentOption = {
+    id: "",
+    fullName: "Select an Agent",
+    phone: "",
+    role: "",
+  };
   const onAgentChange = (e) => {
     const { target: { value } } = e;
     let payload = { agent: value };
@@ -170,12 +152,25 @@ const FieldsSection = (props) => {
   };
 
   // SMS RELAY
+  const emptyRelayOption = {
+    id: "",
+    fullName: "None",
+    phone: "",
+    role: "",
+  };
   const onRelayChange = (e) => {
     let { target: { value } } = e;
-    dispatch(setProspectRelay({
-      prospect: prospectId,
-      rep: parseInt(value)
-    }));
+
+    // if none-selected then remove it
+    if (!value) {
+      dispatch(removeRelay(prospectId, { smsRelayMap: null }));
+    } else {
+      // add new relay
+      dispatch(setProspectRelay({
+        prospect: prospectId,
+        rep: parseInt(value)
+      }));
+    }
   };
 
   // REMINDERS
@@ -192,6 +187,8 @@ const FieldsSection = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    // TODO: Hook appropriate action to dispatch CRM/Zapier button
+    // actions.
     console.log('SUBMITTING', activeCampaign);
   };
 
@@ -206,12 +203,12 @@ const FieldsSection = (props) => {
         id="statusSelect"
         label="Agent"
         onChange={onAgentChange}
-        value={agent || ""}
+        value={agent}
         icon={
           <IconBg icon="headset" size="lg" />
         }
       >
-        {RenderAgentOptions(agents)}
+        {RenderAgentOptions(agents, emptyAgentOption)}
       </FieldSelect>
 
       {sherpaPhoneNumber ?
@@ -225,7 +222,7 @@ const FieldsSection = (props) => {
           icon={
             <IconBg icon="mobile-alt" size="lg" />
           } >
-          {RenderRelayOptions(agents)}
+          {RenderAgentOptions(agents, emptyRelayOption)}
         </FieldSelect> : null}
 
       <FieldWrapper>

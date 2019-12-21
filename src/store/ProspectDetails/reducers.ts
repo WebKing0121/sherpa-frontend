@@ -41,7 +41,7 @@ const initial_state: IState = {
   prospect: {},
   prospectCampaigns: [],
   status: Fetching,
-  smsRelayMap: { rep: { id: null } },
+  smsRelayMap: { rep: { id: "" } },
   activeCampaign: null,
   prospectDetailsTab: <ProspectDetailsTabData>{
     leadStages: [],
@@ -75,7 +75,7 @@ export default function reducer(state: IState = initial_state, action: any) {
     case SET_PROSPECT_DATA:
       return {
         ...state,
-        prospect: action.prospect,
+        prospect: { ...action.prospect, agent: action.prospect.agent || "" },
         status: Success
       };
     case SET_PROSPECT_CAMPAIGNS:

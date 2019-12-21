@@ -81,7 +81,7 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
       const campaigns = [
         ...prospect.campaigns,
       ];
-      const smsRelayMap = prospect.smsRelayMap || { rep: { id: null } };
+      const smsRelayMap = prospect.smsRelayMap || { rep: { id: "" } };
 
       delete prospect.campaigns;
       delete prospect.smsRelayMap;
@@ -140,10 +140,16 @@ export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
   return AxiosInstance
     .post('sms-relay-maps/', payload)
     .then(({ data }) => {
+      dispatch(setProspectSmsRelayMap({ rep: { id: data.rep } }));
       console.log('relay data', data);
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
 };
+
+export const removeRelay = (id: any, payload: any) => (dispatch: any, _: any) => {
+  dispatch(setProspectSmsRelayMap({ rep: { id: "" } }));
+  return updateProspect(id, payload, dispatch);
+}
 
 export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: any) => {
   return AxiosInstance

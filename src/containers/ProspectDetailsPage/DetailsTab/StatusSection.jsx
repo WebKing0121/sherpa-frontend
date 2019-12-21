@@ -20,7 +20,7 @@ const StatusAction = styled.div`
   background: ${props => {
     let bg = '';
 
-    if(!props.active) {
+    if (!props.active) {
       bg = 'white';
     } else {
       bg = 'var(--' + props.color + ')';
@@ -47,7 +47,7 @@ const StatusAction = styled.div`
   border-color: ${props => {
     let bc = '';
 
-    if(!props.active) {
+    if (!props.active) {
       bc = 'currentColor';
     } else {
       bc = 'var(--' + props.color + ')';
@@ -183,7 +183,7 @@ const DetailsTab = props => {
       active={item.active}
       className="textM fw-black"
       isLoading={item.status === Updating}
-      >
+    >
       <LoadingSpinner
         isLoading={item.status === Updating}
         renderContent={() => (
