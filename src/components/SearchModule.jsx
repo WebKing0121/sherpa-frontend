@@ -58,8 +58,8 @@ function SearchModule(props) {
         )}
 
         {props.showFilter && (
-          <Col className='d-flex align-items-center' xs='auto'>
-            <Filter />
+          <Col className="d-flex align-items-center" xs="auto">
+            <Filter marketId={props.marketId} />
           </Col>
         )}
       </Row>

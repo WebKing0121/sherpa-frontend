@@ -4,6 +4,7 @@ import {
   SET_FETCH_OWNERS,
   SET_FETCH_OWNERS_ERROR
 } from './actionTypes';
+import { setFetchedCampaigns } from '../Campaigns/actions';
 import { Fetching } from '../../variables';
 
 export const setFetchedOwnersStatus = status => ({
@@ -32,5 +33,17 @@ export const fetchOwners = id => (dispatch, _) => {
     .catch(error => {
       console.log('Error owners', error);
       dispatch(setFetchedOwnersError('Error when fetching owners'));
+    });
+};
+
+export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
+
+  AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId } })
+    .then(({ data }) => {
+      const { results } = data;
+      dispatch(setFetchedCampaigns(results));
+    })
+    .catch(error => {
+      console.log('Error fetching filtered data by owner: ', error);
     });
 };

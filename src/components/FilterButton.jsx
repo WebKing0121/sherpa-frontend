@@ -10,8 +10,8 @@ import Modal from './Modal';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOwners } from '../store/Filters/actions';
-import { owners } from '../store/Filters/selectors';
+import { fetchOwners, fetchFilteredData } from '../store/Filters/actions';
+import { owners, companyId } from '../store/Filters/selectors';
 
 const Pane = styled.div`
   overflow: hidden;
@@ -66,9 +66,12 @@ const Arrow = styled.div`
   }
 `;
 
-function SearchModule(props) {
+function FilterButton(props) {
   const [modal, setModal] = useState(false);
+  const [ownerFilterId, setOwnersFilterId] = useState(null);
+
   const ownersList = useSelector(owners);
+  const company = useSelector(companyId);
   const dispatch = useDispatch();
 
   const toggle = () => setModal(!modal);
@@ -80,7 +83,18 @@ function SearchModule(props) {
   // const toggle2 = () => setIsOpen2(!isOpen2);
 
   // fetch owners to filter by
-  useEffect(() => dispatch(fetchOwners(1)), [dispatch]);
+  useEffect(() => dispatch(fetchOwners(company)), [dispatch, company]);
+
+  const handleSelect = (event) => {
+    const { target: { id } } = event;
+    setOwnersFilterId(id);
+  }
+
+  const handleSubmit = () => {
+    const { marketId } = props;
+    dispatch(fetchFilteredData(ownerFilterId, marketId));
+    setModal(false);
+  }
 
   const ownerOptions = ownersList.map(owner => {
     const { user } = owner;
@@ -93,6 +107,7 @@ function SearchModule(props) {
         name='ownedBy'
         label={`${first} ${last}`}
         id={owner.id}
+        onChange={handleSelect}
       />
     )
   });
@@ -147,7 +162,7 @@ function SearchModule(props) {
           {/* </Pane> */}
         </div>
 
-        <Button color="primary" size="lg" block className="mt-4">
+        <Button color="primary" size="lg" block className="mt-4" onClick={handleSubmit}>
           Apply Filters
         </Button>
 
@@ -156,4 +171,4 @@ function SearchModule(props) {
   );
 }
 
-export default SearchModule;
+export default FilterButton;
