@@ -1,7 +1,7 @@
 describe('Navbar', () => {
   // log in and wait for login process to complete
   before(() => {
-    cy.login();
+    cy.manualLogin();
 
     cy.waitForCall();
   });

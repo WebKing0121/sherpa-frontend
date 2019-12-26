@@ -1,13 +1,14 @@
 describe('data loader wrapper component', () => {
-  const spinner = '[data-test=spinner]';
-  const data = '[data-test=displayed-data]';
-  const timeout = 0;
+  const spinner = '[data-test=spinner]',
+    data = '[data-test=displayed-data]',
+    timeout = 0,
+    url = Cypress.env('clientUrl');
   beforeEach(() => {
-    cy.login();
+    cy.manualLogin();
 
     cy.waitForCall();
 
-    cy.visit('support');
+    cy.visit(`${url}/support`);
   });
 
   it('displays the spinner and not display data', () => {

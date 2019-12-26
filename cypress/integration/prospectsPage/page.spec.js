@@ -1,12 +1,13 @@
 describe('Prospect page', () => {
+  const url = Cypress.env('clientUrl');
   before(() => {
-    cy.login();
+    cy.manualLogin();
 
     cy.waitForCall();
   });
 
   it('renders prosects page route', () => {
-    cy.visit('prospects');
+    cy.visit(`${url}/prospects`);
 
     cy.location().should(location => {
       expect(location.pathname).to.eq('/prospects');

@@ -24,27 +24,9 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
 
-// Cypress.Commands.add('login', () => {
-//   cy.request({
-//     method: 'POST',
-//     url: 'http://localhost:8000/api/v1/auth/jwt/create/',
-//     body: {
-//       username: 'george@asdf.com',
-//       password: 'testu123'
-//     }
-//   }).then(({ body }) => {
-//     cy.window()
-//       .its('store')
-//       .then(store => {
-//         store.dispatch({ type: 'SET_AUTH_STATE', ...body });
-//         console.log('body', body);
-//         cy.setCookie('access', body.access);
-//       });
-//   });
-// });
-
-Cypress.Commands.add('login', () => {
-  cy.visit('login');
+Cypress.Commands.add('manualLogin', () => {
+  const url = Cypress.env('clientUrl');
+  cy.visit(`${url}/login`);
 
   cy.get('input')
     .first()
@@ -57,10 +39,27 @@ Cypress.Commands.add('login', () => {
   cy.get('[data-test=login-form]').submit();
 });
 
+Cypress.Commands.add('createTokensJson', () => {
+  const username = Cypress.env('username'),
+    password = Cypress.env('password'),
+    url = Cypress.env('serverUrl');
+  const options = {
+    method: 'POST',
+    url: `${url}/auth/jwt/create/`,
+    body: {
+      username,
+      password
+    }
+  };
+  cy.request(options).then(res => {
+    cy.writeFile(`cypress/fixtures/tokens.json`, res.body);
+  });
+});
+
 Cypress.Commands.add('apiCall', (method, route) => {
   cy.server();
-  cy.route(method, `/api/v1/${route}/`).as('route');
-  cy.wait('@route');
+  cy.route(method, `**/api/v1/${route}/`).as('call');
+  cy.wait('@call');
 });
 
 Cypress.Commands.add('waitForCall', () => {
@@ -72,4 +71,22 @@ const defaultDataEl = '[data-test=displayed-data]';
 Cypress.Commands.add('testApiData', (element = defaultDataEl, timeout = 0) => {
   cy.waitForCall();
   cy.get(element, { timeout }).should('exist');
+});
+
+Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', qs = {}, body = {}) => {
+  const url = Cypress.env('serverUrl');
+  cy.fixture('tokens').then(json => {
+    const options = {
+      method,
+      url: `${url}/${route}/`,
+      auth: {
+        bearer: json.access
+      },
+      qs, //additional query parameters
+      body
+    };
+    cy.request(options).then(res => {
+      cy.writeFile(`cypress/fixtures/${fileName}`, res.body);
+    });
+  });
 });

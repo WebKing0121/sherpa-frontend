@@ -8,15 +8,16 @@ describe('Prospect search, details page, and notes', () => {
     noteFormBtn = '[data-test=note-form-btn]',
     noteDetails = '[data-test=note-details]',
     search = '303',
-    dateMinLength = 19;
+    dateMinLength = 19,
+    url = Cypress.env('clientUrl');
 
   let notesLength = 0;
 
   before(() => {
-    cy.login();
+    cy.manualLogin();
 
     cy.waitForCall();
-    cy.visit('/prospects');
+    cy.visit(`${url}/prospects`);
     cy.waitForCall();
   });
 

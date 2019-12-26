@@ -1,10 +1,11 @@
 describe('Home page', () => {
+  const url = Cypress.env('clientUrl');
   before(() => {
-    cy.login();
+    cy.manualLogin();
 
     cy.waitForCall();
 
-    cy.visit('/');
+    cy.visit(`${url}/`);
   });
 
   it('should render home page route', () => {

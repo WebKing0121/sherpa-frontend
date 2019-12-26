@@ -3,10 +3,11 @@ describe('Login form', () => {
     emailInput = 'input[name="username"]',
     passwordInput = 'input[name="password"]',
     emailValue = 'george@asdf.com',
-    passwordValue = 'testu123';
+    passwordValue = 'testu123',
+    url = Cypress.env('clientUrl');
 
   beforeEach(() => {
-    cy.visit('login');
+    cy.visit(`${url}/login`);
   });
 
   it('has both login fields', () => {
@@ -30,9 +31,19 @@ describe('Login form', () => {
   });
 
   it('fails login verification and displays an error message', () => {
+    cy.fixture('tokens').then(json => {
+      cy.server();
+      cy.route({
+        method: 'POST',
+        url: 'http://localhost:8000/api/v1/jwt/create',
+        response: json
+      });
+    });
+
     cy.get(emailInput).type(emailValue);
 
     cy.get(passwordInput).type('incorrectPassword');
+    cy.fixture('tokens').as('loginTokens');
 
     cy.get(form).submit();
 
