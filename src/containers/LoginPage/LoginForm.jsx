@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import logo from '../../assets/images/sherpaLogo.png';
 import InputGroupBorder from '../../components/InputGroupBorder.jsx';
 import { Card, Input, Label, FormGroup, Button } from 'reactstrap';
+import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 const StyledCard = styled(Card)`
   padding: var(--pad5) var(--pad4);
@@ -27,6 +28,7 @@ export default function LoginForm(props) {
   // state
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [submitting, setSubmitting] = useState(false);
   const { submit, formError } = props;
 
   // onchange handlers
@@ -34,7 +36,10 @@ export default function LoginForm(props) {
   const changePWHandler = e => setPassword(e.target.value);
   const onSubmit = e => {
     e.preventDefault();
-    submit(username, password);
+    setSubmitting(true);
+    submit(username, password)
+      .then(() => setSubmitting(false))
+      .catch((response) => setSubmitting(false));
   };
 
   return (
@@ -47,7 +52,7 @@ export default function LoginForm(props) {
         <div>
           <form className='text-left' onSubmit={onSubmit} data-test='login-form'>
             <FormGroup>
-              <Label for='username'>Email</Label>
+              <Label htmlFor='username'>Email</Label>
               <InputGroupBorder>
                 <Input
                   name='username'
@@ -59,7 +64,7 @@ export default function LoginForm(props) {
               </InputGroupBorder>
             </FormGroup>
             <FormGroup>
-              <Label for='password'>Password</Label>
+              <Label htmlFor='password'>Password</Label>
               <InputGroupBorder>
                 <Input
                   name='password'
@@ -80,7 +85,11 @@ export default function LoginForm(props) {
               type='submit'
               disabled={!username || !password}
             >
-              Log In
+              <LoadingSpinner
+                isLoading={submitting}
+                color="light"
+                renderContent={() => (<>Log In</>)}
+              />
             </Button>
           </form>
         </div>

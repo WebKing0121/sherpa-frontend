@@ -36,10 +36,13 @@ export default function LoginPage(props) {
 
   // submit handler
   const submit = (username, password) => {
-    dispatch(authenticate(
+    return dispatch(authenticate(
       { username, password },
       () => props.history.push('/')
-    ));
+    )).then(() => {
+      props.history.push('/');
+      return null;
+    });
   };
 
   return (

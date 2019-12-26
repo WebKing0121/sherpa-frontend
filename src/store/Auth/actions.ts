@@ -38,16 +38,15 @@ export const updateAuth = (dispatch: any, data: any) => {
   saveToLocalStorage('refresh', data.refresh);
 };
 
-export const authenticate = (credentials: any, continuation: any) => {
+export const authenticate = (credentials: any) => {
   return (dispatch: any, _: any) => {
     return AxiosInstance.post('auth/jwt/create/', credentials)
       .then(({ data }) => {
         setAuthToken(data);
 
         // fetch the user info, mainly the user-id
-        fetchUserInfo(dispatch).then(() => {
+        return fetchUserInfo(dispatch).then(() => {
           updateAuth(dispatch, data);
-          continuation();
         });
       })
       .catch(({ response }) => {
@@ -55,6 +54,7 @@ export const authenticate = (credentials: any, continuation: any) => {
           data: { detail }
         } = response;
         dispatch(setAuthError(detail));
+        throw response;
       });
   };
 };
