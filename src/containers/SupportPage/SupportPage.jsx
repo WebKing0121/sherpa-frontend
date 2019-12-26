@@ -34,7 +34,9 @@ function SupportPage() {
   });
 
   useEffect(() => {
-    dispatch(fetchSupportItems());
+    if (support_items.length === 0) {
+      dispatch(fetchSupportItems());
+    }
   }, [dispatch]);
 
   return (
