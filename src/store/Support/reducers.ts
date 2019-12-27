@@ -1,8 +1,4 @@
-import {
-  SET_FETCH_SUPPORT_ITEMS,
-  SET_FETCH_SUPPORT_ITEMS_ERROR,
-  SET_SUPPORT_ITEMS_STATUS
-} from './actionTypes';
+import { SET_SUPPORT_ITEMS, SET_SUPPORT_ITEMS_ERROR, SET_SUPPORT_ITEMS_STATUS } from './actionTypes';
 import { ISupportItems } from './actions';
 import { Fetching, Success, FetchError } from '../../variables';
 
@@ -28,7 +24,8 @@ export const initialState: IState = {
 
 export default function supportItems(state = initialState, action: IAction) {
   switch (action.type) {
-    case SET_FETCH_SUPPORT_ITEMS:
+    case SET_SUPPORT_ITEMS:
+      console.log(action);
       return {
         ...state,
         items: action.items,
@@ -39,7 +36,7 @@ export default function supportItems(state = initialState, action: IAction) {
         ...state,
         status: action.status
       };
-    case SET_FETCH_SUPPORT_ITEMS_ERROR:
+    case SET_SUPPORT_ITEMS_ERROR:
       return {
         ...state,
         error: action.error,

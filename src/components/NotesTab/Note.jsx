@@ -111,7 +111,7 @@ function Note(props) {
   const handleDeleteClick = () => {
     //disables edit and delete buttons when note is deleted
     buttonBlock.current.style.pointerEvents = 'none';
-    deleteNote();
+    deleteNote(note);
   };
 
   return (

@@ -9,7 +9,6 @@ import { getUserData } from '../../store/Auth/selectors';
 import Modal from '../Modal';
 import Note from './Note';
 import NoteForm from './NoteForm';
-import { addNewToast } from '../../store/Toasts/actions';
 import { DataLoader } from '../LoadingData';
 import { messageNewNote, messageUpdateNote, messageDeleteNote } from '../../variables';
 
@@ -29,7 +28,18 @@ moment.updateLocale('en', {
 });
 
 function NotesTab(props) {
-  const { updateNotes, fetchNotes, subject, subjectId, notesList, notesStatus } = props;
+  const {
+    updateNotes,
+    fetchNotes,
+    subject,
+    subjectId,
+    notesList,
+    notesStatus,
+    addNote,
+    editNote,
+    deleteNote,
+    restoreNote
+  } = props;
   const [modal, setModal] = useState(false);
 
   const toggle = () => setModal(state => !state);
@@ -50,13 +60,13 @@ function NotesTab(props) {
       url: '/',
       data: note
     };
-    dispatch(updateNotes(fetchConfig, subjectId));
-    setModal(false);
-    setNewNoteText('');
-    dispatch(addNewToast({ message: messageNewNote }));
+    dispatch(updateNotes(fetchConfig, messageNewNote, addNote)).then(() => {
+      setModal(false);
+      setNewNoteText('');
+    });
   };
 
-  const handleupdateNote = (note, text) => {
+  const handleEditNote = (note, text) => {
     if (note.text === text) return;
     const { createdBy, ...rest } = note;
     const updatedNote = { ...rest, text };
@@ -65,17 +75,18 @@ function NotesTab(props) {
       url: `/${note.id}/`,
       data: updatedNote
     };
-    dispatch(updateNotes(fetchConfig, subjectId));
-    dispatch(addNewToast({ message: messageUpdateNote }));
+    dispatch(editNote(updatedNote));
+    dispatch(updateNotes(fetchConfig, messageUpdateNote, null, editNote(note)));
   };
 
-  const handledeleteNote = id => {
+  const handledeleteNote = note => {
     const fetchConfig = {
       method: 'delete',
-      url: `/${id}/`
+      url: `/${note.id}/`
     };
-    dispatch(updateNotes(fetchConfig, subjectId));
-    dispatch(addNewToast({ message: messageDeleteNote }));
+    const noteIdx = notesList.findIndex(item => note.id === item.id);
+    dispatch(deleteNote(note));
+    dispatch(updateNotes(fetchConfig, messageDeleteNote, null, restoreNote(note, noteIdx)));
   };
 
   useEffect(() => {
@@ -85,12 +96,7 @@ function NotesTab(props) {
 
   const mapNotes = () =>
     notesList.map(note => (
-      <Note
-        key={note.id}
-        note={note}
-        deleteNote={() => handledeleteNote(note.id)}
-        updateNote={handleupdateNote}
-      />
+      <Note key={note.id} note={note} deleteNote={handledeleteNote} updateNote={handleEditNote} />
     ));
 
   // notes are memoized to prevent rerenders when modal states change

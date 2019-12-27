@@ -6,7 +6,14 @@ import SendTab from './SendTab/SendTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 import NotesTab from '../../components/NotesTab/NotesTab';
-import { fetchCampaignNotes, updateCampaignNotes } from '../../store/CampaignNotes/actions';
+import {
+  fetchCampaignNotes,
+  updateCampaignNotes,
+  deleteCampaignNote,
+  restoreCampaignNote,
+  addCampaignNote,
+  editCampaignNote
+} from '../../store/CampaignNotes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignNotes/selectors';
 import { campaignHeaderInfo } from '../../variables';
 
@@ -29,7 +36,11 @@ function CampaignDetailsPage(props) {
     subject: 'campaign',
     subjectId: campaignId,
     notesList,
-    notesStatus: campaignNotesStatus
+    notesStatus: campaignNotesStatus,
+    addNote: addCampaignNote,
+    editNote: editCampaignNote,
+    deleteNote: deleteCampaignNote,
+    restoreNote: restoreCampaignNote
   };
 
   return (
@@ -38,9 +49,15 @@ function CampaignDetailsPage(props) {
         Greeley/Fort Collins - 2019-05-08
       </TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
-        <TabPane tabId='1'>{activeTab === '1' && <SendTab />}</TabPane>
-        <TabPane tabId='2'>{activeTab === '2' && <MessagesTab />}</TabPane>
-        <TabPane tabId='3'>{activeTab === '3' && <NotesTab {...notesProps} />}</TabPane>
+        <TabPane tabId='1'>
+          <SendTab />
+        </TabPane>
+        <TabPane tabId='2'>
+          <MessagesTab />
+        </TabPane>
+        <TabPane tabId='3'>
+          <NotesTab {...notesProps} />
+        </TabPane>
       </StyledTabContent>
     </>
   );

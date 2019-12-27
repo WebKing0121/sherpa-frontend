@@ -1,7 +1,11 @@
 import {
   POPULATE_CAMPAIGN_NOTES,
   SET_CAMPAIGN_NOTE_ERROR,
-  SET_CAMPAIGN_NOTES_STATUS
+  SET_CAMPAIGN_NOTES_STATUS,
+  ADD_CAMPAIGN_NOTE,
+  EDIT_CAMPAIGN_NOTE,
+  RESTORE_CAMPAIGN_NOTE,
+  DELETE_CAMPAIGN_NOTE
 } from './actionTypes';
 import { INote, IResults } from './actions';
 import { Fetching, Success, FetchError } from '../../variables';
@@ -9,8 +13,9 @@ import { Fetching, Success, FetchError } from '../../variables';
 interface IAction {
   type: string;
   data?: IResults;
-  note?: INote;
+  note?: any;
   id?: number;
+  index?: number;
   error?: string;
   status?: string;
 }
@@ -36,6 +41,35 @@ export default function(state = initialState, action: IAction) {
       return {
         ...state,
         status: action.status
+      };
+    case ADD_CAMPAIGN_NOTE:
+      return {
+        ...state,
+        list: [action.note, ...state.list!]
+      };
+    case EDIT_CAMPAIGN_NOTE:
+      const updatedList = state.list!.map(item => {
+        if (item.id === action.note!.id) {
+          return { ...action.note!, text: action.note!.text };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        list: updatedList
+      };
+    case DELETE_CAMPAIGN_NOTE:
+      const filteredList = state.list!.filter(item => item.id !== action.note!.id);
+      return {
+        ...state,
+        list: filteredList
+      };
+    case RESTORE_CAMPAIGN_NOTE:
+      const newList = [...state.list!];
+      newList.splice(action.index!, 0, action.note!);
+      return {
+        ...state,
+        list: newList
       };
     case POPULATE_CAMPAIGN_NOTES:
       const { results, ...rest } = action.data!;

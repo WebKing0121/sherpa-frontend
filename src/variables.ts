@@ -13,7 +13,7 @@ export const messageNewNote = 'New note added';
 export const messageUpdateNote = 'Note updated';
 export const messageDeleteNote = 'Note Deleted';
 
-export const generalNetworkError = 'Something went wrong!  Please refresh or try again later.';
+export const generalNetworkError = 'Something went wrong.  Please refresh or try again later.';
 
 export const campaignHeaderInfo = {
   fromText: 'Campaign List',

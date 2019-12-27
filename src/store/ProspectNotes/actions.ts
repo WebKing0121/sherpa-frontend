@@ -1,11 +1,16 @@
 import {
   POPULATE_PROSPECT_NOTES,
   SET_PROSPECT_NOTE_ERROR,
-  SET_PROSPECT_NOTES_STATUS
+  SET_PROSPECT_NOTES_STATUS,
+  ADD_PROSPECT_NOTE,
+  EDIT_PROSPECT_NOTE,
+  DELETE_PROSPECT_NOTE,
+  RESTORE_PROSPECT_NOTE
 } from './actionTypes';
 import AxiosInstance from '../../axiosConfig';
 import { Dispatch } from 'redux';
-import { Fetching } from '../../variables';
+import { Fetching, generalNetworkError } from '../../variables';
+import { addNewToast } from '../Toasts/actions';
 
 export interface INote {
   id?: number;
@@ -27,6 +32,27 @@ export const populateProspectNotes = (data: IResults) => ({
   data
 });
 
+export const restoreProspectNote = (note: INote, index: number) => ({
+  type: RESTORE_PROSPECT_NOTE,
+  note,
+  index
+});
+
+export const addProspectNote = (note: INote) => ({
+  type: ADD_PROSPECT_NOTE,
+  note
+});
+
+export const editProspectNote = (note: INote) => ({
+  type: EDIT_PROSPECT_NOTE,
+  note
+});
+
+export const deleteProspectNote = (note: INote) => ({
+  type: DELETE_PROSPECT_NOTE,
+  note
+});
+
 export const setProspectNotesError = (error: string) => ({
   type: SET_PROSPECT_NOTE_ERROR,
   error
@@ -45,6 +71,7 @@ export interface IAxiosConfig {
 
 const handleError = (message: string, error: string, dispatch: any) => {
   console.log(message, error);
+  dispatch(addNewToast({ message: generalNetworkError, color: 'danger' }));
   dispatch(setProspectNotesError(error));
 };
 
@@ -56,9 +83,20 @@ export const fetchProspectNotes = (id: number) => (dispatch: Dispatch) => {
     .catch(error => handleError(`prospects-notes GET error `, error, dispatch));
 };
 
-export const updateProspectNotes = (config: IAxiosConfig, id: number) => (dispatch: any) => {
+export const updateProspectNotes = (
+  config: IAxiosConfig,
+  successMsg: string,
+  successAction?: Function,
+  failAction?: Function
+) => (dispatch: any) => {
   const fetchConfig = { ...config, url: `/prospect-notes${config.url}` };
-  AxiosInstance(fetchConfig)
-    .then(() => dispatch(fetchProspectNotes(id)))
-    .catch(error => handleError(`prospects-notes ${config.method} error `, error, dispatch));
+  return AxiosInstance(fetchConfig)
+    .then(({ data }) => {
+      successAction && dispatch(successAction(data));
+      dispatch(addNewToast({ message: successMsg }));
+    })
+    .catch(error => {
+      failAction && dispatch(failAction);
+      handleError(`prospects-notes ${config.method} error `, error, dispatch);
+    });
 };

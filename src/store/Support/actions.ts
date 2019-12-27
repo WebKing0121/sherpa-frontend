@@ -1,9 +1,5 @@
 import AxiosInstance from '../../axiosConfig';
-import {
-  SET_FETCH_SUPPORT_ITEMS,
-  SET_FETCH_SUPPORT_ITEMS_ERROR,
-  SET_SUPPORT_ITEMS_STATUS
-} from './actionTypes';
+import { SET_SUPPORT_ITEMS, SET_SUPPORT_ITEMS_ERROR, SET_SUPPORT_ITEMS_STATUS } from './actionTypes';
 import { Fetching } from '../../variables';
 
 export interface ISupportItems {
@@ -15,7 +11,7 @@ export interface ISupportItems {
 }
 
 export const setFetchedSupportItems = (items: ISupportItems[]) => ({
-  type: SET_FETCH_SUPPORT_ITEMS,
+  type: SET_SUPPORT_ITEMS,
   items
 });
 
@@ -25,7 +21,7 @@ export const setSupportItemsStatus = (status: string) => ({
 });
 
 export const setFetchedSupportItemsError = (error: string) => ({
-  type: SET_FETCH_SUPPORT_ITEMS_ERROR,
+  type: SET_SUPPORT_ITEMS_ERROR,
   error
 });
 

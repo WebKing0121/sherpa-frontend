@@ -9,8 +9,15 @@ import { fetchProspect } from '../../store/ProspectDetails/actions';
 import { useDispatch, useSelector } from 'react-redux';
 import { prospectDetailsData, prospectDetailsStatus } from '../../store/ProspectDetails/selectors';
 import { DataLoader } from '../../components/LoadingData';
-import { fetchProspectNotes, updateProspectNotes } from '../../store/ProspectNotes/actions';
-import { prospectNotesList, prospectNotesStatus } from '../../store/ProspectNotes/selectors';
+import {
+  fetchProspectNotes,
+  updateProspectNotes,
+  editProspectNote,
+  deleteProspectNote,
+  addProspectNote,
+  restoreProspectNote
+} from '../../store/ProspectNotes/actions';
+import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectNotes/selectors';
 import { prospectHeaderInfo } from '../../variables';
 
 const StyledTabContent = styled(TabContent)``;
@@ -39,7 +46,11 @@ function ProspectDetailsPage(props) {
     subject: 'prospect',
     subjectId: prospectId,
     notesList,
-    notesStatus: prospectNotesStatus
+    notesStatus: prospectNotesStatus,
+    addNote: addProspectNote,
+    editNote: editProspectNote,
+    deleteNote: deleteProspectNote,
+    restoreNote: restoreProspectNote
   };
 
   return (
@@ -54,9 +65,15 @@ function ProspectDetailsPage(props) {
             {prospect.name}
           </TabbedHeader>
           <StyledTabContent activeTab={activeTab}>
-            <TabPane tabId='1'>{activeTab === '1' && <DetailsTab />}</TabPane>
-            <TabPane tabId='2'>{activeTab === '2' && <MessagesTab />}</TabPane>
-            <TabPane tabId='3'>{activeTab === '3' && <NotesTab {...notesProps} />}</TabPane>
+            <TabPane tabId='1'>
+              <DetailsTab />
+            </TabPane>
+            <TabPane tabId='2'>
+              <MessagesTab />
+            </TabPane>
+            <TabPane tabId='3'>
+              <NotesTab {...notesProps} />
+            </TabPane>
           </StyledTabContent>
         </>
       )}

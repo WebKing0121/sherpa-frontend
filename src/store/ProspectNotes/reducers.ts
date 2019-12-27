@@ -1,7 +1,11 @@
 import {
   POPULATE_PROSPECT_NOTES,
   SET_PROSPECT_NOTE_ERROR,
-  SET_PROSPECT_NOTES_STATUS
+  SET_PROSPECT_NOTES_STATUS,
+  ADD_PROSPECT_NOTE,
+  EDIT_PROSPECT_NOTE,
+  DELETE_PROSPECT_NOTE,
+  RESTORE_PROSPECT_NOTE
 } from './actionTypes';
 import { INote, IResults } from './actions';
 import { Fetching, Success, FetchError } from '../../variables';
@@ -9,8 +13,9 @@ import { Fetching, Success, FetchError } from '../../variables';
 interface IAction {
   type: string;
   data?: IResults;
-  note?: INote;
+  note?: any;
   id?: number;
+  index?: number;
   error?: string;
   status?: string;
 }
@@ -43,6 +48,35 @@ export default function(state = initialState, action: IAction) {
         ...rest,
         list: results,
         status: Success
+      };
+    case ADD_PROSPECT_NOTE:
+      return {
+        ...state,
+        list: [action.note, ...state.list!]
+      };
+    case EDIT_PROSPECT_NOTE:
+      const updatedList = state.list!.map(item => {
+        if (item.id === action.note!.id) {
+          return { ...action.note!, text: action.note!.text };
+        }
+        return item;
+      });
+      return {
+        ...state,
+        list: updatedList
+      };
+    case DELETE_PROSPECT_NOTE:
+      const filteredList = state.list!.filter(item => item.id !== action.note!.id);
+      return {
+        ...state,
+        list: filteredList
+      };
+    case RESTORE_PROSPECT_NOTE:
+      const newList = [...state.list!];
+      newList.splice(action.index!, 0, action.note!);
+      return {
+        ...state,
+        list: newList
       };
     case SET_PROSPECT_NOTE_ERROR:
       return {
