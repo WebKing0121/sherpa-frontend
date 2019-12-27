@@ -68,8 +68,7 @@ function NotesTab(props) {
 
   const handleEditNote = (note, text) => {
     if (note.text === text) return;
-    const { createdBy, ...rest } = note;
-    const updatedNote = { ...rest, text };
+    const updatedNote = { ...note, text };
     const fetchConfig = {
       method: 'patch',
       url: `/${note.id}/`,
