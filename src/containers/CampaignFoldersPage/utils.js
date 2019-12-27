@@ -8,13 +8,13 @@ import { IListItem } from '../../components/List/utils';
  * component to render.
  */
 
-export const campaignFolderToItemList = ({ id, name, totalCampaigns, hasUnreadSMS }) => {
+export const campaignFolderToItemList = ({ id, name, campaignCount }) => {
   return {
     ...IListItem,
     name,
-    subInfo: <SubInfo data={{ totalCampaigns }} />,
+    subInfo: <SubInfo data={{ campaignCount }} />,
     readable: true,
-    isRead: !hasUnreadSMS,
+    isRead: true,
     link: { pathname: `/folder/${id}/campaigns` },
     icon: <StyledIcon margin="mb-1" name={'folder'} />
   };
