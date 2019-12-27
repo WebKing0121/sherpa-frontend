@@ -1,4 +1,4 @@
-import AxiosInstance from '../../axiosConfig';
+import AxiosInstance, { delayedRequest } from '../../axiosConfig';
 import {
   SET_PROSPECTS_SEARCH_STATUS,
   SET_SEARCH_PROSPECTS_ERROR,
@@ -8,6 +8,8 @@ import {
   SET_PROSPECTS_FETCH_MORE_STATUS
 } from './actionTypes';
 import { Fetching } from '../../variables';
+import { getLeadStages } from '../leadstages/selectors';
+import { mergeLeadStageTitle } from './transformers';
 
 export const setProspectSearchStatus = status => ({
   type: SET_PROSPECTS_SEARCH_STATUS,
@@ -48,15 +50,16 @@ const doSearchProspect = url => {
     });
 };
 
-export const searchProspects = term => (dispatch, _) => {
+export const searchProspects = term => (dispatch, getState) => {
   const url = `/prospects/?search=${term}&page_size=20`;
+  const leadStages = getLeadStages(getState());
 
   dispatch(resetProspectData());
   dispatch(setProspectSearchStatus(Fetching));
 
-  return doSearchProspect(url)
+  return delayedRequest(doSearchProspect(url), 250)
     .then(data => {
-      dispatch(setProspectSearchResults(data));
+      dispatch(setProspectSearchResults(mergeLeadStageTitle(data, leadStages)));
       return data;
     })
     .catch(error => {
@@ -66,13 +69,14 @@ export const searchProspects = term => (dispatch, _) => {
 
 export const searchProspectNextPage = () => (dispatch, getState) => {
   let {
-    prospects: { next = null, status = null }
+    prospects: { next = null, status = null },
+    leadStages: { leadStages }
   } = getState();
 
   if (next && status !== Fetching) {
     dispatch(setProspectFetchMoreStatus(Fetching));
     return doSearchProspect(next).then(data => {
-      dispatch(setMoreProspects(data));
+      dispatch(setMoreProspects(mergeLeadStageTitle(data, leadStages)));
     });
   }
 

@@ -1,7 +1,6 @@
 import AxiosInstance from '../../axiosConfig';
 import {
   SET_PROSPECT_DATA, SET_PROSPECT_CAMPAIGNS,
-  SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
   SET_PROSPECT_FETCH_STATUS,
   SET_PROSPECT_SMS_RELAY_MAP,
   SET_PROSPECT_CAMPAIGN_ID,
@@ -45,31 +44,6 @@ const setProspectSmsRelayMap = (smsRelayMap: any) => ({
   type: SET_PROSPECT_SMS_RELAY_MAP,
   smsRelayMap
 });
-
-const setProspectDetailsTabLeadStages = (leadStages: any) => ({
-  type: SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
-  leadStages
-});
-
-export const fetchLeadStages = () => (dispatch: any, getState: any) => {
-  let { prospectDetails: { prospectDetailsTab: { leadStages = [] } } } = getState();
-
-  // don't refetch leadstages if it's already loaded
-  if (leadStages.length === 0) {
-    const leadStageNotSelected = {
-      leadStageTitle: 'Select a Lead Stage',
-      id: ""
-    };
-    AxiosInstance
-      .get('leadstages/')
-      .then(response => {
-        dispatch(setProspectDetailsTabLeadStages([leadStageNotSelected, ...response.data.results]));
-
-        return response.data
-      })
-      .catch(error => console.log('Error fetching lead stages', error.response));
-  }
-};
 
 export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
   dispatch(setProspectFetchStatus(Fetching));

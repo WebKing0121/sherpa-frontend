@@ -1,5 +1,5 @@
 import AxiosInstance from '../../axiosConfig';
-
+import { getLeadStages } from '../leadstages/api';
 import {
   setAuthToken,
   revokeAuthToken,
@@ -22,10 +22,9 @@ export const setUserInfo = (userData: UserData) => ({ type: 'SET_USER_DATA', use
 export const fetchUserInfo = (dispatch: any) => {
   return AxiosInstance.get('/auth/users/me/')
     .then(({ data }) => {
-      console.log(data);
       dispatch(setUserInfo(data));
       saveToLocalStorage('userData', JSON.stringify(data));
-      console.log('fetch-user-success response', data);
+      return data;
     })
     .catch(({ response }) => {
       console.log('fetch-user-error response', response);
@@ -44,10 +43,11 @@ export const authenticate = (credentials: any) => {
       .then(({ data }) => {
         setAuthToken(data);
 
-        // fetch the user info, mainly the user-id
-        return fetchUserInfo(dispatch).then(() => {
-          updateAuth(dispatch, data);
-        });
+        return Promise.all([fetchUserInfo(dispatch), dispatch(getLeadStages())])
+          .then(() => {
+            // don't care about results
+            updateAuth(dispatch, data);
+          });
       })
       .catch(({ response }) => {
         const {

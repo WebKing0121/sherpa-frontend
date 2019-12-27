@@ -2,6 +2,7 @@ import { createStore, compose, applyMiddleware } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { combineReducers } from 'redux';
 import { loadTokens } from './Auth/utils';
+import { loadLeadStages } from './leadstages/utils';
 
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
@@ -13,6 +14,7 @@ import prospectDetails from './ProspectDetails/reducers';
 import prospectNotes from './ProspectNotes/reducers';
 import supportItems from './Support/reducers';
 import toastsReducer from './Toasts/reducers';
+import leadStages from './leadstages/reducer';
 
 declare global {
   interface Window {
@@ -30,7 +32,8 @@ const reducers = combineReducers({
   prospectDetails,
   prospectNotes,
   supportItems,
-  toastsReducer
+  toastsReducer,
+  leadStages
 });
 
 const rootReducer = (state: any, action: any) => {
@@ -45,6 +48,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // load local-storage tokens
 const authInfo = loadTokens();
-const Store = createStore(rootReducer, authInfo, composeEnhancers(applyMiddleware(thunkMiddleware)));
+const leadStagesData = loadLeadStages()
+const initialState = { ...authInfo, ...leadStagesData };
+const Store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
 export default Store;

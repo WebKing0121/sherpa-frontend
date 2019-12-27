@@ -4,17 +4,17 @@ import styled from 'styled-components';
 import InputSelect from '../../../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  fetchLeadStages, updateVerifiedStatus,
+  updateVerifiedStatus,
   updateDncStatus, updatePriorityStatus,
   updateQualifiedStatus, updateLeadstage
 } from '../../../store/ProspectDetails/actions';
 import {
   prospectDetailsData,
-  leadStagesSelector,
   prospectBtnStatus
 } from '../../../store/ProspectDetails/selectors';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { Updating } from '../../../variables';
+import { getLeadStages } from '../../../store/leadstages/selectors';
 
 const StatusAction = styled.div`
   background: ${props => {
@@ -99,14 +99,10 @@ const getNewVerifiedStatus = status => {
 };
 
 const DetailsTab = props => {
-  const leadStages = useSelector(leadStagesSelector);
+  const leadStages = useSelector(getLeadStages);
   const prospect = useSelector(prospectDetailsData);
   const actionBtnStatus = useSelector(prospectBtnStatus);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchLeadStages());
-  }, [dispatch]);
 
   const {
     ownerVerifiedStatus = false,

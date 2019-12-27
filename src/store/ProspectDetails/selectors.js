@@ -14,7 +14,6 @@ export const prospectDetailsAgent = (state) => state.prospectDetails.prospect.sm
 
 
 // details tab selectors
-export const leadStagesSelector = (state) => state.prospectDetails.prospectDetailsTab.leadStages;
 export const agentSelector = (state) => {
   let { auth: { userData: { company: { profiles } } } } = state;
 

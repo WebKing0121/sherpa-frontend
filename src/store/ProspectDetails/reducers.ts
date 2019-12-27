@@ -1,7 +1,6 @@
 import {
   SET_PROSPECT_DATA,
   SET_PROSPECT_CAMPAIGNS,
-  SET_PROSPECT_DETAILS_TAB_LEADSTAGES,
   SET_PROSPECT_FETCH_STATUS,
   SET_PROSPECT_SMS_RELAY_MAP,
   SET_PROSPECT_CAMPAIGN_ID,
@@ -18,7 +17,6 @@ interface ProspectDetailsStatus {
 }
 
 interface ProspectDetailsTabData {
-  leadStages: Array<any> | undefined;
   prospectStatus: ProspectDetailsStatus;
 }
 
@@ -43,15 +41,14 @@ const initial_state: IState = {
   status: Fetching,
   smsRelayMap: { rep: { id: "" } },
   activeCampaign: null,
-  prospectDetailsTab: <ProspectDetailsTabData>{
-    leadStages: [],
+  prospectDetailsTab: {
     prospectStatus: {
       verifiedBtnStatus: "",
       dncBtnStatus: "",
       priorityBtnStatus: "",
       qualifiedBtnStatus: ""
     }
-  }
+  } as ProspectDetailsTabData
 };
 
 export default function reducer(state: IState = initial_state, action: any) {
@@ -97,14 +94,6 @@ export default function reducer(state: IState = initial_state, action: any) {
       return {
         ...state,
         smsRelayMap: action.smsRelayMap
-      };
-    case SET_PROSPECT_DETAILS_TAB_LEADSTAGES:
-      return {
-        ...state,
-        prospectDetailsTab: {
-          ...state.prospectDetailsTab,
-          leadStages: action.leadStages
-        }
       };
     default:
       return state;
