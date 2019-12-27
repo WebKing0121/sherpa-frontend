@@ -8,6 +8,7 @@ import {
   CLEAR_PROSPECT_CAMPAIGN_ID
 } from './actionTypes.js';
 import { Fetching, Updating, Success } from '../../variables';
+import { prospectDetailsData } from './selectors';
 
 
 const setProspectFetchStatus = (status: any) => ({
@@ -102,15 +103,24 @@ export const updateQualifiedStatus = (id: string, payload: any) => (dispatch: an
   return updateProspect(id, payload, dispatch, onSuccess);
 };
 
-export const updateLeadstage = (id: string, payload: any) => (dispatch: any, _: any) => {
+export const updateLeadstage = (id: string, payload: any) => (dispatch: any, getState: any) => {
+  const prospect = prospectDetailsData(getState());
+
+  // dispatch optimistically
+  dispatch(setProspect({ ...prospect, ...payload }));
   return updateProspect(id, payload, dispatch);
 };
 
-export const updateProspectAgent = (id: string, payload: any) => (dispatch: any, _: any) => {
+export const updateProspectAgent = (id: string, payload: any) => (dispatch: any, getState: any) => {
+  const prospect = prospectDetailsData(getState());
+
+  // dispatch optimistically
+  dispatch(setProspect({ ...prospect, ...payload }));
   return updateProspect(id, payload, dispatch);
 };
 
 export const setProspectRelay = (payload: any) => (dispatch: any, _: any) => {
+  dispatch(setProspectSmsRelayMap({ rep: { id: payload.rep } }))
   return AxiosInstance
     .post('sms-relay-maps/', payload)
     .then(({ data }) => {
@@ -133,4 +143,3 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
 };
-
