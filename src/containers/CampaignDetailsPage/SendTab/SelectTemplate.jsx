@@ -24,8 +24,6 @@ function SelectTemplate(props) {
       </InputGroupBorder>
 
       <Preview/>
-
-      <Button color="primary" size="lg" block className="mt-4">Use Template</Button>
     </PaddedContent>
   );
 }
