@@ -36,78 +36,32 @@ const PreviewText = styled.p`
 `;
 
 const TransitionStyling = styled(CSSTransition)`
-  position: absolute;
+  position: relative;
   width: 100%;
-  --timing: .15s;
-  transition:
-    left var(--timing) ease,
-    transform var(--timing) ease;
+  --timing: .07s;
+  transition: left var(--timing) ease,
+  transform var(--timing) ease;
 
-  &:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: -120%;
-    --sheen: white;
-    background: linear-gradient(
-      125deg,
-      transparent 0%,
-      transparent 30%,
-      var(--sheen) 40%,
-      var(--sheen) 60%,
-      transparent 70%,
-      transparent
-    );
-    transition:
-      left calc( var(--timing) * 3 ),
-      background var(--timing);
-  }
-
-  &.lead {
+  &.words {
     &-enter {
       left: -120%;
-      transform: scale(1);
-
-      &:after {
-        left: -100%;
-      }
+      transform: scale(.8);
 
       &-active {
         left: 0%;
+        filter: blur(1px);
         transform: scale(1);
-
-        &:after {
-          left: 100%;
-        }
-      }
-      &-done {
-        transform: scale(1);
-        filter: blur(0px);
-
-        &:after {
-          left: 100%;
-        }
       }
     }
     &-exit {
       left: 0%;
       transform: scale(1);
-      opacity: 1;
-
-      &:after {
-        display: none;
-      }
 
       &-active {
-        transition-duration: calc( var(--timing) * 6 );
+        transition-easing-function: ease-in;
         left: 120%;
-        opacity: .7;
-        z-index: 999999;
-        filter: blur(2px);
-        transform: scale(.3);
-        transform-origin: top right;
+        filter: blur(1px);
+        transform: scale(.8);
       }
     }
   }
@@ -129,18 +83,17 @@ function ReviewSend(props) {
   const [showMessage1, setShowMessage1] = useState(true);
   const [showMessage2, setShowMessage2] = useState(false);
 
+  const transProps = {};
+  transProps.timeout = 70;
+  transProps.classNames = "words";
+  transProps.unmountOnExit = true;
 
   return (
     <>
       <CalloutSection/>
 
       <LeadWrapper>
-        <TransitionStyling
-          in={showMessage1}
-          timeout={300}
-          classNames="lead"
-          unmountOnExit
-        >
+        <TransitionStyling in={showMessage1} {...transProps}>
           <div>
             <LeadInfo>
               <h3 className="fw-bold name">Wayne Hanson</h3>
@@ -153,26 +106,21 @@ function ReviewSend(props) {
             </PreviewText>
           </div>
         </TransitionStyling>
-
-        <TransitionStyling
-          in={showMessage2}
-          timeout={300}
-          classNames="lead"
-          unmountOnExit
-        >
+        <TransitionStyling in={showMessage2} {...transProps}>
           <div>
             <LeadInfo>
               <h3 className="fw-bold name">John Johnson</h3>
-              <p className="phoneNum textM">(123) 565-2142</p>
-              <p className="address m-0 textL">1222 Testing Way, Aurora, CO 80013</p>
+              <p className="phoneNum textM">(111) 439-2142</p>
+              <p className="address m-0 textL">123 Mobile Way, Aurora, CO 80013</p>
             </LeadInfo>
 
             <PreviewText className="textL">
-              Hi <b>Aaron</b>, my name is Kelly and I would like to speak with you about purchasing <b>1234 Mulberry Lane</b>. Did I reach out to the right person? Thank you.
+              Hi <b>Wayne</b>, my name is TERT and I would like to speak with you about purchasing <b>3147 Mobile Way</b>. Did I reach out to the right person? Thank you.
             </PreviewText>
           </div>
         </TransitionStyling>
       </LeadWrapper>
+
       <ButtonSection>
         {
           // <LinkBtn color="orange"><Icon name="skip" margin="mr-1"/>Skip</LinkBtn>
@@ -187,12 +135,12 @@ function ReviewSend(props) {
               setShowMessage1(false);
               setTimeout(function() {
                 setShowMessage2(true)
-              },200);
+              },85);
             } else {
               setShowMessage2(false);
               setTimeout(function() {
                 setShowMessage1(true)
-              },200);
+              },85);
             }
           }}
         >
