@@ -19,10 +19,13 @@ import {
   updateProspectAgent,
   clearDefaultCampaign,
   setProspectActiveCampaign,
-  removeRelay
+  removeRelay,
+  emailToCrmAction,
+  pushToZapierAction
 } from '../../../store/ProspectDetails/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
+import { LoadingSpinner } from '../../../components/LoadingSpinner';
 
 const BtnHolster = styled.div`
   display: flex;
@@ -128,10 +131,15 @@ const FieldsSection = (props) => {
   const agent = useSelector(selectedAgent);
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
+  const [emailToCrm, setEmailtoCrm] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
   const {
     prospectId,
     reminderDateLocal,
     sherpaPhoneNumber,
+    emailedToPodio,
+    pushedToZapier,
     smsRelayMap: { rep: { id } }
   } = useSelector(prospectDetails);
 
@@ -185,15 +193,29 @@ const FieldsSection = (props) => {
     }
   };
 
+  // NOTE: Update payload after Adam's refactor of these actions
   const onSubmit = (e) => {
     e.preventDefault();
-    // TODO: Hook appropriate action to dispatch CRM/Zapier button
-    // actions.
-    console.log('SUBMITTING', activeCampaign);
+    setSubmitting(true);
+    if (emailToCrm) {
+      // dispatch that action
+      dispatch(emailToCrmAction(activeCampaign.id))
+        .then(() => {
+          setSubmitting(false);
+          setModal(false);
+        });
+    } else {
+      // dispatch other action
+      dispatch(pushToZapierAction(activeCampaign.id))
+        .then(() => {
+          setSubmitting(false);
+          setModal(false);
+        });
+    }
   };
 
-  const campaignOnChange = (campaignId) => (e) => {
-    setProspectActiveCampaign(campaignId);
+  const campaignOnChange = (campaign) => (e) => {
+    dispatch(setProspectActiveCampaign(campaign.id));
   };
 
   return (
@@ -239,10 +261,29 @@ const FieldsSection = (props) => {
       <FieldWrapper>
         <Label>CRM Options</Label>
         <BtnHolster>
-          <Button id='zapier' color="primary" className="fw-bold" onClick={() => setModal(true)}>Email to CRM</Button>
-          <Button id='crm' color="primary" className="fw-bold" onClick={() => setModal(true)}>Push to Zapier</Button>
+          <Button
+            id="zapier"
+            color="primary"
+            className="fw-bold"
+            onClick={
+              () => { setModal(true); setEmailtoCrm(true); }
+            }>
+            Email to CRM
+          </Button>
+          <Button
+            id="crm"
+            color="primary"
+            className="fw-bold"
+            onClick={
+              () => { setModal(true); setEmailtoCrm(false); }
+            }>
+            Push to Zapier
+          </Button>
 
-          <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
+          <Modal
+            isOpen={modal}
+            toggle={() => setModal(false)}
+            title='Campaigns'>
             <form onSubmit={onSubmit} >
               <Label className="fw-black textL mb-2" >Complete your action using the following campaign:</Label>
               <FormGroup className="mt-1 mb-3" htmlFor="campaigns">
@@ -252,13 +293,29 @@ const FieldsSection = (props) => {
                     type="radio"
                     name="campaigns"
                     label={campaign.name}
-                    defaultChecked={activeCampaign === campaign.id}
+                    defaultChecked={activeCampaign.id === campaign.id}
                     value={campaign.id}
-                    onChange={campaignOnChange(campaign.id)}
+                    onChange={campaignOnChange(campaign)}
                     id={idx} />
                 ))}
               </FormGroup>
-              <Button color="primary" block size="lg">Submit</Button>
+              <Button
+                color="primary"
+                block
+                size="lg"
+                disabled={
+                  (!activeCampaign.id ||
+                    ((emailToCrm &&
+                      (emailedToPodio || !activeCampaign.podioPushEmailAddress)) ||
+                      (!emailToCrm &&
+                        (pushedToZapier || !activeCampaign.zapierWebhook))))
+                }>
+                <LoadingSpinner
+                  isLoading={submitting}
+                  color="light"
+                  renderContent={() => (<>Submit</>)}
+                />
+              </Button>
             </form>
           </Modal>
         </BtnHolster>

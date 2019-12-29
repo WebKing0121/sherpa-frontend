@@ -9,6 +9,7 @@ import {
 } from './actionTypes.js';
 import { Fetching, Updating, Success } from '../../variables';
 import { prospectDetailsData } from './selectors';
+import { addNewToast } from '../Toasts/actions';
 
 
 const setProspectFetchStatus = (status: any) => ({
@@ -54,7 +55,7 @@ export const fetchProspect = (id: any) => (dispatch: any, _: any) => {
     .then(({ data }) => {
       let prospect = data;
       const campaigns = [
-        ...prospect.campaigns,
+        ...prospect.campaigns
       ];
       const smsRelayMap = prospect.smsRelayMap || { rep: { id: "" } };
 
@@ -143,3 +144,23 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
 };
+
+// NOTE: Update endpoint after Adam's refactor of these actions
+// CRM Actions
+export const emailToCrmAction = (id: number) => (dispatch: any) => {
+  return AxiosInstance
+    .post(`campaign-prospects/${id}/email_to_podio/`)
+    .then(() => {
+      dispatch(addNewToast({ message: 'Email to CRM Success', color: 'success' }));
+    })
+    .catch(_ => dispatch(addNewToast({ message: 'Email to CRM Failed', color: 'danger' })));
+}
+
+export const pushToZapierAction = (id: number) => (dispatch: any) => {
+  return AxiosInstance
+    .post(`campaign-prospects/${id}/push_to_zapier/`)
+    .then(() => {
+      dispatch(addNewToast({ message: 'Push to Zapier Success', color: 'success' }));
+    })
+    .catch(_ => dispatch(addNewToast({ message: 'Push to Zapier Failed', color: 'danger' })));
+}
