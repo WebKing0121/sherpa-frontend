@@ -10,7 +10,8 @@ import Modal from '../Modal';
 import Note from './Note';
 import NoteForm from './NoteForm';
 import { DataLoader } from '../LoadingData';
-import { messageNewNote, messageUpdateNote, messageDeleteNote } from '../../variables';
+import { messageNewNote, messageUpdateNote, messageDeleteNote, Success } from '../../variables';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
@@ -42,7 +43,11 @@ function NotesTab(props) {
   } = props;
   const [modal, setModal] = useState(false);
 
-  const toggle = () => setModal(state => !state);
+  const toggle = () =>
+    notes_status !== Success
+      ? console.log('Must wait until process is completed before closing!')
+      : setModal(state => !state);
+
   const [newNoteText, setNewNoteText] = useState('');
 
   const userData = useSelector(getUserData);
@@ -101,6 +106,11 @@ function NotesTab(props) {
   // notes are memoized to prevent rerenders when modal states change
   const memoizedNotes = useMemo(mapNotes, [notesList]);
 
+  const getBtnText = () => {
+    let icon = notes_status !== Success ? 'exclamation-triangle' : 'check';
+    return !modal ? <FontAwesomeIcon icon={icon} /> : 'Submit Note';
+  };
+
   return (
     <>
       <Heading>
@@ -114,7 +124,7 @@ function NotesTab(props) {
           submitNote={handleNewNote}
           text={newNoteText}
           setText={setNewNoteText}
-          btnText='Submit Note'
+          btnText={getBtnText()}
           notesStatus={notes_status}
         />
       </Modal>

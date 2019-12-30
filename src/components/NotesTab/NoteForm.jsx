@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'reactstrap';
 import InputGroupBorder from '../InputGroupBorder';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { Fetching } from '../../variables';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function NoteForm(props) {
   const { text, setText, submitNote, note, btnText, notesStatus } = props;
@@ -28,7 +29,7 @@ function NoteForm(props) {
           isLoading={notesStatus === Fetching ? true : false}
           color='light'
           renderContent={() => <>{btnText}</>}
-        />{' '}
+        />
       </Button>
     </Form>
   );
