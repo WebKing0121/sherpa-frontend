@@ -10,8 +10,15 @@ import Modal from '../Modal';
 import Note from './Note';
 import NoteForm from './NoteForm';
 import { DataLoader } from '../LoadingData';
-import { messageNewNote, messageUpdateNote, messageDeleteNote, Success } from '../../variables';
+import {
+  messageNewNote,
+  messageUpdateNote,
+  messageDeleteNote,
+  Success,
+  Fetching
+} from '../../variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { addNewToast } from '../../store/Toasts/actions';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
@@ -43,10 +50,7 @@ function NotesTab(props) {
   } = props;
   const [modal, setModal] = useState(false);
 
-  const toggle = () =>
-    notes_status !== Success
-      ? console.log('Must wait until process is completed before closing!')
-      : setModal(state => !state);
+  const toggle = () => setModal(state => !state);
 
   const [newNoteText, setNewNoteText] = useState('');
 
@@ -72,7 +76,6 @@ function NotesTab(props) {
   };
 
   const handleEditNote = (note, text) => {
-    if (note.text === text) return;
     const updatedNote = { ...note, text };
     const fetchConfig = {
       method: 'patch',
@@ -119,7 +122,7 @@ function NotesTab(props) {
           Add Note
         </Button>
       </Heading>
-      <Modal isOpen={modal} toggle={toggle} title='Add a Note'>
+      <Modal isOpen={modal} toggle={notes_status !== Fetching ? toggle : () => null} title='Add a Note'>
         <NoteForm
           submitNote={handleNewNote}
           text={newNoteText}
