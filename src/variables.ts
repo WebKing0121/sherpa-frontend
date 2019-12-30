@@ -5,6 +5,9 @@ export const Success = 'Success';
 export const FetchError = 'FetchError';
 export const Updating = 'Updating';
 
+// min spinner times
+export const fastSpinner = 250;
+
 // toast stuff
 export const toastLingerTime = 5000;
 

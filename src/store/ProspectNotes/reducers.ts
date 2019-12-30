@@ -30,7 +30,7 @@ const initialState: IState & IResults = {
   count: 0,
   next: null,
   previous: null,
-  error: Fetching,
+  error: '',
   list: [],
   status: Fetching
 };
@@ -52,7 +52,8 @@ export default function(state = initialState, action: IAction) {
     case ADD_PROSPECT_NOTE:
       return {
         ...state,
-        list: [action.note, ...state.list!]
+        list: [action.note, ...state.list!],
+        status: Success
       };
     case EDIT_PROSPECT_NOTE:
       const updatedList = state.list!.map(item => {
@@ -63,20 +64,23 @@ export default function(state = initialState, action: IAction) {
       });
       return {
         ...state,
-        list: updatedList
+        list: updatedList,
+        status: Success
       };
     case DELETE_PROSPECT_NOTE:
       const filteredList = state.list!.filter(item => item.id !== action.note!.id);
       return {
         ...state,
-        list: filteredList
+        list: filteredList,
+        status: Success
       };
     case RESTORE_PROSPECT_NOTE:
       const newList = [...state.list!];
       newList.splice(action.index!, 0, action.note!);
       return {
         ...state,
-        list: newList
+        list: newList,
+        status: Success
       };
     case SET_PROSPECT_NOTE_ERROR:
       return {

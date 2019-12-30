@@ -115,6 +115,7 @@ function NotesTab(props) {
           text={newNoteText}
           setText={setNewNoteText}
           btnText='Submit Note'
+          notesStatus={notes_status}
         />
       </Modal>
       <DataLoader

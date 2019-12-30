@@ -7,9 +7,9 @@ import {
   EDIT_CAMPAIGN_NOTE,
   DELETE_CAMPAIGN_NOTE
 } from './actionTypes';
-import AxiosInstance from '../../axiosConfig';
+import AxiosInstance, { delayedRequest } from '../../axiosConfig';
 import { Dispatch } from 'redux';
-import { Fetching, generalNetworkError } from '../../variables';
+import { Fetching, generalNetworkError, fastSpinner } from '../../variables';
 import { addNewToast } from '../Toasts/actions';
 
 export interface INote {
@@ -78,9 +78,9 @@ const handleError = (message: string, error: string, dispatch: any) => {
 export const fetchCampaignNotes = (id: number) => (dispatch: Dispatch) => {
   const params = { expand: 'created_by', campaign: id };
   dispatch(setCampaignNotesStatus(Fetching));
-  AxiosInstance.get('/campaign-notes', { params })
-    .then(({ data }) => dispatch(populateCampaignNotes(data)))
-    .catch(error => handleError(`campaign-notes GET error `, error, dispatch));
+  delayedRequest(AxiosInstance.get('/campaign-notes', { params }), fastSpinner)
+    .then(({ data }: any) => dispatch(populateCampaignNotes(data)))
+    .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
 };
 
 export const updateCampaignNotes = (
@@ -89,13 +89,15 @@ export const updateCampaignNotes = (
   successAction?: Function,
   failAction?: Function
 ) => (dispatch: any) => {
+  //if adding note, set note status to "Fetching"
+  successAction === addCampaignNote && dispatch(setCampaignNotesStatus(Fetching));
   const fetchConfig = { ...config, url: `/campaign-notes${config.url}` };
-  return AxiosInstance(fetchConfig)
-    .then(({ data }) => {
+  return delayedRequest(AxiosInstance(fetchConfig), fastSpinner)
+    .then(({ data }: any) => {
       successAction && dispatch(successAction(data));
       dispatch(addNewToast({ message: successMsg }));
     })
-    .catch(error => {
+    .catch((error: any) => {
       failAction && dispatch(failAction);
       handleError(`campaign-notes ${config.method} error `, error, dispatch);
     });

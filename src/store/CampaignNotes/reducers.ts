@@ -45,7 +45,8 @@ export default function(state = initialState, action: IAction) {
     case ADD_CAMPAIGN_NOTE:
       return {
         ...state,
-        list: [action.note, ...state.list!]
+        list: [action.note, ...state.list!],
+        status: Success
       };
     case EDIT_CAMPAIGN_NOTE:
       const updatedList = state.list!.map(item => {
@@ -56,20 +57,23 @@ export default function(state = initialState, action: IAction) {
       });
       return {
         ...state,
-        list: updatedList
+        list: updatedList,
+        status: Success
       };
     case DELETE_CAMPAIGN_NOTE:
       const filteredList = state.list!.filter(item => item.id !== action.note!.id);
       return {
         ...state,
-        list: filteredList
+        list: filteredList,
+        status: Success
       };
     case RESTORE_CAMPAIGN_NOTE:
       const newList = [...state.list!];
       newList.splice(action.index!, 0, action.note!);
       return {
         ...state,
-        list: newList
+        list: newList,
+        status: Success
       };
     case POPULATE_CAMPAIGN_NOTES:
       const { results, ...rest } = action.data!;

@@ -7,9 +7,9 @@ import {
   DELETE_PROSPECT_NOTE,
   RESTORE_PROSPECT_NOTE
 } from './actionTypes';
-import AxiosInstance from '../../axiosConfig';
+import AxiosInstance, { delayedRequest } from '../../axiosConfig';
 import { Dispatch } from 'redux';
-import { Fetching, generalNetworkError } from '../../variables';
+import { Fetching, generalNetworkError, fastSpinner } from '../../variables';
 import { addNewToast } from '../Toasts/actions';
 
 export interface INote {
@@ -78,9 +78,9 @@ const handleError = (message: string, error: string, dispatch: any) => {
 export const fetchProspectNotes = (id: number) => (dispatch: Dispatch) => {
   const params = { expand: 'created_by', prospect: id };
   dispatch(setProspectNotesStatus(Fetching));
-  AxiosInstance.get('/prospect-notes', { params })
-    .then(({ data }) => dispatch(populateProspectNotes(data)))
-    .catch(error => handleError(`prospects-notes GET error `, error, dispatch));
+  delayedRequest(AxiosInstance.get('/prospect-notes', { params }), fastSpinner)
+    .then(({ data }: any) => dispatch(populateProspectNotes(data)))
+    .catch((error: any) => handleError(`prospects-notes GET error `, error, dispatch));
 };
 
 export const updateProspectNotes = (
@@ -89,13 +89,15 @@ export const updateProspectNotes = (
   successAction?: Function,
   failAction?: Function
 ) => (dispatch: any) => {
+  //if adding note, set note status to "Fetching"
+  successAction === addProspectNote && dispatch(setProspectNotesStatus(Fetching));
   const fetchConfig = { ...config, url: `/prospect-notes${config.url}` };
-  return AxiosInstance(fetchConfig)
-    .then(({ data }) => {
+  return delayedRequest(AxiosInstance(fetchConfig), fastSpinner)
+    .then(({ data }: any) => {
       successAction && dispatch(successAction(data));
       dispatch(addNewToast({ message: successMsg }));
     })
-    .catch(error => {
+    .catch((error: any) => {
       failAction && dispatch(failAction);
       handleError(`prospects-notes ${config.method} error `, error, dispatch);
     });
