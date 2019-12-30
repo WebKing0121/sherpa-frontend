@@ -147,18 +147,18 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
 
 // NOTE: Update endpoint after Adam's refactor of these actions
 // CRM Actions
-export const emailToCrmAction = (id: number) => (dispatch: any) => {
+export const emailToCrmAction = (id: number, payload: any) => (dispatch: any) => {
   return AxiosInstance
-    .post(`campaign-prospects/${id}/email_to_podio/`)
+    .post(`prospects/${id}/email_to_podio/`, payload)
     .then(() => {
       dispatch(addNewToast({ message: 'Email to CRM Success', color: 'success' }));
     })
     .catch(_ => dispatch(addNewToast({ message: 'Email to CRM Failed', color: 'danger' })));
 }
 
-export const pushToZapierAction = (id: number) => (dispatch: any) => {
+export const pushToZapierAction = (id: number, payload: any) => (dispatch: any) => {
   return AxiosInstance
-    .post(`campaign-prospects/${id}/push_to_zapier/`)
+    .post(`prospects/${id}/push_to_zapier/`, payload)
     .then(() => {
       dispatch(addNewToast({ message: 'Push to Zapier Success', color: 'success' }));
     })

@@ -199,14 +199,14 @@ const FieldsSection = (props) => {
     setSubmitting(true);
     if (emailToCrm) {
       // dispatch that action
-      dispatch(emailToCrmAction(activeCampaign.id))
+      dispatch(emailToCrmAction(prospectId, { campaign: activeCampaign.id }))
         .then(() => {
           setSubmitting(false);
           setModal(false);
         });
     } else {
       // dispatch other action
-      dispatch(pushToZapierAction(activeCampaign.id))
+      dispatch(pushToZapierAction(prospectId, { campaign: activeCampaign.id }))
         .then(() => {
           setSubmitting(false);
           setModal(false);

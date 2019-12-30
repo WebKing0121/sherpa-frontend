@@ -93,7 +93,7 @@ const ZillowSection = (props) => {
           toggleIsLoading(false);
           setZillowData(response.data);
         })
-        .catch(error => console.log("error", error.response));
+        .catch(error => toggleIsLoading(false));
     }
   }, [id, zillowData]);
 
@@ -107,7 +107,7 @@ const ZillowSection = (props) => {
               () => (
                 <Wrapper>
                   <div className="imgSection">
-                    <img src="http://placeimg.com/150/150/arch" alt="house" />
+                    <img src={zillowData.image || ""} alt="house" />
                     <ImgHolster>
                       <img src={zillow} alt="provided by zillow" width="75" />
                     </ImgHolster>
