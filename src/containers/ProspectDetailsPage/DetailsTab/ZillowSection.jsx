@@ -1,8 +1,14 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import TextBtn from '../../../components/TextBtn';
 import Icon from '../../../components/Icon';
 import zillow from '../../../assets/images/zillow.gif';
+import { getZillowData } from '../../../store/ProspectDetails/actions';
+import { useSelector } from 'react-redux';
+import {
+  prospectDetailsData
+} from '../../../store/ProspectDetails/selectors';
+import { LoadingSpinner } from '../../../components/LoadingSpinner';
 
 const Wrapper = styled.div`
   display: flex;
@@ -55,33 +61,78 @@ const ImgHolster = styled.div`
 
 `;
 
+const Section = styled.div`
+  padding-left: var(--pad3);
+  padding-right: var(--pad3);
+  &:not(:last-child) {
+    border-bottom: 1px solid var(--mediumGray);
+  }
+`;
+
+const PaddedSection = styled(Section)`
+  padding-top: var(--pad4);
+  padding-bottom: var(--pad4);
+`;
+
 const ZillowSection = (props) => {
+  const [zillowData, setZillowData] = useState(null);
+  const [isLoading, toggleIsLoading] = useState(true);
+  const {
+    id,
+    propertyAddress,
+    propertyCity,
+    propertyState,
+    propertyZip
+  } = useSelector(prospectDetailsData);
+
+  // get zillow stuff
+  useEffect(() => {
+    if (!zillowData) {
+      getZillowData(id)
+        .then(response => {
+          toggleIsLoading(false);
+          setZillowData(response.data);
+        })
+        .catch(error => console.log("error", error.response));
+    }
+  }, [id, zillowData]);
 
   return (
     <>
-    <Wrapper>
-      <div className="imgSection">
-        <img src="http://placeimg.com/150/150/arch" alt="house"/>
-        <ImgHolster>
-          <img src={zillow} alt="provided by zillow" width="75"/>
-        </ImgHolster>
-      </div>
+      {zillowData || isLoading ?
+        (<PaddedSection>
+          <LoadingSpinner
+            isLoading={isLoading}
+            renderContent={
+              () => (
+                <Wrapper>
+                  <div className="imgSection">
+                    <img src="http://placeimg.com/150/150/arch" alt="house" />
+                    <ImgHolster>
+                      <img src={zillow} alt="provided by zillow" width="75" />
+                    </ImgHolster>
+                  </div>
 
-      <Info className="Info">
-        <p className="title textL fw-bold">2331 Shoshone Rd <br/>Indian Hills, CO 80454</p>
-        <p className="callouts textS darkGray">
-          <span>3 beds</span>
-          <span>2.5 bath</span>
-          <span>1,492sqft</span>
-        </p>
-        <p className="estimate">
-          <span className="textS fw-bold blue mr-1">Zestimates<sup>&reg;</sup>:</span>
-          <span className="textM fw-bold">$187,987</span>
-        </p>
-        <TextBtn color="sherpaBlue" href="#" className="text-left textM align-center"><Icon name="zillow" margin="mr-2"/>View on Zillow</TextBtn>
+                  <Info className="Info">
+                    <p className="title textL fw-bold">{propertyAddress}<br />{`${propertyCity}, ${propertyState} ${propertyZip}`} </p>
+                    <p className="callouts textS darkGray">
+                      <span>{zillowData.bedrooms} beds</span>
+                      <span>{zillowData.bathrooms} bath</span>
+                      <span>{zillowData.sqFt.toLocaleString()} sqft</span>
+                    </p>
+                    <p className="estimate">
+                      <span className="textS fw-bold blue mr-1">Zestimates<sup>&reg;</sup>:</span>
+                      <span className="textM fw-bold">${parseInt(zillowData.zestimate).toLocaleString()}</span>
+                    </p>
+                    <TextBtn color="sherpaBlue" href="#" className="text-left textM align-center"><Icon name="zillow" margin="mr-2" />View on Zillow</TextBtn>
 
-      </Info>
-    </Wrapper>
+                  </Info>
+                </Wrapper>
+              )
+            }
+          />
+        </PaddedSection>) : null
+      }
     </>
   );
 }

@@ -9,6 +9,8 @@ import {
 } from './actionTypes';
 import { Success, Fetching } from '../../variables';
 
+// Note: BreakApart this reducer into subsets
+// use combineReducers to compose them
 interface ProspectDetailsStatus {
   verifiedBtnStatus: string;
   dncBtnStatus: string;

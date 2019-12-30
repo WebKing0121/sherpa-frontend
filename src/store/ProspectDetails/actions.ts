@@ -164,3 +164,7 @@ export const pushToZapierAction = (id: number) => (dispatch: any) => {
     })
     .catch(_ => dispatch(addNewToast({ message: 'Push to Zapier Failed', color: 'danger' })));
 }
+
+export const getZillowData = (id: number) => {
+  return AxiosInstance.get(`prospects/${id}/zillow`)
+}

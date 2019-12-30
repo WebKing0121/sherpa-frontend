@@ -28,9 +28,7 @@ const DetailsTab = (props) => {
         <Status />
       </StatusSection>
 
-      <PaddedSection>
-        <Zillow />
-      </PaddedSection>
+      <Zillow />
 
       <PaddedSection>
         <Fields />
