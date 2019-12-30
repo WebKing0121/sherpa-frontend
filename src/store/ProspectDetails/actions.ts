@@ -145,24 +145,47 @@ export const setProspectReminder = (id: any, data: any) => (dispatch: any, _: an
     .catch(error => console.log('Error updating prospect detail', error.response));
 };
 
-// NOTE: Update endpoint after Adam's refactor of these actions
-// CRM Actions
-export const emailToCrmAction = (id: number, payload: any) => (dispatch: any) => {
-  return AxiosInstance
-    .post(`prospects/${id}/email_to_podio/`, payload)
+const crmAction = (
+  id: number,
+  payload: any,
+  dispatch: any,
+  action: string,
+  {
+    onSuccessMessage = "Success",
+    onFailureMessage = "Success"
+  }: { [key: string]: string }) => {
+  return AxiosInstance.post(`prospects/${id}/${action}/`, payload)
     .then(() => {
-      dispatch(addNewToast({ message: 'Email to CRM Success', color: 'success' }));
+      dispatch(addNewToast({ message: onSuccessMessage, color: 'success' }));
     })
-    .catch(_ => dispatch(addNewToast({ message: 'Email to CRM Failed', color: 'danger' })));
+    .catch(_ => dispatch(addNewToast({ message: onFailureMessage, color: 'danger' })));
+}
+
+export const emailToCrmAction = (id: number, payload: any) => (dispatch: any) => {
+  return crmAction(
+    id,
+    payload,
+    dispatch,
+    'email_to_podio',
+    {
+      onSuccessMessage: 'Email to CRM Success',
+      onFailureMessage: 'Email to CRM Failed'
+    }
+  );
 }
 
 export const pushToZapierAction = (id: number, payload: any) => (dispatch: any) => {
-  return AxiosInstance
-    .post(`prospects/${id}/push_to_zapier/`, payload)
-    .then(() => {
-      dispatch(addNewToast({ message: 'Push to Zapier Success', color: 'success' }));
-    })
-    .catch(_ => dispatch(addNewToast({ message: 'Push to Zapier Failed', color: 'danger' })));
+  return crmAction(
+    id,
+    payload,
+    dispatch,
+    'push_to_zapier',
+    {
+      onSuccessMessage: 'Push to Zapier Success',
+      onFailureMessage: 'Push to Zapier Failed'
+    }
+  );
+
 }
 
 export const getZillowData = (id: number) => {
