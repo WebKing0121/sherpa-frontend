@@ -14,7 +14,12 @@ const CampaignFoldersPage = () => {
   const dispatch = useDispatch();
 
   // dispatch fetchCampaigns
-  useEffect(() => dispatch(fetchCampaignFolders()), [dispatch]);
+  useEffect(() => {
+    if (campaignFolders.length === 0) {
+      console.log('Fetching markets...');
+      dispatch(fetchCampaignFolders())
+    }
+  }, [dispatch, campaignFolders.length]);
 
   // transform campaigns to proper list item views
   const listItems = campaignFoldersToItemList(campaignFolders);
