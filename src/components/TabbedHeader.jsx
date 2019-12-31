@@ -34,7 +34,6 @@ function TabbedHeader(props) {
 
   const back = () => {
     history.goBack();
-    props.data.backAction && props.data.backAction();
   }
 
   return (
