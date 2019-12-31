@@ -2,7 +2,8 @@ import AxiosInstance from '../../axiosConfig';
 import {
   SET_FETCH_CAMPAIGN_FOLDERS,
   SET_FETCH_CAMPAIGN_FOLDERS_ERROR,
-  FETCH_CAMPAIGN_FOLDERS
+  FETCH_CAMPAIGN_FOLDERS,
+  DECREMENT_MARKET_CAMPAIGN_COUNT
 } from './actionTypes';
 import { createMarketsFolders } from './transformers';
 import { history } from '../../history';
@@ -23,6 +24,11 @@ export const setFetchedCampaignFoldersError = error => ({
   type: SET_FETCH_CAMPAIGN_FOLDERS_ERROR,
   error
 });
+
+export const decrementMarketCampaignCount = (market) => ({
+  type: DECREMENT_MARKET_CAMPAIGN_COUNT,
+  market
+})
 
 export const fetchCampaignFolders = () => (dispatch, _) => {
   // NOTE: Needs to hit the Folder-endpoint in the future

@@ -6,6 +6,7 @@ import {
 } from './actionTypes';
 import { setFetchedCampaigns } from '../Campaigns/actions';
 import { Fetching } from '../../variables';
+import { unArchivedData } from './../Campaigns/transformers';
 
 export const setFetchedOwnersStatus = status => ({
   type: FETCH_OWNERS,
@@ -41,7 +42,7 @@ export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
   AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId } })
     .then(({ data }) => {
       const { results } = data;
-      dispatch(setFetchedCampaigns(results));
+      dispatch(setFetchedCampaigns({ campaigns: unArchivedData(results) }));
     })
     .catch(error => {
       console.log('Error fetching filtered data by owner: ', error);
