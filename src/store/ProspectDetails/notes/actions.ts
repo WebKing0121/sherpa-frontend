@@ -7,10 +7,10 @@ import {
   DELETE_PROSPECT_NOTE,
   RESTORE_PROSPECT_NOTE
 } from './actionTypes';
-import AxiosInstance, { delayedRequest } from '../../axiosConfig';
+import AxiosInstance, { delayedRequest } from '../../../axiosConfig';
 import { Dispatch } from 'redux';
-import { Fetching, generalNetworkError, fastSpinner } from '../../variables';
-import { addNewToast } from '../Toasts/actions';
+import { Fetching, generalNetworkError, fastSpinner } from '../../../variables';
+import { addNewToast } from '../../Toasts/actions';
 
 export interface INote {
   id?: number;

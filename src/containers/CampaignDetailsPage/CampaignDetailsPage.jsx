@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import TabbedHeader from '../../components/TabbedHeader';
-import MessagesTab from './MessagesTab/MessagesTab';
 import SendTab from './SendTab/SendTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
@@ -16,6 +15,7 @@ import {
 } from '../../store/CampaignNotes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignNotes/selectors';
 import { campaignHeaderInfo } from '../../variables';
+import MessagesTab from '../../components/messageTab/MessageTab';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */

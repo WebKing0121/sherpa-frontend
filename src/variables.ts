@@ -18,6 +18,9 @@ export const messageDeleteNote = 'Note Deleted';
 
 export const generalNetworkError = 'Something went wrong.  Please refresh or try again later.';
 
+// reducer stuff
+export const prospectDetailsReducer = 'prospectDetailsReducer';
+
 export const campaignHeaderInfo = {
   fromText: 'Campaign List',
   hasBackButton: true,

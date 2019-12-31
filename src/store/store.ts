@@ -10,8 +10,9 @@ import campaignFolders from './CampaignFolders/reducers';
 import campaignNotes from './CampaignNotes/reducers';
 import filters from './Filters/reducers.js';
 import prospects from './Prospects/reducers';
-import prospectDetails from './ProspectDetails/reducers';
-import prospectNotes from './ProspectNotes/reducers';
+import prospectDetails from './ProspectDetails/details/reducers';
+import prospectNotes from './ProspectDetails/notes/reducers';
+import prospectMessages from './ProspectDetails/messages/reducers';
 import supportItems from './Support/reducers';
 import toastsReducer from './Toasts/reducers';
 import leadStages from './leadstages/reducer';
@@ -22,6 +23,8 @@ declare global {
   }
 }
 
+const prospectDetailsReducer = combineReducers({ prospectDetails, prospectNotes, prospectMessages });
+
 const reducers = combineReducers({
   auth,
   campaigns,
@@ -29,8 +32,7 @@ const reducers = combineReducers({
   campaignNotes,
   filters,
   prospects,
-  prospectDetails,
-  prospectNotes,
+  prospectDetailsReducer,
   supportItems,
   toastsReducer,
   leadStages
@@ -48,7 +50,7 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 // load local-storage tokens
 const authInfo = loadTokens();
-const leadStagesData = loadLeadStages()
+const leadStagesData = loadLeadStages();
 const initialState = { ...authInfo, ...leadStagesData };
 const Store = createStore(rootReducer, initialState, composeEnhancers(applyMiddleware(thunkMiddleware)));
 

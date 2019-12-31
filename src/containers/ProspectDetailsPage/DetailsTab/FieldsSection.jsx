@@ -12,7 +12,7 @@ import {
   prospectDetails,
   selectedAgent,
   activeCampaignSelector
-} from '../../../store/ProspectDetails/selectors';
+} from '../../../store/ProspectDetails/details/selectors';
 import {
   setProspectReminder,
   setProspectRelay,
@@ -22,7 +22,7 @@ import {
   removeRelay,
   emailToCrmAction,
   pushToZapierAction
-} from '../../../store/ProspectDetails/actions';
+} from '../../../store/ProspectDetails/details/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';

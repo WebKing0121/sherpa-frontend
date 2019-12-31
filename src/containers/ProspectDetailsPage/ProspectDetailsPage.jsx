@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import TabbedHeader from '../../components/TabbedHeader';
-import MessagesTab from './MessagesTab/MessagesTab';
 import DetailsTab from './DetailsTab/DetailsTab';
 import NotesTab from '../../components/NotesTab/NotesTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
-import { fetchProspect } from '../../store/ProspectDetails/actions';
+import { fetchProspect } from '../../store/ProspectDetails/details/actions';
 import { useDispatch, useSelector } from 'react-redux';
-import { prospectDetailsData, prospectDetailsStatus } from '../../store/ProspectDetails/selectors';
+import {
+  prospectDetailsData,
+  prospectDetailsStatus
+} from '../../store/ProspectDetails/details/selectors';
 import { DataLoader } from '../../components/LoadingData';
 import {
   fetchProspectNotes,
@@ -16,14 +18,15 @@ import {
   deleteProspectNote,
   addProspectNote,
   restoreProspectNote
-} from '../../store/ProspectNotes/actions';
-import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectNotes/selectors';
+} from '../../store/ProspectDetails/notes/actions';
+import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectDetails/notes/selectors';
 import { prospectHeaderInfo } from '../../variables';
+import MessagesTab from '../../components/messageTab/MessageTab';
 
 const StyledTabContent = styled(TabContent)``;
 
 function ProspectDetailsPage(props) {
-  const [activeTab, setActiveTab] = useState('1');
+  const [activeTab, setActiveTab] = useState('2');
   const prospect = useSelector(prospectDetailsData);
   const isFetching = useSelector(prospectDetailsStatus);
   const dispatch = useDispatch();
@@ -69,7 +72,7 @@ function ProspectDetailsPage(props) {
               <DetailsTab />
             </TabPane>
             <TabPane tabId='2'>
-              <MessagesTab />
+              <MessagesTab subjectId={prospectId} />
             </TabPane>
             <TabPane tabId='3'>
               <NotesTab {...notesProps} />

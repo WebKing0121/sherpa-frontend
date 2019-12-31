@@ -7,11 +7,11 @@ import {
   updateVerifiedStatus,
   updateDncStatus, updatePriorityStatus,
   updateQualifiedStatus, updateLeadstage
-} from '../../../store/ProspectDetails/actions';
+} from '../../../store/ProspectDetails/details/actions';
 import {
   prospectDetailsData,
   prospectBtnStatus
-} from '../../../store/ProspectDetails/selectors';
+} from '../../../store/ProspectDetails/details/selectors';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { Updating } from '../../../variables';
 import { getLeadStages } from '../../../store/leadstages/selectors';

@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import TextBtn from '../../../components/TextBtn';
 import Icon from '../../../components/Icon';
 import zillow from '../../../assets/images/zillow.gif';
-import { getZillowData } from '../../../store/ProspectDetails/actions';
+import { getZillowData } from '../../../store/ProspectDetails/details/actions';
 import { useSelector } from 'react-redux';
 import {
   prospectDetailsData
-} from '../../../store/ProspectDetails/selectors';
+} from '../../../store/ProspectDetails/details/selectors';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 
 const Wrapper = styled.div`
