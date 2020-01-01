@@ -18,7 +18,6 @@ import {
   Fetching
 } from '../../variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { addNewToast } from '../../store/Toasts/actions';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
