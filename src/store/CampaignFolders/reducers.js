@@ -1,7 +1,8 @@
 import {
   FETCH_CAMPAIGN_FOLDERS,
   SET_FETCH_CAMPAIGN_FOLDERS,
-  SET_FETCH_CAMPAIGN_FOLDERS_ERROR
+  SET_FETCH_CAMPAIGN_FOLDERS_ERROR,
+  DECREMENT_MARKET_CAMPAIGN_COUNT
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../variables';
 
@@ -34,6 +35,22 @@ export default function reducer(state = initialState, action) {
         error: action.error,
         status: FetchError
       };
+    case DECREMENT_MARKET_CAMPAIGN_COUNT:
+      const { folders } = state;
+
+      // decrement the campaign count for the market the campaign was archived from
+      const toDecrement = folders.reduce((acc, curr) => {
+        if (curr.id === action.market) {
+          curr.campaignCount--;
+        }
+        acc.push(curr);
+        return acc;
+      }, [])
+
+      return {
+        ...state,
+        folders: [...toDecrement]
+      }
     default:
       return state;
   }

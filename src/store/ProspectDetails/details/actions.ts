@@ -168,5 +168,5 @@ export const pushToZapierAction = (id: number, payload: any) => (dispatch: any) 
 };
 
 export const getZillowData = (id: number) => {
-  return AxiosInstance.get(`prospects/${id}/zillow`);
+  return AxiosInstance.get(`prospects/${id}/zillow/`);
 };

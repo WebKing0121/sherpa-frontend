@@ -9,6 +9,7 @@ import { Fetching, Success, FetchError } from '../../variables';
 
 // campaigns reducer
 export const initialState = {
+  activeMarket: null,
   campaigns: [],
   error: '',
   next: '',
@@ -18,6 +19,8 @@ export const initialState = {
 };
 
 export default function reducer(state = initialState, action) {
+  const { data } = action;
+
   switch (action.type) {
     case FETCH_CAMPAIGNS:
       return {
@@ -27,7 +30,8 @@ export default function reducer(state = initialState, action) {
     case SET_FETCH_CAMPAIGNS:
       return {
         ...state,
-        campaigns: action.campaigns,
+        campaigns: data.campaigns,
+        activeMarket: data.marketId,
         status: Success
       };
     case SET_FETCH_CAMPAIGNS_ERROR:
@@ -38,7 +42,6 @@ export default function reducer(state = initialState, action) {
       };
     case ARCHIVE_CAMPAIGN:
       const { campaigns } = state;
-      const { data } = action;
       let newCampaignsList = campaigns.filter((x) => x.id !== data.id);
       return {
         ...state,
