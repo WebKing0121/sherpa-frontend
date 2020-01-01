@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Input, InputGroupAddon, Button } from 'reactstrap';
 import InputGroupBorder from '../InputGroupBorder';
 import IconBg from '../IconBg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
 
-const SendMessage = styled.div`
+const SendMessage = styled.form`
   padding: var(--pad2) var(--pad3);
   position: fixed;
   bottom: 0;
@@ -13,18 +13,38 @@ const SendMessage = styled.div`
   background: white;
 `;
 
-function MessageInput() {
+function MessageInput(props) {
+  const { addNewMessage } = props;
+  const [input, setInput] = useState('');
+
+  const handleChange = e => {
+    setInput(e.target.value);
+  };
+
+  const handleSubmit = e => {
+    e.preventDefault();
+    addNewMessage(input);
+    setInput('');
+  };
+
   return (
-    <SendMessage>
+    <SendMessage onSubmit={handleSubmit}>
       <InputGroupBorder className='mb-2'>
         <InputGroupAddon addonType='prepend'>
-          <Button className='p-0' color='link' onClick={e => console.log(e.target)}>
+          <Button className='p-0' type='button' color='link'>
             <FontAwesomeIcon icon='layer-group' color='gray' size='2x' className='mr-3' />
           </Button>
         </InputGroupAddon>
-        <Input type='text' name='sendMessage' id='sendMessage' placeholder='Your Message' />
+        <Input
+          type='text'
+          name='sendMessage'
+          id='sendMessage'
+          placeholder='Your Message'
+          value={input}
+          onChange={handleChange}
+        />
         <InputGroupAddon addonType='append'>
-          <Button className='p-0' color='link' onClick={e => console.log(e.target)}>
+          <Button type='submit' name='submit' className='p-0' color='link'>
             <IconBg icon='paper-plane' color='sherpaBlue' textcol='white' nudge='0 0 0 -4px' />
           </Button>
         </InputGroupAddon>

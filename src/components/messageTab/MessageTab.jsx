@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
-import { useSelector, useDispatch } from 'react-redux';
-import { prospectMessagesList } from '../../store/ProspectDetails/messages/selectors';
-import { fetchProspectMessages } from '../../store/ProspectDetails/messages/actions';
+import { fetchMessages, sendMessage } from './utils';
+import { pollingInterval } from '../../variables';
 
 const EventInfo = styled.h4`
   position: relative;
@@ -60,28 +59,29 @@ function Event(props) {
 }
 
 function MessagesTab(props) {
+  const [messages, setMessages] = useState([]);
   const { subjectId } = props;
-  const dispatch = useDispatch();
 
-  const prospectMessages = useSelector(prospectMessagesList);
-  const mappedMessages = () => prospectMessages.map(msg => <Message key={msg.date} {...msg} />);
+  const mappedMessages = () => messages.map(msg => <Message key={msg.date} {...msg} />);
+
+  const fetchMessagesCallback = useCallback(() => {
+    fetchMessages(subjectId).then(setMessages);
+  }, [subjectId, setMessages]);
+
+  const addNewMessage = message => {
+    sendMessage(subjectId, { message }).then(fetchMessagesCallback);
+  };
 
   useEffect(() => {
-    dispatch(fetchProspectMessages(subjectId));
-  }, []);
-
-  useEffect(() => {}, [prospectMessages]);
+    fetchMessagesCallback();
+    let interval = setInterval(fetchMessagesCallback, pollingInterval);
+    return () => clearInterval(interval);
+  }, [fetchMessagesCallback]);
 
   return (
     <>
-      <Bg>
-        {/* <Message source='in' timestamp='Today | 1:12 pm'>
-        Absolutely! I am with a real estate investment company called Big House Buyers. I use a service
-        that allows me to match public property records with owners and their contact info.
-      </Message> */}
-        {mappedMessages()}
-      </Bg>
-      <MessageInput />
+      <Bg>{mappedMessages()}</Bg>
+      <MessageInput addNewMessage={addNewMessage} />
     </>
   );
 }
