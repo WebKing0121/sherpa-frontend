@@ -139,26 +139,31 @@ h3 {
   /* 20px */
   font-size: 1.25rem;
   line-height: 1.2;
+  word-break: break-all;
 }
 .textL {
   /* 18px */
   font-size: 1.125rem;
   line-height: 1.22;
+  word-break: break-all;
 }
 .textM {
   /* 16px */
   font-size: 1rem;
   line-height: 1.25;
+  word-break: break-all;
 }
 .textS {
   /* 14px */
   font-size: .875rem;
   line-height: 1.29;
+  word-break: break-all;
 }
 .textXS {
   /* 12px */
   font-size: .75rem;
   line-height: 1.33;
+  word-break: break-all;
 }
 .gray {
   color: $gray;
