@@ -22,7 +22,7 @@ export const generalNetworkError = 'Something went wrong.  Please refresh or try
 export const prospectDetailsReducer = 'prospectDetailsReducer';
 
 // sms stuff
-export const pollingInterval = 5000;
+export const pollingInterval = 20000;
 export const messagesPlaceholderText = 'Send a message to start a conversation with this prospect';
 
 export const campaignHeaderInfo = {
