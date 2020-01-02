@@ -7,8 +7,6 @@ import styled from 'styled-components';
 
 const SendMessage = styled.form`
   padding: var(--pad2) var(--pad3);
-  position: fixed;
-  bottom: 0;
   width: 100%;
   background: white;
 `;
@@ -23,6 +21,8 @@ function MessageInput(props) {
 
   const handleSubmit = e => {
     e.preventDefault();
+    if (input === '') return;
+
     addNewMessage(input);
     setInput('');
   };

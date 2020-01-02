@@ -37,7 +37,7 @@ function SupportPage() {
     if (support_items.length === 0) {
       dispatch(fetchSupportItems());
     }
-  }, [dispatch]);
+  }, [dispatch, support_items.length]);
 
   return (
     <>

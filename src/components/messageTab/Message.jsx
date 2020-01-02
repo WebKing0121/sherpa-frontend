@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment-timezone';
 
 const StyledMessage = styled.div`
   background: ${props => (props.fromProspect ? 'white' : 'var(--sherpaBlue)')};
@@ -19,17 +20,34 @@ const TimeStamp = styled.div`
   margin-bottom: var(--pad4);
   color: var(--darkGray);
   font-size: 0.75rem;
+  white-space: pre;
 `;
 
 function Message(props) {
   const { message, dt, fromProspect } = props;
+
+  const getFormattedDateTime = dt => {
+    const zone = moment.tz.guess();
+    const date = moment.tz(dt, zone).format('L');
+    const time = moment.tz(dt, zone).format('LT');
+    return [date, time];
+  };
+
+  const dateTime = getFormattedDateTime(dt);
+
+  const checkWhenDate = date => {
+    const today = getFormattedDateTime(moment().d)[0];
+    const yesterday = getFormattedDateTime(moment().subtract(1, 'day'))[0];
+    return date === today ? 'Today' : date === yesterday ? 'Yesterday' : date;
+  };
+
   return (
-    <>
+    <div className='message'>
       <StyledMessage fromProspect={fromProspect}>{message}</StyledMessage>
       <TimeStamp fromProspect={fromProspect}>
-        <span>{dt}</span>
+        <span>{`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}</span>
       </TimeStamp>
-    </>
+    </div>
   );
 }
 

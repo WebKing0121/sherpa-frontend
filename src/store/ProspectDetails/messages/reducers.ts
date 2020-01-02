@@ -3,9 +3,8 @@ import {
   SET_PROSPECT_MESSAGES_ERROR,
   SET_PROSPECT_MESSAGES_STATUS
 } from './actionTypes';
-import { IMessage, IResults } from './actions';
+import { IMessage } from './actions';
 import { Fetching, Success, FetchError } from '../../../variables';
-import SwipeMenuAction from '../../../components/SwipeableList/SwipeMenuAction';
 
 interface IAction {
   type: string;

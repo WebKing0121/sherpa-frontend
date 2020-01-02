@@ -25,7 +25,6 @@ export const initialState: IState = {
 export default function supportItems(state = initialState, action: IAction) {
   switch (action.type) {
     case SET_SUPPORT_ITEMS:
-      console.log(action);
       return {
         ...state,
         items: action.items,

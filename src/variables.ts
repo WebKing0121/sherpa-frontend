@@ -22,7 +22,8 @@ export const generalNetworkError = 'Something went wrong.  Please refresh or try
 export const prospectDetailsReducer = 'prospectDetailsReducer';
 
 // sms stuff
-export const pollingInterval = 30000; // 5 minutes
+export const pollingInterval = 5000;
+export const emptyMessagesMessage = 'Currently there are no messages.';
 
 export const campaignHeaderInfo = {
   fromText: 'Campaign List',

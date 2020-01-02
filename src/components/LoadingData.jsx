@@ -19,17 +19,12 @@ const NoResults = styled.p`
   padding: var(--pad3);
 `;
 
-const whenLoadingResults = (status, results) => {
-  return (status === Fetching && results.length <= 0) || (status === Fetching && results.length > 0);
-};
+const whenLoadingResults = (status, results) =>
+  (status === Fetching && !results.length) || (status === Fetching && results.length);
 
-const whenNoResults = (status, results) => {
-  return status === Success && results.length <= 0;
-};
+const whenNoResults = (status, results) => status === Success && !results.length;
 
-const whenError = status => {
-  return status === FetchError;
-};
+const whenError = status => status === FetchError;
 
 // TODO: Cleanup Redux Actions to settle on an API that this component
 // can use to make a generic data-loader component
@@ -43,6 +38,14 @@ export const DataLoader = props => {
     fullPage
   } = props;
 
+  const renderedResults = whenNoResults(status, data) ? (
+    <NoResults> {emptyResultsMessage}</NoResults>
+  ) : whenError(status) ? (
+    <NoResults>{networkError}</NoResults>
+  ) : (
+    renderData()
+  );
+
   return (
     <>
       {whenLoadingResults(status, data) ? (
@@ -50,13 +53,7 @@ export const DataLoader = props => {
           <Spinner color='primary' />
         </SpinWrap>
       ) : (
-        <div data-test='displayed-data'>
-          {whenNoResults(status, data) ? (
-            <NoResults> {(whenError() && networkError) || emptyResultsMessage}</NoResults>
-          ) : (
-            renderData()
-          )}
-        </div>
+        <div data-test='displayed-data'>{renderedResults}</div>
       )}
     </>
   );

@@ -5,14 +5,7 @@ import SendTab from './SendTab/SendTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 import NotesTab from '../../components/NotesTab/NotesTab';
-import {
-  fetchCampaignNotes,
-  updateCampaignNotes,
-  deleteCampaignNote,
-  restoreCampaignNote,
-  addCampaignNote,
-  editCampaignNote
-} from '../../store/CampaignNotes/actions';
+import * as noteActions from '../../store/CampaignNotes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignNotes/selectors';
 import { campaignHeaderInfo } from '../../variables';
 import MessagesTab from '../../components/messageTab/MessageTab';
@@ -31,16 +24,16 @@ function CampaignDetailsPage(props) {
   const notesList = useSelector(campaignNotesList);
 
   const notesProps = {
-    fetchNotes: fetchCampaignNotes,
-    updateNotes: updateCampaignNotes,
+    fetchNotes: noteActions.fetchCampaignNotes,
+    updateNotes: noteActions.updateCampaignNotes,
     subject: 'campaign',
     subjectId: campaignId,
     notesList,
     notesStatus: campaignNotesStatus,
-    addNote: addCampaignNote,
-    editNote: editCampaignNote,
-    deleteNote: deleteCampaignNote,
-    restoreNote: restoreCampaignNote
+    addNote: noteActions.addCampaignNote,
+    editNote: noteActions.editCampaignNote,
+    deleteNote: noteActions.deleteCampaignNote,
+    restoreNote: noteActions.restoreCampaignNote
   };
 
   return (
