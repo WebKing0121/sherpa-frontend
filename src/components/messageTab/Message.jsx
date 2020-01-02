@@ -2,6 +2,11 @@ import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment-timezone';
 
+const StyledListItem = styled.li`
+  list-style: none;
+  margin: 0;
+`;
+
 const StyledMessage = styled.div`
   background: ${props => (props.fromProspect ? 'white' : 'var(--sherpaBlue)')};
   border-radius: 0.8rem;
@@ -42,12 +47,12 @@ function Message(props) {
   };
 
   return (
-    <div className='message'>
+    <StyledListItem className='message'>
       <StyledMessage fromProspect={fromProspect}>{message}</StyledMessage>
       <TimeStamp fromProspect={fromProspect}>
         <span>{`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}</span>
       </TimeStamp>
-    </div>
+    </StyledListItem>
   );
 }
 

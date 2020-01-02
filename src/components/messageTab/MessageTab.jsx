@@ -3,15 +3,15 @@ import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import { fetchMessages, sendMessage } from './utils';
-import { pollingInterval, Success, FetchError, Fetching, emptyMessagesMessage } from '../../variables';
+import * as vars from '../../variables';
 import { DataLoader } from '../LoadingData';
 
-const Bg = styled.div`
+const StyledList = styled.ul`
   background: var(--coolGray);
   padding: 0 var(--pad3);
-  padding-bottom: ${props => props.marginBottom}px;
+  padding-bottom: ${props => props.marginBottom - 20}px;
   width: 100%;
-  height: 100%;
+  height: 100vh;
   overflow-y: scroll;
   position: absolute;
   bottom: 0;
@@ -19,8 +19,20 @@ const Bg = styled.div`
   display: flex;
   flex-direction: column-reverse;
   .message:last-child {
-    padding-top: ${props => `calc(60px + 5vw + 1rem + ${props.marginTop || 0}px)`};
+    padding-top: ${props => `calc(70px + 5vw + 1rem + ${props.marginTop || 0}px)`};
   }
+`;
+
+const Placeholder = styled.div`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: white;
+  margin-top: 50%;
 `;
 
 const InputWrapper = styled.div`
@@ -36,10 +48,13 @@ const initialMargins = {
 
 function MessagesTab(props) {
   const [messages, setMessages] = useState([]);
-  const [messagesStatus, setMessagesStatus] = useState(Fetching);
+  const [messagesStatus, setMessagesStatus] = useState(vars.Fetching);
   const [margins, setMargins] = useState(initialMargins);
 
-  const mappedMessages = [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} />);
+  const mappedMessages = () => {
+    if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} />);
+    return <Placeholder {...margins}>{vars.messagesPlaceholderText}</Placeholder>;
+  };
 
   const messagesRef = useRef();
   const inputRef = useRef();
@@ -47,7 +62,7 @@ function MessagesTab(props) {
   const fetchMessagesCB = useCallback(() => {
     fetchMessages(props.subjectId).then(res => {
       setMessages(res || []);
-      setMessagesStatus(res ? Success : FetchError);
+      setMessagesStatus(res ? vars.Success : vars.FetchError);
     });
   }, [props.subjectId, setMessages]);
 
@@ -68,7 +83,7 @@ function MessagesTab(props) {
   // retrieves all messages and sets an interval for periodic retrieval
   useEffect(() => {
     fetchMessagesCB();
-    let interval = setInterval(fetchMessagesCB, pollingInterval);
+    let interval = setInterval(fetchMessagesCB, vars.pollingInterval);
     return () => clearInterval(interval);
   }, [fetchMessagesCB, scrollToNewMessageCB]);
 
@@ -87,12 +102,12 @@ function MessagesTab(props) {
     <>
       <DataLoader
         status={messagesStatus}
-        data={messages}
-        emptyResultsMessage={emptyMessagesMessage}
+        data={(messages.length && messages) || [vars.messagesPlaceholderText]}
+        emptyResultsMessage=''
         renderData={() => (
-          <Bg {...margins} ref={messagesRef}>
-            {mappedMessages}
-          </Bg>
+          <StyledList {...margins} ref={messagesRef}>
+            {mappedMessages()}
+          </StyledList>
         )}
       />
       <InputWrapper ref={inputRef}>

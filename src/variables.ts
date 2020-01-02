@@ -23,7 +23,7 @@ export const prospectDetailsReducer = 'prospectDetailsReducer';
 
 // sms stuff
 export const pollingInterval = 5000;
-export const emptyMessagesMessage = 'Currently there are no messages.';
+export const messagesPlaceholderText = 'Send a message to start a conversation with this prospect';
 
 export const campaignHeaderInfo = {
   fromText: 'Campaign List',
