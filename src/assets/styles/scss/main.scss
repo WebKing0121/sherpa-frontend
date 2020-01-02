@@ -139,26 +139,31 @@ h3 {
   /* 20px */
   font-size: 1.25rem;
   line-height: 1.2;
+  hyphens: auto;
 }
 .textL {
   /* 18px */
   font-size: 1.125rem;
   line-height: 1.22;
+  hyphens: auto;
 }
 .textM {
   /* 16px */
   font-size: 1rem;
   line-height: 1.25;
+  hyphens: auto;
 }
 .textS {
   /* 14px */
   font-size: .875rem;
   line-height: 1.29;
+  hyphens: auto;
 }
 .textXS {
   /* 12px */
   font-size: .75rem;
   line-height: 1.33;
+  hyphens: auto;
 }
 .gray {
   color: $gray;

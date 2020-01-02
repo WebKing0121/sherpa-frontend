@@ -1,9 +1,62 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import moment from 'moment-timezone';
 import NoteForm from './NoteForm';
 import Modal from '../Modal';
+
+import { CSSTransition } from 'react-transition-group';
+
+const TransitionStyling = styled(CSSTransition)`
+  --timing: .25s;
+  position: relative;
+  overflow: hidden;
+  transition: left var(--timing);
+
+  &.notes {
+    &-appear {
+      &:first-child{
+        left: -120%;
+      }
+      &-active {
+        &:first-child {
+          left: 0%;
+        }
+      }
+      &-done {
+        &:first-child {
+          left: 0%;
+        }
+      }
+    }
+    &-enter {
+      &:first-child{
+        left: -120%;
+      }
+      &-active {
+        &:first-child {
+          left: 0%;
+        }
+      }
+      &-done {
+        &:first-child {
+          left: 0%;
+        }
+      }
+    }
+    &-exit {
+      left: 0%;
+
+      &-active {
+        left: -120%;
+      }
+
+      &-done {
+        left: -120%;
+      }
+    }
+  }
+`;
 
 const ButtonBlock = styled.div`
   display: inline-flex;
@@ -36,7 +89,7 @@ const NoteCard = styled.li`
   text-align: left;
   list-style: none;
 
-  margin-bottom: var(--pad6);
+  padding-bottom: var(--pad6);
 
   p {
     line-height: 1.4;
@@ -44,8 +97,6 @@ const NoteCard = styled.li`
 `;
 
 const Timeline = styled.div`
-  margin-top: 2px;
-
   display: flex;
   align-items: center;
   flex-direction: column;
@@ -87,6 +138,11 @@ function Note(props) {
 
   const [modal, setModal] = useState(false);
   const [editText, setEditText] = useState(text);
+  const [anim, setAnim] = useState(true);
+  //
+  // useEffect(() => {
+  //   setAnim(props.anim);
+  // }, [props.anim]);
 
   const handleupdateNote = () => {
     updateNote(note, editText);
@@ -111,40 +167,48 @@ function Note(props) {
   const handleDeleteClick = () => {
     //disables edit and delete buttons when note is deleted
     buttonBlock.current.style.pointerEvents = 'none';
-    deleteNote(note);
+    setAnim(false);
+    setTimeout(function(){deleteNote(note)}, 300);
   };
-
   return (
-    <NoteCard>
-      <Timeline>
-        <div className='greenCircle'></div>
-        <div className='grayBar'></div>
-      </Timeline>
-      <div data-test='note-details'>
-        <pre className='textL gray'>{`${dateTime[0]}  |  ${dateTime[1]}`}</pre>
-        <h4 className='textL fw-bold'>
-          {createdBy && createdBy.fullName && getFormattedName(createdBy.fullName)}
-        </h4>
-        <p className='textL'>{text}</p>
-        <ButtonBlock ref={buttonBlock}>
-          <Button size='lg' color='link' onClick={() => setModal(true)}>
-            Edit
-          </Button>
-          <Button size='lg' color='link' onClick={handleDeleteClick}>
-            Delete
-          </Button>
-        </ButtonBlock>
-      </div>
-      <Modal toggle={() => setModal(false)} isOpen={modal} title='Edit Note'>
-        <NoteForm
-          submitNote={handleupdateNote}
-          text={editText}
-          setText={setEditText}
-          note={note}
-          btnText='Update Note'
-        />
-      </Modal>
-    </NoteCard>
+    <TransitionStyling
+      in={anim}
+      timeout={260}
+      classNames="notes"
+      appear={true}
+      >
+
+      <NoteCard id={props.id}>
+        <Timeline>
+          <div className='greenCircle'></div>
+          <div className='grayBar'></div>
+        </Timeline>
+        <div data-test='note-details'>
+          <pre className='textL gray'>{`${dateTime[0]}  |  ${dateTime[1]}`}</pre>
+          <h4 className='textL fw-bold'>
+            {createdBy && createdBy.fullName && getFormattedName(createdBy.fullName)}
+          </h4>
+          <p className='textL'>{text}</p>
+          <ButtonBlock ref={buttonBlock}>
+            <Button size='lg' color='link' onClick={() => setModal(true)}>
+              Edit
+            </Button>
+            <Button size='lg' color='link' onClick={handleDeleteClick}>
+              Delete
+            </Button>
+          </ButtonBlock>
+        </div>
+        <Modal toggle={() => setModal(false)} isOpen={modal} title='Edit Note'>
+          <NoteForm
+            submitNote={handleupdateNote}
+            text={editText}
+            setText={setEditText}
+            note={note}
+            btnText='Update Note'
+          />
+        </Modal>
+      </NoteCard>
+    </TransitionStyling>
   );
 }
 

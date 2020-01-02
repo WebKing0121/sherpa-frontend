@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import moment from 'moment-timezone';
-
+import usePrevious from '../../hooks/usePrevious';
 import { getUserData } from '../../store/Auth/selectors';
 
 import Modal from '../Modal';
@@ -27,6 +27,7 @@ const Heading = styled.div`
 
 const List = styled.ul`
   padding: 0 var(--pad3) 0;
+  overflow: hidden;
 `;
 
 //update date format used in each note
@@ -48,14 +49,17 @@ function NotesTab(props) {
     restoreNote
   } = props;
   const [modal, setModal] = useState(false);
+  // for animation
+  const [noteIn, setNoteIn] = useState(false);
 
   const toggle = () => setModal(state => !state);
 
   const [newNoteText, setNewNoteText] = useState('');
-
   const userData = useSelector(getUserData);
   const notes_status = useSelector(notesStatus);
   const dispatch = useDispatch();
+
+  const prevList = usePrevious(notesList) || notesList;
 
   const handleNewNote = () => {
     const note = {
@@ -100,10 +104,33 @@ function NotesTab(props) {
     dispatch(fetchNotes(subjectId));
   }, [dispatch, subjectId, fetchNotes, subject]);
 
+  useEffect(() => {
+    let diff = notesList.length - prevList.length;
+    if (diff > 0) {
+      setNoteIn(true);
+    } else if (diff < 0) {
+      setNoteIn(false);
+    } else {
+    }
+  }, [notesList.length]);
+
   const mapNotes = () =>
-    notesList.map(note => (
-      <Note key={note.id} note={note} deleteNote={handledeleteNote} updateNote={handleEditNote} />
-    ));
+    notesList.map((note, idx) => {
+      let anim = false;
+      if (idx === 0 && noteIn) {
+        anim = true;
+      }
+      return (
+        <Note
+          id={note.id}
+          key={note.id}
+          note={note}
+          deleteNote={handledeleteNote}
+          updateNote={handleEditNote}
+          anim={anim}
+        />
+    )
+    });
 
   // notes are memoized to prevent rerenders when modal states change
   const memoizedNotes = useMemo(mapNotes, [notesList]);

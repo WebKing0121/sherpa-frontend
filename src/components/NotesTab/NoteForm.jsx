@@ -3,6 +3,15 @@ import { Form, Input, Button } from 'reactstrap';
 import InputGroupBorder from '../InputGroupBorder';
 import { LoadingSpinner } from '../LoadingSpinner';
 import { Fetching } from '../../variables';
+import styled from 'styled-components';
+
+const Spinner = styled.div`
+  .spinner-border {
+    width: 1.125em;
+    height: 1.125em;
+    border-width: .1em;
+  }
+`;
 
 function NoteForm(props) {
   const { text, setText, submitNote, note, btnText, notesStatus } = props;
@@ -31,11 +40,13 @@ function NoteForm(props) {
         data-test='note-form-btn'
         disabled={notesStatus === Fetching}
       >
+      <Spinner>
         <LoadingSpinner
           isLoading={notesStatus === Fetching ? true : false}
-          color='light'
+          color='white'
           renderContent={() => <>{btnText}</>}
         />
+      </Spinner>
       </Button>
     </Form>
   );
