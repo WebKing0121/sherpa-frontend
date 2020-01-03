@@ -4,18 +4,18 @@ import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { campaignsList, campaignsStatus, activeMarket } from '../../store/Campaigns/selectors';
-import { campaignFoldersList } from '../../store/CampaignFolders/selectors';
+import { marketsList } from '../../store/Markets/selectors';
 import { campaignsToItemList } from './utils';
 import { fetchCampaigns, resetCampaignsData, fetchSortedCampaigns } from '../../store/Campaigns/actions';
 import { DataLoader } from '../../components/LoadingData';
 
 import TabbedHeader from '../../components/TabbedHeader';
-import { getFromLocalStorage } from '../../store/CampaignFolders/utils';
+import { getFromLocalStorage } from '../../store/Markets/utils';
 
 const CampaignsPage = props => {
   const activeMarketId = useSelector(activeMarket);
   const campaigns = useSelector(campaignsList);
-  const campaignFolders = useSelector(campaignFoldersList);
+  const campaignFolders = useSelector(marketsList);
   const isFetching = useSelector(campaignsStatus);
   const dispatch = useDispatch();
 

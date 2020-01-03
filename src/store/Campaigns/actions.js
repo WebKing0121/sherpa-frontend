@@ -8,7 +8,7 @@ import {
 } from './actionTypes';
 import { Fetching } from '../../variables';
 import { unArchivedData } from './transformers';
-import { decrementMarketCampaignCount } from '../CampaignFolders/actions';
+import { decrementMarketCampaignCount } from '../Markets/actions';
 
 export const setFetchedCampaignStatus = status => ({
   type: FETCH_CAMPAIGNS,

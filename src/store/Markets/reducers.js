@@ -1,7 +1,7 @@
 import {
-  FETCH_CAMPAIGN_FOLDERS,
-  SET_FETCH_CAMPAIGN_FOLDERS,
-  SET_FETCH_CAMPAIGN_FOLDERS_ERROR,
+  FETCH_MARKETS,
+  SET_FETCH_MARKETS,
+  SET_FETCH_MARKETS_ERROR,
   DECREMENT_MARKET_CAMPAIGN_COUNT
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../variables';
@@ -18,18 +18,18 @@ export const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_CAMPAIGN_FOLDERS:
+    case FETCH_MARKETS:
       return {
         ...state,
         status: Fetching
       };
-    case SET_FETCH_CAMPAIGN_FOLDERS:
+    case SET_FETCH_MARKETS:
       return {
         ...state,
         folders: action.campaignFolders,
         status: Success
       };
-    case SET_FETCH_CAMPAIGN_FOLDERS_ERROR:
+    case SET_FETCH_MARKETS_ERROR:
       return {
         ...state,
         error: action.error,

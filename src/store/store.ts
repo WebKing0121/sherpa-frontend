@@ -6,9 +6,9 @@ import { loadLeadStages } from './leadstages/utils';
 
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
-import campaignFolders from './CampaignFolders/reducers';
 import campaignNotes from './CampaignNotes/reducers';
 import filters from './Filters/reducers.js';
+import markets from './Markets/reducers';
 import prospects from './Prospects/reducers';
 import prospectDetails from './ProspectDetails/details/reducers';
 import prospectNotes from './ProspectDetails/notes/reducers';
@@ -28,9 +28,9 @@ const prospectDetailsReducer = combineReducers({ prospectDetails, prospectNotes,
 const reducers = combineReducers({
   auth,
   campaigns,
-  campaignFolders,
   campaignNotes,
   filters,
+  markets,
   prospects,
   prospectDetailsReducer,
   supportItems,
