@@ -10,7 +10,8 @@ export const prospectDetails = ({ [reducer]: { prospectDetails } }) => ({
   sherpaPhoneNumber: prospectDetails.prospect.sherpaPhoneNumber,
   emailedToPodio: prospectDetails.prospect.emailedToPodio,
   pushedToZapier: prospectDetails.prospect.pushedToZapier,
-  smsRelayMap: prospectDetails.smsRelayMap
+  smsRelayMap: prospectDetails.smsRelayMap,
+  zillowLink: prospectDetails.prospect.zillowLink || ""
 });
 export const prospectDetailUpdateStatus = ({ [reducer]: { prospectDetails } }) =>
   prospectDetails.actionBtnStatus;

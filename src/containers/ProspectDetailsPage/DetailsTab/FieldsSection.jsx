@@ -140,6 +140,7 @@ const FieldsSection = (props) => {
     sherpaPhoneNumber,
     emailedToPodio,
     pushedToZapier,
+    zillowLink,
     smsRelayMap: { rep: { id } }
   } = useSelector(prospectDetails);
 
@@ -318,6 +319,7 @@ const FieldsSection = (props) => {
               </Button>
             </form>
           </Modal>
+          {/* {zillowLink ? <render Link stuff/> : null} */}
         </BtnHolster>
       </FieldWrapper>
     </>

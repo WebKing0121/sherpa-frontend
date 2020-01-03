@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Zillow from './ZillowSection';
 import Status from './StatusSection';
 import Fields from './FieldsSection';
 
@@ -27,8 +26,6 @@ const DetailsTab = (props) => {
       <StatusSection>
         <Status />
       </StatusSection>
-
-      <Zillow />
 
       <PaddedSection>
         <Fields />

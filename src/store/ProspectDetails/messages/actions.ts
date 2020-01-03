@@ -46,7 +46,7 @@ const handleError = (message: string, error: string, dispatch: any) => {
 
 export const fetchProspectMessages = (id: number) => (dispatch: Dispatch) => {
   dispatch(setProspectMessagesStatus(Fetching));
-  delayedRequest(axiosInstance.get(`/prospects/${id}/messages`), fastSpinner)
+  delayedRequest(axiosInstance.get(`/prospects/${id}/messages/`), fastSpinner)
     .then(({ data }: any) => dispatch(populateProspectMessages(data)))
     .catch((error: any) => handleError(`prospects messages GET error `, error, dispatch));
 };

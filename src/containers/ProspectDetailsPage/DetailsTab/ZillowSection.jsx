@@ -10,6 +10,9 @@ import {
 } from '../../../store/ProspectDetails/details/selectors';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 
+// NOTE: Deprecated Component -- Remains on the repo until the rework
+// for zillow is in place.
+
 const Wrapper = styled.div`
   display: flex;
   justify-content: space-between;

@@ -166,7 +166,3 @@ export const pushToZapierAction = (id: number, payload: any) => (dispatch: any) 
     onFailureMessage: 'Push to Zapier Failed'
   });
 };
-
-export const getZillowData = (id: number) => {
-  return AxiosInstance.get(`prospects/${id}/zillow/`);
-};
