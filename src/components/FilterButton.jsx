@@ -10,8 +10,10 @@ import Modal from './Modal';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchOwners, fetchFilteredData } from '../store/Filters/actions';
-import { owners, companyId } from '../store/Filters/selectors';
+
+import { fetchFilteredData } from '../store/Campaigns/actions';
+import { fetchCompanyOwners } from '../store/CompanyOwners/actions';
+import { owners, companyId } from '../store/CompanyOwners/selectors';
 
 const Pane = styled.div`
   overflow: hidden;
@@ -77,13 +79,11 @@ function FilterButton(props) {
   const toggle = () => setModal(!modal);
 
   const [isOpen1, setIsOpen1] = useState(true);
-  // const [isOpen2, setIsOpen2] = useState(true);
 
   const toggle1 = () => setIsOpen1(!isOpen1);
-  // const toggle2 = () => setIsOpen2(!isOpen2);
 
   // fetch owners to filter by
-  useEffect(() => dispatch(fetchOwners(company)), [dispatch, company]);
+  useEffect(() => dispatch(fetchCompanyOwners(company)), [dispatch, company]);
 
   const handleSelect = (event) => {
     const { target: { id } } = event;
@@ -141,25 +141,6 @@ function FilterButton(props) {
             </Collapse>
           </Pane>
 
-          {/* Disable tags filtering until sherpa 2.1 [ch612] */}
-          {/* <Pane> */}
-          {/*   <ToggleHeader className="fw-black textL" onClick={toggle2}> */}
-          {/*     <Label for="tags">Review & Send</Label> */}
-          {/*     <Arrow isOpen={isOpen2}> */}
-          {/*       <FontAwesomeIcon icon="chevron-up" rotation={isOpen2 ? null : 180} */}
-          {/*     /> */}
-          {/*     </Arrow> */}
-          {/*   </ToggleHeader> */}
-          {/*   <Collapse isOpen={isOpen2}> */}
-          {/*     <div className="content"> */}
-          {/*     <FormGroup> */}
-          {/*       <Radio type="radio" name="reviewSend" label="Follow-Up" id="tags1"/> */}
-          {/*       <Radio type="radio" name="reviewSend" label="Initial Send" id="tags2"/> */}
-          {/*       <Radio type="radio" name="reviewSend" label="Probate" id="tags3"/> */}
-          {/*     </FormGroup> */}
-          {/*     </div> */}
-          {/*   </Collapse> */}
-          {/* </Pane> */}
         </div>
 
         <Button color="primary" size="lg" block className="mt-4" onClick={handleSubmit}>

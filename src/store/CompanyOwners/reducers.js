@@ -1,7 +1,7 @@
 import {
-  FETCH_OWNERS,
-  SET_FETCH_OWNERS,
-  SET_FETCH_OWNERS_ERROR
+  FETCH_COMPANY_OWNERS,
+  SET_FETCH_COMPANY_OWNERS,
+  SET_FETCH_COMPANY_OWNERS_ERROR
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../variables';
 
@@ -17,18 +17,18 @@ export const initialState = {
 
 export default function reducer(state = initialState, action) {
   switch (action.type) {
-    case FETCH_OWNERS:
+    case FETCH_COMPANY_OWNERS:
       return {
         ...state,
         status: Fetching
       };
-    case SET_FETCH_OWNERS:
+    case SET_FETCH_COMPANY_OWNERS:
       return {
         ...state,
         owners: action.owners,
         status: Success
       };
-    case SET_FETCH_OWNERS_ERROR:
+    case SET_FETCH_COMPANY_OWNERS_ERROR:
       return {
         ...state,
         error: action.error,

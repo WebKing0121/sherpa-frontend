@@ -83,3 +83,15 @@ export const archiveCampaign = data => (dispatch, _) => {
       console.log('Error archiving camapign: ', error);
     });
 };
+
+export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
+
+  AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false } })
+    .then(({ data }) => {
+      const { results } = data;
+      dispatch(setFetchedCampaigns({ campaigns: results }));
+    })
+    .catch(error => {
+      console.log('Error fetching filtered data by owner: ', error);
+    });
+};

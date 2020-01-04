@@ -1,4 +1,4 @@
-export const owners = (state) => state.filters.owners;
+export const owners = (state) => state.companyOwners.owners;
 export const companyId = (state) => {
   let { auth: { userData: { company: { id } } } } = state;
 
