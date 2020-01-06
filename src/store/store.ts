@@ -17,6 +17,8 @@ import supportItems from './Support/reducers';
 import toastsReducer from './Toasts/reducers';
 import leadStages from './leadstages/reducer';
 import smsTemplates from './CampaignDetails/sent/reducers';
+import uiStore from './uiStore/reducers';
+import prospectStore from './prospectStore/reducer';
 
 declare global {
   interface Window {
@@ -37,7 +39,9 @@ const reducers = combineReducers({
   supportItems,
   toastsReducer,
   leadStages,
-  smsTemplates
+  smsTemplates,
+  prospectStore,
+  uiStore
 });
 
 const rootReducer = (state: any, action: any) => {

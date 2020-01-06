@@ -22,6 +22,7 @@ const errorResponseInterceptor = (error: any) => {
   }
   // display error toast/alert
   if (status > 404) {
+    // NOTE: Add logs errors from the server via sentry/trackjs or any other services
     ReduxStore.dispatch(addNewToast({ message: generalNetworkError, color: 'danger' }));
   }
 
