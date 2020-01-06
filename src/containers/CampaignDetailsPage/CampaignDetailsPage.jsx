@@ -5,10 +5,10 @@ import SendTab from './SendTab/SendTab';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 import NotesTab from '../../components/NotesTab/NotesTab';
-import * as noteActions from '../../store/CampaignNotes/actions';
-import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignNotes/selectors';
+import * as noteActions from '../../store/CampaignDetails/notes/actions';
+import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDetails/notes/selectors';
 import { campaignHeaderInfo } from '../../variables';
-import MessagesTab from '../../components/messageTab/MessageTab';
+import MessagesTab from './MessagesTab/MessagesTab';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */

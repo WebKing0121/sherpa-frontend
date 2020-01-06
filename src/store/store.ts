@@ -6,7 +6,7 @@ import { loadLeadStages } from './leadstages/utils';
 
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
-import campaignNotes from './CampaignNotes/reducers';
+import campaignNotes from './CampaignDetails/notes/reducers';
 import companyOwners from './CompanyOwners/reducers.js';
 import markets from './Markets/reducers';
 import prospects from './Prospects/reducers';
@@ -16,6 +16,7 @@ import prospectMessages from './ProspectDetails/messages/reducers';
 import supportItems from './Support/reducers';
 import toastsReducer from './Toasts/reducers';
 import leadStages from './leadstages/reducer';
+import smsTemplates from './CampaignDetails/sent/reducers';
 
 declare global {
   interface Window {
@@ -35,7 +36,8 @@ const reducers = combineReducers({
   prospectDetailsReducer,
   supportItems,
   toastsReducer,
-  leadStages
+  leadStages,
+  smsTemplates
 });
 
 const rootReducer = (state: any, action: any) => {

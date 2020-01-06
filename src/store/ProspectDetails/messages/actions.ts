@@ -50,23 +50,3 @@ export const fetchProspectMessages = (id: number) => (dispatch: Dispatch) => {
     .then(({ data }: any) => dispatch(populateProspectMessages(data)))
     .catch((error: any) => handleError(`prospects messages GET error `, error, dispatch));
 };
-
-//   export const updateProspectNotes = (
-//     config: IAxiosConfig,
-//     successMsg: string,
-//     successAction?: Function,
-//     failAction?: Function
-//   ) => (dispatch: any) => {
-//     //if adding note, set note status to "Fetching"
-//     successAction === addProspectNote && dispatch(setProspectNotesStatus(Fetching));
-//     const fetchConfig = { ...config, url: `/prospect-notes${config.url}` };
-//     return delayedRequest(AxiosInstance(fetchConfig), fastSpinner)
-//       .then(({ data }: any) => {
-//         successAction && dispatch(successAction(data));
-//         dispatch(addNewToast({ message: successMsg }));
-//       })
-//       .catch((error: any) => {
-//         failAction && dispatch(failAction);
-//         handleError(`prospects-notes ${config.method} error `, error, dispatch);
-//       });
-//   };

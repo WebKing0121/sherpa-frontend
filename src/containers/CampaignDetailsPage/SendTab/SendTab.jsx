@@ -1,31 +1,10 @@
-import React, { useState } from 'react';
-import { Collapse } from 'reactstrap';
-import styled from 'styled-components';
-import Icon from '../../../components/Icon';
+import React, { useState, useEffect } from 'react';
 import SelectTemplate from './SelectTemplate';
 import ReviewSend from './ReviewSend';
 
-const Pane = styled.div`
-  overflow: hidden;
-`;
+import CollapsablePane from '../../../components/CollapsablePane';
 
-const ToggleHeader = styled.h3`
-  padding: var(--pad4) var(--pad3);
-  background: var(--ghostBlue);
-  color: var(--darkNavy);
-  margin: 0;
-  display: flex;
-  justify-content: space-between;
-`;
-
-const Arrow = styled.div`
-  img {
-    transition: transform .3s;
-    transform: ${props => props.isOpen ? "rotate(-90deg)" : "rotate(90deg)"};;
-  }
-`;
-
-const SendTab = (props) => {
+const SendTab = () => {
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
 
@@ -34,27 +13,14 @@ const SendTab = (props) => {
 
   return (
     <>
-      <Pane>
-        <ToggleHeader className="fw-bold" onClick={toggle1}>
-          Select SMS Template
-          <Arrow isOpen={isOpen1}><Icon name="arrow" width="10px"/></Arrow>
-        </ToggleHeader>
-        <Collapse isOpen={isOpen1}>
-          <SelectTemplate/>
-        </Collapse>
-      </Pane>
-
-      <Pane>
-        <ToggleHeader className="fw-bold" onClick={toggle2}>
-          Review & Send
-          <Arrow isOpen={isOpen2}><Icon name="arrow" width="10px"/></Arrow>
-        </ToggleHeader>
-        <Collapse isOpen={isOpen2}>
-          <ReviewSend/>
-        </Collapse>
-      </Pane>
+      <CollapsablePane toggle={toggle1} isOpen={isOpen1} header='Select SMS Template'>
+        <SelectTemplate />
+      </CollapsablePane>
+      <CollapsablePane toggle={toggle2} isOpen={isOpen2} header={'Review & Send'}>
+        <ReviewSend />
+      </CollapsablePane>
     </>
   );
-}
+};
 
 export default SendTab;
