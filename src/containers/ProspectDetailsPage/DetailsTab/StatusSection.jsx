@@ -4,17 +4,16 @@ import styled from 'styled-components';
 import InputSelect from '../../../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  updateVerifiedStatus,
-  updateDncStatus, updatePriorityStatus,
-  updateQualifiedStatus, updateLeadstage
-} from '../../../store/ProspectDetails/details/actions';
+  activeProspectSelector,
+  actionBtnStatusSelector
+} from '../../../store/uiStore/prospectDetailsView/selectors';
 import {
-  prospectDetailsData,
-  prospectBtnStatus
-} from '../../../store/ProspectDetails/details/selectors';
+  prospectUpdateStatus,
+  prospectUpdateOptimistically
+} from '../../../store/prospectStore/thunks';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
-import { Updating } from '../../../variables';
 import { getLeadStages } from '../../../store/leadstages/selectors';
+import { getProspect } from '../../../store/prospectStore/selectors';
 
 const StatusAction = styled.div`
   background: ${props => {
@@ -100,8 +99,9 @@ const getNewVerifiedStatus = status => {
 
 const DetailsTab = props => {
   const leadStages = useSelector(getLeadStages);
-  const prospect = useSelector(prospectDetailsData);
-  const actionBtnStatus = useSelector(prospectBtnStatus);
+  const prospectId = useSelector(activeProspectSelector);
+  const prospect = useSelector(getProspect(prospectId));
+  const actionBtnStatus = useSelector(actionBtnStatusSelector);
   const dispatch = useDispatch();
 
   const {
@@ -118,8 +118,7 @@ const DetailsTab = props => {
       icon: 'check',
       active: ownerVerifiedStatus === 'verified',
       attr: 'ownerVerifiedStatus',
-      action: updateVerifiedStatus,
-      status: actionBtnStatus.verifiedBtnStatus
+      status: actionBtnStatus.ownerVerifiedStatus
     },
     {
       text: 'DNC',
@@ -127,8 +126,7 @@ const DetailsTab = props => {
       icon: 'phone-slash',
       active: doNotCall,
       attr: 'doNotCall',
-      action: updateDncStatus,
-      status: actionBtnStatus.dncBtnStatus
+      status: actionBtnStatus.doNotCall
     },
     {
       text: 'Priority',
@@ -136,8 +134,7 @@ const DetailsTab = props => {
       icon: 'bolt',
       active: isPriority,
       attr: 'isPriority',
-      action: updatePriorityStatus,
-      status: actionBtnStatus.priorityBtnStatus
+      status: actionBtnStatus.isPriority
     },
     {
       text: 'Qualified',
@@ -145,8 +142,7 @@ const DetailsTab = props => {
       icon: 'star',
       active: isQualifiedLead,
       attr: 'isQualifiedLead',
-      action: updateQualifiedStatus,
-      status: actionBtnStatus.qualifiedBtnStatus
+      status: actionBtnStatus.isQualifiedLead
     }
   ];
 
@@ -158,7 +154,7 @@ const DetailsTab = props => {
   ));
 
   // onchange status
-  const onStatusChange = (attr, action) => () => {
+  const onStatusChange = (attr) => () => {
     let value = !prospect[attr];
     // special case for verified status as it is not a boolean but a
     // string
@@ -166,7 +162,7 @@ const DetailsTab = props => {
       let currentValue = prospect[attr];
       value = getNewVerifiedStatus(currentValue);
     }
-    dispatch(action(prospect.id, { [attr]: value }));
+    dispatch(prospectUpdateStatus(prospect.id, { [attr]: value }, attr));
   };
 
   // render statusActions
@@ -174,14 +170,14 @@ const DetailsTab = props => {
     <StatusAction
       key={key}
       attr={item.attr}
-      onClick={onStatusChange(item.attr, item.action)}
+      onClick={onStatusChange(item.attr)}
       color={item.color}
       active={item.active}
       className="textM fw-black"
-      isLoading={item.status === Updating}
+      isLoading={item.status}
     >
       <LoadingSpinner
-        isLoading={item.status === Updating}
+        isLoading={item.status}
         renderContent={() => (
           <>
             <FontAwesomeIcon className="mr-2" icon={item.icon} />
@@ -194,7 +190,8 @@ const DetailsTab = props => {
   // on change lead
   const onLeadStageChange = e => {
     let value = e.target.value;
-    dispatch(updateLeadstage(prospect.id, { leadStage: value }));
+    console.log("BOOOM", prospect);
+    dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
   };
 
   return (

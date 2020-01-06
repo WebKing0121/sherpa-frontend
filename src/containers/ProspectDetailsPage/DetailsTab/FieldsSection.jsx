@@ -8,21 +8,24 @@ import InputSelect from '../../../components/InputSelect';
 import Modal from '../../../components/Modal';
 import {
   agentSelector,
-  prospectDetailsCampaigns,
-  prospectDetails,
-  selectedAgent,
+  activeProspectSelector,
   activeCampaignSelector
-} from '../../../store/ProspectDetails/details/selectors';
+} from '../../../store/uiStore/prospectDetailsView/selectors';
 import {
-  setProspectReminder,
-  setProspectRelay,
-  updateProspectAgent,
-  clearDefaultCampaign,
-  setProspectActiveCampaign,
-  removeRelay,
-  emailToCrmAction,
-  pushToZapierAction
-} from '../../../store/ProspectDetails/details/actions';
+  getProspect
+} from '../../../store/prospectStore/selectors';
+import {
+  prospectUpdateOptimistically,
+  prospectSetRelay,
+  prospectSetReminder,
+  prospectRemoveRelay,
+  prospectEmailToCrmAction,
+  prospectPushToZapierAction,
+} from '../../../store/prospectStore/thunks';
+import {
+  setActiveCampaign,
+  clearActiveCampaign,
+} from '../../../store/uiStore/prospectDetailsView/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
@@ -125,27 +128,30 @@ const RenderAgentOptions = (agents, emptyOption) => {
 // TODO: Break all these fields into their own
 // sub-component to avoid re-renders
 const FieldsSection = (props) => {
-  const campaigns = useSelector(prospectDetailsCampaigns);
-  const activeCampaign = useSelector(activeCampaignSelector);
+  const prospectId = useSelector(activeProspectSelector);
+  const prospect = useSelector(getProspect(prospectId));
+  const activeCampaignId = useSelector(activeCampaignSelector);
   const agents = useSelector(agentSelector);
-  const agent = useSelector(selectedAgent);
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   const [emailToCrm, setEmailtoCrm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-
   const {
-    prospectId,
+    agent,
     reminderDateLocal,
     sherpaPhoneNumber,
     emailedToPodio,
     pushedToZapier,
     zillowLink,
+    campaigns,
     smsRelayMap: { rep: { id } }
-  } = useSelector(prospectDetails);
+  } = prospect;
+  const activeCampaign = campaigns.find(
+    campaign => campaign.id === activeCampaignId
+  ) || {};
 
   // clears active-campaign when navigating away
-  useEffect(() => () => dispatch(clearDefaultCampaign()), []);
+  useEffect(() => () => dispatch(clearActiveCampaign()), []);
 
   // agent controls
   const emptyAgentOption = {
@@ -157,7 +163,7 @@ const FieldsSection = (props) => {
   const onAgentChange = (e) => {
     const { target: { value } } = e;
     let payload = { agent: value };
-    dispatch(updateProspectAgent(prospectId, payload));
+    dispatch(prospectUpdateOptimistically(prospect.id, payload));
   };
 
   // SMS RELAY
@@ -172,11 +178,11 @@ const FieldsSection = (props) => {
 
     // if none-selected then remove it
     if (!value) {
-      dispatch(removeRelay(prospectId, { smsRelayMap: null }));
+      dispatch(prospectRemoveRelay(prospect.id, { smsRelayMap: null }));
     } else {
       // add new relay
-      dispatch(setProspectRelay({
-        prospect: prospectId,
+      dispatch(prospectSetRelay({
+        prospect: prospect.id,
         rep: parseInt(value)
       }));
     }
@@ -186,28 +192,31 @@ const FieldsSection = (props) => {
   const onBlur = (selectedDT) => {
     if (selectedDT) {
       dispatch(
-        setProspectReminder(
-          prospectId,
+        prospectSetReminder(
+          prospect.id,
           { time: selectedDT.utc().format() }
         )
       );
     }
   };
 
-  // NOTE: Update payload after Adam's refactor of these actions
   const onSubmit = (e) => {
     e.preventDefault();
     setSubmitting(true);
     if (emailToCrm) {
       // dispatch that action
-      dispatch(emailToCrmAction(prospectId, { campaign: activeCampaign.id }))
+      dispatch(
+        prospectEmailToCrmAction(
+          prospect.id, { campaign: activeCampaign.id }
+        )
+      )
         .then(() => {
           setSubmitting(false);
           setModal(false);
         });
     } else {
       // dispatch other action
-      dispatch(pushToZapierAction(prospectId, { campaign: activeCampaign.id }))
+      dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id }))
         .then(() => {
           setSubmitting(false);
           setModal(false);
@@ -216,7 +225,7 @@ const FieldsSection = (props) => {
   };
 
   const campaignOnChange = (campaign) => (e) => {
-    dispatch(setProspectActiveCampaign(campaign.id));
+    dispatch(setActiveCampaign(campaign.id));
   };
 
   return (
