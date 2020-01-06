@@ -3,6 +3,15 @@
 }
 
 @media (min-width: 768px) {
+  #root {
+    display: flex;
+  }
+  #root .pageContent {
+    flex-grow: 1;
+  }
+}
+
+@media (min-width: 768px) {
   body {
     overflow: hidden;
   }

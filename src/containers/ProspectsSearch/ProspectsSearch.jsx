@@ -95,7 +95,7 @@ function ProspectsSearch(props) {
   };
 
   return (
-    <>
+    <div className="pageContent">
       <Header>Prospects Search</Header>
       <SearchModule searchTerm={search} showFilter={false} showSearch={true} />
       <DataLoader
@@ -119,7 +119,7 @@ function ProspectsSearch(props) {
           </>
         )}
       />
-    </>
+    </div>
   );
 }
 

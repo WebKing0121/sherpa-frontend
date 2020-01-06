@@ -29,6 +29,15 @@ const Routes = [
     exact: true,
     component: SupportPage,
     mobile: false
+  },
+  {
+    path: '/unreadMessages',
+    name: 'New Messages',
+    navIcon: 'messagesWhite',
+    alt: 'Unread Messages',
+    exact: true,
+    component: SupportPage,
+    mobile: false
   }
 ];
 

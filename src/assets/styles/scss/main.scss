@@ -1,6 +1,13 @@
 @import "./variables.scss";
 @import "./bootstrap-overrides.scss";
 
+// spacing
+@function pad($num,$padUnit: $padUnit) {
+  $padMult: $padUnit / 3;
+  $pad: $num * $padMult;
+  @return $pad;
+}
+
 :root {
   // Colors
   --darkNavy:      #{$darkNavy};
@@ -107,6 +114,27 @@ body,html {
   font-family: "Lato";
   font-size: 16px;
   font-size: calc(7px + 2vw);
+
+  @media (min-width: 768px) {
+    font-size: calc(6px + .8vw);
+
+    $padUnit: 2vw;
+
+    --padUnit: #{$padUnit};
+
+    --pad1: #{pad(1,$padUnit)};
+    --pad2: #{pad(2,$padUnit)};
+    --pad3: #{pad(3,$padUnit)};
+    --pad4: #{pad(4,$padUnit)};
+    --pad5: #{pad(5,$padUnit)};
+    --pad6: #{pad(6,$padUnit)};
+    --pad7: #{pad(7,$padUnit)};
+    --pad8: #{pad(8,$padUnit)};
+    --pad9: #{pad(9,$padUnit)};
+  }
+  @media (min-width: 1800px) {
+    font-size: calc(6px + 14.4px);
+  }
 }
 
 h1,h2,h3,
@@ -119,7 +147,12 @@ h1 {
   font-size: calc(3vw + 1rem);
   line-height: 1.25;
   font-weight: 900 !important;
-
+  @media(min-width: 768px) {
+    font-size: calc(1.2vw + 1.5rem);
+  }
+  @media(min-width: 1800px) {
+    font-size: calc(21.6px + 1.5rem);
+  }
 }
 h2 {
   /* 30px */
@@ -173,12 +206,6 @@ h3 {
 }
 .blue {
   color: $sherpaBlue;
-}
-// spacing
-@function pad($num) {
-  $padMult: $padUnit / 3;
-  $pad: $num * $padMult;
-  @return $pad;
 }
 
 :root {
