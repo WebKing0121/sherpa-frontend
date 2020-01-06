@@ -37,7 +37,7 @@ function CampaignDetailsPage(props) {
   };
 
   return (
-    <>
+    <div className="pageContent">
       <TabbedHeader data={campaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>
         Greeley/Fort Collins - 2019-05-08
       </TabbedHeader>
@@ -52,7 +52,7 @@ function CampaignDetailsPage(props) {
           <NotesTab {...notesProps} />
         </TabPane>
       </StyledTabContent>
-    </>
+    </div>
   );
 }
 

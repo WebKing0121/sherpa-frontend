@@ -7255,6 +7255,22 @@ body, html {
   font-family: "Lato";
   font-size: 16px;
   font-size: calc(7px + 2vw); }
+  @media (min-width: 768px) {
+    body, html {
+      font-size: calc(6px + .8vw);
+      --padUnit: 2vw;
+      --pad1: 0.66667vw;
+      --pad2: 1.33333vw;
+      --pad3: 2vw;
+      --pad4: 2.66667vw;
+      --pad5: 3.33333vw;
+      --pad6: 4vw;
+      --pad7: 4.66667vw;
+      --pad8: 5.33333vw;
+      --pad9: 6vw; } }
+  @media (min-width: 1800px) {
+    body, html {
+      font-size: calc(6px + 14.4px); } }
 
 h1, h2, h3,
 .textXL, .textL, .textM, .textS, .textXS {
@@ -7266,6 +7282,12 @@ h1 {
   font-size: calc(3vw + 1rem);
   line-height: 1.25;
   font-weight: 900 !important; }
+  @media (min-width: 768px) {
+    h1 {
+      font-size: calc(1.2vw + 1.5rem); } }
+  @media (min-width: 1800px) {
+    h1 {
+      font-size: calc(21.6px + 1.5rem); } }
 
 h2 {
   /* 30px */

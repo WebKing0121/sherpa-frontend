@@ -58,7 +58,7 @@ const Message = styled.div`
   }
 
   @media (min-width: 768px) {
-    display: flex;
+    display: none;
   }
 `;
 

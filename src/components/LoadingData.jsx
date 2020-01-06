@@ -6,12 +6,17 @@ import { Fetching, Success, FetchError } from '../variables';
 const SpinWrap = styled.div`
   text-align: center;
   padding: var(--pad8);
-  margin-top: ${props => (props.topPad ? 'calc(31px + 5vw + 1rem)' : 0)};
 
   [class*='spinner'] {
     width: 4rem;
     height: 4rem;
     border-width: 0.4em;
+  }
+
+  @media (max-width: 768px) {
+    margin-top: 60px;
+    /* navbar icon + navlink padding + nav padding */
+    margin-top: ${props => (props.topPad ? 'calc(31px + 5vw + 1rem)' : 0)};
   }
 `;
 

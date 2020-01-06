@@ -25,7 +25,7 @@ const CampaignFoldersPage = () => {
   const listItems = campaignFoldersToItemList(campaignFolders);
 
   return (
-    <>
+    <div className="pageContent">
       <Header>Campaigns</Header>
       <DataLoader
         status={isFetching}
@@ -33,7 +33,7 @@ const CampaignFoldersPage = () => {
         emptyResultsMessage='Currently You Have No Campaigns to Display.'
         renderData={() => <List items={listItems} />}
       />
-    </>
+    </div>
   );
 };
 

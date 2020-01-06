@@ -15,7 +15,7 @@ const PreviewText = styled.p`
     top: 0;
     left: calc(-1 * var(--pad3));
     background: var(--ghostBlue);
-    width: 100vh;
+    width: 100vw;
     height: 100%;
     z-index: -99;
   }

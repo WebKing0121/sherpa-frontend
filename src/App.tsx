@@ -5,6 +5,7 @@ import { history } from './history';
 
 // pages
 import Navbar from './components/Navbar.jsx';
+import NavbarDesktop from './components/NavbarDesktop.jsx';
 import LoginPage from './containers/LoginPage/LoginPage';
 import CampaignsPage from './containers/CampaignsPage/CampaignsPage';
 import CampaignFoldersPage from './containers/CampaignFoldersPage/CampaignFoldersPage';
@@ -27,10 +28,20 @@ import './App.css';
 
 function App() {
   const is_auth = useSelector(isAuthenticated);
+  const desktop = window.screen.width > 768;
+
+  let nav = <Route exacts path='/login' component={LoginPage} />;
+
+  if(is_auth && !desktop) {
+    nav = <Navbar page={history} />
+  } else if (is_auth && desktop){
+    nav = <NavbarDesktop page={history}/>
+  }
+  console.log(history);
 
   return (
     <Router history={history}>
-      {is_auth ? <Navbar page={history} /> : <Route exacts path='/login' component={LoginPage} />}
+      {nav}
       <Switch>
         <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
         <ProtectedRoute is_auth={is_auth} path='/folder/:id/campaigns' component={CampaignsPage} exact />

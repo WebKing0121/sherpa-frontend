@@ -61,7 +61,7 @@ const CampaignsPage = props => {
   };
 
   return (
-    <>
+    <div className="pageContent">
       <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
       <SearchModule
         showFilter={true}
@@ -72,7 +72,7 @@ const CampaignsPage = props => {
         marketId={marketId}
       />
       <DataLoader status={isFetching} data={listItems} renderData={() => <List items={listItems} />} />
-    </>
+    </div>
   );
 };
 

@@ -8,9 +8,12 @@ import { history } from '../history';
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
   padding: var(--pad4) var(--pad3) ${props => props.toggleTab ? "0" : null};
-  margin-top: 60px;
-  /* navbar icon + navlink padding + nav padding */
-  margin-top: calc(31px + 5vw + 1rem);
+
+  @media (max-width: 768px) {
+    margin-top: 60px;
+    /* navbar icon + navlink padding + nav padding */
+    margin-top: calc(31px + 5vw + 1rem);
+  }
 `;
 
 const BackArrow = styled(Icon)`

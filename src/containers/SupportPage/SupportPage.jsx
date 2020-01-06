@@ -40,7 +40,7 @@ function SupportPage() {
   }, [dispatch, support_items.length]);
 
   return (
-    <>
+    <div className="pageContent">
       <Header>Support</Header>
       <SupportWrap>
         <h2>How can we help?</h2>
@@ -54,7 +54,7 @@ function SupportPage() {
           renderData={() => <CardContainer>{mappedSupportItems}</CardContainer>}
         />
       </SupportWrap>
-    </>
+    </div>
   );
 }
 

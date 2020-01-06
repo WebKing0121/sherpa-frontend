@@ -64,35 +64,37 @@ function ProspectDetailsPage(props) {
 
   const headerRef = useRef();
   return (
-    <DataLoader
-      data={prospect.id ? [prospect] : []}
-      status={isFetching ? 'Fetching' : 'Success'}
-      fullPage={true}
-      emptyResultsMessage={'Could not find the prospect'}
-      renderData={() => (
-        <>
-          <div ref={headerRef}>
-            <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={prospectHeaderInfo}>
-              {prospect.name}
-            </TabbedHeader>
-          </div>
-          <StyledTabContent activeTab={activeTab}>
-            <TabPane tabId='1'>
-              <DetailsTab />
-            </TabPane>
-            <TabPane tabId='2'>
-              <MessagesTab
-                marginTop={headerRef.current && headerRef.current.clientHeight}
-                subjectId={prospectId}
-              />
-            </TabPane>
-            <TabPane tabId='3'>
-              <NotesTab {...notesProps} />
-            </TabPane>
-          </StyledTabContent>
-        </>
-      )}
-    />
+    <div className="pageContent">
+      <DataLoader
+        data={prospect.id ? [prospect] : []}
+        status={isFetching ? 'Fetching' : 'Success'}
+        fullPage={true}
+        emptyResultsMessage={'Could not find the prospect'}
+        renderData={() => (
+          <>
+            <div ref={headerRef}>
+              <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={prospectHeaderInfo}>
+                {prospect.name}
+              </TabbedHeader>
+            </div>
+            <StyledTabContent activeTab={activeTab}>
+              <TabPane tabId='1'>
+                <DetailsTab />
+              </TabPane>
+              <TabPane tabId='2'>
+                <MessagesTab
+                  marginTop={headerRef.current && headerRef.current.clientHeight}
+                  subjectId={prospectId}
+                />
+              </TabPane>
+              <TabPane tabId='3'>
+                <NotesTab {...notesProps} />
+              </TabPane>
+            </StyledTabContent>
+          </>
+        )}
+      />
+    </div>
   );
 }
 
