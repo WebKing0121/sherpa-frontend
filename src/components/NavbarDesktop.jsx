@@ -52,7 +52,7 @@ const LogoSlide = styled(SlideIn)`
 `;
 const StyledNavbar = styled(Navbar)`
   box-shadow: 0 0 36px -4px #00000091, 0 0 5px -1px #0000008c;
-  height: 100vh;
+  min-height: 100vh;
   left: 0;
   flex-basis: ${props =>
     props.isOpen ? "300px" : "100px"};
