@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import SelectTemplate from './SelectTemplate';
 import ReviewSend from './ReviewSend';
 
@@ -16,7 +16,7 @@ const SendTab = () => {
       <CollapsablePane toggle={toggle1} isOpen={isOpen1} header='Select SMS Template'>
         <SelectTemplate />
       </CollapsablePane>
-      <CollapsablePane toggle={toggle2} isOpen={isOpen2} header={'Review & Send'}>
+      <CollapsablePane toggle={toggle2} isOpen={isOpen2} header='Review & Send'>
         <ReviewSend />
       </CollapsablePane>
     </>

@@ -26,7 +26,6 @@ function SearchModule(props) {
               <Input
                 type='text'
                 name='Search'
-                id='SearchField'
                 placeholder='Search'
                 value={searchTerm}
                 onChange={onChange}
@@ -58,7 +57,7 @@ function SearchModule(props) {
         )}
 
         {props.showFilter && (
-          <Col className="d-flex align-items-center" xs="auto">
+          <Col className='d-flex align-items-center' xs='auto'>
             <Filter marketId={props.marketId} />
           </Col>
         )}
