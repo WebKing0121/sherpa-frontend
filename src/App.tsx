@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { history } from './history';
@@ -25,23 +25,45 @@ import NoDesktop from './components/NoDesktop';
 //font awesome
 import './assets/fontAwesome/index.ts';
 import './App.css';
+import { maxMobileWidth } from './variables';
 
 function App() {
   const is_auth = useSelector(isAuthenticated);
-  const desktop = window.screen.width > 768;
+  const [isMobile, setIsMobile] = useState(window.innerWidth < maxMobileWidth);
 
-  let nav = <Route exacts path='/login' component={LoginPage} />;
+  const updateViewport = () => {
+    const viewWidth = window.innerWidth;
+    setIsMobile(viewWidth < maxMobileWidth);
+  };
 
-  if(is_auth && !desktop) {
-    nav = <Navbar page={history} />
-  } else if (is_auth && desktop){
-    nav = <NavbarDesktop page={history}/>
-  }
-  console.log(history);
+  // debounce used to slow down resize to avoid making the display laggy when resizing
+  const debounce = (callback: Function, delay: number) => {
+    let debounceTimer: ReturnType<typeof setTimeout>;
+    return function(this: Function) {
+      const context = this;
+      const args = arguments;
+      clearTimeout(debounceTimer);
+      debounceTimer = setTimeout(() => callback.apply(context, args), delay);
+    };
+  };
+
+  useEffect(() => {
+    const time = 30;
+    const debounced = debounce(updateViewport, time);
+    window.addEventListener('resize', debounced);
+    return () => window.removeEventListener('resize', debounced);
+  }, []);
+
+  const determineNav = () => {
+    const login = <Route exacts path='/login' component={LoginPage} />;
+    const desktopNav = <NavbarDesktop page={history} />;
+    const mobileNav = <Navbar page={history} />;
+    return !is_auth ? login : isMobile ? mobileNav : desktopNav;
+  };
 
   return (
     <Router history={history}>
-      {nav}
+      {determineNav()}
       <Switch>
         <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
         <ProtectedRoute is_auth={is_auth} path='/folder/:id/campaigns' component={CampaignsPage} exact />

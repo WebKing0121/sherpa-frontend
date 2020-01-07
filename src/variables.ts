@@ -1,3 +1,6 @@
+// responsiveness
+export const maxMobileWidth = 768;
+
 // data fetch status
 export const Initial = 'Initial';
 export const Fetching = 'Fetching';
