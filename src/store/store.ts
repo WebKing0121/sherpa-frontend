@@ -20,7 +20,7 @@ import smsTemplates from './CampaignDetails/sent/reducers';
 import uiStore from './uiStore/reducers';
 import prospectStore from './prospectStore/reducer';
 import nav from './Nav/reducer';
-
+import campaignProspectStore from './campaignProspectStore/reducer';
 
 declare global {
   interface Window {
@@ -44,7 +44,8 @@ const reducers = combineReducers({
   smsTemplates,
   prospectStore,
   uiStore,
-  nav
+  nav,
+  campaignProspectStore
 });
 
 const rootReducer = (state: any, action: any) => {
