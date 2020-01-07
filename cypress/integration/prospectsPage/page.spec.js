@@ -1,9 +1,9 @@
 describe('Prospect page', () => {
   const url = Cypress.env('clientUrl');
   before(() => {
-    cy.manualLogin();
-
-    cy.waitForCall();
+    // cy.manualLogin();
+    cy.login();
+    // cy.waitForCall();
   });
 
   it('renders prosects page route', () => {

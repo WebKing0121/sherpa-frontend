@@ -1,9 +1,8 @@
 describe('Navbar', () => {
-  // log in and wait for login process to complete
-  before(() => {
-    cy.manualLogin();
+  const url = Cypress.env('clientUrl');
 
-    cy.waitForCall();
+  before(() => {
+    cy.login();
   });
 
   // expand navbar for each test
@@ -15,8 +14,8 @@ describe('Navbar', () => {
     cy.get('[data-test=navbar-collapse').should('be.visible');
   });
 
-  it('has 3 routes', () => {
-    cy.get('[data-test=routes] > li').should('have.length', 3);
+  it('has 4 routes', () => {
+    cy.get('[data-test=routes] > li').should('have.length', 4);
   });
 
   it('changes to campaign route when campaign link is clicked', () => {

@@ -1,20 +1,12 @@
 describe('Support page', () => {
   const url = Cypress.env('clientUrl');
   before(() => {
-    cy.manualLogin();
-    cy.waitForCall();
-    cy.fixture('support').as('support');
+    cy.login();
   });
 
   it('renders support page route', () => {
     cy.server();
-    cy.route('GET', '**/support-links', '@support').then(({ response }) => {
-      cy.window()
-        .its('store')
-        .then(store => {
-          store.dispatch({ type: 'SET_SUPPORT_ITEMS', items: response });
-        });
-    });
+    cy.stubResponse({ url: 'support-links', response: 'support' });
     cy.visit(`${url}/support`);
 
     cy.location().should(location => {

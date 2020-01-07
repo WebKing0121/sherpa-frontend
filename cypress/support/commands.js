@@ -73,7 +73,7 @@ Cypress.Commands.add('testApiData', (element = defaultDataEl, timeout = 0) => {
   cy.get(element, { timeout }).should('exist');
 });
 
-Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', qs = {}, body = {}) => {
+Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', obj) => {
   const url = Cypress.env('serverUrl');
   cy.fixture('tokens').then(json => {
     const options = {
@@ -82,11 +82,31 @@ Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', qs 
       auth: {
         bearer: json.access
       },
-      qs, //additional query parameters
-      body
+      ...obj
     };
     cy.request(options).then(res => {
       cy.writeFile(`cypress/fixtures/${fileName}`, res.body);
     });
   });
+});
+
+// Cypress.Commands.add('stubResponse', (method, route, fixture) => {
+//   cy.fixture(fixture).as(fixture);
+//   cy.route(method, `**/${route}`, `@${fixture}`);
+// });
+
+Cypress.Commands.add('stubResponse', options => {
+  const { url, method = 'GET', response, status = 200 } = options;
+  cy.fixture(response).as(response);
+  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status });
+});
+
+Cypress.Commands.add('login', () => {
+  const url = Cypress.env('clientUrl');
+  cy.visit(url);
+  cy.server();
+  cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' }).as('loginRes');
+  cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' }).as('userInfoRes');
+  cy.stubResponse({ url: 'leadstages', response: 'leadStages' }).as('leadStagesRes');
+  cy.get('[data-test=login-form]').submit();
 });

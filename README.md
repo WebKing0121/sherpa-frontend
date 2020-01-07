@@ -80,3 +80,5 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 `npm run cypress` to open the Cypress testing dashboard
 
 `./node_modules/cypress/bin/cypress run` to run headless tests
+
+_IMPORTANT: Run `_createFixtures.spec.js` test to create the necessary fixture files_

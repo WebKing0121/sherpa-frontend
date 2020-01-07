@@ -1,10 +1,14 @@
 describe('Login form', () => {
-  const form = '[data-test=login-form]',
-    emailInput = 'input[name="username"]',
+  const emailInput = 'input[name="username"]',
     passwordInput = 'input[name="password"]',
     emailValue = 'george@asdf.com',
     passwordValue = 'testu123',
     url = Cypress.env('clientUrl');
+
+  before(() => {
+    cy.visit(`${url}/login`);
+    cy.server();
+  });
 
   beforeEach(() => {
     cy.visit(`${url}/login`);
@@ -20,6 +24,13 @@ describe('Login form', () => {
     cy.get(passwordInput).should('have.attr', 'required');
   });
 
+  it('should have a disabled submit button when fields are empty', () => {
+    cy.get(emailInput).should('have.value', '');
+
+    cy.get(passwordInput).should('have.value', '');
+    cy.get('button').should('be.disabled');
+  });
+
   it('accepts inputs', () => {
     cy.get(emailInput)
       .type(emailValue)
@@ -30,22 +41,26 @@ describe('Login form', () => {
       .should('have.value', passwordValue);
   });
 
-  it('fails login verification and displays an error message', () => {
-    cy.fixture('tokens').then(json => {
-      cy.server();
-      cy.route({
-        method: 'POST',
-        url: 'http://localhost:8000/api/v1/jwt/create',
-        response: json
-      });
-    });
+  it('should not have a disabled submit button when fields are not empty', () => {
+    cy.get(emailInput)
+      .type(emailValue)
+      .should('have.value', emailValue);
 
+    cy.get(passwordInput)
+      .type(passwordValue)
+      .should('have.value', passwordValue);
+
+    cy.get('button').should('not.be.disabled');
+  });
+
+  it('fails login verification and displays an error message', () => {
     cy.get(emailInput).type(emailValue);
 
     cy.get(passwordInput).type('incorrectPassword');
-    cy.fixture('tokens').as('loginTokens');
+    cy.server();
+    cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'loginFailure', status: 401 });
 
-    cy.get(form).submit();
+    cy.get('button').click();
 
     cy.location().should(location => {
       expect(location.pathname).to.eq('/login');
@@ -55,11 +70,15 @@ describe('Login form', () => {
   });
 
   it('successfully logs in', () => {
+    cy.server();
+    cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' });
+    cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' });
+    cy.stubResponse({ url: 'markets', response: 'markets' });
+    cy.stubResponse({ url: 'leadstages', response: 'leadStages' });
+
     cy.get(emailInput).type(emailValue);
-
     cy.get(passwordInput).type(passwordValue);
-
-    cy.get(form).submit();
+    cy.get('button').click();
 
     cy.location().should(location => {
       expect(location.pathname).to.eq('/');
