@@ -39,7 +39,7 @@ export default function LoginForm(props) {
     setSubmitting(true);
     submit(username, password)
       .then(() => setSubmitting(false))
-      .catch((response) => setSubmitting(false));
+      .catch(response => setSubmitting(false));
   };
 
   return (
@@ -56,6 +56,7 @@ export default function LoginForm(props) {
               <InputGroupBorder>
                 <Input
                   name='username'
+                  type='email'
                   value={username}
                   onChange={changeUsername}
                   placeholder='Enter email address'
@@ -85,11 +86,7 @@ export default function LoginForm(props) {
               type='submit'
               disabled={!username || !password}
             >
-              <LoadingSpinner
-                isLoading={submitting}
-                color="light"
-                renderContent={() => (<>Log In</>)}
-              />
+              <LoadingSpinner isLoading={submitting} color='light' renderContent={() => <>Log In</>} />
             </Button>
           </form>
         </div>

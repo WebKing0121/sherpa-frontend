@@ -24,6 +24,12 @@ describe('Login form', () => {
     cy.get(passwordInput).should('have.attr', 'required');
   });
 
+  it('should have the correct email and password attributes', () => {
+    cy.get(emailInput).should('have.attr', 'type', 'email');
+
+    cy.get(passwordInput).should('have.attr', 'type', 'password');
+  });
+
   it('should have a disabled submit button when fields are empty', () => {
     cy.get(emailInput).should('have.value', '');
 
