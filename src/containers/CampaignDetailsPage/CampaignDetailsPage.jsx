@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import TabbedHeader from '../../components/TabbedHeader';
 import SendTab from './SendTab/SendTab';
 import { TabContent, TabPane } from 'reactstrap';
@@ -9,6 +9,8 @@ import * as noteActions from '../../store/CampaignDetails/notes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDetails/notes/selectors';
 import { campaignHeaderInfo } from '../../variables';
 import MessagesTab from './MessagesTab/MessagesTab';
+import { getCampaignDetails } from '../../store/CampaignStore/selectors';
+import { fetchSingleCampaign } from '../../store/CampaignStore/actions';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
@@ -17,9 +19,19 @@ const StyledTabContent = styled(TabContent)`
 function CampaignDetailsPage(props) {
   const [activeTab, setActiveTab] = useState('1');
   const campaignId = props.match.params.id;
+  const campaign = useSelector(getCampaignDetails);
+  const dispatch = useDispatch();
+
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    if(!campaign || campaign.id !== parseInt(campaignId)) {
+      console.log('fetching campaign...');
+      dispatch(fetchSingleCampaign(campaignId));
+    }
+  },[dispatch])
 
   const notesList = useSelector(campaignNotesList);
 
@@ -39,7 +51,7 @@ function CampaignDetailsPage(props) {
   return (
     <div className="pageContent">
       <TabbedHeader data={campaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>
-        Greeley/Fort Collins - 2019-05-08
+        { campaign.name }
       </TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
         <TabPane tabId='1'>
