@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchSmsTemplates } from '../../../store/CampaignDetails/sent/actions';
-import { smsTemplates } from '../../../store/CampaignDetails/sent/selectors';
+import { fetchSmsTemplates } from '../../../store/SmsTemplateStore/actions';
+import { smsTemplates } from '../../../store/SmsTemplateStore/selectors';
 import styled from 'styled-components';
 import InputGroupBorder from '../../../components/InputGroupBorder';
+import InputSelect from '../../../components/InputSelect';
 import Icon from '../../../components/Icon';
 import { Button, Input, Label, InputGroupAddon } from 'reactstrap';
 import Preview from './Preview';
@@ -14,6 +15,7 @@ const PaddedContent = styled.div`
 
 function SelectTemplate() {
   const [searchTerm, setSearchTerm] = useState('');
+  const [message, setTemplateMessage] = useState('');
   const onChange = e => setSearchTerm(e.target.value);
 
   const dispatch = useDispatch();
@@ -23,26 +25,31 @@ function SelectTemplate() {
     dispatch(fetchSmsTemplates());
   }, [dispatch]);
 
+  const templateOptions = sms_templates.map((item, key) =>
+    <option key={key} value={item.templateName}>{item.templateName}</option>
+  );
+
+  templateOptions.push(<option key={'no_template'} style={{ display: 'none' }}></option>);
+
+  const handleChange = (e) => {
+    const chosenTemplate = e.target.value;
+    const templateMessage = sms_templates.filter(x => x.templateName === chosenTemplate);
+    setTemplateMessage(templateMessage[0].message);
+  }
+
   return (
     <PaddedContent>
       <Label for='SearchField'>Template</Label>
-      <InputGroupBorder className='mb-2'>
-        <Input
-          type='text'
-          name='Search'
-          id='SearchField'
-          placeholder='Search'
-          value={searchTerm}
-          onChange={onChange}
-        />
-        <InputGroupAddon addonType='append'>
-          <Button className='p-0' color='link'>
-            <Icon name='notification' width='34px' />
-          </Button>
-        </InputGroupAddon>
-      </InputGroupBorder>
+      <InputSelect
+        name='Search'
+        id='SearchField'
+        placeholder='Search'
+        onChange={handleChange}
+      >
+        {templateOptions}
+      </InputSelect>
 
-      <Preview />
+      <Preview message={message} />
     </PaddedContent>
   );
 }

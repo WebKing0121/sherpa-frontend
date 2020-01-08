@@ -1,6 +1,6 @@
-import React  from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { Label} from 'reactstrap';
+import { Label } from 'reactstrap';
 
 const PreviewText = styled.p`
   background: var(--ghostBlue);
@@ -39,14 +39,15 @@ const Wrapper = styled.div`
 `;
 
 function ReviewSend(props) {
+  const { message } = props;
   return (
     <Wrapper>
       <Header>
         <Label for="previewText">Preview</Label>
-        <CharCount className="textM">142/160 Characters</CharCount>
+        <CharCount className="textM">{message.length}/160 Characters</CharCount>
       </Header>
       <PreviewText className="textL mt-1">
-        Hi <TemplateTag>[First Name]</TemplateTag>, my name is Kelly and I would like to speak with you about purchasing <TemplateTag>[Street Address]</TemplateTag>. Did I reach out to the right person? Thank you.
+        {message}
       </PreviewText>
     </Wrapper>
   );
