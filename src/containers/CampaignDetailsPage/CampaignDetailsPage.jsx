@@ -11,6 +11,7 @@ import { campaignHeaderInfo } from '../../variables';
 import MessagesTab from './MessagesTab/MessagesTab';
 import { getCampaignDetails } from '../../store/CampaignStore/selectors';
 import { fetchSingleCampaign } from '../../store/CampaignStore/actions';
+import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
@@ -27,11 +28,12 @@ function CampaignDetailsPage(props) {
   };
 
   useEffect(() => {
-    if(!campaign || campaign.id !== parseInt(campaignId)) {
+    if (!campaign || campaign.id !== parseInt(campaignId)) {
       console.log('fetching campaign...');
       dispatch(fetchSingleCampaign(campaignId));
     }
-  },[dispatch])
+    dispatch(setActiveCampaign(parseInt(campaignId)));
+  }, [dispatch])
 
   const notesList = useSelector(campaignNotesList);
 
@@ -51,7 +53,7 @@ function CampaignDetailsPage(props) {
   return (
     <div className="pageContent">
       <TabbedHeader data={campaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>
-        { campaign.name }
+        {campaign.name}
       </TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
         <TabPane tabId='1'>
