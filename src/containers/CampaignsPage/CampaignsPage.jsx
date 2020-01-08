@@ -47,10 +47,10 @@ const CampaignsPage = props => {
   // dispatch fetchCampaigns
   useEffect(() => {
     // check that campaigns list hasn't changed because of a details view refresh
-    const marketCount = folders.filter(x => x.id === parseInt(marketId))[0].campaignCount;
+    // const marketCount = folders.filter(x => x.id === parseInt(marketId))[0].campaignCount;
 
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-    if (campaigns.length !== marketCount || activeMarketId !== parseInt(marketId)) {
+    if (campaigns.length === 0 || activeMarketId !== parseInt(marketId)) {
       dispatch(fetchCampaigns(marketId));
     }
   }, [dispatch, marketId]);
