@@ -24,7 +24,10 @@ import {
   faEnvelope,
   faCreditCard,
   faExclamationTriangle,
-  faBook
+  faBook,
+  faTrash,
+  faPencilAlt
+
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -52,5 +55,8 @@ library.add(
   faEnvelope,
   faCreditCard,
   faExclamationTriangle,
-  faBook
+  faBook,
+  faTrash,
+  faPencilAlt
+
 );

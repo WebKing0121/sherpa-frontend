@@ -21,20 +21,16 @@ const Body = styled(ModalBody)`
   padding: var(--pad3) var(--pad3) !important;
 `;
 
-const ModalWrap = styled.div``;
-
 function Shmodal(props) {
   const { children, title, isOpen, toggle } = props;
 
   return (
-    <ModalWrap>
-      <Modal isOpen={isOpen}>
-        <Heading tag='h3' toggle={toggle}>
-          {title}
-        </Heading>
-        <Body>{children}</Body>
-      </Modal>
-    </ModalWrap>
+    <Modal isOpen={isOpen}>
+      <Heading tag='h3' toggle={toggle}>
+        {title}
+      </Heading>
+      <Body>{children}</Body>
+    </Modal>
   );
 }
 

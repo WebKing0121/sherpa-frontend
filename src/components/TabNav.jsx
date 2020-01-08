@@ -49,11 +49,24 @@ const StyledNavLink = styled(NavLink)`
 const StyledNav = styled(Nav)`
   justify-content: space-between;
   border: none !important;
+  position: relative;
+  @media (min-width: 768px) {
+    /* divider that runs across the header  */
+    &:before {
+      content: '';
+      position: absolute;
+      width: calc(100% + var(--pad3) + var(--pad3));
+      height: 2px;
+      top: 0;
+      left: calc(-1 * var(--pad3));
+      background: #ffffff38;
+    }
+  }
 `;
 
 function TabNav(props) {
   const tabs = props.data.map((item, key) => (
-    <NavItem key={key}>
+    <NavItem className="mr-0 mr-md-4" key={key}>
       <StyledNavLink
         className={props.activeTab === item.idx ? "active" : ""}
         onClick={() => {
@@ -68,7 +81,7 @@ function TabNav(props) {
 
   return (
     <div>
-      <StyledNav className="textXL mt-3" tabs>
+      <StyledNav className="textXL mt-3 mt-md-1 pt-0 pt-md-2 justify-content-between justify-content-md-start" tabs>
         {tabs}
       </StyledNav>
     </div>

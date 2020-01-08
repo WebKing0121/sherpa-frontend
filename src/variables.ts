@@ -47,7 +47,35 @@ export const campaignHeaderInfo = {
       name: 'Notes',
       icon: 'sticky-note'
     }
-  ]
+  ],
+  actions: {
+    main: [
+      {
+        btnType: 'secondary',
+        text: 'Create Follow-Up',
+        // this is for adding the onclick later
+        action: 'createFollowUp'
+      },
+      {
+        btnType: 'primary',
+        text: 'Add Prospects',
+        // this is for adding the onclick later
+        action: 'addProspects'
+      },
+    ],
+    secondary: [
+      {
+        icon: 'pencil-alt',
+        // this is for adding the onclick later
+        action: 'editCampaign'
+      },
+      {
+        icon: 'trash',
+        // this is for adding the onclick later
+        action: 'archiveCampaign'
+      }
+    ]
+  }
 };
 
 export const prospectHeaderInfo = {
