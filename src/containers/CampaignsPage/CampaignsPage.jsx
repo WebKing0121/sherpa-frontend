@@ -18,6 +18,7 @@ const CampaignsPage = props => {
   const campaignFolders = useSelector(marketsList);
   const isFetching = useSelector(campaignsStatus);
   const dispatch = useDispatch();
+  const folders = getFromLocalStorage('folderView');
 
   const {
     match: {
@@ -41,11 +42,15 @@ const CampaignsPage = props => {
   ];
 
   // check there are campaign folders to navigate back too
-  const hasCampaignFolders = campaignFolders.length > 0 || getFromLocalStorage('folderView');
+  const hasCampaignFolders = campaignFolders.length > 0 || folders;
 
   // dispatch fetchCampaigns
   useEffect(() => {
-    if (campaigns.length === 0 || activeMarketId !== parseInt(marketId)) {
+    // check that campaigns list hasn't changed because of a details view refresh
+    const marketCount = folders.filter(x => x.id === parseInt(marketId))[0].campaignCount;
+
+    // refetch campaigns list if markets navigation has changed or the campaigns list has changed
+    if (campaigns.length !== marketCount || activeMarketId !== parseInt(marketId)) {
       dispatch(fetchCampaigns(marketId));
     }
   }, [dispatch, marketId]);
