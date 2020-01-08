@@ -46,8 +46,7 @@ const CampaignsPage = props => {
   // dispatch fetchCampaigns
   useEffect(() => {
     if (campaigns.length === 0 || activeMarketId !== parseInt(marketId)) {
-      console.log('Fetching campaigns...');
-      dispatch(fetchCampaigns(marketId))
+      dispatch(fetchCampaigns(marketId));
     }
   }, [dispatch, marketId]);
 

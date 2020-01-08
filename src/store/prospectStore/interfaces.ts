@@ -1,11 +1,9 @@
 import { Record } from '../../types';
 
-export interface ILatestMessageReceived {
-  prospect: number;
+export interface IDisplayMessage {
+  fromProspect: number;
   message: string;
-  fromNumber: string;
   dt: string;
-  fromProspect: boolean;
 };
 
 export interface IRep {
@@ -35,7 +33,7 @@ export interface IProspect {
   isPriority: boolean;
   isQualifiedLead: boolean;
   lastName: string;
-  latestMessageReceived: ILatestMessageReceived | null;
+  displayMessage: IDisplayMessage | null;
   leadStage: number | null;
   name: string;
   ownerVerifiedStatus: string;
@@ -66,7 +64,7 @@ const Prospect: IProspect = {
   isPriority: false,
   isQualifiedLead: false,
   lastName: "",
-  latestMessageReceived: null,
+  displayMessage: null,
   leadStage: null,
   name: "",
   ownerVerifiedStatus: "",

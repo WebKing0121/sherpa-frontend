@@ -3,31 +3,61 @@ import MainInfo from './MessagesTab/MainInfo';
 import Indicator from './MessagesTab/Indicator';
 import SubInfo from './MessagesTab/SubInfo';
 import Title from './MessagesTab/Title';
+import StatusWrapper from './MessagesTab/StatusWrapper';
 import { IListItem } from '../../components/List/utils';
+import store from '../../store/store';
+import { patchProspect } from '../../store/prospectStore/api';
+import { updateCampaignProspectSuccess } from '../../store/campaignProspectStore/actions';
 
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.
  */
 
-export const prospectToItemList = (prospect) => {
+export const prospectToItemList = (campaignProspect) => {
   const {
-    id, name = "hello", latestMessageReceived,
-    hasUnreadSms, leadStageTitle } = prospect;
+    prospect: {
+      id,
+      name,
+      leadStageTitle = "Follow-Up",
+      displayMessage,
+      hasUnreadSms
+    }
+  } = campaignProspect;
 
+  const prospectUpdateHasUnreadSms = () => {
+    patchProspect(id, { hasUnreadSms: false })
+      .then(({ data }) => {
+        let newCampaignProspect = {
+          ...campaignProspect,
+          prospect: { ...campaignProspect.prospect, hasUnreadSms: false }
+        };
+        store.dispatch(updateCampaignProspectSuccess(newCampaignProspect));
+      })
+  };
+
+
+  // NOTE(Diego): Make sure we normalize displayMessage so we don't
+  // handle null logic
   const {
-    message = "You have the wrong number",
-    dt = "2019-12-02T21:08:27Z" } = latestMessageReceived || {};
+    message = "",
+    dt = "",
+    fromProspect = false
+  } = displayMessage;
 
   return {
     ...IListItem,
-    name: <Title name={name} isRead={!hasUnreadSms}/>,
-    subInfo: <SubInfo status={leadStageTitle}/>,
-    mainInfo: <MainInfo message={message}/>,
+    name: <Title name={name} isRead={!hasUnreadSms} />,
+    subInfo: <SubInfo status={leadStageTitle} />,
+    mainInfo: <MainInfo message={message} />,
     readable: true,
     isRead: !hasUnreadSms,
-    link: `/campaigns/${id}/details`,
-    indicator: <Indicator time={dt}/>,
+    statusWrapper: (
+      <StatusWrapper
+        dt={dt}
+        link={`/prospect/${id}/details`}
+        onClick={!hasUnreadSms ? prospectUpdateHasUnreadSms : () => console.log('No Action')}
+      />),
     actions: [
       {
         icon: "verified",

@@ -79,10 +79,7 @@ function ListItem(props) {
           <ItemHeader>
             <ItemName className='itemName m-0'>{props.item.name}</ItemName>
             <StatusWrapper className='d-flex'>
-              <ItemIndicator className='textM'>{props.item.indicator}</ItemIndicator>
-              <ItemLink data-test='list-item-link' to={props.item.link} className='stretched-link'>
-                <Icon margin='ml-2' width='10px' name='arrow' alt='next' />
-              </ItemLink>
+              {props.item.statusWrapper}
             </StatusWrapper>
           </ItemHeader>
 

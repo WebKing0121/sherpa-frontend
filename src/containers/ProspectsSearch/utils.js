@@ -2,6 +2,7 @@ import React from 'react';
 import MainInfo from './MainInfo';
 import Indicator from './Indicator';
 import { IListItem } from '../../components/List/utils';
+import StatusWrapper from './StatusWrapper';
 
 /*
  * Helper functions to transform a prospect to an appropriate
@@ -29,8 +30,12 @@ export const prospectToItemList = (prospect) => {
     mainInfo: <MainInfo addressData={addressData} />,
     readable: true,
     isRead: !hasUnreadSms,
-    link: `/prospect/${id}/details`,
-    indicator: <Indicator status={leadStageTitle} />
+    statusWrapper: (
+      <StatusWrapper
+        link={`/prospect/${id}/details`}
+        status={leadStageTitle}
+      />
+    )
   };
 }
 

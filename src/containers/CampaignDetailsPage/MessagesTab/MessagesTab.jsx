@@ -11,12 +11,11 @@ function MessagesTab(props) {
   const [isFetching, setIsSearching] = useState(false);
   const [activeCampaignId, setActiveCampaignId] = useState(1);
   const prospectResults = useSelector(getCampaignProspects(activeCampaignId));
-  console.log("PROSPECTS RESULTS", prospectResults);
   const prospectList = prospectsToItemList(prospectResults || []);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(campaignProspectSearch(activeCampaignId));
+    dispatch(campaignProspectSearch(activeCampaignId, { name: 'is_priority_unread', value: true }));
   }, []);
 
   // load more data

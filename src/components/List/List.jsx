@@ -12,7 +12,7 @@ function List(props) {
             (<SwipeListItem
               threshold=".25"
               actions={item.actions}
-              key={item.id}>
+              key={idx}>
               <ListItem item={item} />
             </SwipeListItem>) :
             (<ListItem key={idx} item={item} />);

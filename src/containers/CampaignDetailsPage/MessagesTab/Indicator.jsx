@@ -1,20 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
+import moment from 'moment-timezone';
 
 const StyledIndicator = styled.span`
   color: var(--darkGray);
 `;
 
 export default function Indicator(props) {
-  const timeSent = new Date(props.time).toLocaleTimeString('en-US', {
-    hour12: true,
-    hour: "numeric",
-    minut: "numeric"
-  });
-
+  // const timeSent = new Date(props.time).toLocaleTimeString('en-US', {
+  //   hour12: true,
+  //   hour: "numeric",
+  //   minut: "numeric"
+  // });
+  const timeSent = new moment(props.time).format("L");
   return (
     <StyledIndicator>
-      { timeSent }
+      {timeSent}
     </StyledIndicator>
   );
 }
