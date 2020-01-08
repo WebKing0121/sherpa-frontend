@@ -84,7 +84,7 @@ const OPEN = 'open';
 const VERIFIED = 'verified';
 const UNVERIFIED = 'unverified';
 
-const getNewVerifiedStatus = status => {
+export const getNewVerifiedStatus = status => {
   switch (status) {
     case OPEN:
       return VERIFIED;

@@ -130,6 +130,7 @@ export const prospectUpdate = async (
         dispatch(updateProspectSuccess(prospect));
       }
       onSuccess();
+      return data;
     })
     .catch(error => console.log('Error updating prospect detail', error.response));
 };

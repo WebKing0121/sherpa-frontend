@@ -43,13 +43,17 @@ export default function reducer(state: any = initialState, action: any) {
       return newState
     }
     case UPDATE_CAMPAIGN_PROSPECT_SUCCESS: {
-      let newState = { ...state };
-      const campaignProspectIdx = newState.campaignProspects[action.payload.campaign].findIndex(
-        (cp: any) => cp.prospect.id === action.payload.prospect.id
-      );
-      newState.campaignProspects[action.payload.campaign][campaignProspectIdx] = action.payload;
+      const campaignId = action.payload.campaign;
+      const prospectId = action.payload.prospect.id;
+      let campaignProspects = { ...state.campaignProspects };
 
-      return newState;
+      campaignProspects[campaignId] = campaignProspects[campaignId].filter((cp: any) => cp.prospect.id !== prospectId);
+      campaignProspects[campaignId] = [...campaignProspects[campaignId], action.payload];
+
+      return {
+        ...state,
+        campaignProspects
+      };
     }
     default:
       return state;

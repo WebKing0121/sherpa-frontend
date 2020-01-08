@@ -99,3 +99,38 @@ export const prospectHeaderInfo = {
     }
   ]
 };
+
+export const ProspectActions = [
+  {
+    icon: "verified",
+    name: "Verified",
+    status: false,
+    attr: "ownerVerifiedStatus",
+    link: null,
+    background: "green"
+  },
+  {
+    icon: "dnc",
+    name: "DNC",
+    status: false,
+    attr: "doNotCall",
+    link: null,
+    background: "white"
+  },
+  {
+    icon: "priority",
+    name: "Priority",
+    status: false,
+    attr: "isPriority",
+    link: null,
+    background: "orange"
+  },
+  {
+    icon: "qualified",
+    name: "Qualified",
+    status: false,
+    attr: "isQualifiedLead",
+    link: null,
+    background: "purple"
+  }
+];

@@ -42,9 +42,8 @@ const ActionLink = styled.a`
 `;
 
 function SwipeMenuAction(props) {
-  const dispatch = useDispatch();
   return (
-    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background} onClick={() => dispatch(props.handleClick)}>
+    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background} onClick={props.handleClick}>
       <Icon margin="mb-2" height="26px" width="auto" name={"action-" + props.icon} />
       <ActionLink className="stretched-link">{props.name}</ActionLink>
     </Action>

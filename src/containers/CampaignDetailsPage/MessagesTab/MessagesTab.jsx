@@ -15,7 +15,9 @@ function MessagesTab(props) {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(campaignProspectSearch(activeCampaignId, { name: 'is_priority_unread', value: true }));
+    if (prospectResults.length === 0) {
+      dispatch(campaignProspectSearch(activeCampaignId, { name: 'is_priority_unread', value: true }));
+    }
   }, []);
 
   // load more data

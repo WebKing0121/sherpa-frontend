@@ -19,7 +19,6 @@ const ItemLink = styled(Link)`
 `;
 
 const StatusWrapper = (props) => {
-  console.log("PROPS", props);
   return (
     <>
       <ItemIndicator className='textM'>

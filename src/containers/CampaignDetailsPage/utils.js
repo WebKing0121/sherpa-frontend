@@ -8,6 +8,9 @@ import { IListItem } from '../../components/List/utils';
 import store from '../../store/store';
 import { patchProspect } from '../../store/prospectStore/api';
 import { updateCampaignProspectSuccess } from '../../store/campaignProspectStore/actions';
+import { prospectUpdate } from '../../store/prospectStore/thunks';
+import { ProspectActions } from '../../variables';
+import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection'
 
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
@@ -36,13 +39,37 @@ export const prospectToItemList = (campaignProspect) => {
       })
   };
 
+  const prospectOnClickStatus = (attr, payload) => () => {
+    return prospectUpdate(id, payload, store.dispatch, true)
+      .then((data) => {
+        let newCampaignProspect = {
+          ...campaignProspect,
+          prospect: { ...campaignProspect.prospect, ...data }
+        };
+        store.dispatch(updateCampaignProspectSuccess(newCampaignProspect))
+      });
+  };
+
+  const actions = ProspectActions.map(action => {
+    const status = campaignProspect.prospect[action.attr];
+    let payload = { [action.attr]: !status };
+    // special case for ownerVerifiedStatus
+    if (action.attr === "ownerVerifiedStatus") {
+      payload[action.attr] = getNewVerifiedStatus(status);
+    }
+
+    return {
+      ...action,
+      status,
+      link: prospectOnClickStatus(action.attr, payload)
+    }
+  });
 
   // NOTE(Diego): Make sure we normalize displayMessage so we don't
   // handle null logic
   const {
     message = "",
-    dt = "",
-    fromProspect = false
+    dt = ""
   } = displayMessage;
 
   return {
@@ -58,32 +85,7 @@ export const prospectToItemList = (campaignProspect) => {
         link={`/prospect/${id}/details`}
         onClick={!hasUnreadSms ? prospectUpdateHasUnreadSms : () => console.log('No Action')}
       />),
-    actions: [
-      {
-        icon: "verified",
-        name: "Verified",
-        link: "#",
-        background: "green"
-      },
-      {
-        icon: "dnc",
-        name: "DNC",
-        link: "#",
-        background: "white"
-      },
-      {
-        icon: "priority",
-        name: "Priority",
-        link: "#",
-        background: "orange"
-      },
-      {
-        icon: "qualified",
-        name: "Qualified",
-        link: "#",
-        background: "purple"
-      }
-    ]
+    actions: actions
   };
 }
 
