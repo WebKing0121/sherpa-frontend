@@ -46,9 +46,11 @@ export default function reducer(state: any = initialState, action: any) {
       const campaignId = action.payload.campaign;
       const prospectId = action.payload.prospect.id;
       let campaignProspects = { ...state.campaignProspects };
-
-      campaignProspects[campaignId] = campaignProspects[campaignId].filter((cp: any) => cp.prospect.id !== prospectId);
-      campaignProspects[campaignId] = [...campaignProspects[campaignId], action.payload];
+      const prospectIndex = campaignProspects[campaignId].findIndex(
+        (cp: any) => cp.prospect.id === prospectId
+      );
+      campaignProspects[campaignId] = [...campaignProspects[campaignId]];
+      campaignProspects[campaignId][prospectIndex] = action.payload;
 
       return {
         ...state,

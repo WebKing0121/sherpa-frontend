@@ -6,19 +6,14 @@ import { prospectsToItemList } from '../utils';
 import { searchProspects, searchProspectNextPage } from '../../../store/Prospects/actions';
 import { campaignProspectSearch } from '../../../store/campaignProspectStore/thunks';
 import { getCampaignProspects, nextPageUrl } from '../../../store/campaignProspectStore/selectors';
+import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
 
 function MessagesTab(props) {
   const [isFetching, setIsSearching] = useState(false);
-  const [activeCampaignId, setActiveCampaignId] = useState(1);
+  const activeCampaignId = useSelector(activeCampaignSelector);
   const prospectResults = useSelector(getCampaignProspects(activeCampaignId));
   const prospectList = prospectsToItemList(prospectResults || []);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (prospectResults.length === 0) {
-      dispatch(campaignProspectSearch(activeCampaignId, { name: 'is_priority_unread', value: true }));
-    }
-  }, []);
 
   // load more data
   const fetchMoreData = (url, isFetching) => {
@@ -52,12 +47,12 @@ function MessagesTab(props) {
   return (
     <>
       {/* <SearchModule searchTerm={search} showSearch={true} /> */}
-      <List
+      {prospectList.length > 0 ? (<List
         items={prospectList}
         nextPageUrl={nextPageUrl}
         fetchMoreData={fetchMoreData}
         isFetching={isFetching}
-      />
+      />) : <p>No Messages</p>}
     </>
   );
 }

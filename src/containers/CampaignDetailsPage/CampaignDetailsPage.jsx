@@ -12,6 +12,7 @@ import MessagesTab from './MessagesTab/MessagesTab';
 import { getCampaign } from '../../store/Campaigns/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 import { fetchSingleCampaign } from '../../store/Campaigns/actions';
+import { campaignProspectSearch } from '../../store/campaignProspectStore/thunks';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
@@ -26,6 +27,12 @@ function CampaignDetailsPage(props) {
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    if (campaignId) {
+      dispatch(campaignProspectSearch(campaignId, { name: 'is_priority_unread', value: true }));
+    }
+  }, []);
 
   useEffect(() => {
     if (!campaign.id) {
