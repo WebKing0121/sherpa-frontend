@@ -1,20 +1,72 @@
 describe('Prospect page', () => {
-  const url = Cypress.env('clientUrl');
+  const searchModuleInput = '[data-test=search-module-input]',
+    searchModuleButton = '[data-test=search-module-button]',
+    swipeableListItem = '[data-test=swipeable-list-item]',
+    search = '303',
+    url = Cypress.env('clientUrl');
+
   before(() => {
-    // cy.manualLogin();
     cy.login();
-    // cy.waitForCall();
+    cy.visit(`${url}/prospects`);
   });
 
-  it('renders prosects page route', () => {
-    cy.visit(`${url}/prospects`);
+  it('displays the correct page header', () => {
+    cy.get('h1').contains('Prospects Search');
+  });
 
-    cy.location().should(location => {
-      expect(location.pathname).to.eq('/prospects');
+  it('has search module input field', () => {
+    cy.get(searchModuleInput).should('exist');
+  });
+
+  it('accepts inputs', () => {
+    cy.get(searchModuleInput)
+      .type(search)
+      .should('have.value', search);
+  });
+
+  it('contains button', () => {
+    cy.get(searchModuleButton).should('exist');
+  });
+
+  it('performs a prospect search and displays the results', () => {
+    cy.server();
+    const options = {
+      url: 'prospects',
+      response: 'prospects',
+      status: 200,
+      method: 'GET'
+    };
+    cy.stubResponse(options).as('prospects');
+    cy.get(searchModuleButton).click();
+    cy.wait('@prospects');
+    cy.get(swipeableListItem).should($item => {
+      expect($item).to.have.length.of.at.least(1);
     });
   });
 
-  it('displays results', () => {
-    cy.testApiData();
+  it('displays correct information for each prospect', () => {
+    cy.fixture('prospects').then(prospects => {
+      cy.get(swipeableListItem).each(($item, index) => {
+        cy.wrap($item).then(item => {
+          const {
+            name,
+            phoneDisplay,
+            propertyAddress,
+            propertyCity,
+            propertyState,
+            propertyZip
+          } = prospects.results[index];
+          expect(item).to.contain(name);
+          expect(item).to.contain(phoneDisplay);
+          expect(item).to.contain(propertyAddress);
+          expect(item).to.contain(propertyCity);
+          expect(item).to.contain(propertyState);
+          expect(item).to.contain(propertyZip);
+        });
+        cy.wrap($item)
+          .find('h4')
+          .should('exist');
+      });
+    });
   });
 });

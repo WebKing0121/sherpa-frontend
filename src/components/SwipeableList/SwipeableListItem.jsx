@@ -1,5 +1,5 @@
-import "./SwipeableListItem.css";
-import React from "react";
+import './SwipeableListItem.css';
+import React from 'react';
 import SwipeMenuAction from './SwipeMenuAction';
 import styled from 'styled-components';
 
@@ -13,7 +13,7 @@ const SwipeMenu = styled.div`
   padding-left: ${props => props.padLeft}px;
 
   @media (max-width: 500px) {
-    flex-wrap: ${props => props.wrapList ? "wrap" : "nowrap"};
+    flex-wrap: ${props => (props.wrapList ? 'wrap' : 'nowrap')};
   }
 `;
 
@@ -63,42 +63,42 @@ class SwipeableListItem extends React.Component {
   }
 
   componentDidMount() {
-    window.addEventListener("mouseup", this.onDragEndMouse);
-    window.addEventListener("touchend", this.onDragEndTouch);
+    window.addEventListener('mouseup', this.onDragEndMouse);
+    window.addEventListener('touchend', this.onDragEndTouch);
   }
 
   componentWillUnmount() {
-    window.removeEventListener("mouseup", this.onDragEndMouse);
-    window.removeEventListener("touchend", this.onDragEndTouch);
+    window.removeEventListener('mouseup', this.onDragEndMouse);
+    window.removeEventListener('touchend', this.onDragEndTouch);
   }
 
   onDragStartMouse(evt) {
     this.onDragStart(evt.clientX);
-    window.addEventListener("mousemove", this.onMouseMove);
+    window.addEventListener('mousemove', this.onMouseMove);
   }
 
   onDragStartTouch(evt) {
     const touch = evt.targetTouches[0];
     this.onDragStart(touch.clientX);
-    window.addEventListener("touchmove", this.onTouchMove);
+    window.addEventListener('touchmove', this.onTouchMove);
   }
 
   onDragStart(clientX) {
     this.dragged = true;
     this.dragStartX = clientX;
     this.startPos = this.left;
-    this.listElement.className = "ListItem";
+    this.listElement.className = 'ListItem';
     this.startTime = Date.now();
     requestAnimationFrame(this.updatePosition);
   }
 
   onDragEndMouse(evt) {
-    window.removeEventListener("mousemove", this.onMouseMove);
+    window.removeEventListener('mousemove', this.onMouseMove);
     this.onDragEnd();
   }
 
   onDragEndTouch(evt) {
-    window.removeEventListener("touchmove", this.onTouchMove);
+    window.removeEventListener('touchmove', this.onTouchMove);
     this.onDragEnd();
   }
 
@@ -106,7 +106,8 @@ class SwipeableListItem extends React.Component {
     if (this.dragged) {
       this.dragged = false;
 
-      const threshold = this.startPos === 0 ? (this.props.threshold || 0.3) : (1 - this.props.threshold || 0.7);
+      const threshold =
+        this.startPos === 0 ? this.props.threshold || 0.3 : 1 - this.props.threshold || 0.7;
 
       if (this.left < this.listElement.offsetWidth * threshold * -1) {
         this.left = this.menuOpen;
@@ -115,7 +116,7 @@ class SwipeableListItem extends React.Component {
         this.left = 0;
       }
 
-      this.listElement.className = "BouncingListItem";
+      this.listElement.className = 'BouncingListItem';
       this.listElement.style.transform = `translateX(${this.left}px)`;
     }
   }
@@ -170,7 +171,7 @@ class SwipeableListItem extends React.Component {
         this.background.style.opacity = opacity.toString();
       }
       if (opacity >= 1) {
-        this.background.style.opacity = "1";
+        this.background.style.opacity = '1';
       }
 
       this.startTime = Date.now();
@@ -192,13 +193,18 @@ class SwipeableListItem extends React.Component {
   render() {
     return (
       <>
-        <div className="Wrapper" ref={div => (this.wrapper = div)} style={this.props.style}>
-          <div ref={div => (this.background = div)} className="Background">
-            <SwipeMenu wrapList={this.wrap} padLeft={this.padLeft} className="swipeMenu">
-              {this.props.actions.map((item, idx) =>
+        <div
+          className='Wrapper'
+          data-test='swipeable-list-item'
+          ref={div => (this.wrapper = div)}
+          style={this.props.style}
+        >
+          <div ref={div => (this.background = div)} className='Background'>
+            <SwipeMenu wrapList={this.wrap} padLeft={this.padLeft} className='swipeMenu'>
+              {this.props.actions.map((item, idx) => (
                 <SwipeMenuAction
                   wrapList={this.wrap}
-                  className="action"
+                  className='action'
                   key={idx}
                   size={this.actionSize}
                   name={item.name}
@@ -206,7 +212,7 @@ class SwipeableListItem extends React.Component {
                   background={item.background}
                   handleClick={item.link}
                 />
-              )}
+              ))}
             </SwipeMenu>
           </div>
           <div
@@ -214,7 +220,7 @@ class SwipeableListItem extends React.Component {
             ref={div => (this.listElement = div)}
             onMouseDown={this.onDragStartMouse}
             onTouchStart={this.onDragStartTouch}
-            className="ListItem"
+            className='ListItem'
           >
             {this.props.children}
           </div>

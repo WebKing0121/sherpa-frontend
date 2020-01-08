@@ -1,6 +1,4 @@
 describe('Navbar', () => {
-  const url = Cypress.env('clientUrl');
-
   before(() => {
     cy.login();
   });

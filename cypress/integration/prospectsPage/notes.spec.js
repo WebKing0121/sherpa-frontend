@@ -32,34 +32,36 @@ describe('Prospect search, details page, and notes', () => {
     cy.get(searchModuleButton).should('exist');
   });
 
-  it('performs a prospect search', () => {
-    cy.get(searchModuleButton).click();
+  it('performs a prospect search and displays the results', () => {
     cy.server();
-    const options = { url: 'prospects', response: 'prospects' };
-    cy.stubResponse(options);
-    // cy.get(spinner, { timeout: 0 }).should('exist');
+    const options = {
+      url: 'prospects',
+      response: 'prospects',
+      status: 200,
+      method: 'GET'
+    };
+    cy.stubResponse(options).as('prospects');
+    cy.get(searchModuleButton).click();
+    cy.wait('@prospects');
+    cy.get(listItemLink).should($Link => {
+      expect($Link).to.have.length.of.at.least(1);
+    });
   });
 
-  // it('displays prospect search results', () => {
-  //   cy.get(displayedData).should('exist');
-  // });
+  it('selects the first prospect', () => {
+    cy.get(listItemLink)
+      .first()
+      .click({ force: true });
+    cy.location('pathname')
+      .should('contain', '/prospect')
+      .and('contain', 'details');
+  });
 
-  // it('selects the first prospect', () => {
-  //   cy.pause();
-  //   cy.get(listItemLink)
-  //     .first()
-  //     .click({ force: true });
-  //   cy.waitForCall();
-  //   cy.location('pathname')
-  //     .should('contain', '/prospect')
-  //     .and('contain', 'details');
-  // });
-
-  // it('renders the notes tab', () => {
-  //   cy.get('.nav-link')
-  //     .last()
-  //     .contains('Notes');
-  // });
+  it('renders the notes tab', () => {
+    cy.get('.nav-link')
+      .last()
+      .contains('Notes');
+  });
 
   // it('selects and renders the notes pane', () => {
   //   cy.get('.nav-link')

@@ -5,11 +5,6 @@ describe('Login form', () => {
     passwordValue = 'testu123',
     url = Cypress.env('clientUrl');
 
-  before(() => {
-    cy.visit(`${url}/login`);
-    cy.server();
-  });
-
   beforeEach(() => {
     cy.visit(`${url}/login`);
   });
@@ -60,13 +55,12 @@ describe('Login form', () => {
   });
 
   it('fails login verification and displays an error message', () => {
-    cy.get(emailInput).type(emailValue);
-
-    cy.get(passwordInput).type('incorrectPassword');
     cy.server();
-    cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'loginFailure', status: 401 });
-
+    cy.route('POST', '**/auth/jwt/create').as('loginReq');
+    cy.get(emailInput).type(emailValue);
+    cy.get(passwordInput).type('incorrectPassword');
     cy.get('button').click();
+    cy.wait('@loginReq');
 
     cy.location().should(location => {
       expect(location.pathname).to.eq('/login');
@@ -77,14 +71,11 @@ describe('Login form', () => {
 
   it('successfully logs in', () => {
     cy.server();
-    cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' });
-    cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' });
-    cy.stubResponse({ url: 'markets', response: 'markets' });
-    cy.stubResponse({ url: 'leadstages', response: 'leadStages' });
-
+    cy.route('POST', '**/auth/jwt/create').as('loginReq');
     cy.get(emailInput).type(emailValue);
     cy.get(passwordInput).type(passwordValue);
     cy.get('button').click();
+    cy.wait('@loginReq');
 
     cy.location().should(location => {
       expect(location.pathname).to.eq('/');
