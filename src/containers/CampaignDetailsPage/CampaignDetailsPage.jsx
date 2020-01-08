@@ -9,9 +9,9 @@ import * as noteActions from '../../store/CampaignDetails/notes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDetails/notes/selectors';
 import { campaignHeaderInfo } from '../../variables';
 import MessagesTab from './MessagesTab/MessagesTab';
-import { getCampaignDetails } from '../../store/CampaignStore/selectors';
-import { fetchSingleCampaign } from '../../store/CampaignStore/actions';
+import { getCampaign } from '../../store/Campaigns/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
+import { fetchSingleCampaign } from '../../store/Campaigns/actions';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
@@ -20,7 +20,7 @@ const StyledTabContent = styled(TabContent)`
 function CampaignDetailsPage(props) {
   const [activeTab, setActiveTab] = useState('1');
   const campaignId = props.match.params.id;
-  const campaign = useSelector(getCampaignDetails);
+  const campaign = useSelector(getCampaign(campaignId));
   const dispatch = useDispatch();
 
   const toggleTab = tab => {
@@ -28,7 +28,7 @@ function CampaignDetailsPage(props) {
   };
 
   useEffect(() => {
-    if (!campaign || campaign.id !== parseInt(campaignId)) {
+    if (!campaign.id) {
       console.log('fetching campaign...');
       dispatch(fetchSingleCampaign(campaignId));
     }

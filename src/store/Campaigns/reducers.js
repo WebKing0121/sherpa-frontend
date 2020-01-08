@@ -6,11 +6,12 @@ import {
   ARCHIVE_CAMPAIGN
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../variables';
+import { arrayToMapIndex, mapIndexToArray } from '../utils';
 
 // campaigns reducer
 export const initialState = {
   activeMarket: null,
-  campaigns: [],
+  campaigns: {},
   error: '',
   next: '',
   previous: '',
@@ -42,10 +43,12 @@ export default function reducer(state = initialState, action) {
       };
     case ARCHIVE_CAMPAIGN:
       const { campaigns } = state;
-      let newCampaignsList = campaigns.filter((x) => x.id !== data.id);
+      const campaignsArr = mapIndexToArray(campaigns);
+      let newCampaignsList = campaignsArr.filter((x) => x.id !== data.id);
+      const campaignMap = arrayToMapIndex('id', newCampaignsList);
       return {
         ...state,
-        campaigns: newCampaignsList,
+        campaigns: campaignMap,
         status: Success
       }
     case RESET_CAMPAIGNS_DATA:

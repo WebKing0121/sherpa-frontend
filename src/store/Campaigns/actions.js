@@ -8,6 +8,7 @@ import {
 } from './actionTypes';
 import { Fetching } from '../../variables';
 import { decrementMarketCampaignCount } from '../Markets/actions';
+import { arrayToMapIndex } from '../utils';
 
 export const setFetchedCampaignStatus = status => ({
   type: FETCH_CAMPAIGNS,
@@ -40,7 +41,9 @@ export const fetchCampaigns = id => (dispatch, _) => {
     .then(({ data }) => {
       const { results } = data;
 
-      dispatch(setFetchedCampaigns({ campaigns: results, marketId: parseInt(id) }));
+      const campaignMap = arrayToMapIndex('id', results);
+
+      dispatch(setFetchedCampaigns({ campaigns: campaignMap, marketId: parseInt(id) }));
     })
     .catch(error => {
       console.log('error campaigns', error.response);
@@ -54,7 +57,9 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     .then(({ data }) => {
       const { results } = data;
 
-      dispatch(setFetchedCampaigns({ campaigns: results }));
+      const campaignMap = arrayToMapIndex('id', results);
+
+      dispatch(setFetchedCampaigns({ campaigns: campaignMap }));
     })
     .catch(error => {
       console.log('Error fetching sorted campaigns', error.response);
@@ -89,9 +94,23 @@ export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
   AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false } })
     .then(({ data }) => {
       const { results } = data;
-      dispatch(setFetchedCampaigns({ campaigns: results }));
+
+      const campaignMap = arrayToMapIndex('id', results);
+
+      dispatch(setFetchedCampaigns({ campaigns: campaignMap }));
     })
     .catch(error => {
       console.log('Error fetching filtered data by owner: ', error);
     });
 };
+
+export const fetchSingleCampaign = id => (dispatch, _) => {
+  AxiosInstance.get(`/campaigns/${id}`)
+    .then(({ data }) => {
+      const campaignMap = { [data.id]: data };
+      dispatch(setFetchedCampaigns({ campaigns: campaignMap, marketId: data.market }));
+    })
+    .catch(error => {
+      console.log('Error fetching the campaign: ', error);
+    });
+}

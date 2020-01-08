@@ -7,7 +7,6 @@ import { loadLeadStages } from './leadstages/utils';
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
 import campaignNotes from './CampaignDetails/notes/reducers';
-import campaignStore from './CampaignStore/reducers';
 import companyOwners from './CompanyOwners/reducers';
 import markets from './Markets/reducers';
 import prospects from './Prospects/reducers';
@@ -35,7 +34,6 @@ const reducers = combineReducers({
   auth,
   campaigns,
   campaignNotes,
-  campaignStore,
   companyOwners,
   markets,
   prospects,
