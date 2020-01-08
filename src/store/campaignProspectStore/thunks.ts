@@ -17,7 +17,7 @@ export const campaignProspectSearch =
     const { campaignProspectStore: { campaignProspects = {} } } = getState();
 
     // if we've got stuff here then don't refetch just display what we've got
-    if (Object.keys(campaignProspects).length === 0) {
+    if (!campaignProspects[campaignId] || campaignProspects[campaignId].length === 0) {
       // construct filter
       if (filter) {
         apiParams = `&${filter.name}=${filter.value}`;
