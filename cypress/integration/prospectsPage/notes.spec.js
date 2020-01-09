@@ -5,6 +5,8 @@ describe('Prospect search, details page, and notes', () => {
     dateMinLength = 19,
     url = Cypress.env('clientUrl'),
     toasts = '[data-test=toast]',
+    successToast = 'alert-success',
+    failureToast = 'alert-danger',
     prospectUrl = 'prospect/4/details',
     testNoteText = 'testing 123';
 
@@ -12,14 +14,6 @@ describe('Prospect search, details page, and notes', () => {
 
   before(() => {
     cy.login();
-  });
-
-  beforeEach(() => {
-    cy.get('body').then($body => {
-      if ($body.find(toasts).length > 0) {
-        cy.get(`${toasts} button`).each($btn => cy.wrap($btn).click());
-      }
-    });
   });
 
   it('renders the notes tab', () => {
@@ -78,9 +72,8 @@ describe('Prospect search, details page, and notes', () => {
     cy.get(`${noteDetails} p`)
       .first()
       .contains(testNoteText);
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-success');
+    cy.checkForNewToast(successToast);
+    cy.closeToasts();
   });
 
   it('sets the length of notesList', () => {
@@ -135,9 +128,8 @@ describe('Prospect search, details page, and notes', () => {
       .should('have.value', 'failure note');
     cy.get(noteFormBtn).click();
     cy.wait('@addNote');
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-danger');
+    cy.checkForNewToast(failureToast);
+    cy.closeToasts();
     cy.get(noteDetails).should('have.length', notesLength);
   });
 
@@ -182,9 +174,8 @@ describe('Prospect search, details page, and notes', () => {
   });
 
   it('displays updated note text and a success toast', () => {
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-success');
+    cy.checkForNewToast(successToast);
+    cy.closeToasts();
     cy.get(`${noteDetails} p`)
       .first()
       .contains(`${testNoteText}4567`);
@@ -217,9 +208,8 @@ describe('Prospect search, details page, and notes', () => {
     cy.get(`${noteDetails} p`)
       .first()
       .contains(testNoteText);
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-danger');
+    cy.checkForNewToast(failureToast);
+    cy.closeToasts();
   });
 
   it('fails the delete note networks request, deletes the note from the display, adds back to the display after the network request finishes and displays and error toast', () => {
@@ -240,9 +230,8 @@ describe('Prospect search, details page, and notes', () => {
     cy.get(noteDetails).should('have.length', notesLength - 1);
     cy.wait('@deleteNote');
     cy.get(noteDetails).should('have.length', notesLength);
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-danger');
+    cy.checkForNewToast(failureToast);
+    cy.closeToasts();
   });
 
   // delete note

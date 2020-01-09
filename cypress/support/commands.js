@@ -108,3 +108,20 @@ Cypress.Commands.add('login', () => {
   cy.wait('@userInfoRes');
   cy.wait('@leadStagesRes');
 });
+
+const toasts = '[data-test=toast]';
+
+Cypress.Commands.add('checkForNewToast', cssClass => {
+  cy.get(toasts)
+    .last()
+    .should('have.class', cssClass);
+});
+
+Cypress.Commands.add('closeToasts', () => {
+  cy.get(toasts).each($toast =>
+    cy
+      .wrap($toast)
+      .find('button')
+      .click()
+  );
+});
