@@ -20,7 +20,13 @@ export default function reducer(state: any = initialState, action: any) {
       return { ...state, isLoading: action.payload };
     case FETCH_CAMPAIGN_PROSPECTS_SUCCESS: {
       let newState = { ...state };
-      newState.campaignProspects = action.payload.results;
+
+      if (action.concatResults) {
+        newState.campaignProspects = { ...newState.campaignProspects, ...action.payload.results };
+      } else {
+        newState.campaignProspects = action.payload.results;
+      }
+
       newState.next = action.payload.next;
       newState.previous = action.payload.previous;
       newState.isLoading = false;

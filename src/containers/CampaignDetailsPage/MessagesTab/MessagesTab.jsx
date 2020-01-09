@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import SearchModule from '../../../components/SearchModule';
 import List from '../../../components/List/List';
 import { prospectsToItemList } from '../utils';
-import { searchProspects, searchProspectNextPage } from '../../../store/Prospects/actions';
 import { campaignProspectSearch } from '../../../store/campaignProspectStore/thunks';
 import { getCampaignProspects, nextPageUrl } from '../../../store/campaignProspectStore/selectors';
 import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
+import { getLeadStages } from '../../../store/leadstages/selectors';
 
 function MessagesTab(props) {
   const [isFetching, setIsSearching] = useState(false);
@@ -14,6 +14,17 @@ function MessagesTab(props) {
   const prospectResults = useSelector(getCampaignProspects(activeCampaignId));
   const prospectList = prospectsToItemList(prospectResults || []);
   const dispatch = useDispatch();
+  const leadStages = useSelector(getLeadStages);
+  const lead_stage_filters = leadStages.map((stage) => ({
+    name: stage.leadStageTitle,
+    value: { name: 'lead_stage', value: stage.id }
+  }));
+  const filters = [
+    { name: 'Unread / Is Priority', value: { name: 'is_priority_unread', value: true } },
+    ...lead_stage_filters,
+    { name: 'Qualified Leads', value: { name: 'is_qualified_lead', value: true } }
+  ];
+
 
   // load more data
   const fetchMoreData = (url, isFetching) => {
@@ -46,7 +57,19 @@ function MessagesTab(props) {
   // the prospectSearch component
   return (
     <>
-      {/* <SearchModule searchTerm={search} showSearch={true} /> */}
+      <SearchModule
+        showFilter={false}
+        showSort={true}
+        showSearch={false}
+        sortingOptions={filters}
+        sortChange={(filter, id) => {
+          dispatch(campaignProspectSearch(
+            activeCampaignId,
+            { filter, force: true }
+          ));
+        }}
+        marketId={activeCampaignId}
+      />
       {prospectList.length > 0 ? (<List
         items={prospectList}
         nextPageUrl={nextPageUrl}

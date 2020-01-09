@@ -12,12 +12,15 @@ import { IFilter } from './interfaces';
 import { arrayToMapIndex } from '../../store/utils';
 
 export const campaignProspectSearch =
-  (campaignId: number, filter?: IFilter, page?: string) => (dispatch: any, getState: any) => {
+  (campaignId: number, options: any) => (dispatch: any, getState: any) => {
+    const { force = false, page = null, filter, concatResults = false } = options;
+
     let apiParams = '';
     const { campaignProspectStore: { campaignProspects = {} } } = getState();
 
-    // if we've got stuff here then don't refetch just display what we've got
-    if (!campaignProspects[campaignId] || campaignProspects[campaignId].length === 0) {
+    // Fetch if 'forced' or if don't have anything
+    if (!campaignProspects[campaignId] || campaignProspects[campaignId].length === 0 || force) {
+
       // construct filter
       if (filter) {
         apiParams = `&${filter.name}=${filter.value}`;
@@ -31,7 +34,11 @@ export const campaignProspectSearch =
       dispatch(fetchCampaignProspects(true));
       return campaignProspectList(campaignId, apiParams)
         .then(({ data }) => {
-          dispatch(fetchCampaignProspectsSuccess({ ...data, results: { [campaignId]: data.results } }))
+          dispatch(fetchCampaignProspectsSuccess({
+            ...data,
+            concatResults,
+            results: { [campaignId]: data.results }
+          }))
         })
         .catch(error => {
           console.log("UERRROR", error);

@@ -30,7 +30,8 @@ function CampaignDetailsPage(props) {
 
   useEffect(() => {
     if (campaignId) {
-      dispatch(campaignProspectSearch(campaignId, { name: 'is_priority_unread', value: true }));
+      const filter = { name: 'is_priority_unread', value: true };
+      dispatch(campaignProspectSearch(campaignId, { filter }));
     }
   }, []);
 

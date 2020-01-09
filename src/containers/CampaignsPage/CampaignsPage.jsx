@@ -72,7 +72,7 @@ const CampaignsPage = props => {
         showSort={true}
         showSearch={false}
         sortingOptions={sortingOptions}
-        sortChange={fetchSortedCampaigns}
+        sortChange={(value, id) => dispatch(fetchSortedCampaigns(value, id))}
         marketId={marketId}
       />
       <DataLoader status={isFetching} data={listItems} renderData={() => <List items={listItems} />} />
