@@ -275,8 +275,21 @@ const FieldsSection = (props) => {
             id="zapier"
             color="primary"
             className="fw-bold"
+            disabled={
+              emailedToPodio
+            }
             onClick={
-              () => { setModal(true); setEmailtoCrm(true); }
+              () => {
+                if (activeCampaignId) {
+                  dispatch(
+                    prospectEmailToCrmAction(prospect.id, { campaign: activeCampaign.id })
+                  );
+                } else {
+                  setModal(true);
+                  setEmailtoCrm(true);
+                }
+
+              }
             }>
             Email to CRM
           </Button>
@@ -284,8 +297,20 @@ const FieldsSection = (props) => {
             id="crm"
             color="primary"
             className="fw-bold"
+            disabled={
+              pushedToZapier
+            }
             onClick={
-              () => { setModal(true); setEmailtoCrm(false); }
+              () => {
+                if (activeCampaignId) {
+                  dispatch(
+                    prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id })
+                  );
+                } else {
+                  setModal(true);
+                  setEmailtoCrm(false);
+                }
+              }
             }>
             Push to Zapier
           </Button>
