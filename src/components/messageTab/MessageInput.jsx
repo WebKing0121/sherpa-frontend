@@ -44,7 +44,7 @@ function MessageInput(props) {
           onChange={handleChange}
         />
         <InputGroupAddon addonType='append'>
-          <Button type='submit' name='submit' className='p-0' color='link'>
+          <Button type='submit' name='submit' className='p-0' color='link' disabled={!input}>
             <IconBg icon='paper-plane' color='sherpaBlue' textcol='white' nudge='0 0 0 -4px' />
           </Button>
         </InputGroupAddon>

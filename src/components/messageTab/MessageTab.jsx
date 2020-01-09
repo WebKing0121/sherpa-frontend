@@ -99,7 +99,7 @@ function MessagesTab(props) {
   }, [props.marginTop]);
 
   return (
-    <>
+    <div data-test='messages-tab'>
       <DataLoader
         status={messagesStatus}
         data={(messages.length && messages) || [vars.messagesPlaceholderText]}
@@ -113,7 +113,7 @@ function MessagesTab(props) {
       <InputWrapper ref={inputRef}>
         <MessageInput addNewMessage={addNewMessage} />
       </InputWrapper>
-    </>
+    </div>
   );
 }
 

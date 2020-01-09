@@ -129,7 +129,7 @@ function NotesTab(props) {
           updateNote={handleEditNote}
           anim={anim}
         />
-    )
+      );
     });
 
   // notes are memoized to prevent rerenders when modal states change
@@ -141,7 +141,7 @@ function NotesTab(props) {
   };
 
   return (
-    <>
+    <div data-test='notes-tab'>
       <Heading>
         <h3>Notes</h3>
         <Button color='primary' onClick={toggle} data-test='add-note-btn'>
@@ -163,7 +163,7 @@ function NotesTab(props) {
         emptyResultsMessage='Currently there are no notes to display.'
         renderData={() => <List>{memoizedNotes}</List>}
       />
-    </>
+    </div>
   );
 }
 

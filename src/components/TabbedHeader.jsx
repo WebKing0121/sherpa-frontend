@@ -46,7 +46,6 @@ const ActionsHolster = styled.div`
 `;
 
 function TabbedHeader(props) {
-  console.log(props);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 

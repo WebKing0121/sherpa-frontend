@@ -1,4 +1,4 @@
-describe('Prospect search, details page, and notes', () => {
+describe('Prospect notes', () => {
   const addNoteBtn = '[data-test=add-note-btn]',
     noteFormBtn = '[data-test=note-form-btn]',
     noteDetails = '[data-test=note-details]',
@@ -25,16 +25,16 @@ describe('Prospect search, details page, and notes', () => {
     });
   });
 
-  it('selects and renders the notes pane', () => {
-    cy.get('.nav-link')
-      .last()
-      .click();
+  it('selects and renders the notes pane and correct header', () => {
+    cy.get('[data-test=Notes]').click();
+    cy.get('[data-test=Notes]').should('have.class', 'active');
     cy.get('h3').contains('Notes');
   });
 
   it('renders "add note" button', () => {
     cy.get(addNoteBtn).contains('Add Note');
   });
+
   // checks add note modal and adds note
   it('opens modal when clicking "add note" button', () => {
     cy.get(addNoteBtn).click();

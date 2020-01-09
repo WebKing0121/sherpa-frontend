@@ -19,7 +19,7 @@ const StyledMessage = styled.div`
   margin-bottom: var(--pad1);
 `;
 
-const TimeStamp = styled.div`
+const TimeStamp = styled.time`
   display: flex;
   justify-content: ${props => (props.fromProspect ? 'flex-start' : 'flex-end')};
   margin-bottom: var(--pad4);
@@ -47,10 +47,10 @@ function Message(props) {
   };
 
   return (
-    <StyledListItem className='message'>
+    <StyledListItem data-test={fromProspect ? 'prospect-message' : 'user-message'} className='message'>
       <StyledMessage fromProspect={fromProspect}>{message}</StyledMessage>
       <TimeStamp fromProspect={fromProspect}>
-        <span>{`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}</span>
+        {`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}
       </TimeStamp>
     </StyledListItem>
   );
