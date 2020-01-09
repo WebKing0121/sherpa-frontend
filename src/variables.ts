@@ -61,7 +61,7 @@ export const campaignHeaderInfo = {
         text: 'Add Prospects',
         // this is for adding the onclick later
         action: 'addProspects'
-      },
+      }
     ],
     secondary: [
       {
@@ -102,35 +102,35 @@ export const prospectHeaderInfo = {
 
 export const ProspectActions = [
   {
-    icon: "verified",
-    name: "Verified",
+    icon: 'verified',
+    name: 'Verified',
     status: false,
-    attr: "ownerVerifiedStatus",
+    attr: 'ownerVerifiedStatus',
     link: null,
-    background: "green"
+    background: 'green'
   },
   {
-    icon: "dnc",
-    name: "DNC",
+    icon: 'dnc',
+    name: 'DNC',
     status: false,
-    attr: "doNotCall",
+    attr: 'doNotCall',
     link: null,
-    background: "white"
+    background: 'white'
   },
   {
-    icon: "priority",
-    name: "Priority",
+    icon: 'priority',
+    name: 'Priority',
     status: false,
-    attr: "isPriority",
+    attr: 'isPriority',
     link: null,
-    background: "orange"
+    background: 'orange'
   },
   {
-    icon: "qualified",
-    name: "Qualified",
+    icon: 'qualified',
+    name: 'Qualified',
     status: false,
-    attr: "isQualifiedLead",
+    attr: 'isQualifiedLead',
     link: null,
-    background: "purple"
+    background: 'purple'
   }
 ];

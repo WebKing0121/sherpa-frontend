@@ -1,11 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import {
-  Button,
-  Collapse,
-  CustomInput,
-  FormGroup,
-  Label } from 'reactstrap';
+import { Button, Collapse, CustomInput, FormGroup, Label } from 'reactstrap';
 import Icon from './Icon';
 import TabNav from './TabNav';
 import { history } from '../history';
@@ -14,7 +9,7 @@ import Modal from './Modal';
 
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
-  padding: var(--pad4) var(--pad3) ${props => props.toggleTab ? "0" : null};
+  padding: var(--pad4) var(--pad3) ${props => (props.toggleTab ? '0' : null)};
 
   @media (max-width: 768px) {
     margin-top: 60px;
@@ -33,7 +28,7 @@ const BackButton = styled(Button)`
 
 const BackArrowHolster = styled.div`
   display: inline-block;
-  margin-right: .4em;
+  margin-right: 0.4em;
 
   img {
     margin-top: -3px;
@@ -51,71 +46,87 @@ const ActionsHolster = styled.div`
 `;
 
 function TabbedHeader(props) {
+  console.log(props);
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
 
   const back = () => {
     history.goBack();
-  }
+  };
 
   const createFollowUp = (
-    <Modal
-      isOpen={modal}
-      toggle={toggle}
-      title="Create Follow-Up"
-    >
+    <Modal isOpen={modal} toggle={toggle} title='Create Follow-Up'>
       <div>
         <p>
-          By creating a Follow-up Campaign all the prospects that have not responded to the SMS from this campaign will permanently moved over to the new Campaign.
+          By creating a Follow-up Campaign all the prospects that have not responded to the SMS from this
+          campaign will permanently moved over to the new Campaign.
         </p>
       </div>
 
-      <Button color="primary" size="md" block className="mt-2">
+      <Button color='primary' size='md' block className='mt-2'>
         Continue
       </Button>
-      <Button color="link" size="md" block>
+      <Button color='link' size='md' block>
         Cancel
       </Button>
-
     </Modal>
   );
 
-  const mainActions = props.data.actions ? props.data.actions.main.map((a, idx) => {
-    return (
-      <Button size="md" id={a.action} color={a.btnType} className="ml-1" onClick={toggle}>{a.text}</Button>
-    )
-  }) : null;
+  const mainActions = props.data.actions
+    ? props.data.actions.main.map((a, idx) => {
+        return (
+          <Button size='md' id={a.action} color={a.btnType} className='ml-1' onClick={toggle}>
+            {a.text}
+          </Button>
+        );
+      })
+    : null;
 
-  const secondaryActions = props.data.actions ? props.data.actions.secondary.map((a, idx) => {
-    return (
-      <Button id={a.action} className="p-0 ml-1" color="link">
-        <IconBg color="darkNavy" textcol="sherpaTeal" icon={a.icon} width="32px" height="32px" size="sm"/>
-      </Button>
-    )
-  }): null;
+  const secondaryActions = props.data.actions
+    ? props.data.actions.secondary.map((a, idx) => {
+        return (
+          <Button id={a.action} className='p-0 ml-1' color='link'>
+            <IconBg
+              color='darkNavy'
+              textcol='sherpaTeal'
+              icon={a.icon}
+              width='32px'
+              height='32px'
+              size='sm'
+            />
+          </Button>
+        );
+      })
+    : null;
 
   return (
     <StyledHeader {...props}>
       <HeaderTop>
         <div>
-          <h1 className="text-white text-left m-0">
-            {props.children}
-          </h1>
+          <h1 className='text-white text-left m-0'>{props.children}</h1>
 
-          {props.data.hasBackButton && <BackButton className="text-dark textL pl-0" color="link" onClick={back}><BackArrowHolster><BackArrow width="auto" name="arrowDark" /></BackArrowHolster>{props.data.fromText}</BackButton>}
+          {props.data.hasBackButton && (
+            <BackButton className='text-dark textL pl-0' color='link' onClick={back}>
+              <BackArrowHolster>
+                <BackArrow width='auto' name='arrowDark' />
+              </BackArrowHolster>
+              {props.data.fromText}
+            </BackButton>
+          )}
         </div>
 
-        { props.data.actions &&
-          <ActionsHolster className="d-none d-md-flex">
+        {props.data.actions && (
+          <ActionsHolster className='d-none d-md-flex'>
             <div>{mainActions ? mainActions : null}</div>
-            <div className="mt-1">{secondaryActions ? secondaryActions : null}</div>
+            <div className='mt-1'>{secondaryActions ? secondaryActions : null}</div>
             {createFollowUp}
           </ActionsHolster>
-        }
-
+        )}
       </HeaderTop>
 
-      {props.toggleTab && <TabNav data={props.data.tabs} activeTab={props.activeTab} toggleTab={props.toggleTab} />}
+      {props.toggleTab && (
+        <TabNav data={props.data.tabs} activeTab={props.activeTab} toggleTab={props.toggleTab} />
+      )}
     </StyledHeader>
   );
 }

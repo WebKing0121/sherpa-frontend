@@ -24,12 +24,11 @@ describe('Prospect search, details page, and notes', () => {
 
   it('renders the notes tab', () => {
     cy.server();
-    cy.route('GET', '**/prospects/**').as('prospect');
+    cy.route({ method: 'GET', url: '**/prospects/**' }).as('prospect');
     cy.visit(`${url}/${prospectUrl}`);
-    cy.wait('@prospect');
-    cy.get('.nav-link')
-      .last()
-      .contains('Notes');
+    cy.wait('@prospect').then(() => {
+      cy.get('[data-test=Notes]').contains('Notes');
+    });
   });
 
   it('selects and renders the notes pane', () => {

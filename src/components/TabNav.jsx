@@ -1,7 +1,7 @@
-import React from "react";
-import styled from "styled-components";
-import { Nav, NavItem, NavLink } from "reactstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React from 'react';
+import styled from 'styled-components';
+import { Nav, NavItem, NavLink } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledNavLink = styled(NavLink)`
   padding: 0 !important;
@@ -12,7 +12,7 @@ const StyledNavLink = styled(NavLink)`
   &:after,
   &:before {
     transition: border-bottom-width 0.25s, border-top-width 0.25s;
-    content: "";
+    content: '';
     position: absolute;
     z-index: 999;
     bottom: 0;
@@ -66,14 +66,15 @@ const StyledNav = styled(Nav)`
 
 function TabNav(props) {
   const tabs = props.data.map((item, key) => (
-    <NavItem className="mr-0 mr-md-4" key={key}>
+    <NavItem className='mr-0 mr-md-4' key={key}>
       <StyledNavLink
-        className={props.activeTab === item.idx ? "active" : ""}
+        className={props.activeTab === item.idx ? 'active' : ''}
         onClick={() => {
           props.toggleTab(item.idx);
         }}
+        data-test={item.name}
       >
-        <FontAwesomeIcon icon={item.icon} className="mr-1" />
+        <FontAwesomeIcon icon={item.icon} className='mr-1' />
         {item.name}
       </StyledNavLink>
     </NavItem>
@@ -81,7 +82,10 @@ function TabNav(props) {
 
   return (
     <div>
-      <StyledNav className="textXL mt-3 mt-md-1 pt-0 pt-md-2 justify-content-between justify-content-md-start" tabs>
+      <StyledNav
+        className='textXL mt-3 mt-md-1 pt-0 pt-md-2 justify-content-between justify-content-md-start'
+        tabs
+      >
         {tabs}
       </StyledNav>
     </div>
