@@ -82,7 +82,7 @@ const Prospect: IProspect = {
   sherpaPhoneNumber: null,
   smsRelayMap: { rep: { id: -1 } } as ISmsRelayMap,
   wrongNumber: false,
-  campaigns: [{}],
+  campaigns: [],
   zillowLink: ""
 }
 
