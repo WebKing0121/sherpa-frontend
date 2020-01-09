@@ -45,7 +45,7 @@ export const DataLoader = props => {
 
   const renderedResults = whenNoResults(status, data) ? (
     <NoResults> {emptyResultsMessage}</NoResults>
-  ) : whenError(status) ? (
+  ) : whenError(status) && !data.length ? (
     <NoResults>{networkError}</NoResults>
   ) : (
     renderData()

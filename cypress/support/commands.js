@@ -104,4 +104,7 @@ Cypress.Commands.add('login', () => {
   cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' }).as('userInfoRes');
   cy.stubResponse({ url: 'leadstages', response: 'leadStages' }).as('leadStagesRes');
   cy.get('[data-test=login-form]').submit();
+  cy.wait('@loginRes');
+  cy.wait('@userInfoRes');
+  cy.wait('@leadStagesRes');
 });

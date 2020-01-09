@@ -24,7 +24,7 @@ const ToastComponent = ({ message, id, color }) => {
   }, [id]);
 
   return (
-    <ShAlert color={color || 'success'} isOpen={show} toggle={toggle}>
+    <ShAlert data-test='toast' color={color || 'success'} isOpen={show} toggle={toggle}>
       {message}
     </ShAlert>
   );
