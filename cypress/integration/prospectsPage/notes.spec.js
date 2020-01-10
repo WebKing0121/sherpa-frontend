@@ -62,11 +62,14 @@ describe('Prospect notes', () => {
     cy.get(noteFormBtn).contains('Submit Note');
   });
 
-  it('closes modal after submitting a new note', () => {
+  it('displays spinner, closes modal after submitting a new note', () => {
     cy.server();
     cy.route({ method: 'POST', url: '**/prospect-notes' }).as('addNote');
     cy.get(noteFormBtn).click();
+    cy.get('[data-test=loading-spinner]').should('exist');
     cy.wait('@addNote');
+    cy.wait(100);
+    cy.get('[data-test=submit-note-icon]').should('exist');
     cy.get('.modal').should('not.exist');
   });
 

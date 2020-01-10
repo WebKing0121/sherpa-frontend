@@ -2,7 +2,7 @@ import React from 'react';
 
 // pipeline to automatically create the appropriate interface from a
 // campaign|prospect|campaignFolder to data that the ItemList component can render
-export const create_pipeline = (steps) => (data) => {
+export const create_pipeline = steps => data => {
   let newData = { ...data };
 
   // run through the pipeline
@@ -11,12 +11,12 @@ export const create_pipeline = (steps) => (data) => {
 
     // do step is value is not null
     if (dependency !== null) {
-      newData[key] = <Component data={dependency} />
+      newData[key] = <Component data={dependency} />;
     }
   });
 
   return newData;
-}
+};
 
 // interface that all data must adhere to if they want to be rendered
 // by the ItemList component
@@ -29,11 +29,12 @@ const IListItem = {
   indicator: null,
   isRead: false,
   readable: false
-}
+};
 
 // Function that turns a campaign data to something the ItemList
 // component utilize to render.
-export const campaignToItemList = ({ id, name, priority, totalLeads, hasUnreadSMS }) => {
+export const campaignToItemList = props => {
+  const { id, market, name, priority, totalLeads, hasUnreadSMS } = props;
   return {
     ...IListItem,
     name,
@@ -43,22 +44,23 @@ export const campaignToItemList = ({ id, name, priority, totalLeads, hasUnreadSM
     },
     readable: true,
     isRead: !hasUnreadSMS,
-    link: `campaigns/${id}/`
+    link: `/markets/${market}/campaigns/${id}/`
   };
-}
+};
 
 // function that runs the transformations
-export const campaignsToItemList = (campaigns, pipeline) => campaigns.map(campaignToItemList).map(pipeline);
+export const campaignsToItemList = (campaigns, pipeline) =>
+  campaigns.map(campaignToItemList).map(pipeline);
 
 // Temporary function that creates the ALL folder that's going to be
 // removed once the folder-endpoint works properly
-export const createAllFolder = (data) => {
+export const createAllFolder = data => {
   return {
     id: 1,
-    name: "ALL",
+    name: 'ALL',
     company: 0,
     isActive: true,
     hasUnreadSMS: data.filter(campaign => campaign.hasUnreadSMS).length > 0,
     totalCampaigns: data.length
-  }
-}
+  };
+};

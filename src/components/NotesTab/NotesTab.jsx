@@ -137,7 +137,7 @@ function NotesTab(props) {
 
   const getBtnText = () => {
     let icon = notes_status !== Success ? 'exclamation-triangle' : 'check';
-    return !modal ? <FontAwesomeIcon icon={icon} /> : 'Submit Note';
+    return !modal ? <FontAwesomeIcon data-test='submit-note-icon' icon={icon} /> : 'Submit Note';
   };
 
   return (

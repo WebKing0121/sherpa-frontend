@@ -8,7 +8,7 @@ import StatusWrapper from './StatusWrapper';
  * component to render.
  */
 export const campaignToItemList = campaign => {
-  const { id, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
+  const { id, market, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
   return {
     ...IListItem,
     id,
@@ -16,11 +16,7 @@ export const campaignToItemList = campaign => {
     subInfo: <SubInfo data={{ priorityCount, totalLeads }} />,
     readable: true,
     isRead: !hasUnreadSMS,
-    statusWrapper: (
-      <StatusWrapper
-        link={`/campaigns/${id}/details`}
-      />
-    ),
+    statusWrapper: <StatusWrapper link={`/markets/${market}/campaigns/${id}/details`} />,
     actions: [
       {
         icon: 'archive',
