@@ -6,7 +6,8 @@ import {
   UPDATE_CAMPAIGN_PROSPECT_LIST,
   UPDATE_CAMPAIGN_PROSPECT,
   UPDATE_CAMPAIGN_PROSPECT_SUCCESS,
-  UPDATE_CAMPAIGN_PROSPECT_FAILURE
+  UPDATE_CAMPAIGN_PROSPECT_FAILURE,
+  FETCH_MORE_CAMPAIGN_PROSPECTS
 } from './actionTypes';
 
 // fetching batch
@@ -16,6 +17,7 @@ export const fetchCampaignProspectsFailure = createAction(FETCH_CAMPAIGN_PROSPEC
 
 // update the list
 export const updateCampaignProspects = createAction(UPDATE_CAMPAIGN_PROSPECT_LIST);
+export const fetchMoreCampaignProspects = createAction(FETCH_MORE_CAMPAIGN_PROSPECTS);
 
 // update campaign prospect individually
 export const updateCampaignProspect = createAction(UPDATE_CAMPAIGN_PROSPECT);

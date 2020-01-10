@@ -1,11 +1,11 @@
 import {
-  campaignProspectList
+  campaignProspectList, campaignProspectListNextPage
 } from './api';
 import {
   fetchCampaignProspects,
   fetchCampaignProspectsFailure,
   fetchCampaignProspectsSuccess,
-
+  fetchMoreCampaignProspects,
   updateCampaignProspects
 } from './actions';
 import { IFilter } from './interfaces';
@@ -46,4 +46,25 @@ export const campaignProspectSearch =
         });
     }
 
+  };
+
+export const campaignProspectsNextPage =
+  (campaignId: number) => (dispatch: any, getState: any) => {
+    const { campaignProspectStore: { next = null, isLoadingMore, campaignProspects } } = getState();
+    const existingCampaignProspects = campaignProspects[campaignId];
+
+    if (next && !isLoadingMore) {
+      dispatch(fetchMoreCampaignProspects(true));
+      return campaignProspectListNextPage(next)
+        .then(({ data }) => {
+          dispatch(fetchCampaignProspectsSuccess({
+            ...data,
+            concatResults: true,
+            results: {
+              [campaignId]: [...existingCampaignProspects, ...data.results]
+            }
+          }))
+        })
+        .catch(error => console.log("ERROR", error.response));
+    }
   };

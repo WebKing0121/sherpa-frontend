@@ -70,7 +70,7 @@ export const prospectToItemList = (campaignProspect) => {
   const {
     message = "",
     dt = ""
-  } = displayMessage;
+  } = displayMessage || {};
 
   return {
     ...IListItem,

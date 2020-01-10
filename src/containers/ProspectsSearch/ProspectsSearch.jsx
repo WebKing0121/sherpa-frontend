@@ -62,11 +62,11 @@ function ProspectsSearch(props) {
       let itemId = `${sampleItem.id}-${sampleItem.firstName}`;
       let item = document.getElementById(itemId);
 
-      if (item) {
+      if (item && item.offsetHeight !== 0) {
         setItemHeight(item.offsetHeight);
       }
     }
-  }, []);
+  }, [prospectList]);
 
   // onScroll event to fetch more data
   const onScroll = (top, event) => {
@@ -81,6 +81,7 @@ function ProspectsSearch(props) {
 
   const renderItem = ({ index, style }) => {
     let item = prospectList[index];
+
     return (
       <React.Fragment key={index}>
         <SwipeListItem
