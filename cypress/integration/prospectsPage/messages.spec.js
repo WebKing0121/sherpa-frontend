@@ -1,3 +1,5 @@
+import { generateRandomString } from '../../helpers/functions';
+
 describe('Prospect details', () => {
   const messagesTab = '[data-test=messages-tab]',
     displayedData = '[data-test=displayed-data]',
@@ -7,7 +9,7 @@ describe('Prospect details', () => {
     prospectUrl = `${url}/prospect/${prospectNum}/details`,
     emptyMessagesText = 'Send a message to start a conversation with this prospect',
     messageUpdateTimer = Cypress.env('pollingTimer'),
-    testMessage = 'test message',
+    testMessage = generateRandomString(),
     messageColors = Cypress.env('cssColors');
 
   let messagesLength = 0;

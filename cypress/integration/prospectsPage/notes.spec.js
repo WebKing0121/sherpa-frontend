@@ -1,3 +1,5 @@
+import { generateRandomString } from '../../helpers/functions';
+
 describe('Prospect notes', () => {
   const addNoteBtn = '[data-test=add-note-btn]',
     noteFormBtn = '[data-test=note-form-btn]',
@@ -7,8 +9,9 @@ describe('Prospect notes', () => {
     toasts = '[data-test=toast]',
     successToast = 'alert-success',
     failureToast = 'alert-danger',
-    prospectUrl = 'prospect/4/details',
-    testNoteText = 'testing 123';
+    prospectNum = Cypress.env('testProspect'),
+    prospectUrl = `prospect/${prospectNum}/details`,
+    testNoteText = generateRandomString();
 
   let notesLength = 0;
 
