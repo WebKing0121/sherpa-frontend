@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Spinner } from 'reactstrap';
+import styled from 'styled-components';
 
 // utils and thunks
 import { prospectsToItemList } from '../utils';
@@ -9,7 +11,11 @@ import {
 } from '../../../store/campaignProspectStore/thunks';
 
 // selectors
-import { getCampaignProspects } from '../../../store/campaignProspectStore/selectors';
+import {
+  getCampaignProspects,
+  isLoadingMore,
+  isLoading
+} from '../../../store/campaignProspectStore/selectors';
 import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 
@@ -18,14 +24,22 @@ import SearchModule from '../../../components/SearchModule';
 import ListItem from '../../../components/List/ListItem';
 import VirtualizedList from '../../../components/VirtualizedList';
 import SwipeListItem from '../../../components/SwipeableList/SwipeableListItem';
+import { Fetching, Success } from '../../../variables';
+import { DataLoader } from '../../../components/LoadingData';
 
+const SpinWrap = styled.div`
+  padding: var(--pad5);
+  text-align: center;
+`;
 
 function MessagesTab(props) {
   const activeCampaignId = useSelector(activeCampaignSelector);
   const prospectResults = useSelector(getCampaignProspects(activeCampaignId));
+  const isFetchingMore = useSelector(isLoadingMore);
+  const isFetching = useSelector(isLoading);
   const prospectList = prospectsToItemList(prospectResults || []);
-  const dispatch = useDispatch();
   const leadStages = useSelector(getLeadStages);
+  const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
   const lead_stage_filters = leadStages.map((stage) => ({
     name: stage.leadStageTitle,
@@ -99,15 +113,29 @@ function MessagesTab(props) {
         }}
         marketId={activeCampaignId}
       />
-      {prospectList.length > 0 ? (
-        <VirtualizedList
-          height={600}
-          items={prospectList}
-          itemHeight={itemHeight}
-          onScroll={onScroll}
-          fetchMoreData={fetchMoreData}
-          renderItem={renderItem}
-        />) : <p>No Messages</p>}
+      <DataLoader
+        status={isFetching ? Fetching : Success}
+        data={prospectResults}
+        emptyResultsMessage="No messages were found"
+        renderData={() => (
+          <>
+            <VirtualizedList
+              height={600}
+              items={prospectList}
+              itemHeight={itemHeight}
+              onScroll={onScroll}
+              fetchMoreData={fetchMoreData}
+              renderItem={renderItem}
+            />
+            {isFetchingMore ? (
+              <SpinWrap>
+                <Spinner color="primary" size="lg" />
+              </SpinWrap>
+            ) : null
+            }
+          </>
+        )}
+      />
     </>
   );
 }

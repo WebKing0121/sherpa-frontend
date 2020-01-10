@@ -20,7 +20,7 @@ export default function reducer(state: any = initialState, action: any) {
     case FETCH_CAMPAIGN_PROSPECTS:
       return { ...state, isLoading: action.payload };
     case FETCH_MORE_CAMPAIGN_PROSPECTS:
-      return { ...state, isLoadmingMore: action.payload };
+      return { ...state, isLoadingMore: action.payload };
     case FETCH_CAMPAIGN_PROSPECTS_SUCCESS: {
       let newState = { ...state };
 
