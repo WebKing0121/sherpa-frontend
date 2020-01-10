@@ -1,6 +1,6 @@
 import { generateRandomString } from '../../helpers/functions';
 
-describe('Prospect details', () => {
+describe('Prospect messages', () => {
   const messagesTab = '[data-test=messages-tab]',
     displayedData = '[data-test=displayed-data]',
     messages = `${messagesTab} ${displayedData} ul`,
