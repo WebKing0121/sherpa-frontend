@@ -25,10 +25,10 @@ export const setFetchedMarketsError = error => ({
   error
 });
 
-export const decrementMarketCampaignCount = (market) => ({
+export const decrementMarketCampaignCount = market => ({
   type: DECREMENT_MARKET_CAMPAIGN_COUNT,
   market
-})
+});
 
 export const fetchMarkets = () => (dispatch, _) => {
   // NOTE: Needs to hit the Folder-endpoint in the future
@@ -42,7 +42,6 @@ export const fetchMarkets = () => (dispatch, _) => {
 
   AxiosInstance.get('/markets/')
     .then(({ data }) => {
-
       const { results } = data;
 
       const marketFolders = createMarketsFolders(results);
@@ -52,7 +51,7 @@ export const fetchMarkets = () => (dispatch, _) => {
         saveToLocalStorage('folderView', JSON.stringify(marketFolders));
       } else {
         const { id } = marketFolders[0];
-        history.push(`/folder/${id}/campaigns`);
+        history.push(`/markets/${id}/campaigns`);
       }
     })
     .catch(error => {

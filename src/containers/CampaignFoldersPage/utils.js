@@ -16,13 +16,9 @@ export const campaignFolderToItemList = ({ id, name, campaignCount }) => {
     subInfo: <SubInfo data={{ campaignCount }} />,
     readable: true,
     isRead: true,
-    icon: <StyledIcon margin="mb-1" name={'folder'} />,
-    statusWrapper: (
-      <StatusWrapper
-        link={`/folder/${id}/campaigns`}
-      />
-    )
+    icon: <StyledIcon margin='mb-1' name={'folder'} />,
+    statusWrapper: <StatusWrapper link={`/markets/${id}/campaigns`} />
   };
-}
+};
 
-export const campaignFoldersToItemList = (campaigns) => campaigns.map(campaignFolderToItemList);
+export const campaignFoldersToItemList = campaigns => campaigns.map(campaignFolderToItemList);

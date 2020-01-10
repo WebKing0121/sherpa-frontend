@@ -66,10 +66,15 @@ function App() {
       {determineNav()}
       <Switch>
         <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
-        <ProtectedRoute is_auth={is_auth} path='/folder/:id/campaigns' component={CampaignsPage} exact />
         <ProtectedRoute
           is_auth={is_auth}
-          path='/campaigns/:id/details'
+          path='/markets/:id/campaigns'
+          component={CampaignsPage}
+          exact
+        />
+        <ProtectedRoute
+          is_auth={is_auth}
+          path='/markets/:id/campaigns/:id/details'
           component={CampaignDetailsPage}
           exact
         />
