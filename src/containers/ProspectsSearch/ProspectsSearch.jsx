@@ -12,10 +12,6 @@ import VirtualizedList from '../../components/VirtualizedList';
 import SwipeListItem from '../../components/SwipeableList/SwipeableListItem';
 import ListItem from '../../components/List/ListItem';
 
-// selectors
-import {
-  prospectIsLoading
-} from '../../store/prospectStore/selectors';
 import {
   selectProspects,
   selectIsLoadingMoreProspects,
@@ -23,15 +19,11 @@ import {
 } from '../../store/uiStore/prospectSearchView/selectors';
 
 // thunks
-import {
-  prospectSearch,
-  prospectSearchNextPage
-} from '../../store/prospectStore/thunks';
+import { prospectSearch, prospectSearchNextPage } from '../../store/prospectStore/thunks';
 
 // utils
 import { prospectsToItemList } from './utils';
 import { Fetching } from '../../variables';
-
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -84,11 +76,7 @@ function ProspectsSearch(props) {
 
     return (
       <React.Fragment key={index}>
-        <SwipeListItem
-          style={style}
-          threshold=".25"
-          actions={item.actions}
-          key={index}>
+        <SwipeListItem style={style} threshold='.25' actions={item.actions} key={index}>
           <ListItem id={`${item.id}-${item.firstName}`} item={item} />
         </SwipeListItem>
       </React.Fragment>
@@ -96,7 +84,7 @@ function ProspectsSearch(props) {
   };
 
   return (
-    <div className="pageContent">
+    <div className='pageContent'>
       <Header>Prospects Search</Header>
       <SearchModule searchTerm={search} showFilter={false} showSearch={true} />
       <DataLoader
@@ -112,11 +100,11 @@ function ProspectsSearch(props) {
               items={prospectList}
               renderItem={renderItem}
             />
-            {isFetchingMore ?
-              (<SpinWrap>
-                <Spinner color="primary" size="lg" />
-              </SpinWrap>) :
-              null}
+            {isFetchingMore ? (
+              <SpinWrap>
+                <Spinner color='primary' size='lg' />
+              </SpinWrap>
+            ) : null}
           </>
         )}
       />

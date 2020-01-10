@@ -11,20 +11,18 @@ import {
   activeProspectSelector,
   activeCampaignSelector
 } from '../../../store/uiStore/prospectDetailsView/selectors';
-import {
-  getProspect
-} from '../../../store/prospectStore/selectors';
+import { getProspect } from '../../../store/prospectStore/selectors';
 import {
   prospectUpdateOptimistically,
   prospectSetRelay,
   prospectSetReminder,
   prospectRemoveRelay,
   prospectEmailToCrmAction,
-  prospectPushToZapierAction,
+  prospectPushToZapierAction
 } from '../../../store/prospectStore/thunks';
 import {
   setActiveCampaign,
-  clearActiveCampaign,
+  clearActiveCampaign
 } from '../../../store/uiStore/prospectDetailsView/actions';
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
@@ -47,7 +45,7 @@ const BtnHolster = styled.div`
 const Radio = styled(CustomInput)`
   font-size: 1.25rem;
   line-height: 1.2;
-  margin-bottom: .6em;
+  margin-bottom: 0.6em;
   font-weight: bold;
 
   &[disabled] {
@@ -90,36 +88,31 @@ const ModalBackPlate = styled.div`
   display: none;
 `;
 
-const FieldDateTime = (props) => {
+const FieldDateTime = props => {
   const renderInput = (_props, openCalendar, closeCalendar) => {
     return (
       <>
         <Label>{props.label}</Label>
-        <InputGroupBorder className="mb-2">
+        <InputGroupBorder className='mb-2'>
           <Input {..._props} />
-          <InputGroupAddon addonType="append">
-            <Button className="p-0" color="link" onClick={openCalendar}>
-              <IconBg icon={props.icon} size="lg" />
+          <InputGroupAddon addonType='append'>
+            <Button className='p-0' color='link' onClick={openCalendar}>
+              <IconBg icon={props.icon} size='lg' />
             </Button>
           </InputGroupAddon>
         </InputGroupBorder>
-        <ModalBackPlate className="modalBackPlate" onClick={closeCalendar} />
+        <ModalBackPlate className='modalBackPlate' onClick={closeCalendar} />
       </>
     );
   };
 
-  return (
-    <Datetime renderInput={renderInput} onBlur={props.onBlur} defaultValue={props.defaultValue} />
-  );
+  return <Datetime renderInput={renderInput} onBlur={props.onBlur} defaultValue={props.defaultValue} />;
 };
 
 const RenderAgentOptions = (agents, emptyOption) => {
   let newAgents = [emptyOption, ...agents];
   return newAgents.map((agent, idx) => (
-    <option
-      key={idx}
-      value={agent.id}
-    >
+    <option key={idx} value={agent.id}>
       {agent.fullName}
     </option>
   ));
@@ -127,7 +120,7 @@ const RenderAgentOptions = (agents, emptyOption) => {
 
 // TODO: Break all these fields into their own
 // sub-component to avoid re-renders
-const FieldsSection = (props) => {
+const FieldsSection = props => {
   const prospectId = useSelector(activeProspectSelector);
   const prospect = useSelector(getProspect(prospectId));
   const activeCampaignId = useSelector(activeCampaignSelector);
@@ -144,125 +137,118 @@ const FieldsSection = (props) => {
     pushedToZapier,
     zillowLink,
     campaigns,
-    smsRelayMap: { rep: { id } }
+    smsRelayMap: {
+      rep: { id }
+    }
   } = prospect;
-  const activeCampaign = campaigns.find(
-    campaign => campaign.id === activeCampaignId
-  ) || {};
+  const activeCampaign = campaigns.find(campaign => campaign.id === activeCampaignId) || {};
 
   // clears active-campaign when navigating away
-  useEffect(() => () => dispatch(clearActiveCampaign()), []);
+  useEffect(() => () => dispatch(clearActiveCampaign()), [dispatch]);
 
   // agent controls
   const emptyAgentOption = {
-    id: "",
-    fullName: "Select an Agent",
-    phone: "",
-    role: "",
+    id: '',
+    fullName: 'Select an Agent',
+    phone: '',
+    role: ''
   };
-  const onAgentChange = (e) => {
-    const { target: { value } } = e;
+  const onAgentChange = e => {
+    const {
+      target: { value }
+    } = e;
     let payload = { agent: value };
     dispatch(prospectUpdateOptimistically(prospect.id, payload));
   };
 
   // SMS RELAY
   const emptyRelayOption = {
-    id: "",
-    fullName: "None",
-    phone: "",
-    role: "",
+    id: '',
+    fullName: 'None',
+    phone: '',
+    role: ''
   };
-  const onRelayChange = (e) => {
-    let { target: { value } } = e;
+  const onRelayChange = e => {
+    let {
+      target: { value }
+    } = e;
 
     // if none-selected then remove it
     if (!value) {
       dispatch(prospectRemoveRelay(prospect.id, { smsRelayMap: null }));
     } else {
       // add new relay
-      dispatch(prospectSetRelay({
-        prospect: prospect.id,
-        rep: parseInt(value)
-      }));
-    }
-  };
-
-  // REMINDERS
-  const onBlur = (selectedDT) => {
-    if (selectedDT) {
       dispatch(
-        prospectSetReminder(
-          prospect.id,
-          { time: selectedDT.utc().format() }
-        )
+        prospectSetRelay({
+          prospect: prospect.id,
+          rep: parseInt(value)
+        })
       );
     }
   };
 
-  const onSubmit = (e) => {
+  // REMINDERS
+  const onBlur = selectedDT => {
+    if (selectedDT) {
+      dispatch(prospectSetReminder(prospect.id, { time: selectedDT.utc().format() }));
+    }
+  };
+
+  const onSubmit = e => {
     e.preventDefault();
     setSubmitting(true);
     if (emailToCrm) {
       // dispatch that action
-      dispatch(
-        prospectEmailToCrmAction(
-          prospect.id, { campaign: activeCampaign.id }
-        )
-      )
-        .then(() => {
-          setSubmitting(false);
-          setModal(false);
-        });
+      dispatch(prospectEmailToCrmAction(prospect.id, { campaign: activeCampaign.id })).then(() => {
+        setSubmitting(false);
+        setModal(false);
+      });
     } else {
       // dispatch other action
-      dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id }))
-        .then(() => {
-          setSubmitting(false);
-          setModal(false);
-        });
+      dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id })).then(() => {
+        setSubmitting(false);
+        setModal(false);
+      });
     }
   };
 
-  const campaignOnChange = (campaign) => (e) => {
+  const campaignOnChange = campaign => e => {
     dispatch(setActiveCampaign(campaign.id));
   };
 
   return (
     <>
       <FieldSelect
-        name="status"
-        id="statusSelect"
-        label="Agent"
+        name='status'
+        id='statusSelect'
+        label='Agent'
         onChange={onAgentChange}
         value={agent}
-        icon={
-          <IconBg icon="headset" size="lg" />
-        }
+        icon={<IconBg icon='headset' size='lg' />}
       >
         {RenderAgentOptions(agents, emptyAgentOption)}
       </FieldSelect>
 
-      {sherpaPhoneNumber ?
+      {sherpaPhoneNumber ? (
         <FieldSelect
-          id="relay"
-          name="sms_relay"
-          label="SMS & Call Relay"
-          placeholder="Select Call Relay Number"
+          id='relay'
+          name='sms_relay'
+          label='SMS & Call Relay'
+          placeholder='Select Call Relay Number'
           onChange={onRelayChange}
           value={id}
-          icon={
-            <IconBg icon="mobile-alt" size="lg" />
-          } >
+          icon={<IconBg icon='mobile-alt' size='lg' />}
+        >
           {RenderAgentOptions(agents, emptyRelayOption)}
-        </FieldSelect> : null}
+        </FieldSelect>
+      ) : null}
 
       <FieldWrapper>
         <FieldDateTime
-          id="reminder"
-          label="Reminder"
-          placeholder="Set a Reminder"
-          icon="bell"
+          id='reminder'
+          label='Reminder'
+          placeholder='Set a Reminder'
+          icon='bell'
           onBlur={onBlur}
           defaultValue={new moment(reminderDateLocal)}
         />
@@ -272,84 +258,68 @@ const FieldsSection = (props) => {
         <Label>CRM Options</Label>
         <BtnHolster>
           <Button
-            id="zapier"
-            color="primary"
-            className="fw-bold"
-            disabled={
-              emailedToPodio
-            }
-            onClick={
-              () => {
-                if (activeCampaignId) {
-                  dispatch(
-                    prospectEmailToCrmAction(prospect.id, { campaign: activeCampaign.id })
-                  );
-                } else {
-                  setModal(true);
-                  setEmailtoCrm(true);
-                }
-
+            id='zapier'
+            color='primary'
+            className='fw-bold'
+            disabled={emailedToPodio}
+            onClick={() => {
+              if (activeCampaignId) {
+                dispatch(prospectEmailToCrmAction(prospect.id, { campaign: activeCampaign.id }));
+              } else {
+                setModal(true);
+                setEmailtoCrm(true);
               }
-            }>
+            }}
+          >
             Email to CRM
           </Button>
           <Button
-            id="crm"
-            color="primary"
-            className="fw-bold"
-            disabled={
-              pushedToZapier
-            }
-            onClick={
-              () => {
-                if (activeCampaignId) {
-                  dispatch(
-                    prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id })
-                  );
-                } else {
-                  setModal(true);
-                  setEmailtoCrm(false);
-                }
+            id='crm'
+            color='primary'
+            className='fw-bold'
+            disabled={pushedToZapier}
+            onClick={() => {
+              if (activeCampaignId) {
+                dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id }));
+              } else {
+                setModal(true);
+                setEmailtoCrm(false);
               }
-            }>
+            }}
+          >
             Push to Zapier
           </Button>
 
-          <Modal
-            isOpen={modal}
-            toggle={() => setModal(false)}
-            title='Campaigns'>
-            <form onSubmit={onSubmit} >
-              <Label className="fw-black textL mb-2" >Complete your action using the following campaign:</Label>
-              <FormGroup className="mt-1 mb-3" htmlFor="campaigns">
+          <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
+            <form onSubmit={onSubmit}>
+              <Label className='fw-black textL mb-2'>
+                Complete your action using the following campaign:
+              </Label>
+              <FormGroup className='mt-1 mb-3' htmlFor='campaigns'>
                 {campaigns.map((campaign, idx) => (
                   <Radio
                     key={idx}
-                    type="radio"
-                    name="campaigns"
+                    type='radio'
+                    name='campaigns'
                     label={campaign.name}
                     defaultChecked={activeCampaign.id === campaign.id}
                     value={campaign.id}
                     onChange={campaignOnChange(campaign)}
-                    id={idx} />
+                    id={idx}
+                  />
                 ))}
               </FormGroup>
               <Button
-                color="primary"
+                color='primary'
                 block
-                size="lg"
+                size='lg'
                 disabled={
-                  (!activeCampaign.id ||
-                    ((emailToCrm &&
-                      (emailedToPodio || !activeCampaign.podioPushEmailAddress)) ||
-                      (!emailToCrm &&
-                        (pushedToZapier || !activeCampaign.zapierWebhook))))
-                }>
-                <LoadingSpinner
-                  isLoading={submitting}
-                  color="light"
-                  renderContent={() => (<>Submit</>)}
-                />
+                  !activeCampaign.id ||
+                  (emailToCrm && (emailedToPodio || !activeCampaign.podioPushEmailAddress)) ||
+                    (!emailToCrm && (pushedToZapier || !activeCampaign.zapierWebhook))
+                }
+              >
+                <LoadingSpinner isLoading={submitting} color='light' renderContent={() => <>Submit</>} />
               </Button>
             </form>
           </Modal>

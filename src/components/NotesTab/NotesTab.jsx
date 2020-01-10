@@ -112,7 +112,7 @@ function NotesTab(props) {
       setNoteIn(false);
     } else {
     }
-  }, [notesList.length]);
+  }, [notesList.length, prevList.length]);
 
   const mapNotes = () =>
     notesList.map((note, idx) => {

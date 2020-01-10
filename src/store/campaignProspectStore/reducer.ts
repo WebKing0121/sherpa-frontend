@@ -2,7 +2,6 @@ import {
   FETCH_CAMPAIGN_PROSPECTS,
   FETCH_CAMPAIGN_PROSPECTS_SUCCESS,
   FETCH_CAMPAIGN_PROSPECTS_FAILURE,
-  UPDATE_CAMPAIGN_PROSPECT_LIST,
   UPDATE_CAMPAIGN_PROSPECT_SUCCESS,
   FETCH_MORE_CAMPAIGN_PROSPECTS
 } from './actionTypes';
@@ -14,7 +13,7 @@ const initialState = {
   isLoading: false,
   isLoadingMore: false,
   error: false
-}
+};
 
 export default function reducer(state: any = initialState, action: any) {
   switch (action.type) {
@@ -36,14 +35,14 @@ export default function reducer(state: any = initialState, action: any) {
       newState.isLoading = false;
       newState.isLoadingMore = false;
 
-      return newState
+      return newState;
     }
     case FETCH_CAMPAIGN_PROSPECTS_FAILURE:
       return {
         ...state,
         isLoading: false,
         error: action.payload
-      }
+      };
     case UPDATE_CAMPAIGN_PROSPECT_SUCCESS: {
       const campaignId = action.payload.campaign;
       const prospectId = action.payload.prospect.id;

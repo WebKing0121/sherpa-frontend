@@ -4,10 +4,7 @@ describe('data loader wrapper component', () => {
     timeout = 0,
     url = Cypress.env('clientUrl');
   beforeEach(() => {
-    cy.manualLogin();
-
-    cy.waitForCall();
-
+    cy.login();
     cy.visit(`${url}/support`);
   });
 

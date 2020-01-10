@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Icon from '../Icon.jsx';
 import IconHolster from './IconHolster.jsx';
-import { Link } from 'react-router-dom';
 
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
 
@@ -24,20 +22,6 @@ const MainInfo = styled(ListGroupItemText)`
   line-height: 1.4 !important;
   margin: 0;
   margin-top: var(--pad1) !important;
-`;
-
-const ItemLink = styled(Link)`
-  &:hover,
-  &:active {
-    &:after {
-      background: var(--darkNavy);
-      opacity: 0.03;
-    }
-  }
-`;
-
-const ItemIndicator = styled.h4`
-  margin: 0;
 `;
 
 const ItemHeader = styled.div`
@@ -78,9 +62,7 @@ function ListItem(props) {
         <ItemBody className='itemBody'>
           <ItemHeader>
             <ItemName className='itemName m-0'>{props.item.name}</ItemName>
-            <StatusWrapper className='d-flex'>
-              {props.item.statusWrapper}
-            </StatusWrapper>
+            <StatusWrapper className='d-flex'>{props.item.statusWrapper}</StatusWrapper>
           </ItemHeader>
 
           <SubInfo className='textM m-0'>{props.item.subInfo}</SubInfo>

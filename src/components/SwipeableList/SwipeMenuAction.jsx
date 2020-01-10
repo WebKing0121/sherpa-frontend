@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import Icon from '../Icon.jsx';
-import { useDispatch } from 'react-redux';
 
 const Action = styled.div`
   position: relative;
@@ -10,42 +9,47 @@ const Action = styled.div`
   align-items: center;
   justify-content: center;
 
-  flex-basis: ${props => props.size + "vw"};
+  flex-basis: ${props => props.size + 'vw'};
   flex-grow: 0;
   flex-shrink: 0;
 
-  background-color: ${props => "var(--" + props.bg + ")"};
-  color: ${props => props.bg === "white" ? "var(--gray)" : "var(--white)"};
+  background-color: ${props => 'var(--' + props.bg + ')'};
+  color: ${props => (props.bg === 'white' ? 'var(--gray)' : 'var(--white)')};
 
   img {
     max-width: 40%;
   }
 
   @media (max-width: 500px) {
-    flex-basis: ${props => props.wrapList ? "calc(" + (100 - props.size) + "vw / 3)" : ""};
+    flex-basis: ${props => (props.wrapList ? 'calc(' + (100 - props.size) + 'vw / 3)' : '')};
   }
-
 `;
 
 const ActionLink = styled.a`
   &:after {
-    transition: background-color .3s, opacity .3s;
+    transition: background-color 0.3s, opacity 0.3s;
   }
 
   &:hover,
   &:active {
-    &:after{
+    &:after {
       background: var(--darkNavy);
-      opacity: .1;
+      opacity: 0.1;
     }
   }
 `;
 
 function SwipeMenuAction(props) {
   return (
-    <Action size={props.size} wrapList={props.wrapList} className="textS fw-black action" bg={props.background} onClick={props.handleClick}>
-      <Icon margin="mb-2" height="26px" width="auto" name={"action-" + props.icon} />
-      <ActionLink className="stretched-link">{props.name}</ActionLink>
+    <Action
+      size={props.size}
+      wrapList={props.wrapList}
+      className='textS fw-black action'
+      bg={props.background}
+      onClick={props.handleClick}
+    >
+      <Icon margin='mb-2' height='26px' width='auto' name={'action-' + props.icon} />
+      <ActionLink className='stretched-link'>{props.name}</ActionLink>
     </Action>
   );
 }

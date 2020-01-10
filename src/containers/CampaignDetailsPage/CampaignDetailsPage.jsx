@@ -33,15 +33,14 @@ function CampaignDetailsPage(props) {
       const filter = { name: 'is_priority_unread', value: true };
       dispatch(campaignProspectSearch(campaignId, { filter }));
     }
-  }, []);
+  }, [campaignId, dispatch]);
 
   useEffect(() => {
     if (!campaign.id) {
-      console.log('fetching campaign...');
       dispatch(fetchSingleCampaign(campaignId));
     }
     dispatch(setActiveCampaign(parseInt(campaignId)));
-  }, [dispatch])
+  }, [dispatch, campaign.id, campaignId]);
 
   const notesList = useSelector(campaignNotesList);
 
@@ -59,7 +58,7 @@ function CampaignDetailsPage(props) {
   };
 
   return (
-    <div className="pageContent">
+    <div className='pageContent'>
       <TabbedHeader data={campaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>
         {campaign.name}
       </TabbedHeader>

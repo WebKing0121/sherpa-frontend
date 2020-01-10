@@ -53,7 +53,7 @@ const CampaignsPage = props => {
     if (campaigns.length === 0 || activeMarketId !== parseInt(marketId)) {
       dispatch(fetchCampaigns(marketId));
     }
-  }, [dispatch, marketId]);
+  }, [dispatch, marketId, activeMarketId, campaigns.length]);
 
   // transform campaigns to proper list item views
   const listItems = campaignsToItemList(campaigns);
@@ -65,7 +65,7 @@ const CampaignsPage = props => {
   };
 
   return (
-    <div className="pageContent">
+    <div className='pageContent'>
       <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
       <SearchModule
         showFilter={true}

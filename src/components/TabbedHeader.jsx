@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Button, Collapse, CustomInput, FormGroup, Label } from 'reactstrap';
+import { Button } from 'reactstrap';
 import Icon from './Icon';
 import TabNav from './TabNav';
 import { history } from '../history';

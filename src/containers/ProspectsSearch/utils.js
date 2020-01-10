@@ -1,6 +1,5 @@
 import React from 'react';
 import MainInfo from './MainInfo';
-import Indicator from './Indicator';
 import { IListItem } from '../../components/List/utils';
 import StatusWrapper from './StatusWrapper';
 
@@ -9,12 +8,18 @@ import StatusWrapper from './StatusWrapper';
  * interface for the =ItemList= component to render.
  */
 
-export const prospectToItemList = (prospect) => {
+export const prospectToItemList = prospect => {
   const {
-    id, name, phoneDisplay,
-    propertyAddress, propertyCity,
-    propertyState, propertyZip,
-    hasUnreadSms, leadStageTitle } = prospect;
+    id,
+    name,
+    phoneDisplay,
+    propertyAddress,
+    propertyCity,
+    propertyState,
+    propertyZip,
+    hasUnreadSms,
+    leadStageTitle
+  } = prospect;
 
   let addressData = {
     propertyAddress,
@@ -30,13 +35,8 @@ export const prospectToItemList = (prospect) => {
     mainInfo: <MainInfo addressData={addressData} />,
     readable: true,
     isRead: !hasUnreadSms,
-    statusWrapper: (
-      <StatusWrapper
-        link={`/prospect/${id}/details`}
-        status={leadStageTitle}
-      />
-    )
+    statusWrapper: <StatusWrapper link={`/prospect/${id}/details`} status={leadStageTitle} />
   };
-}
+};
 
-export const prospectsToItemList = (prospects) => prospects.map(prospectToItemList);
+export const prospectsToItemList = prospects => prospects.map(prospectToItemList);

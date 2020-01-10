@@ -4,7 +4,6 @@ import {
   SET_FETCH_COMPANY_OWNERS,
   SET_FETCH_COMPANY_OWNERS_ERROR
 } from './actionTypes';
-import { setFetchedCampaigns } from '../Campaigns/actions';
 import { Fetching } from '../../variables';
 
 export const setFetchedCompanyOwnersStatus = status => ({
@@ -35,4 +34,3 @@ export const fetchCompanyOwners = id => (dispatch, _) => {
       dispatch(setFetchedCompanyOwnersError('Error when fetching owners'));
     });
 };
-

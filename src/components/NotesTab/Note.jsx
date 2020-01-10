@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef } from 'react';
 import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import moment from 'moment-timezone';
@@ -8,14 +8,14 @@ import Modal from '../Modal';
 import { CSSTransition } from 'react-transition-group';
 
 const TransitionStyling = styled(CSSTransition)`
-  --timing: .25s;
+  --timing: 0.25s;
   position: relative;
   overflow: hidden;
   transition: left var(--timing);
 
   &.notes {
     &-appear {
-      &:first-child{
+      &:first-child {
         left: -120%;
       }
       &-active {
@@ -30,7 +30,7 @@ const TransitionStyling = styled(CSSTransition)`
       }
     }
     &-enter {
-      &:first-child{
+      &:first-child {
         left: -120%;
       }
       &-active {
@@ -168,16 +168,12 @@ function Note(props) {
     //disables edit and delete buttons when note is deleted
     buttonBlock.current.style.pointerEvents = 'none';
     setAnim(false);
-    setTimeout(function(){deleteNote(note)}, 300);
+    setTimeout(function() {
+      deleteNote(note);
+    }, 300);
   };
   return (
-    <TransitionStyling
-      in={anim}
-      timeout={260}
-      classNames="notes"
-      appear={true}
-      >
-
+    <TransitionStyling in={anim} timeout={260} classNames='notes' appear={true}>
       <NoteCard id={props.id}>
         <Timeline>
           <div className='greenCircle'></div>

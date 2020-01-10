@@ -1,6 +1,5 @@
 import React from 'react';
 import MainInfo from './MessagesTab/MainInfo';
-import Indicator from './MessagesTab/Indicator';
 import SubInfo from './MessagesTab/SubInfo';
 import Title from './MessagesTab/Title';
 import StatusWrapper from './MessagesTab/StatusWrapper';
@@ -10,51 +9,43 @@ import { patchProspect } from '../../store/prospectStore/api';
 import { updateCampaignProspectSuccess } from '../../store/campaignProspectStore/actions';
 import { prospectUpdate } from '../../store/prospectStore/thunks';
 import { ProspectActions } from '../../variables';
-import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection'
+import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection';
 
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.
  */
 
-export const prospectToItemList = (campaignProspect) => {
+export const prospectToItemList = campaignProspect => {
   const {
-    prospect: {
-      id,
-      name,
-      leadStageTitle = "Follow-Up",
-      displayMessage,
-      hasUnreadSms
-    }
+    prospect: { id, name, leadStageTitle = 'Follow-Up', displayMessage, hasUnreadSms }
   } = campaignProspect;
 
   const prospectUpdateHasUnreadSms = () => {
-    patchProspect(id, { hasUnreadSms: false })
-      .then(({ data }) => {
-        let newCampaignProspect = {
-          ...campaignProspect,
-          prospect: { ...campaignProspect.prospect, hasUnreadSms: false }
-        };
-        store.dispatch(updateCampaignProspectSuccess(newCampaignProspect));
-      })
+    patchProspect(id, { hasUnreadSms: false }).then(({ data }) => {
+      let newCampaignProspect = {
+        ...campaignProspect,
+        prospect: { ...campaignProspect.prospect, hasUnreadSms: false }
+      };
+      store.dispatch(updateCampaignProspectSuccess(newCampaignProspect));
+    });
   };
 
   const prospectOnClickStatus = (attr, payload) => () => {
-    return prospectUpdate(id, payload, store.dispatch, true)
-      .then((data) => {
-        let newCampaignProspect = {
-          ...campaignProspect,
-          prospect: { ...campaignProspect.prospect, ...data }
-        };
-        store.dispatch(updateCampaignProspectSuccess(newCampaignProspect))
-      });
+    return prospectUpdate(id, payload, store.dispatch, true).then(data => {
+      let newCampaignProspect = {
+        ...campaignProspect,
+        prospect: { ...campaignProspect.prospect, ...data }
+      };
+      store.dispatch(updateCampaignProspectSuccess(newCampaignProspect));
+    });
   };
 
   const actions = ProspectActions.map(action => {
     const status = campaignProspect.prospect[action.attr];
     let payload = { [action.attr]: !status };
     // special case for ownerVerifiedStatus
-    if (action.attr === "ownerVerifiedStatus") {
+    if (action.attr === 'ownerVerifiedStatus') {
       payload[action.attr] = getNewVerifiedStatus(status);
     }
 
@@ -62,15 +53,12 @@ export const prospectToItemList = (campaignProspect) => {
       ...action,
       status,
       link: prospectOnClickStatus(action.attr, payload)
-    }
+    };
   });
 
   // NOTE(Diego): Make sure we normalize displayMessage so we don't
   // handle null logic
-  const {
-    message = "",
-    dt = ""
-  } = displayMessage || {};
+  const { message = '', dt = '' } = displayMessage || {};
 
   return {
     ...IListItem,
@@ -84,9 +72,10 @@ export const prospectToItemList = (campaignProspect) => {
         dt={dt}
         link={`/prospect/${id}/details`}
         onClick={!hasUnreadSms ? prospectUpdateHasUnreadSms : () => console.log('No Action')}
-      />),
+      />
+    ),
     actions: actions
   };
-}
+};
 
-export const prospectsToItemList = (prospects) => prospects.map(prospectToItemList);
+export const prospectsToItemList = prospects => prospects.map(prospectToItemList);

@@ -11,13 +11,8 @@ import * as noteActions from '../../store/ProspectDetails/notes/actions';
 import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectDetails/notes/selectors';
 import { prospectHeaderInfo } from '../../variables';
 import MessagesTab from '../../components/messageTab/MessageTab';
-import {
-  prospectIsLoading,
-  getProspect
-} from '../../store/prospectStore/selectors';
-import {
-  setActiveProspect, setActiveCampaign
-} from '../../store/uiStore/prospectDetailsView/actions';
+import { prospectIsLoading, getProspect } from '../../store/prospectStore/selectors';
+import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 
 const StyledTabContent = styled(TabContent)``;
 
@@ -35,13 +30,13 @@ function ProspectDetailsPage(props) {
     if (!prospect.id) {
       dispatch(prospectFetchSingle(prospectId));
     }
-  }, [dispatch, prospectId]);
+  }, [prospect.id, dispatch, prospectId]);
 
   useEffect(() => {
     if (prospect && prospect.campaigns.length === 1) {
       dispatch(setActiveCampaign(prospect.campaigns[0].id));
     }
-  }, []);
+  }, [dispatch, prospect]);
 
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -64,7 +59,7 @@ function ProspectDetailsPage(props) {
 
   const headerRef = useRef();
   return (
-    <div className="pageContent">
+    <div className='pageContent'>
       <DataLoader
         data={prospect.id ? [prospect] : []}
         status={isFetching ? 'Fetching' : 'Success'}
