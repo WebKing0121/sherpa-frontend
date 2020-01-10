@@ -52,4 +52,9 @@ describe('Create fixture files from API response', () => {
     cy.createFixture('prospect1Notes.json', 'prospect-notes', 'GET', params);
     cy.fixture('prospect1Notes').should('exist');
   });
+
+  it('creates an empty response JSON file', () => {
+    cy.writeFile(`cypress/fixtures/empty.json`, { results: [] });
+    cy.fixture('empty').should('exist');
+  });
 });

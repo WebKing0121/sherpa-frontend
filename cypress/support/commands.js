@@ -91,22 +91,22 @@ Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', opt
 });
 
 Cypress.Commands.add('stubResponse', options => {
-  const { url, method = 'GET', response, status = 200 } = options;
+  const { url, method = 'GET', response, status = 200, delay = 0 } = options;
   cy.fixture(response).as(response);
-  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status });
+  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status, delay });
 });
 
 Cypress.Commands.add('login', () => {
   const url = Cypress.env('clientUrl');
-  cy.visit(url);
   cy.server();
   cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' }).as('loginRes');
   cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' }).as('userInfoRes');
   cy.stubResponse({ url: 'leadstages', response: 'leadStages' }).as('leadStagesRes');
+  cy.visit(url);
   cy.get('[data-test=login-form]').submit();
-  cy.wait('@loginRes');
-  cy.wait('@userInfoRes');
-  cy.wait('@leadStagesRes');
+  // cy.wait('@loginRes');
+  // cy.wait('@userInfoRes');
+  // cy.wait('@leadStagesRes');
 });
 
 const toasts = '[data-test=toast]';
