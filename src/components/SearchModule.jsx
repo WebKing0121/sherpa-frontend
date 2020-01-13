@@ -52,6 +52,7 @@ function SearchModule(props) {
               marketId={props.marketId}
               sortOptions={props.sortingOptions}
               sortChange={props.sortChange}
+              defaultValue={props.defaultValue}
             />
           </Col>
         )}

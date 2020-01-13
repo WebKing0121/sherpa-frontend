@@ -3,7 +3,7 @@ import InputSelect from '../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function SortModule(props) {
-  const { sortOptions, sortChange, marketId } = props;
+  const { sortOptions, sortChange, marketId, defaultValue = -1 } = props;
 
   const onSortChange = (e) => {
     let sortBy = sortOptions[e.target.value].value;
@@ -15,7 +15,7 @@ function SortModule(props) {
   );
 
   // adds an empty default option to the dropdown select
-  sortBy.unshift(<option key={'unset'} style={{ display: 'none' }}>Sort By</option>);
+  sortBy.unshift(<option key={'unset'} value={-1} style={{ display: 'none' }}>Sort By</option>);
 
   return (
     <>
@@ -23,6 +23,7 @@ function SortModule(props) {
         name="sort"
         id="sortOrder"
         onChange={onSortChange}
+        value={defaultValue}
         icon={
           <FontAwesomeIcon icon="chevron-up" rotation={180} />
         }

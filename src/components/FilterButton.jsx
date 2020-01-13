@@ -126,7 +126,7 @@ function FilterButton(props) {
         <div>
           <Pane>
             <ToggleHeader className="fw-black textL" onClick={toggle1}>
-              <Label for="ownedBy">Owned By</Label>
+              <Label htmlFor="ownedBy">Owned By</Label>
               <Arrow isOpen={isOpen1}>
                 <FontAwesomeIcon icon="chevron-up" rotation={isOpen1 ? null : 180}
                 />

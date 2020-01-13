@@ -10,12 +10,20 @@ import {
   campaignProspectsNextPage
 } from '../../../store/campaignProspectStore/thunks';
 
+// actions
+import {
+  setCampaignProspectFilter
+} from '../../../store/uiStore/campaignMessagesTabView/actions';
+
 // selectors
 import {
   getCampaignProspects,
   isLoadingMore,
   isLoading
 } from '../../../store/campaignProspectStore/selectors';
+import {
+  campaignMessagesFilter
+} from '../../../store/uiStore/campaignMessagesTabView/selectors';
 import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 
@@ -38,17 +46,24 @@ function MessagesTab(props) {
   const isFetchingMore = useSelector(isLoadingMore);
   const isFetching = useSelector(isLoading);
   const prospectList = prospectsToItemList(prospectResults || []);
+  const filterId = useSelector(campaignMessagesFilter);
   const leadStages = useSelector(getLeadStages);
   const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
-  const lead_stage_filters = leadStages.map((stage) => ({
+  const lead_stage_filters = leadStages.map((stage, idx) => ({
     name: stage.leadStageTitle,
-    value: { name: 'lead_stage', value: stage.id }
+    value: { name: 'lead_stage', value: stage.id, id: idx + 1 }
   }));
   const filters = [
-    { name: 'Unread / Is Priority', value: { name: 'is_priority_unread', value: true } },
+    {
+      name: 'Unread / Is Priority',
+      value: { name: 'is_priority_unread', value: true, id: 0 }
+    },
     ...lead_stage_filters,
-    { name: 'Qualified Leads', value: { name: 'is_qualified_lead', value: true } }
+    {
+      name: 'Qualified Leads',
+      value: { name: 'is_qualified_lead', value: true, id: lead_stage_filters.length + 1 }
+    }
   ];
 
   // calculate item height for virtualized-list
@@ -59,7 +74,6 @@ function MessagesTab(props) {
       let item = document.getElementById(itemId);
 
       if (item && item.offsetHeight !== 0) {
-        console.log("ITEM offsetheight", item.offsetHeight);
         setItemHeight(item.offsetHeight);
       }
     }
@@ -96,8 +110,6 @@ function MessagesTab(props) {
     );
   };
 
-  // I just copied over the same code that is used for
-  // the prospectSearch component
   return (
     <>
       <SearchModule
@@ -106,12 +118,14 @@ function MessagesTab(props) {
         showSearch={false}
         sortingOptions={filters}
         sortChange={(filter, id) => {
+          dispatch(setCampaignProspectFilter(filter.id));
           dispatch(campaignProspectSearch(
             activeCampaignId,
             { filter, force: true }
           ));
         }}
         marketId={activeCampaignId}
+        defaultValue={filterId}
       />
       <DataLoader
         status={isFetching ? Fetching : Success}

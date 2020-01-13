@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ const CampaignsPage = props => {
   const isFetching = useSelector(campaignsStatus);
   const dispatch = useDispatch();
   const folders = getFromLocalStorage('folderView');
+  const [activeSort, setActiveSort] = useState(0);
 
   const {
     match: {
@@ -29,15 +30,15 @@ const CampaignsPage = props => {
   const sortingOptions = [
     {
       name: 'Alphabetical',
-      value: 'name'
+      value: { value: 'name', id: 0 }
     },
     {
       name: 'Created Date',
-      value: 'created_date'
+      value: { value: 'created_date', id: 1 }
     },
     {
       name: 'Status %',
-      value: 'status'
+      value: { value: 'status', id: 2 }
     }
   ];
 
@@ -72,8 +73,12 @@ const CampaignsPage = props => {
         showSort={true}
         showSearch={false}
         sortingOptions={sortingOptions}
-        sortChange={(value, id) => dispatch(fetchSortedCampaigns(value, id))}
+        sortChange={(value, id) => {
+          setActiveSort(value.id);
+          dispatch(fetchSortedCampaigns(value.value, id));
+        }}
         marketId={marketId}
+        defaultValue={activeSort}
       />
       <DataLoader status={isFetching} data={listItems} renderData={() => <List items={listItems} />} />
     </div>

@@ -16,8 +16,7 @@ const CampaignFoldersPage = () => {
   // dispatch fetchCampaigns
   useEffect(() => {
     if (campaignFolders.length === 0) {
-      console.log('Fetching markets...');
-      dispatch(fetchMarkets())
+      dispatch(fetchMarkets());
     }
   }, [dispatch, campaignFolders.length]);
 
