@@ -68,19 +68,19 @@ function App() {
         <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
         <ProtectedRoute
           is_auth={is_auth}
-          path='/markets/:id/campaigns'
+          path='/markets/:marketId/campaigns'
           component={CampaignsPage}
           exact
         />
         <ProtectedRoute
           is_auth={is_auth}
-          path='/markets/:id/campaigns/:id/details'
+          path='/markets/:marketId/campaigns/:campaignId/details'
           component={CampaignDetailsPage}
           exact
         />
         <ProtectedRoute
           is_auth={is_auth}
-          path='/prospect/:id/details'
+          path='/prospect/:prospectId/details'
           component={ProspectDetailsPage}
           exact
         />

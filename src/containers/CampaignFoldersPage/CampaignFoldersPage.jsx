@@ -8,11 +8,10 @@ import { campaignFoldersToItemList } from './utils';
 import { fetchMarkets } from '../../store/Markets/actions';
 import { DataLoader } from '../../components/LoadingData';
 
-const CampaignFoldersPage = () => {
+const CampaignFoldersPage = props => {
   const campaignFolders = useSelector(marketsList);
   const isFetching = useSelector(marketsStatus);
   const dispatch = useDispatch();
-
   // dispatch fetchCampaigns
   useEffect(() => {
     if (campaignFolders.length === 0) {
@@ -24,7 +23,7 @@ const CampaignFoldersPage = () => {
   const listItems = campaignFoldersToItemList(campaignFolders);
 
   return (
-    <div className="pageContent">
+    <div className='pageContent'>
       <Header>Campaigns</Header>
       <DataLoader
         status={isFetching}

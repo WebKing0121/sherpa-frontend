@@ -13,12 +13,13 @@ import { prospectHeaderInfo } from '../../variables';
 import MessagesTab from '../../components/messageTab/MessageTab';
 import { prospectIsLoading, getProspect } from '../../store/prospectStore/selectors';
 import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
+import { useParams } from 'react-router-dom';
 
 const StyledTabContent = styled(TabContent)``;
 
-function ProspectDetailsPage(props) {
+function ProspectDetailsPage() {
   const [activeTab, setActiveTab] = useState('2');
-  const prospectId = props.match.params.id;
+  const { prospectId } = useParams();
   const prospect = useSelector(getProspect(prospectId));
   const isFetching = useSelector(prospectIsLoading);
   const dispatch = useDispatch();

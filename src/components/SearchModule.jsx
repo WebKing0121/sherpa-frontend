@@ -3,7 +3,6 @@ import { Container, Row, Col, Button, Input, InputGroupAddon } from 'reactstrap'
 import styled from 'styled-components';
 import IconBg from './IconBg';
 import InputGroupBorder from './InputGroupBorder';
-import Filter from './FilterButton';
 import SortModule from './SortModule';
 
 const StyledSearch = styled(Container)`
@@ -59,7 +58,7 @@ function SearchModule(props) {
 
         {props.showFilter && (
           <Col className='d-flex align-items-center' xs='auto'>
-            <Filter marketId={props.marketId} />
+            {props.children}
           </Col>
         )}
       </Row>

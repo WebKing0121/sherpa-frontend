@@ -4,7 +4,7 @@ import {
   SET_FETCH_CAMPAIGNS_ERROR,
   RESET_CAMPAIGNS_DATA,
   FETCH_CAMPAIGNS,
-  ARCHIVE_CAMPAIGN,
+  ARCHIVE_CAMPAIGN
 } from './actionTypes';
 import { Fetching } from '../../variables';
 import { decrementMarketCampaignCount } from '../Markets/actions';
@@ -32,11 +32,10 @@ export const resetCampaignsData = () => ({
 export const setArchiveCampaign = data => ({
   type: ARCHIVE_CAMPAIGN,
   data
-})
+});
 
 export const fetchCampaigns = id => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
-
   AxiosInstance.get('/campaigns/', { params: { market: id, is_archived: false } })
     .then(({ data }) => {
       const { results } = data;
@@ -53,7 +52,9 @@ export const fetchCampaigns = id => (dispatch, _) => {
 
 export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
-  AxiosInstance.get('/campaigns/', { params: { market: marketId, ordering: sortBy, is_archived: false } })
+  AxiosInstance.get('/campaigns/', {
+    params: { market: marketId, ordering: sortBy, is_archived: false }
+  })
     .then(({ data }) => {
       const { results } = data;
 
@@ -77,7 +78,7 @@ export const archiveCampaign = data => (dispatch, _) => {
     createdBy,
     priorityCount,
     isArchived: true
-  }
+  };
 
   AxiosInstance.put(`/campaigns/${id}/`, body)
     .then(({ data }) => {
@@ -90,7 +91,6 @@ export const archiveCampaign = data => (dispatch, _) => {
 };
 
 export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
-
   AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false } })
     .then(({ data }) => {
       const { results } = data;
@@ -113,4 +113,4 @@ export const fetchSingleCampaign = id => (dispatch, _) => {
     .catch(error => {
       console.log('Error fetching the campaign: ', error);
     });
-}
+};

@@ -13,14 +13,15 @@ import { getCampaign } from '../../store/Campaigns/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 import { fetchSingleCampaign } from '../../store/Campaigns/actions';
 import { campaignProspectSearch } from '../../store/campaignProspectStore/thunks';
+import { useParams } from 'react-router-dom';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
 `;
 
-function CampaignDetailsPage(props) {
+function CampaignDetailsPage() {
   const [activeTab, setActiveTab] = useState('1');
-  const campaignId = props.match.params.id;
+  const { campaignId } = useParams();
   const campaign = useSelector(getCampaign(campaignId));
   const dispatch = useDispatch();
 

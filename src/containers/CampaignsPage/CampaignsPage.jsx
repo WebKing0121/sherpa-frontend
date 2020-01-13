@@ -11,6 +11,7 @@ import { DataLoader } from '../../components/LoadingData';
 
 import TabbedHeader from '../../components/TabbedHeader';
 import { getFromLocalStorage } from '../../store/Markets/utils';
+import { useParams } from 'react-router-dom';
 
 const CampaignsPage = props => {
   const activeMarketId = useSelector(activeMarket);
@@ -21,11 +22,7 @@ const CampaignsPage = props => {
   const folders = getFromLocalStorage('folderView');
   const [activeSort, setActiveSort] = useState(0);
 
-  const {
-    match: {
-      params: { id: marketId }
-    }
-  } = props;
+  const { marketId } = useParams();
 
   const sortingOptions = [
     {
