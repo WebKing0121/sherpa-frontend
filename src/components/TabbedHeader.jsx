@@ -74,7 +74,7 @@ function TabbedHeader(props) {
   const mainActions = props.data.actions
     ? props.data.actions.main.map((a, idx) => {
         return (
-          <Button size='md' id={a.action} color={a.btnType} className='ml-1' onClick={toggle}>
+          <Button size='md' id={a.action} color={a.btnType} className='ml-1' onClick={toggle} key={idx}>
             {a.text}
           </Button>
         );
@@ -84,7 +84,7 @@ function TabbedHeader(props) {
   const secondaryActions = props.data.actions
     ? props.data.actions.secondary.map((a, idx) => {
         return (
-          <Button id={a.action} className='p-0 ml-1' color='link'>
+          <Button id={a.action} className='p-0 ml-1' color='link' key={idx} >
             <IconBg
               color='darkNavy'
               textcol='sherpaTeal'

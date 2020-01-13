@@ -64,7 +64,7 @@ function CampaignDetailsPage(props) {
       </TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
         <TabPane tabId='1'>
-          <SendTab />
+          <SendTab campaignId={campaignId} />
         </TabPane>
         <TabPane tabId='2'>
           <MessagesTab />

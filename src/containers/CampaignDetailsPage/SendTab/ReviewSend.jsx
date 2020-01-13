@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { getCampaignProspects } from '../../../store/campaignProspectStore/selectors';
+import { activeCampaign } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
 import CalloutSection from './CalloutSection';
@@ -77,48 +80,48 @@ const ButtonSection = styled.div`
   padding: var(--pad4) var(--pad3);
 `;
 
+function renderLead({ transProps, campaignProspects, count }) {
+  let show = false;
+  return (
+      campaignProspects.map((x,idx) =>{
+          (idx === count) ? show = true : show = false;
+          return (
+              <TransitionStyling in={show} {...transProps} key={x.id} >
+                <div>
+                  <LeadInfo>
+                    <h3 className='fw-bold name'>{x.prospect.name}</h3>
+                    <p className='phoneNum textM'>{x.prospect.phoneDisplay}</p>
+                    <p className='address m-0 textL'>
+                      {`${x.prospect.propertyAddress}, ${x.prospect.propertyCity}, ${x.prospect.propertyState} ${x.prospect.propertyZip}`}
+                    </p>
+                  </LeadInfo>
+
+                  <PreviewText className='textL'>
+                    {x.smsMsgText}
+                  </PreviewText>
+                </div>
+            </TransitionStyling>)
+      }
+    )
+  )
+}
+
 function ReviewSend(props) {
-  const [showMessage1, setShowMessage1] = useState(true);
-  const [showMessage2, setShowMessage2] = useState(false);
+  const [count, setCount] = useState(0);
+  const campaignId = useSelector(activeCampaign);
+  const campaignProspects = useSelector(getCampaignProspects(campaignId));  
 
   const transProps = {};
   transProps.timeout = 70;
   transProps.classNames = 'words';
   transProps.unmountOnExit = true;
 
-  return (
+    return (
     <>
       <CalloutSection />
 
       <LeadWrapper>
-        <TransitionStyling in={showMessage1} {...transProps}>
-          <div>
-            <LeadInfo>
-              <h3 className='fw-bold name'>Wayne Hanson</h3>
-              <p className='phoneNum textM'>(720) 439-2142</p>
-              <p className='address m-0 textL'>3147 Mobile Way, Aurora, CO 80013</p>
-            </LeadInfo>
-
-            <PreviewText className='textL'>
-              Hi <b>Wayne</b>, my name is Kelly and I would like to speak with you about purchasing{' '}
-              <b>3147 Mobile Way</b>. Did I reach out to the right person? Thank you.
-            </PreviewText>
-          </div>
-        </TransitionStyling>
-        <TransitionStyling in={showMessage2} {...transProps}>
-          <div>
-            <LeadInfo>
-              <h3 className='fw-bold name'>John Johnson</h3>
-              <p className='phoneNum textM'>(111) 439-2142</p>
-              <p className='address m-0 textL'>123 Mobile Way, Aurora, CO 80013</p>
-            </LeadInfo>
-
-            <PreviewText className='textL'>
-              Hi <b>Wayne</b>, my name is TERT and I would like to speak with you about purchasing{' '}
-              <b>3147 Mobile Way</b>. Did I reach out to the right person? Thank you.
-            </PreviewText>
-          </div>
-        </TransitionStyling>
+        {renderLead({campaignProspects, transProps, count})}
       </LeadWrapper>
 
       <ButtonSection>
@@ -130,18 +133,20 @@ function ReviewSend(props) {
           color='primary'
           size='lg'
           block
+          disabled={count >= campaignProspects.length}
           onClick={() => {
-            if (showMessage1) {
-              setShowMessage1(false);
-              setTimeout(function() {
-                setShowMessage2(true);
-              }, 85);
-            } else {
-              setShowMessage2(false);
-              setTimeout(function() {
-                setShowMessage1(true);
-              }, 85);
-            }
+            setCount(count + 1);
+            /* if (showMessage1) { */
+            /*   setShowMessage1(false); */
+            /*   setTimeout(function() { */
+            /*     setShowMessage2(true); */
+            /*   }, 85); */
+            /* } else { */
+            /*   setShowMessage2(false); */
+            /*   setTimeout(function() { */
+            /*     setShowMessage1(true); */
+            /*   }, 85); */
+            /* } */
           }}
         >
           <Icon name='sendWhite' margin='mr-1 mb-1' />

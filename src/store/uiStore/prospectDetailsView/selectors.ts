@@ -31,3 +31,5 @@ export const agentSelector = (state: any) => {
 
   return profilesToAgents(profiles);
 }
+
+export const activeCampaign = (state: any) => state.uiStore.prospectDetailsView.activeCampaign;
