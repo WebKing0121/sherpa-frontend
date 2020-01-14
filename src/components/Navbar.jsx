@@ -5,6 +5,7 @@ import logo from '../assets/images/sherpaLogo.png';
 import { Link } from 'react-router-dom';
 import Routes from './../routes.ts';
 import Icon from './Icon.jsx';
+import UnreadMsgIcon from './UnreadMsgIcon';
 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { logout } from '../store/Auth/actions';
@@ -137,7 +138,7 @@ const SherpNavbar = props => {
         <Nav className='messages' navbar>
           <NavItem>
             <NavLink>
-              <Icon name='messagesWhite' width='40px' />
+              <UnreadMsgIcon />
             </NavLink>
           </NavItem>
         </Nav>
