@@ -12,6 +12,7 @@ import { DataLoader } from '../../components/LoadingData';
 import TabbedHeader from '../../components/TabbedHeader';
 import { getFromLocalStorage } from '../../store/Markets/utils';
 import { useParams } from 'react-router-dom';
+import FilterButton from '../../components/FilterButton';
 
 const CampaignsPage = props => {
   const activeMarketId = useSelector(activeMarket);
@@ -76,7 +77,9 @@ const CampaignsPage = props => {
         }}
         marketId={marketId}
         defaultValue={activeSort}
-      />
+      >
+        <FilterButton />
+      </SearchModule>
       <DataLoader status={isFetching} data={listItems} renderData={() => <List items={listItems} />} />
     </div>
   );
