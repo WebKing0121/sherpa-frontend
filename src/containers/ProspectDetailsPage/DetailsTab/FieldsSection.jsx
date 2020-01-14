@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InputGroupBorder from '../../../components/InputGroupBorder';
-import { Label, Input, InputGroupAddon, Button, FormGroup, CustomInput } from 'reactstrap';
+import { Label, Input, InputGroupAddon, Button, FormGroup, CustomInput, NavLink } from 'reactstrap';
 import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -316,15 +316,18 @@ const FieldsSection = props => {
                 disabled={
                   !activeCampaign.id ||
                   (emailToCrm && (emailedToPodio || !activeCampaign.podioPushEmailAddress)) ||
-                    (!emailToCrm && (pushedToZapier || !activeCampaign.zapierWebhook))
+                  (!emailToCrm && (pushedToZapier || !activeCampaign.zapierWebhook))
                 }
               >
                 <LoadingSpinner isLoading={submitting} color='light' renderContent={() => <>Submit</>} />
               </Button>
             </form>
           </Modal>
-          {/* {zillowLink ? <render Link stuff/> : null} */}
         </BtnHolster>
+      </FieldWrapper>
+      <FieldWrapper className="text-center">
+        {zillowLink ?
+          (<a href={zillowLink} rel="noopener noreferrer" target="_blank">View property on Zillow</a>) : null}
       </FieldWrapper>
     </>
   );
