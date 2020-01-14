@@ -83,22 +83,22 @@ export const fetchCampaignNotes = (id: number) => (dispatch: Dispatch) => {
     .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
 };
 
-export const updateCampaignNotes = (
-  config: IAxiosConfig,
-  successMsg: string,
-  successAction?: Function,
-  failAction?: Function
-) => (dispatch: any) => {
+interface IData {
+  data: IResults;
+}
+
+export const updateCampaignNotes = (config: IAxiosConfig, successCB?: Function, failCB?: Function) => (
+  dispatch: Dispatch
+) => {
   //if adding note, set note status to "Fetching"
-  successAction === addCampaignNote && dispatch(setCampaignNotesStatus(Fetching));
+  successCB && dispatch(setCampaignNotesStatus(Fetching));
   const fetchConfig = { ...config, url: `/campaign-notes${config.url}` };
   return delayedRequest(AxiosInstance(fetchConfig), fastSpinner)
-    .then(({ data }: any) => {
-      successAction && dispatch(successAction(data));
-      dispatch(addNewToast({ message: successMsg }));
+    .then(({ data }: IData) => {
+      successCB && successCB(data);
     })
-    .catch((error: any) => {
-      failAction && dispatch(failAction);
+    .catch((error: string) => {
+      failCB && failCB();
       handleError(`campaign-notes ${config.method} error `, error, dispatch);
     });
 };

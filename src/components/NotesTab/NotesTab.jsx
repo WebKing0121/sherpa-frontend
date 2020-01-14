@@ -10,14 +10,9 @@ import Modal from '../Modal';
 import Note from './Note';
 import NoteForm from './NoteForm';
 import { DataLoader } from '../LoadingData';
-import {
-  messageNewNote,
-  messageUpdateNote,
-  messageDeleteNote,
-  Success,
-  Fetching
-} from '../../variables';
+import { messageUpdateNote, Success, Fetching } from '../../variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { addNewToast } from '../../store/Toasts/actions';
 
 const Heading = styled.div`
   padding: var(--pad5) var(--pad3) var(--pad3);
@@ -72,7 +67,7 @@ function NotesTab(props) {
       url: '/',
       data: note
     };
-    dispatch(updateNotes(fetchConfig, messageNewNote, addNote)).then(() => {
+    dispatch(updateNotes(fetchConfig, data => dispatch(addNote(data)))).then(() => {
       setModal(false);
       setNewNoteText('');
     });
@@ -86,7 +81,8 @@ function NotesTab(props) {
       data: updatedNote
     };
     dispatch(editNote(updatedNote));
-    dispatch(updateNotes(fetchConfig, messageUpdateNote, null, editNote(note)));
+    dispatch(addNewToast({ message: messageUpdateNote }));
+    dispatch(updateNotes(fetchConfig, null, () => dispatch(editNote(note))));
   };
 
   const handledeleteNote = note => {
@@ -96,7 +92,7 @@ function NotesTab(props) {
     };
     const noteIdx = notesList.findIndex(item => note.id === item.id);
     dispatch(deleteNote(note));
-    dispatch(updateNotes(fetchConfig, messageDeleteNote, null, restoreNote(note, noteIdx)));
+    dispatch(updateNotes(fetchConfig, null, () => dispatch(restoreNote(note, noteIdx))));
   };
 
   useEffect(() => {

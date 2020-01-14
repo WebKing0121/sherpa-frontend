@@ -74,12 +74,10 @@ describe('Prospect notes', () => {
   });
 
   //check new note
-  it('renders the new note and success toast', () => {
+  it('renders the new note', () => {
     cy.get(`${noteDetails} p`)
       .first()
       .contains(testNoteText);
-    cy.checkForNewToast(successToast);
-    cy.closeToasts();
   });
 
   it('sets the length of notesList', () => {
@@ -179,15 +177,13 @@ describe('Prospect notes', () => {
     cy.wait('@editNote');
   });
 
-  it('displays updated note text and a success toast', () => {
-    cy.checkForNewToast(successToast);
-    cy.closeToasts();
+  it('displays updated note text', () => {
     cy.get(`${noteDetails} p`)
       .first()
       .contains(`${testNoteText}4567`);
   });
 
-  it('fails on editing a note, closes edit note modal, updates the note with the new text, reverts the text to the old note text, and displays a failure toast', () => {
+  it('fails on editing a note, closes edit note modal, updates the note with the new text, reverts the text to the old note text, and displays an error toast', () => {
     cy.server();
     cy.route({
       method: 'PATCH',
@@ -218,7 +214,7 @@ describe('Prospect notes', () => {
     cy.closeToasts();
   });
 
-  it('fails the delete note networks request, deletes the note from the display, adds back to the display after the network request finishes and displays and error toast', () => {
+  it('fails the delete note networks request, deletes the note from the display, adds back to the display after the network request finishes and displays an error toast', () => {
     cy.server();
     cy.route({
       method: 'DELETE',
@@ -251,9 +247,6 @@ describe('Prospect notes', () => {
       .contains('Delete')
       .click();
     cy.wait('@deleteNote');
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-success');
     //check that number of notes matches number before test note was added
     cy.get(noteDetails).should('have.length', notesLength - 1);
   });

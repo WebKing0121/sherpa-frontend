@@ -10,7 +10,7 @@ import {
 import AxiosInstance, { delayedRequest } from '../../../axiosConfig';
 import { Dispatch } from 'redux';
 import { Fetching, generalNetworkError, fastSpinner } from '../../../variables';
-import { addNewToast } from '../../Toasts/actions';
+import { addNewToast, emptyToastArray } from '../../Toasts/actions';
 
 export interface INote {
   id?: number;
@@ -71,34 +71,35 @@ export interface IAxiosConfig {
 
 const handleError = (message: string, error: string, dispatch: any) => {
   console.log(message, error);
+  dispatch(emptyToastArray());
   dispatch(addNewToast({ message: generalNetworkError, color: 'danger' }));
   dispatch(setProspectNotesError(error));
 };
+
+interface IData {
+  data: IResults;
+}
 
 export const fetchProspectNotes = (id: number) => (dispatch: Dispatch) => {
   const params = { expand: 'created_by', prospect: id };
   dispatch(setProspectNotesStatus(Fetching));
   delayedRequest(AxiosInstance.get('/prospect-notes', { params }), fastSpinner)
-    .then(({ data }: any) => dispatch(populateProspectNotes(data)))
-    .catch((error: any) => handleError(`prospects-notes GET error `, error, dispatch));
+    .then(({ data }: IData) => dispatch(populateProspectNotes(data)))
+    .catch((error: string) => handleError(`prospects-notes GET error `, error, dispatch));
 };
 
-export const updateProspectNotes = (
-  config: IAxiosConfig,
-  successMsg: string,
-  successAction?: Function,
-  failAction?: Function
-) => (dispatch: any) => {
+export const updateProspectNotes = (config: IAxiosConfig, successCB?: Function, failCB?: Function) => (
+  dispatch: Dispatch
+) => {
   //if adding note, set note status to "Fetching"
-  successAction === addProspectNote && dispatch(setProspectNotesStatus(Fetching));
+  successCB && dispatch(setProspectNotesStatus(Fetching));
   const fetchConfig = { ...config, url: `/prospect-notes${config.url}` };
   return delayedRequest(AxiosInstance(fetchConfig), fastSpinner)
-    .then(({ data }: any) => {
-      successAction && dispatch(successAction(data));
-      dispatch(addNewToast({ message: successMsg }));
+    .then(({ data }: IData) => {
+      successCB && successCB(data);
     })
-    .catch((error: any) => {
-      failAction && dispatch(failAction);
+    .catch((error: string) => {
+      failCB && failCB();
       handleError(`prospects-notes ${config.method} error `, error, dispatch);
     });
 };

@@ -75,12 +75,10 @@ describe('campaign notes', () => {
   });
 
   //check new note
-  it('renders the new note and success toast', () => {
+  it('renders the new note', () => {
     cy.get(`${noteDetails} p`)
       .first()
       .contains(testNoteText);
-    cy.checkForNewToast(successToast);
-    cy.closeToasts();
   });
 
   it('sets the length of notesList', () => {
@@ -181,8 +179,6 @@ describe('campaign notes', () => {
   });
 
   it('displays updated note text and a success toast', () => {
-    cy.checkForNewToast(successToast);
-    cy.closeToasts();
     cy.get(`${noteDetails} p`)
       .first()
       .contains(`${testNoteText}4567`);
@@ -252,9 +248,6 @@ describe('campaign notes', () => {
       .contains('Delete')
       .click();
     cy.wait('@deleteNote');
-    cy.get(toasts)
-      .last()
-      .should('have.class', 'alert-success');
     //check that number of notes matches number before test note was added
     cy.get(noteDetails).should('have.length', notesLength - 1);
   });
