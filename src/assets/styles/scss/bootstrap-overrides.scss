@@ -41,6 +41,10 @@ $nav-tabs-border-width:             0;
 
 $label-margin-bottom: 0px;
 
+$popover-border-width: 0px;
+.popover {
+  box-shadow: 0 0 15px -4px #b7b7b7;
+}
 .nav-tabs .nav-link {
   border: none !important;
 }

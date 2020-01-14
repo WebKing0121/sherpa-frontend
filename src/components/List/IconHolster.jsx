@@ -10,17 +10,37 @@ const UnreadIndicator = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
+  --size: calc(5px + 1.2rem);
 
   &:after {
-    content: '';
-    width: 10px;
-    height: 10px;
+    /* if a count is given do secondary styling */
+    content: ${props => props.count ? "'" + props.count + "'" : "''"};
+    width: ${props => props.count ? "var(--size)" : "10px"};
+    height: ${props => props.count ? "var(--size)" : "10px"};
     position: absolute;
-    top: 5px;
+    top: 0px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: 50%;
+    border-radius: ${props => props.count ? "3px" : "50%"};
     background-color: var(--red);
+    color: white;
+    font-size: ${props => props.count < 100 ? "calc(var(--size) / 2)" : "8px"};
+    font-weight: 900;
+    text-align: center;
+    line-height: var(--size);
+  }
+
+  &:before {
+    content: '';
+    position: absolute;
+    top: calc(var(--size) * .75);
+    left: 15%;
+    width: 0;
+    height: 0;
+    border-top: calc(var(--size) * .2) solid transparent;
+    border-bottom: calc(var(--size) * .33) solid transparent;
+    border-left: calc(var(--size) * .45) solid red;
+    display: ${props => props.count ? "block" : "none"};
   }
 `;
 
@@ -47,7 +67,7 @@ function IconHolster(props) {
   return (
     <Holster className="iconHolster">
       {icon && icon}
-      {readable && !isRead && <UnreadIndicator />}
+      {readable && !isRead && <UnreadIndicator count={12}/>}
     </Holster>
   );
 }

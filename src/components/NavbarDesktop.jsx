@@ -4,7 +4,7 @@ import styled from 'styled-components';
 import sherpaIcon from '../assets/images/sherpaIcon.png';
 import sherpaLogo from '../assets/images/sherpaLogo.png';
 import { Link } from 'react-router-dom';
-import Routes from './../routes.ts';
+import Routes from '../desktopRoutes.ts';
 import Icon from './Icon.jsx';
 import { CSSTransition } from 'react-transition-group';
 import { path } from '../store/Nav/selectors';
@@ -18,31 +18,52 @@ const SlideIn = styled(CSSTransition)`
   --width: calc(2rem + 7vw);
   position: relative;
   overflow: hidden;
-  transition: width var(--timing);
-  display: none;
+  transition: width var(--timing), margin var(--timing);
+  width: 0px;
+  /* display: block; */
+  &:not(.navText) {
+    display: none;
+  }
+  &.navText { margin-left: 0rem; }
 
   &.slide {
     &-appear {
       display: block;
-      &-active {display: block;}
-      &-done {display: block;}
+      width: 0px;
+      &-active {
+        display: block;
+        width: var(--width);
+      }
+      &-done {
+        display: block;
+        width: var(--width);
+      }
     }
     &-enter {
       width: 0px;
+
       &-active {
+        &.navText { margin-left: 1rem; }
         width: var(--width);
         display: block;
       }
       &-done {
+        &.navText { margin-left: 1rem; }
         width: var(--width);
         display: block;
       }
     }
     &-exit {
-      position: absolute;
+      &.navText { margin-left: 1rem; }
+      transition: width var(--timing), margin .6s;
       width: var(--width);
-      &-active {width: 0px;}
-      &-done {display: none}
+      &-active {
+        transition: width var(--timing), margin .6s;
+        &.navText { margin-left: 0rem; }
+        display: block;
+        width: 0px;
+      }
+
     }
   }
 `;
@@ -117,6 +138,8 @@ const StyledNavItem = styled(NavItem)`
   img {
     max-width: 3vw;
   }
+
+  span {white-space: nowrap;}
 `;
 
 const ArrowBtnHolster = styled.div`
@@ -179,20 +202,21 @@ const NavbarDesktop = props => {
 
   const routes = Routes.map((r, idx) => {
     let activeClass = props.page.location.pathname === r.path ? 'active' : '';
-    let textClass = collapse ? "d-flex align-items-center textL" : "d-none";
-    let linkClass = "navLink textL stretched-link" + (collapse ?  " w-100 d-flex" : "") ;
+    let textClass = "navText align-items-center textL";
+    let linkClass = "navLink textL stretched-link w-100 d-flex";
     let iconClass = collapse ? "mr-1" : "";
 
     return (
       <StyledNavItem className={activeClass} key={idx} onClick={() => dispatch(setPath(r.path))}>
         <NavLink className={linkClass} tag={Link} to={r.path} >
-          <Icon margin={iconClass} name={r.navIcon} width='30' />
+          <Icon name={r.navIcon} width='30' />
           <SlideIn
             in={collapse}
             timeout={300}
             appear={true}
             className={textClass}
-            classNames="slide">
+            classNames="slide"
+            unmountOnExit={true}>
             <span>{r.name}</span>
           </SlideIn>
         </NavLink>

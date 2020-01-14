@@ -24,7 +24,11 @@
   color: white;
   box-sizing: border-box;
   background: var(--gray);
-
+}
+@media (min-width: 768px) {
+  .Background {
+    background: transparent;
+  }
 }
 
 .Wrapper {

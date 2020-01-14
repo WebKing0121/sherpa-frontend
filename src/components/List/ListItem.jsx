@@ -12,6 +12,12 @@ const StyledItem = styled(ListGroupItem)`
   border-left: none !important;
   border-right: none !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+
+  @media (min-width: 768px) {
+    border-radius: 8px !important;
+    border: none;
+    margin-bottom: var(--pad1);
+  }
 `;
 
 const SubInfo = styled.div`
@@ -29,6 +35,10 @@ const ItemHeader = styled.div`
   flex-direction: row;
   justify-content: space-between;
   margin-bottom: var(--pad1);
+
+  @media (min-width: 768px) {
+    margin-bottom: var(--pad2);
+  }
 `;
 const ItemName = styled(ListGroupItemHeading)`
   font-weight: ${props => (props.isBold ? '900' : '400')};
@@ -41,6 +51,7 @@ const StatusWrapper = styled.div`
 `;
 
 const ItemBody = styled.div``;
+
 const ItemContent = styled.div`
   display: flex;
   flex-direction: row;
@@ -51,6 +62,17 @@ const ItemContent = styled.div`
   .itemBody {
     flex-basis: 100%;
     flex-shrink: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  @media (min-width: 768px) {
+    padding: calc(1.5 * var(--pad1)) var(--pad2);
+
+    .itemBody {
+      flex-basis: 40%;
+    }
   }
 `;
 
@@ -65,9 +87,11 @@ function ListItem(props) {
             <StatusWrapper className='d-flex'>{props.item.statusWrapper}</StatusWrapper>
           </ItemHeader>
 
-          <SubInfo className='textM m-0'>{props.item.subInfo}</SubInfo>
-          <MainInfo className='textL'>{props.item.mainInfo}</MainInfo>
+          {props.item.subInfo && <SubInfo className='textM m-0'>{props.item.subInfo}</SubInfo>}
+          {props.item.mainInfo && <MainInfo className='textL'>{props.item.mainInfo}</MainInfo>}
         </ItemBody>
+        {props.item.desktopCallouts ? props.item.desktopCallouts : null}
+        {props.item.desktopKebab ? props.item.desktopKebab : null}
       </ItemContent>
     </StyledItem>
   );

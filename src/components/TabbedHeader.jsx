@@ -16,6 +16,11 @@ const StyledHeader = styled.div`
     /* navbar icon + navlink padding + nav padding */
     margin-top: calc(31px + 5vw + 1rem);
   }
+
+  @media (min-width: 1200px) {
+    padding-top: var(--pad3);
+    padding-bottom: ${props => props.toggleTab ? "0" : "var(--pad3)"};
+  }
 `;
 
 const BackArrow = styled(Icon)`
@@ -81,7 +86,7 @@ function TabbedHeader(props) {
       })
     : null;
 
-  const secondaryActions = props.data.actions
+  const secondaryActions = props.data.actions && props.data.actions.secondary
     ? props.data.actions.secondary.map((a, idx) => {
         return (
           <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>

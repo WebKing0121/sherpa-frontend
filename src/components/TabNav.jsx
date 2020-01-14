@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const StyledNavLink = styled(NavLink)`
   padding: 0 !important;
-  padding-bottom: 0.75em !important;
+  padding-bottom: var(--pad2) !important;
   color: var(--white) !important;
   position: relative;
 

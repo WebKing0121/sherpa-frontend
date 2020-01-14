@@ -7,5 +7,6 @@ export const IListItem = {
   indicator: null,
   isRead: false,
   readable: false,
-  actions: []
+  actions: [],
+  desktopSection: null
 }

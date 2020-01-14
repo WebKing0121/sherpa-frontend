@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Input } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Wrapper = styled.div`
   position: relative;
@@ -18,17 +19,24 @@ const Wrapper = styled.div`
     -ms-appearance:         none;
     -o-appearance:          none;
     appearance:             none;
-    }
+  }
+
+  @media (min-width: 768px) {
+    border-bottom-width: 2px !important;
   }
 `;
 
 function InputSelect(props) {
+  const icon = (
+    <FontAwesomeIcon icon="chevron-up" rotation={180} />
+  );
+
   return (
     <Wrapper>
       <Input type='select' {...props}>
         {props.children}
       </Input>
-      {props.icon}
+      {props.icon || icon}
     </Wrapper>
   );
 }

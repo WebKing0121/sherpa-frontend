@@ -12,6 +12,7 @@ import CampaignFoldersPage from './containers/CampaignFoldersPage/CampaignFolder
 import CampaignDetailsPage from './containers/CampaignDetailsPage/CampaignDetailsPage';
 import ProspectDetailsPage from './containers/ProspectDetailsPage/ProspectDetailsPage';
 import SupportPage from './containers/SupportPage/SupportPage';
+import DesktopCampaignsPage from './containers/DesktopCampaignsPage/DesktopCampaignsPage';
 
 // store
 import { isAuthenticated } from './store/Auth/selectors';
@@ -65,7 +66,12 @@ function App() {
     <Router history={history}>
       {determineNav()}
       <Switch>
-        <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
+        <ProtectedRoute
+          is_auth={is_auth}
+          path='/'
+          component={CampaignFoldersPage}
+          exact
+        />
         <ProtectedRoute
           is_auth={is_auth}
           path='/markets/:marketId/campaigns'
@@ -76,17 +82,25 @@ function App() {
           is_auth={is_auth}
           path='/markets/:marketId/campaigns/:campaignId/details'
           component={CampaignDetailsPage}
-          exact
-        />
+          exact />
+        <ProtectedRoute
+          is_auth={is_auth}
+          path='/campaigns'
+          component={DesktopCampaignsPage}
+          exact />
         <ProtectedRoute
           is_auth={is_auth}
           path='/prospect/:prospectId/details'
           component={ProspectDetailsPage}
-          exact
-        />
-        <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
-        <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
-        <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} />
+          exact />
+        <ProtectedRoute
+          is_auth={is_auth}
+          path='/prospects'
+          component={ProspectsSearch} />
+        <ProtectedRoute
+          is_auth={is_auth}
+          path='/support'
+          component={SupportPage} />
       </Switch>
       {is_auth && <ToastContainer />}
       <NoDesktop />

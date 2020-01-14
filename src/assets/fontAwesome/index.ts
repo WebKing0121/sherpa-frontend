@@ -26,7 +26,9 @@ import {
   faExclamationTriangle,
   faBook,
   faTrash,
-  faPencilAlt
+  faPencilAlt,
+  faListUl,
+  faEllipsisV
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -57,6 +59,8 @@ library.add(
   faExclamationTriangle,
   faBook,
   faTrash,
-  faPencilAlt
+  faPencilAlt,
+  faListUl,
+  faEllipsisV
 
 );

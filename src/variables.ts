@@ -134,3 +134,35 @@ export const ProspectActions = [
     background: 'purple'
   }
 ];
+
+export const desktopCampaignHeaderInfo = {
+  hasBackButton: false,
+  tabs: [
+    {
+      idx: '1',
+      name: 'Campaigns List',
+      icon: 'list-ul'
+    },
+    {
+      idx: '2',
+      name: 'All Unread',
+      icon: 'comment-dots'
+    }
+  ],
+  actions: {
+    main: [
+      {
+        btnType: 'secondary',
+        text: 'Create Follow-Up',
+        // this is for adding the onclick later
+        action: 'createFollowUp'
+      },
+      {
+        btnType: 'primary',
+        text: 'New Campaign',
+        // this is for adding the onclick later
+        action: 'addProspects'
+      },
+    ]
+  }
+};
