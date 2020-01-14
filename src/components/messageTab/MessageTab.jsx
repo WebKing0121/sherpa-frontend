@@ -77,7 +77,7 @@ function MessagesTab(props) {
   }, [messagesRef]);
 
   const addNewMessage = message => {
-    sendMessage(props.subjectId, { message }).then(fetchMessagesCB);
+    return sendMessage(props.subjectId, { message }).then(fetchMessagesCB);
   };
 
   // retrieves all messages and sets an interval for periodic retrieval
@@ -111,7 +111,7 @@ function MessagesTab(props) {
         )}
       />
       <InputWrapper ref={inputRef}>
-        <MessageInput addNewMessage={addNewMessage} />
+        <MessageInput messagesStatus={props.messagesStatus} addNewMessage={addNewMessage} />
       </InputWrapper>
     </div>
   );

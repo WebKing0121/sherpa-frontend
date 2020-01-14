@@ -4,6 +4,7 @@ import InputGroupBorder from '../InputGroupBorder';
 import IconBg from '../IconBg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
+import { LoadingSpinner } from '../LoadingSpinner';
 
 const SendMessage = styled.form`
   padding: var(--pad2) var(--pad3);
@@ -14,6 +15,7 @@ const SendMessage = styled.form`
 function MessageInput(props) {
   const { addNewMessage } = props;
   const [input, setInput] = useState('');
+  const [isFetching, setIsFetching] = useState(false);
 
   const handleChange = e => {
     setInput(e.target.value);
@@ -22,8 +24,8 @@ function MessageInput(props) {
   const handleSubmit = e => {
     e.preventDefault();
     if (input === '') return;
-
-    addNewMessage(input);
+    setIsFetching(true);
+    addNewMessage(input).then(() => setIsFetching(false));
     setInput('');
   };
 
@@ -45,7 +47,13 @@ function MessageInput(props) {
         />
         <InputGroupAddon addonType='append'>
           <Button type='submit' name='submit' className='p-0' color='link' disabled={!input}>
-            <IconBg icon='paper-plane' color='sherpaBlue' textcol='white' nudge='0 0 0 -4px' />
+            <LoadingSpinner
+              isLoading={isFetching}
+              color=''
+              renderContent={() => (
+                <IconBg icon='paper-plane' color='sherpaBlue' textcol='white' nudge='0 0 0 -4px' />
+              )}
+            />
           </Button>
         </InputGroupAddon>
       </InputGroupBorder>
