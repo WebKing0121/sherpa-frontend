@@ -37,7 +37,7 @@ const handleError = (message: string, error: string, dispatch: Dispatch) => {
 
 export const fetchSmsTemplates = () => (dispatch: Dispatch) => {
   dispatch(setSmsTemplatesStatus(Fetching));
-  delayedRequest(axiosInstance.get('/sms-templates'), fastSpinner)
+  delayedRequest(axiosInstance.get('/sms-templates/'), fastSpinner)
     .then(({ data }: any) => dispatch(populateSmsTemplates(data)))
     .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
 };

@@ -24,7 +24,7 @@ export const setFetchedCompanyOwnersError = error => ({
 export const fetchCompanyOwners = id => (dispatch, _) => {
   dispatch(setFetchedCompanyOwnersStatus(Fetching));
 
-  AxiosInstance.get(`/companies/${id}`)
+  AxiosInstance.get(`/companies/${id}/`)
     .then(({ data }) => {
       const { profiles } = data;
       dispatch(setFetchedCompanyOwners(profiles));

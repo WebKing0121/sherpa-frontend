@@ -83,7 +83,7 @@ interface IData {
 export const fetchProspectNotes = (id: number) => (dispatch: Dispatch) => {
   const params = { expand: 'created_by', prospect: id };
   dispatch(setProspectNotesStatus(Fetching));
-  delayedRequest(AxiosInstance.get('/prospect-notes', { params }), fastSpinner)
+  delayedRequest(AxiosInstance.get('/prospect-notes/', { params }), fastSpinner)
     .then(({ data }: IData) => dispatch(populateProspectNotes(data)))
     .catch((error: string) => handleError(`prospects-notes GET error `, error, dispatch));
 };

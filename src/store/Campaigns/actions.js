@@ -105,7 +105,7 @@ export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
 };
 
 export const fetchSingleCampaign = id => (dispatch, _) => {
-  AxiosInstance.get(`/campaigns/${id}`)
+  AxiosInstance.get(`/campaigns/${id}/`)
     .then(({ data }) => {
       const campaignMap = { [data.id]: data };
       dispatch(setFetchedCampaigns({ campaigns: campaignMap, marketId: data.market }));

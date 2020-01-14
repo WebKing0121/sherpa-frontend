@@ -78,7 +78,7 @@ const handleError = (message: string, error: string, dispatch: any) => {
 export const fetchCampaignNotes = (id: number) => (dispatch: Dispatch) => {
   const params = { expand: 'created_by', campaign: id };
   dispatch(setCampaignNotesStatus(Fetching));
-  delayedRequest(AxiosInstance.get('/campaign-notes', { params }), fastSpinner)
+  delayedRequest(AxiosInstance.get('/campaign-notes/', { params }), fastSpinner)
     .then(({ data }: any) => dispatch(populateCampaignNotes(data)))
     .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
 };
