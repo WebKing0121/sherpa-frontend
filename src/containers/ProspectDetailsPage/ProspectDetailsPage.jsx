@@ -18,7 +18,7 @@ import { useParams } from 'react-router-dom';
 const StyledTabContent = styled(TabContent)``;
 
 function ProspectDetailsPage() {
-  const [activeTab, setActiveTab] = useState('2');
+  const [activeTab, setActiveTab] = useState('1');
   const { prospectId } = useParams();
   const prospect = useSelector(getProspect(prospectId));
   const isFetching = useSelector(prospectIsLoading);

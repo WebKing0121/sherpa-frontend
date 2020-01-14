@@ -198,14 +198,9 @@ export const prospectEmailToCrmAction = (id: number, payload: any) => (dispatch:
   return api
     .prospectEmailToPodio(id, payload)
     .then(() => {
-      const message = {
-        message: 'Email to CRM Success',
-        color: 'success'
-      };
       const state = getState();
       const prospect = getProspect(id)(state);
       dispatch(updateProspectSuccess({ ...prospect, emailedToPodio: true }));
-      dispatch(addNewToast(message));
     })
     .catch(() => dispatch(addNewToast({ message: 'Email to CRM Failed', color: 'danger' })));
 };
@@ -217,14 +212,9 @@ export const prospectPushToZapierAction = (id: number, payload: any) => (
   return api
     .prospectPushToZapier(id, payload)
     .then(() => {
-      const message = {
-        message: 'Push to Zapier Success',
-        color: 'success'
-      };
       const state = getState();
       const prospect = getProspect(id)(state);
       dispatch(updateProspectSuccess({ ...prospect, pushedToZapier: true }));
-      dispatch(addNewToast(message));
     })
     .catch(() => dispatch(addNewToast({ message: 'Push to Zapier Failed', color: 'danger' })));
 };

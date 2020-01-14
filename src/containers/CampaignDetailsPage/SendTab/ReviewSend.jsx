@@ -59,7 +59,7 @@ const TransitionStyling = styled(CSSTransition)`
       transform: scale(1);
 
       &-active {
-        transition-easing-function: ease-in;
+        transition-timing-function: ease-in;
         left: 120%;
         filter: blur(1px);
         transform: scale(0.8);
@@ -82,47 +82,41 @@ const ButtonSection = styled.div`
 
 function renderLead({ transProps, campaignProspects, count }) {
   let show = false;
-  return (
-      campaignProspects.map((x,idx) =>{
-          (idx === count) ? show = true : show = false;
-          return (
-              <TransitionStyling in={show} {...transProps} key={x.id} >
-                <div>
-                  <LeadInfo>
-                    <h3 className='fw-bold name'>{x.prospect.name}</h3>
-                    <p className='phoneNum textM'>{x.prospect.phoneDisplay}</p>
-                    <p className='address m-0 textL'>
-                      {`${x.prospect.propertyAddress}, ${x.prospect.propertyCity}, ${x.prospect.propertyState} ${x.prospect.propertyZip}`}
-                    </p>
-                  </LeadInfo>
+  return campaignProspects.map((x, idx) => {
+    idx === count ? (show = true) : (show = false);
+    return (
+      <TransitionStyling in={show} {...transProps} key={x.id}>
+        <div>
+          <LeadInfo>
+            <h3 className='fw-bold name'>{x.prospect.name}</h3>
+            <p className='phoneNum textM'>{x.prospect.phoneDisplay}</p>
+            <p className='address m-0 textL'>
+              {`${x.prospect.propertyAddress}, ${x.prospect.propertyCity}, ${x.prospect.propertyState} ${x.prospect.propertyZip}`}
+            </p>
+          </LeadInfo>
 
-                  <PreviewText className='textL'>
-                    {x.smsMsgText}
-                  </PreviewText>
-                </div>
-            </TransitionStyling>)
-      }
-    )
-  )
+          <PreviewText className='textL'>{x.smsMsgText}</PreviewText>
+        </div>
+      </TransitionStyling>
+    );
+  });
 }
 
 function ReviewSend(props) {
   const [count, setCount] = useState(0);
   const campaignId = useSelector(activeCampaign);
-  const campaignProspects = useSelector(getCampaignProspects(campaignId));  
+  const campaignProspects = useSelector(getCampaignProspects(campaignId));
 
   const transProps = {};
   transProps.timeout = 70;
   transProps.classNames = 'words';
   transProps.unmountOnExit = true;
 
-    return (
+  return (
     <>
       <CalloutSection />
 
-      <LeadWrapper>
-        {renderLead({campaignProspects, transProps, count})}
-      </LeadWrapper>
+      <LeadWrapper>{renderLead({ campaignProspects, transProps, count })}</LeadWrapper>
 
       <ButtonSection>
         {

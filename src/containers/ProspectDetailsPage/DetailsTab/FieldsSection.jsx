@@ -27,6 +27,7 @@ import {
 import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const BtnHolster = styled.div`
   display: flex;
@@ -76,6 +77,16 @@ const FieldSelect = props => {
   );
 };
 
+const BtnSuccessWrapper = styled.div`
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  * {
+    margin-left: 7px;
+  }
+`;
+
 const ModalBackPlate = styled.div`
   content: '';
   position: fixed;
@@ -120,7 +131,7 @@ const RenderAgentOptions = (agents, emptyOption) => {
 
 // TODO: Break all these fields into their own
 // sub-component to avoid re-renders
-const FieldsSection = props => {
+const FieldsSection = () => {
   const prospectId = useSelector(activeProspectSelector);
   const prospect = useSelector(getProspect(prospectId));
   const activeCampaignId = useSelector(activeCampaignSelector);
@@ -129,13 +140,16 @@ const FieldsSection = props => {
   const [modal, setModal] = useState(false);
   const [emailToCrm, setEmailtoCrm] = useState(false);
   const [submitting, setSubmitting] = useState(false);
+  const [fieldBtnStatus, setFieldBtnStatus] = useState({
+    isEmailingToCrm: false,
+    isPushingToZapier: false
+  });
   const {
     agent,
     reminderDateLocal,
     sherpaPhoneNumber,
     emailedToPodio,
     pushedToZapier,
-    zillowLink,
     campaigns,
     smsRelayMap: {
       rep: { id }
@@ -216,6 +230,18 @@ const FieldsSection = props => {
     dispatch(setActiveCampaign(campaign.id));
   };
 
+  const handleFieldBtnClick = (action, field) => {
+    const args = [prospect.id, { campaign: activeCampaign.id }];
+    const newFieldBtnStatus = { ...fieldBtnStatus, [field]: false };
+    if (activeCampaignId) {
+      setFieldBtnStatus({ ...fieldBtnStatus, [field]: true });
+      dispatch(action(...args)).then(() => setFieldBtnStatus(newFieldBtnStatus));
+    } else {
+      setModal(true);
+      setEmailtoCrm(field === 'isEmailingToCrm' ? true : false);
+    }
+  };
+
   return (
     <>
       <FieldSelect
@@ -262,32 +288,42 @@ const FieldsSection = props => {
             color='primary'
             className='fw-bold'
             disabled={emailedToPodio}
-            onClick={() => {
-              if (activeCampaignId) {
-                dispatch(prospectEmailToCrmAction(prospect.id, { campaign: activeCampaign.id }));
-              } else {
-                setModal(true);
-                setEmailtoCrm(true);
-              }
-            }}
+            onClick={() => handleFieldBtnClick(prospectEmailToCrmAction, 'isEmailingToCrm')}
           >
-            Email to CRM
+            {fieldBtnStatus.isEmailingToCrm || emailedToPodio ? (
+              <LoadingSpinner
+                isLoading={fieldBtnStatus.isEmailingToCrm}
+                color='white'
+                renderContent={() => (
+                  <BtnSuccessWrapper>
+                    Emailed to CRM <FontAwesomeIcon icon='check' />
+                  </BtnSuccessWrapper>
+                )}
+              />
+            ) : (
+              'Email to CRM'
+            )}
           </Button>
           <Button
             id='crm'
             color='primary'
             className='fw-bold'
             disabled={pushedToZapier}
-            onClick={() => {
-              if (activeCampaignId) {
-                dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id }));
-              } else {
-                setModal(true);
-                setEmailtoCrm(false);
-              }
-            }}
+            onClick={() => handleFieldBtnClick(prospectPushToZapierAction, 'isPushingToZapier')}
           >
-            Push to Zapier
+            {fieldBtnStatus.isPushingToZapier || pushedToZapier ? (
+              <LoadingSpinner
+                isLoading={fieldBtnStatus.isPushingToZapier}
+                color='white'
+                renderContent={() => (
+                  <BtnSuccessWrapper>
+                    Pushed to Zapier <FontAwesomeIcon icon='check' />
+                  </BtnSuccessWrapper>
+                )}
+              />
+            ) : (
+              'Push to Zapier'
+            )}
           </Button>
 
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
