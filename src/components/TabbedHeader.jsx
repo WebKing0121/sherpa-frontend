@@ -84,7 +84,7 @@ function TabbedHeader(props) {
   const secondaryActions = props.data.actions
     ? props.data.actions.secondary.map((a, idx) => {
         return (
-          <Button id={a.action} className='p-0 ml-1' color='link' key={idx} >
+          <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
             <IconBg
               color='darkNavy'
               textcol='sherpaTeal'
@@ -101,7 +101,7 @@ function TabbedHeader(props) {
   return (
     <StyledHeader {...props}>
       <HeaderTop>
-        <div>
+        <div data-test='tabbed-header'>
           <h1 className='text-white text-left m-0'>{props.children}</h1>
 
           {props.data.hasBackButton && (

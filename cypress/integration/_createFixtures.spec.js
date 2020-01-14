@@ -1,4 +1,7 @@
 describe('Create fixture files from API response', () => {
+  let prospectId = Cypress.env('testProspect');
+  let campaignId = Cypress.env('testCampaign');
+
   it('creates auth token JSON file', () => {
     cy.createTokensJson();
     cy.fixture('tokens').should('exist');
@@ -27,6 +30,11 @@ describe('Create fixture files from API response', () => {
     cy.fixture('campaigns').should('exist');
   });
 
+  it(`creates a campaign ${campaignId} response JSON file`, () => {
+    cy.createFixture(`campaign${campaignId}.json`, `campaigns/${campaignId}`);
+    cy.fixture(`campaign${campaignId}`).should('exist');
+  });
+
   it('creates the lead stages JSON file', () => {
     cy.createFixture('leadStages.json', 'leadstages');
     cy.fixture('leadStages').should('exist');
@@ -42,15 +50,15 @@ describe('Create fixture files from API response', () => {
     cy.fixture('prospects').should('exist');
   });
 
-  it('creates a prospect 1 response JSON file', () => {
-    cy.createFixture('prospect1.json', 'prospects/1');
-    cy.fixture('prospect1').should('exist');
+  it(`creates a prospect ${prospectId} response JSON file`, () => {
+    cy.createFixture(`prospect${prospectId}.json`, `prospects/${prospectId}`);
+    cy.fixture(`prospect${prospectId}`).should('exist');
   });
 
-  it('creates a prospect 1 notes response JSON file', () => {
-    const params = { prospect: '1', page: 1, page_size: 10 };
-    cy.createFixture('prospect1Notes.json', 'prospect-notes', 'GET', params);
-    cy.fixture('prospect1Notes').should('exist');
+  it(`creates a prospect ${prospectId} notes response JSON file`, () => {
+    const params = { prospect: prospectId, page: 1, page_size: 10 };
+    cy.createFixture(`prospect${prospectId}Notes.json`, 'prospect-notes', 'GET', params);
+    cy.fixture(`prospect${prospectId}Notes`).should('exist');
   });
 
   it('creates an empty response JSON file', () => {
