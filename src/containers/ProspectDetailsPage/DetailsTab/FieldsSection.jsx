@@ -150,6 +150,7 @@ const FieldsSection = () => {
     sherpaPhoneNumber,
     emailedToPodio,
     pushedToZapier,
+    zillowLink,
     campaigns,
     smsRelayMap: {
       rep: { id }
@@ -361,9 +362,12 @@ const FieldsSection = () => {
           </Modal>
         </BtnHolster>
       </FieldWrapper>
-      <FieldWrapper className="text-center">
-        {zillowLink ?
-          (<a href={zillowLink} rel="noopener noreferrer" target="_blank">View property on Zillow</a>) : null}
+      <FieldWrapper className='text-center'>
+        {zillowLink ? (
+          <a href={zillowLink} rel='noopener noreferrer' target='_blank'>
+            View property on Zillow
+          </a>
+        ) : null}
       </FieldWrapper>
     </>
   );
