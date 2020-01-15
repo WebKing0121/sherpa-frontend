@@ -53,6 +53,7 @@ describe('Prospect messages', () => {
     cy.route({ method: 'GET', url: '**/prospects/**' }).as('prospect');
     cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages` }).as('messages');
     cy.visit(`${prospectUrl}`);
+    cy.get('[data-test=Messages]').click();
     cy.wait('@prospect');
     cy.wait('@messages');
     cy.get(messages).then($msgs => {
