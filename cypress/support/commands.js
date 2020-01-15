@@ -56,16 +56,6 @@ Cypress.Commands.add('createTokensJson', () => {
   });
 });
 
-Cypress.Commands.add('apiCall', (method, route) => {
-  cy.server();
-  cy.route(method, `**/api/v1/${route}/`).as('call');
-  cy.wait('@call');
-});
-
-Cypress.Commands.add('waitForCall', () => {
-  cy.wait(1500);
-});
-
 const defaultDataEl = '[data-test=displayed-data]';
 
 Cypress.Commands.add('testApiData', (element = defaultDataEl, timeout = 0) => {
@@ -90,23 +80,26 @@ Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', opt
   });
 });
 
-Cypress.Commands.add('stubResponse', options => {
+Cypress.Commands.add('stubResponse', (options, waitCallback) => {
   const { url, method = 'GET', response, status = 200, delay = 0 } = options;
   cy.fixture(response).as(response);
-  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status, delay });
+  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status, delay }).as(
+    `${method}-${response}`
+  );
+  waitCallback && waitCallback(`@${method}-${response}`);
 });
 
 Cypress.Commands.add('login', () => {
   const url = Cypress.env('clientUrl');
+  const submitLoginAndWait = resAlias => {
+    cy.visit(url);
+    cy.get('[data-test=login-form]').submit();
+    cy.wait(resAlias);
+  };
   cy.server();
-  cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' }).as('loginRes');
-  cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' }).as('userInfoRes');
-  cy.stubResponse({ url: 'leadstages', response: 'leadStages' }).as('leadStagesRes');
-  cy.visit(url);
-  cy.get('[data-test=login-form]').submit();
-  // cy.wait('@loginRes');
-  // cy.wait('@userInfoRes');
-  // cy.wait('@leadStagesRes');
+  cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' });
+  cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' });
+  cy.stubResponse({ url: 'leadstages', response: 'leadStages' }, submitLoginAndWait);
 });
 
 const toasts = '[data-test=toast]';

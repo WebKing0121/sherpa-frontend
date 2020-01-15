@@ -9,15 +9,14 @@ describe('Prospect details page', () => {
 
   it('opens the correct page', () => {
     cy.server();
-    cy.fixture(`prospect${prospectId}`).as(`prospect${prospectId}`);
-    cy.route({ method: 'GET', url: '**/prospects/**', response: `@prospect${prospectId}` }).as(
-      'prospect'
-    );
+    cy.stubResponse({
+      method: 'GET',
+      url: `prospects/${prospectId}`,
+      response: `prospect${prospectId}`
+    });
     cy.visit(`${url}/${prospectUrl}`);
-    cy.wait('@prospect').then(() => {
-      cy.location().should(location => {
-        expect(location.pathname).to.eq(`/${prospectUrl}`);
-      });
+    cy.location().should(location => {
+      expect(location.pathname).to.eq(`/${prospectUrl}`);
     });
   });
 
@@ -36,10 +35,11 @@ describe('Prospect details page', () => {
   it('takes the user back to the prospects page when clicking the "prospect List" button', () => {
     cy.login();
     cy.server();
-    cy.fixture(`prospect${prospectId}`).as(`prospect${prospectId}`);
-    cy.route({ method: 'GET', url: '**/prospects/**', response: `@prospect${prospectId}` }).as(
-      'prospect'
-    );
+    cy.stubResponse({
+      method: 'GET',
+      url: `prospects/${prospectId}`,
+      response: `prospect${prospectId}`
+    });
     cy.visit(`${url}/prospects`);
     cy.visit(`${url}/${prospectUrl}`);
     cy.get(`[data-test=tabbed-header]`)

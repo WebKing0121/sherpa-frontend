@@ -10,15 +10,14 @@ describe('campaign details page', () => {
 
   it('opens the correct page', () => {
     cy.server();
-    cy.fixture(`campaign${campaignId}`).as(`campaign${campaignId}`);
-    cy.route({ method: 'GET', url: '**/campaigns/**', response: `@campaign${campaignId}` }).as(
-      'campaign'
-    );
+    cy.stubResponse({
+      method: 'GET',
+      url: `campaigns/${campaignId}`,
+      response: `campaign${campaignId}`
+    });
     cy.visit(`${url}/${campaignUrl}`);
-    cy.wait('@campaign').then(() => {
-      cy.location().should(location => {
-        expect(location.pathname).to.eq(`/${campaignUrl}`);
-      });
+    cy.location().should(location => {
+      expect(location.pathname).to.eq(`/${campaignUrl}`);
     });
   });
 
@@ -51,10 +50,7 @@ describe('campaign details page', () => {
   it('takes the user back to the campaigns page when clicking the "Campaign List" button', () => {
     cy.login();
     cy.server();
-    cy.fixture(`campaign${campaignId}`).as(`campaign${campaignId}`);
-    cy.route({ method: 'GET', url: '**/campaigns/**', response: `@campaign${campaignId}` }).as(
-      'campaign'
-    );
+    cy.stubResponse({ method: 'GET', url: 'campaigns', response: `campaign${campaignId}` });
     cy.visit(`${url}/${campaignUrl}`);
     cy.get(`[data-test=tabbed-header]`)
       .find('button')
