@@ -8,7 +8,8 @@ const StyledNavLink = styled(NavLink)`
   padding-bottom: var(--pad2) !important;
   color: var(--white) !important;
   position: relative;
-
+  cursor: pointer;
+  
   &:after,
   &:before {
     transition: border-bottom-width 0.25s, border-top-width 0.25s;

@@ -212,6 +212,9 @@ ul {
   list-style: none;
   &.bulleted { list-style: disc; }
 }
+input,select,option {
+  cursor: pointer;
+}
 :root {
   --padUnit: #{$padUnit};
 

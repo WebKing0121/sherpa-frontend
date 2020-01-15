@@ -7358,6 +7358,9 @@ ul {
   ul.bulleted {
     list-style: disc; }
 
+input, select, option {
+  cursor: pointer; }
+
 :root {
   --padUnit: 5vw;
   --pad1: 1.66667vw;

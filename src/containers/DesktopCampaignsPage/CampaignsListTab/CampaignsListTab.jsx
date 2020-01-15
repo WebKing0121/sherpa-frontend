@@ -39,6 +39,7 @@ const FilterSortSection = styled.div`
         margin-right: 3.5em;
         padding: 1rem 0;
         position: relative;
+        cursor: pointer;
 
         &.active {
           color: var(--sherpaBlue);
