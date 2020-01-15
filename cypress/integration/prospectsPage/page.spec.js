@@ -36,9 +36,12 @@ describe('Prospect page', () => {
       status: 200,
       method: 'GET'
     };
-    cy.stubResponse(options).as('prospects');
-    cy.get(searchModuleButton).click();
-    cy.wait('@prospects');
+    const searchAndWait = resAlias => {
+      cy.get(searchModuleButton).click();
+      cy.wait(resAlias);
+    };
+    cy.stubResponse(options, searchAndWait);
+
     cy.get(swipeableListItem).should($item => {
       expect($item).to.have.length.of.at.least(1);
     });
