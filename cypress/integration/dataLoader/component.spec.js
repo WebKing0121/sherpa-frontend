@@ -3,7 +3,7 @@ describe('data loader wrapper component', () => {
     displayedData = '[data-test=displayed-data]',
     emptyDataMsg = '[data-test=empty-data-message]',
     networkErrorMsg = '[data-test=network-error-message]',
-    delay = 1000,
+    delay = 5000,
     url = Cypress.env('clientUrl');
 
   before(() => {
@@ -11,12 +11,14 @@ describe('data loader wrapper component', () => {
   });
 
   it('displays the spinner during a network request', () => {
+    const visitAndWait = resAlias => {
+      cy.visit(`${url}/support`);
+      cy.get(spinner).should('exist');
+      cy.wait(resAlias);
+      cy.get(spinner).should('not.exist');
+    };
     cy.server();
-    cy.stubResponse({ url: 'support-links', response: 'support', delay });
-    cy.visit(`${url}/support`);
-    cy.get(spinner).should('exist');
-    cy.wait(1000);
-    cy.get(spinner).should('not.exist');
+    cy.stubResponse({ url: 'support-links', response: 'support', delay }, visitAndWait);
   });
 
   it('displays data when no spinner or network error', () => {
