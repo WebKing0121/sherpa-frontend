@@ -7,6 +7,7 @@ import { loadLeadStages } from './leadstages/utils';
 import auth from './Auth/reducers';
 import campaigns from './Campaigns/reducers';
 import campaignNotes from './CampaignDetails/notes/reducers';
+import campaignsBatchProspectsStore from './CampaignsBatchProspectsStore/reducers';
 import companyOwners from './CompanyOwners/reducers';
 import markets from './Markets/reducers';
 import prospects from './Prospects/reducers';
@@ -34,18 +35,19 @@ const reducers = combineReducers({
   auth,
   campaigns,
   campaignNotes,
+  campaignProspectStore,
+  campaignsBatchProspectsStore,
   companyOwners,
+  leadStages,
   markets,
-  prospects,
+  nav,
+  prospectStore,
   prospectDetailsReducer,
+  prospects,
+  smsTemplates,
   supportItems,
   toastsReducer,
-  leadStages,
-  smsTemplates,
-  prospectStore,
-  uiStore,
-  nav,
-  campaignProspectStore
+  uiStore
 });
 
 const rootReducer = (state: any, action: any) => {

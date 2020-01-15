@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { getCampaignProspects } from '../../../store/campaignProspectStore/selectors';
+import { campaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/selectors';
 import { activeCampaign } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
@@ -104,8 +104,7 @@ function renderLead({ transProps, campaignProspects, count }) {
 
 function ReviewSend(props) {
   const [count, setCount] = useState(0);
-  const campaignId = useSelector(activeCampaign);
-  const campaignProspects = useSelector(getCampaignProspects(campaignId));
+  const campaignProspects = useSelector(campaignsBatchProspects);
 
   const transProps = {};
   transProps.timeout = 70;

@@ -50,7 +50,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         campaigns: campaignMap,
         status: Success
-      }
+      };
     case RESET_CAMPAIGNS_DATA:
       return initialState;
     default:

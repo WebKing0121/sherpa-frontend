@@ -6,6 +6,8 @@ import ReviewSend from './ReviewSend';
 import { fetchSmsTemplates } from '../../../store/SmsTemplateStore/actions';
 import { smsTemplates } from '../../../store/SmsTemplateStore/selectors';
 
+import { fetchCampaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/actions';
+
 import CollapsablePane from '../../../components/CollapsablePane';
 
 const SendTab = (props) => {
@@ -20,7 +22,13 @@ const SendTab = (props) => {
   const toggle2 = () => setIsOpen2(!isOpen2);
 
   useEffect(() => {
+    // fetch all sms templates belonging to the company
     dispatch(fetchSmsTemplates());
+
+    // fetch all campaign prospects that need an sms sent to
+    if (props.campaign.id) {
+      dispatch(fetchCampaignsBatchProspects(props.campaign.id));
+    }
   }, [dispatch]);
 
   useEffect(() => {
