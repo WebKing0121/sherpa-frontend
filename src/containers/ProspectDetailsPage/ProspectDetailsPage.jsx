@@ -23,6 +23,9 @@ const Wrapper = styled.div`
 
 const StyledTabContent = styled(TabContent)`
   overflow-y: scroll;
+  flex-basis: 100%;
+  background: ${props =>
+    props.activeTab === '2' ? 'var(--ghostBlue)' : 'white'};
 `;
 
 function ProspectDetailsPage() {
@@ -95,7 +98,7 @@ function ProspectDetailsPage() {
                 <MessagesTab
                   marginTop={headerRef.current && headerRef.current.clientHeight}
                   subjectId={prospectId}
-                  scrollToBot={activeTab === '2'} 
+                  scrollToBot={activeTab === '2'}
                 />
               </TabPane>
               <TabPane tabId='3'>

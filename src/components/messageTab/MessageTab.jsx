@@ -7,14 +7,13 @@ import * as vars from '../../variables';
 import { DataLoader } from '../LoadingData';
 
 const StyledList = styled.ul`
-  background: var(--coolGray);
   padding: var(--pad3) var(--pad3) 0;
   /* number comes from claculated height of message input */
   padding-bottom: 5.6875rem;
   width: 100%;
   position: relative;
   bottom: 0;
-  z-index: -1;
+  z-index: 1;
   display: flex;
   flex-direction: column-reverse;
   margin: 0;
@@ -25,17 +24,17 @@ const Placeholder = styled.div`
   text-align: center;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  font-size: 1.5rem;
   font-weight: bold;
-  color: white;
-  margin-top: 50%;
+  color: var(--darkGray);
+  padding: var(--pad3);
+  line-height: 1.3 !important;
 `;
 
 const InputWrapper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
+  z-index: 2;
 `;
 
 function MessagesTab(props) {
@@ -44,7 +43,7 @@ function MessagesTab(props) {
 
   const mappedMessages = () => {
     if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} />);
-    return <Placeholder>{vars.messagesPlaceholderText}</Placeholder>;
+    return <Placeholder className="textXL">{vars.messagesPlaceholderText}</Placeholder>;
   };
 
   const messagesRef = useRef();
@@ -102,7 +101,7 @@ function MessagesTab(props) {
         data={(messages.length && messages) || [vars.messagesPlaceholderText]}
         emptyResultsMessage=''
         renderData={() => (
-          <StyledList ref={messagesRef}>
+          <StyledList noMsg={messages.length === "0"} ref={messagesRef}>
             {mappedMessages()}
           </StyledList>
         )}
