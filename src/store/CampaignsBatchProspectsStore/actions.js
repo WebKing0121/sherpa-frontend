@@ -26,7 +26,6 @@ export const fetchCampaignsBatchProspects = id => (dispatch, _) => {
 
   AxiosInstance.get(`/campaigns/${id}/batch_prospects/`)
     .then(({ data }) => {
-      console.log('data: ', data);
       const { results } = data;
 
       dispatch(setFetchedCampaignsBatchProspects(results));

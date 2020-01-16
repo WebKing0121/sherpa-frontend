@@ -3,7 +3,8 @@ import {
   SET_FETCH_CAMPAIGNS,
   SET_FETCH_CAMPAIGNS_ERROR,
   RESET_CAMPAIGNS_DATA,
-  ARCHIVE_CAMPAIGN
+  ARCHIVE_CAMPAIGN,
+  UPDATE_SMS_TEMPLATE
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../variables';
 import { arrayToMapIndex, mapIndexToArray } from '../utils';
@@ -42,15 +43,21 @@ export default function reducer(state = initialState, action) {
         status: FetchError
       };
     case ARCHIVE_CAMPAIGN:
-      const { campaigns } = state;
-      const campaignsArr = mapIndexToArray(campaigns);
-      let newCampaignsList = campaignsArr.filter((x) => x.id !== data.id);
-      const campaignMap = arrayToMapIndex('id', newCampaignsList);
+      let updatedCampaigns = { ...state.campaigns };
+      delete updatedCampaigns[data.id];
       return {
         ...state,
-        campaigns: campaignMap,
+        campaigns: updatedCampaigns,
         status: Success
       };
+    case UPDATE_SMS_TEMPLATE:
+      let campaignsToUpdate = { ...state.campaigns };
+      campaignsToUpdate[data.id] = data;
+      return {
+        ...state,
+        campaigns: campaignsToUpdate,
+        status: Success
+      }
     case RESET_CAMPAIGNS_DATA:
       return initialState;
     default:

@@ -4,7 +4,8 @@ import {
   SET_FETCH_CAMPAIGNS_ERROR,
   RESET_CAMPAIGNS_DATA,
   FETCH_CAMPAIGNS,
-  ARCHIVE_CAMPAIGN
+  ARCHIVE_CAMPAIGN,
+  UPDATE_SMS_TEMPLATE
 } from './actionTypes';
 import { Fetching } from '../../variables';
 import { arrayToMapIndex } from '../utils';
@@ -35,6 +36,11 @@ export const resetCampaignsData = () => ({
 
 export const setArchiveCampaign = data => ({
   type: ARCHIVE_CAMPAIGN,
+  data
+});
+
+export const setUpdatedSmsTemplateCampaign = data => ({
+  type: UPDATE_SMS_TEMPLATE,
   data
 });
 
@@ -129,6 +135,7 @@ export const updateSmsTemplate = (data) => (dispatch, _) => {
 
   AxiosInstance.patch(`/campaigns/${id}/`, data)
     .then(({ data }) => {
+      dispatch(setUpdatedSmsTemplateCampaign(data));
       dispatch(fetchCampaignsBatchProspects(data.id));
     })
     .catch(error => {
