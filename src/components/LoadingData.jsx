@@ -21,7 +21,14 @@ const SpinWrap = styled.div`
 `;
 
 const NoResults = styled.p`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--darkGray);
   padding: var(--pad3);
+  line-height: 1.3 !important;
 `;
 
 const whenLoadingResults = (status, results) =>
