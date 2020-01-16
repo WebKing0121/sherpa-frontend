@@ -11,11 +11,13 @@ const PaddedContent = styled.div`
 function SelectTemplate(props) {
   const { templateChoices, templateId, smsMsg, choseTemplate } = props;
 
-  const templateOptions = templateChoices.map((item, key) => (
-    <option key={key} value={item.id}>
-      {item.templateName}
+  const templateOptions = Object.entries(templateChoices).map(([key, value]) =>
+    <option key={key} value={value.id}>
+      {value.templateName}
     </option>
-  ));
+  );
+
+  const msg = templateChoices[templateId] ? templateChoices[templateId].message : '';
 
   return (
     <PaddedContent>
@@ -30,7 +32,7 @@ function SelectTemplate(props) {
         {templateOptions}
       </InputSelect>
 
-      <Preview message={smsMsg} />
+      <Preview message={msg} />
     </PaddedContent>
   );
 }

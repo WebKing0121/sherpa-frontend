@@ -15,7 +15,7 @@ import CollapsablePane from '../../../components/CollapsablePane';
 const SendTab = ({ campaign }) => {
   const dispatch = useDispatch();
   const sms_Templates = useSelector(smsTemplates);
-  const [message, setMessage] = useState('');
+  const { smsTemplate, id } = campaign;
 
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
@@ -28,24 +28,19 @@ const SendTab = ({ campaign }) => {
     dispatch(fetchSmsTemplates());
 
     // fetch all campaign prospects that need an sms sent to
-    if (campaign.id) {
-      dispatch(fetchCampaignsBatchProspects(campaign.id));
+    if (id) {
+      dispatch(fetchCampaignsBatchProspects(id));
     }
   }, [dispatch]);
 
-  useEffect(() => {
-    sms_Templates.filter(x => x.id === campaign.smsTemplates);
-  })
-
   const handleChange = e => {
     const chosenTemplate = e.target.value;
-    const templateMessage = sms_Templates.filter(x => x.id === parseInt(chosenTemplate));
+    const templateMessage = sms_Templates[parseInt(chosenTemplate)];
 
     let updatedCampaignTemplate = campaign;
-    updatedCampaignTemplate.smsTemplate = templateMessage[0].id;
+    updatedCampaignTemplate.smsTemplate = templateMessage.id;
 
     dispatch(updateSmsTemplate(updatedCampaignTemplate));
-    setMessage(templateMessage[0].message);
   }
 
   return (
@@ -53,8 +48,7 @@ const SendTab = ({ campaign }) => {
       <CollapsablePane toggle={toggle1} isOpen={isOpen1} header='Select SMS Template'>
         <SelectTemplate
           templateChoices={sms_Templates}
-          templateId={campaign.smsTemplates && '0'}
-          smsMsg={message}
+          templateId={smsTemplate}
           choseTemplate={handleChange}
         />
       </CollapsablePane>

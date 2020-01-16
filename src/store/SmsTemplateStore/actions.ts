@@ -3,9 +3,10 @@ import {
   SET_SMS_TEMPLATES_STATUS,
   SET_SMS_TEMPLATES_ERROR
 } from './actionTypes';
-import axiosInstance, { delayedRequest } from '../../axiosConfig';
+import AxiosInstance, { delayedRequest } from '../../axiosConfig';
 import { Fetching, fastSpinner } from '../../variables';
 import { Dispatch } from 'redux';
+import { arrayToMapIndex } from '../utils';
 
 export interface ITemplate {
   company: number;
@@ -37,7 +38,11 @@ const handleError = (message: string, error: string, dispatch: Dispatch) => {
 
 export const fetchSmsTemplates = () => (dispatch: Dispatch) => {
   dispatch(setSmsTemplatesStatus(Fetching));
-  delayedRequest(axiosInstance.get('/sms-templates/'), fastSpinner)
-    .then(({ data }: any) => dispatch(populateSmsTemplates(data)))
+
+  AxiosInstance.get('/sms-templates/')
+    .then(({ data }) => {
+      const smsMap = arrayToMapIndex('id', data);
+      dispatch(populateSmsTemplates(smsMap));
+    })
     .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
 };
