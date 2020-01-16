@@ -1,6 +1,19 @@
 import React from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { LoadingSpinner } from './LoadingSpinner';
+
+const StyledSpinner = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner-border {
+    width: ${props => props.width ? "calc("  + props.width + " / 2 )" : "22px"};
+    height: ${props => props.height ? "calc("  + props.height + " / 2 )" : "22px"};
+    border-width: 3px;
+  }
+`;
 
 const Circle = styled.div`
   background: ${props => props.color};
@@ -35,9 +48,22 @@ const IconBg = (props) => {
     textcol = props.textcol;
   }
 
+  let icon = <FontAwesomeIcon {...props}/>;
+
+  icon = props.loader ? (
+    <StyledSpinner>
+      <LoadingSpinner
+        isLoading={props.loader.isLoading}
+        color={props.loader.color}
+        renderContent={() => (
+          <FontAwesomeIcon {...props}/>
+        )}
+      />
+    </StyledSpinner>) : icon;
+
   return (
     <Circle {...props} color={color} textcol={textcol} >
-      <FontAwesomeIcon {...props}/>
+      {icon}
     </Circle>
   );
 }

@@ -15,7 +15,15 @@ import { prospectIsLoading, getProspect } from '../../store/prospectStore/select
 import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 import { useParams } from 'react-router-dom';
 
-const StyledTabContent = styled(TabContent)``;
+const Wrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+`;
+
+const StyledTabContent = styled(TabContent)`
+  overflow-y: scroll;
+`;
 
 function ProspectDetailsPage() {
   const [activeTab, setActiveTab] = useState('1');
@@ -38,6 +46,12 @@ function ProspectDetailsPage() {
       dispatch(setActiveCampaign(prospect.campaigns[0].id));
     }
   }, [dispatch, prospect]);
+
+  useEffect(() => {
+    if (activeTab && prospect.campaigns.length === 1) {
+      dispatch(setActiveCampaign(prospect.campaigns[0].id));
+    }
+  }, [activeTab]);
 
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -67,7 +81,7 @@ function ProspectDetailsPage() {
         fullPage={true}
         emptyResultsMessage={'Could not find the prospect'}
         renderData={() => (
-          <>
+          <Wrapper>
             <div ref={headerRef}>
               <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={prospectHeaderInfo}>
                 {prospect.name}
@@ -81,13 +95,14 @@ function ProspectDetailsPage() {
                 <MessagesTab
                   marginTop={headerRef.current && headerRef.current.clientHeight}
                   subjectId={prospectId}
+                  scrollToBot={activeTab === '2'} 
                 />
               </TabPane>
               <TabPane tabId='3'>
                 <NotesTab {...notesProps} />
               </TabPane>
             </StyledTabContent>
-          </>
+          </Wrapper>
         )}
       />
     </div>

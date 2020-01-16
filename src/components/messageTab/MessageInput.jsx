@@ -4,7 +4,6 @@ import InputGroupBorder from '../InputGroupBorder';
 import IconBg from '../IconBg';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import styled from 'styled-components';
-import { LoadingSpinner } from '../LoadingSpinner';
 
 const SendMessage = styled.form`
   padding: var(--pad2) var(--pad3);
@@ -32,11 +31,14 @@ function MessageInput(props) {
   return (
     <SendMessage onSubmit={handleSubmit}>
       <InputGroupBorder className='mb-2'>
-        <InputGroupAddon addonType='prepend'>
-          <Button className='p-0' type='button' color='link'>
-            <FontAwesomeIcon icon='layer-group' color='gray' size='2x' className='mr-3' />
-          </Button>
-        </InputGroupAddon>
+        {
+        // We will use this later
+        // <InputGroupAddon addonType='prepend'>
+        //   <Button className='p-0' type='button' color='link'>
+        //     <FontAwesomeIcon icon='layer-group' color='gray' size='2x' className='mr-3' />
+        //   </Button>
+        // </InputGroupAddon>
+        }
         <Input
           type='text'
           name='sendMessage'
@@ -47,12 +49,15 @@ function MessageInput(props) {
         />
         <InputGroupAddon addonType='append'>
           <Button type='submit' name='submit' className='p-0' color='link' disabled={!input}>
-            <LoadingSpinner
-              isLoading={isFetching}
-              color=''
-              renderContent={() => (
-                <IconBg icon='paper-plane' color='sherpaBlue' textcol='white' nudge='0 0 0 -4px' />
-              )}
+            <IconBg
+              icon='paper-plane'
+              color='sherpaBlue'
+              textcol='white'
+              nudge='0 0 0 -4px'
+              loader={{
+                isLoading: isFetching,
+                color: 'white'
+              }}
             />
           </Button>
         </InputGroupAddon>

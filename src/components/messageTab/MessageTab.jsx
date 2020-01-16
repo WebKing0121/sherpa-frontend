@@ -8,19 +8,16 @@ import { DataLoader } from '../LoadingData';
 
 const StyledList = styled.ul`
   background: var(--coolGray);
-  padding: 0 var(--pad3);
-  padding-bottom: ${props => props.marginBottom - 20}px;
+  padding: var(--pad3) var(--pad3) 0;
+  /* number comes from claculated height of message input */
+  padding-bottom: 5.6875rem;
   width: 100%;
-  height: 100vh;
-  overflow-y: scroll;
-  position: absolute;
+  position: relative;
   bottom: 0;
   z-index: -1;
   display: flex;
   flex-direction: column-reverse;
-  .message:last-child {
-    padding-top: ${props => `calc(70px + 5vw + 1rem + ${props.marginTop || 0}px)`};
-  }
+  margin: 0;
 `;
 
 const Placeholder = styled.div`
@@ -41,23 +38,20 @@ const InputWrapper = styled.div`
   width: 100%;
 `;
 
-const initialMargins = {
-  marginTop: 0,
-  marginBottom: 0
-};
-
 function MessagesTab(props) {
   const [messages, setMessages] = useState([]);
   const [messagesStatus, setMessagesStatus] = useState(vars.Fetching);
-  const [margins, setMargins] = useState(initialMargins);
 
   const mappedMessages = () => {
     if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} />);
-    return <Placeholder {...margins}>{vars.messagesPlaceholderText}</Placeholder>;
+    return <Placeholder>{vars.messagesPlaceholderText}</Placeholder>;
   };
 
   const messagesRef = useRef();
   const inputRef = useRef();
+
+  const tabContent = document.getElementsByClassName("tab-content");
+  tabContent.scrollTop = messagesRef.scrollHeight;
 
   const fetchMessagesCB = useCallback(() => {
     fetchMessages(props.subjectId).then(res => {
@@ -68,12 +62,13 @@ function MessagesTab(props) {
 
   const scrollToNewMessageCB = useCallback(() => {
     const { current } = messagesRef;
-    current &&
-      current.scrollTo({
-        top: current.scrollHeight - current.clientHeight - 10 || 0,
+    if (current) {
+      tabContent[0].scrollTo({
+        top: current.scrollHeight,
         left: 0,
         behavior: 'smooth'
       });
+    }
   }, [messagesRef]);
 
   const addNewMessage = message => {
@@ -85,18 +80,20 @@ function MessagesTab(props) {
     fetchMessagesCB();
     let interval = setInterval(fetchMessagesCB, vars.pollingInterval);
     return () => clearInterval(interval);
-  }, [fetchMessagesCB, scrollToNewMessageCB]);
+  }, [fetchMessagesCB]);
 
   // scrolls to new message after added
   useEffect(() => {
     scrollToNewMessageCB();
   }, [messages.length, scrollToNewMessageCB]);
 
-  // updates state with correct element sizes for message margins
+  // scrolls bot on tab active
   useEffect(() => {
-    const marginBottom = inputRef.current.clientHeight || 0;
-    setMargins({ marginTop: props.marginTop || 0, marginBottom });
-  }, [props.marginTop]);
+    const { current } = messagesRef;
+    if (current) {
+      tabContent[0].scrollTop = current.scrollHeight;
+    }
+  }, [props.scrollToBot, tabContent]);
 
   return (
     <div data-test='messages-tab'>
@@ -105,7 +102,7 @@ function MessagesTab(props) {
         data={(messages.length && messages) || [vars.messagesPlaceholderText]}
         emptyResultsMessage=''
         renderData={() => (
-          <StyledList {...margins} ref={messagesRef}>
+          <StyledList ref={messagesRef}>
             {mappedMessages()}
           </StyledList>
         )}

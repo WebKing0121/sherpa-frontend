@@ -17,6 +17,8 @@ const StyledMessage = styled.div`
   font-size: 1.125rem;
   line-height: 1.4;
   margin-bottom: var(--pad1);
+  white-space: break-spaces;
+  hyphens: auto;
 `;
 
 const TimeStamp = styled.time`
