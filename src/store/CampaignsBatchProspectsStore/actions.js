@@ -22,7 +22,6 @@ export const setFetchedCampaignsError = error => ({
 });
 
 export const fetchCampaignsBatchProspects = id => (dispatch, _) => {
-  console.log('id: ', id);
   dispatch(setFetchedCampaignsBatchPropsectsStatus(Fetching));
 
   AxiosInstance.get(`/campaigns/${id}/batch_prospects/`)

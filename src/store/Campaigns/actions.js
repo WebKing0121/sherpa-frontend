@@ -7,8 +7,12 @@ import {
   ARCHIVE_CAMPAIGN
 } from './actionTypes';
 import { Fetching } from '../../variables';
-import { decrementMarketCampaignCount } from '../Markets/actions';
 import { arrayToMapIndex } from '../utils';
+
+import { decrementMarketCampaignCount } from '../Markets/actions';
+import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
+
+/*************************************************************************************************/
 
 export const setFetchedCampaignStatus = status => ({
   type: FETCH_CAMPAIGNS,
@@ -33,6 +37,8 @@ export const setArchiveCampaign = data => ({
   type: ARCHIVE_CAMPAIGN,
   data
 });
+
+/*************************************************************************************************/
 
 export const fetchCampaigns = id => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
@@ -68,27 +74,6 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     });
 };
 
-export const archiveCampaign = data => (dispatch, _) => {
-  const { id, name, company, market, createdBy, priorityCount } = data;
-
-  const body = {
-    name,
-    company,
-    market,
-    createdBy,
-    priorityCount,
-    isArchived: true
-  };
-
-  AxiosInstance.put(`/campaigns/${id}/`, body)
-    .then(({ data }) => {
-      dispatch(setArchiveCampaign(data));
-      dispatch(decrementMarketCampaignCount(market));
-    })
-    .catch(error => {
-      console.log('Error archiving camapign: ', error);
-    });
-};
 
 export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
   AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false } })
@@ -112,5 +97,41 @@ export const fetchSingleCampaign = id => (dispatch, _) => {
     })
     .catch(error => {
       console.log('Error fetching the campaign: ', error);
+    });
+};
+
+/*************************************************************************************************/
+
+export const archiveCampaign = data => (dispatch, _) => {
+  const { id, name, company, market, createdBy, priorityCount } = data;
+
+  const body = {
+    name,
+    company,
+    market,
+    createdBy,
+    priorityCount,
+    isArchived: true
+  };
+
+  AxiosInstance.put(`/campaigns/${id}/`, body)
+    .then(({ data }) => {
+      dispatch(setArchiveCampaign(data));
+      dispatch(decrementMarketCampaignCount(market));
+    })
+    .catch(error => {
+      console.log('Error archiving camapign: ', error);
+    });
+};
+
+export const updateSmsTemplate = (data) => (dispatch, _) => {
+  const { id } = data;
+
+  AxiosInstance.patch(`/campaigns/${id}/`, data)
+    .then(({ data }) => {
+      dispatch(fetchCampaignsBatchProspects(data.id));
+    })
+    .catch(error => {
+      console.log('Error updating sms template on campaign', error);
     });
 };

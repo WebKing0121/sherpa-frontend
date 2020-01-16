@@ -6,11 +6,13 @@ import ReviewSend from './ReviewSend';
 import { fetchSmsTemplates } from '../../../store/SmsTemplateStore/actions';
 import { smsTemplates } from '../../../store/SmsTemplateStore/selectors';
 
+import { updateSmsTemplate } from '../../../store/Campaigns/actions';
+
 import { fetchCampaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/actions';
 
 import CollapsablePane from '../../../components/CollapsablePane';
 
-const SendTab = (props) => {
+const SendTab = ({ campaign }) => {
   const dispatch = useDispatch();
   const sms_Templates = useSelector(smsTemplates);
   const [message, setMessage] = useState('');
@@ -26,18 +28,23 @@ const SendTab = (props) => {
     dispatch(fetchSmsTemplates());
 
     // fetch all campaign prospects that need an sms sent to
-    if (props.campaign.id) {
-      dispatch(fetchCampaignsBatchProspects(props.campaign.id));
+    if (campaign.id) {
+      dispatch(fetchCampaignsBatchProspects(campaign.id));
     }
   }, [dispatch]);
 
   useEffect(() => {
-    sms_Templates.filter(x => x.id === props.campaign.smsTemplates);
+    sms_Templates.filter(x => x.id === campaign.smsTemplates);
   })
 
   const handleChange = e => {
     const chosenTemplate = e.target.value;
     const templateMessage = sms_Templates.filter(x => x.id === parseInt(chosenTemplate));
+
+    let updatedCampaignTemplate = campaign;
+    updatedCampaignTemplate.smsTemplate = templateMessage[0].id;
+
+    dispatch(updateSmsTemplate(updatedCampaignTemplate));
     setMessage(templateMessage[0].message);
   }
 
@@ -46,7 +53,7 @@ const SendTab = (props) => {
       <CollapsablePane toggle={toggle1} isOpen={isOpen1} header='Select SMS Template'>
         <SelectTemplate
           templateChoices={sms_Templates}
-          templateId={props.campaign.smsTemplates && '0'}
+          templateId={campaign.smsTemplates && '0'}
           smsMsg={message}
           choseTemplate={handleChange}
         />
