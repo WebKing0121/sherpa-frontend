@@ -77,7 +77,6 @@ const ItemContent = styled.div`
 `;
 
 function ListItem(props) {
-  console.log(props.item);
   return (
     <StyledItem style={props.style} data-test='list-item'>
       <ItemContent id={props.id}>

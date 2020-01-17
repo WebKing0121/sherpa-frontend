@@ -40,13 +40,12 @@ function NoteForm(props) {
         data-test='note-form-btn'
         disabled={notesStatus === Fetching}
       >
-      <Spinner>
-        <LoadingSpinner
-          isLoading={notesStatus === Fetching ? true : false}
-          color='white'
-          renderContent={() => <>{btnText}</>}
-        />
-      </Spinner>
+      <LoadingSpinner
+        isLoading={notesStatus === Fetching ? true : false}
+        color='white'
+        size='1.5em'
+        renderContent={() => <>{btnText}</>}
+      />
       </Button>
     </Form>
   );

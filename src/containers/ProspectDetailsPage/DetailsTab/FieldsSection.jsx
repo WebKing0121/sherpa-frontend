@@ -36,9 +36,36 @@ const BtnHolster = styled.div`
 
   button {
     flex-basis: 50%;
+    overflow: hidden;
+    position: relative;
+
+    &[disabled] {
+      border-color: var(--green);
+      cursor: disabled;
+      &:after {
+        width: 1px;
+        height: 1px;
+        transition: all .2s ease-in-out;
+        transform: translate(-50%,-50%) scale(200);
+      }
+    }
 
     &:first-child {
       margin-right: var(--pad2);
+    }
+
+    &:after {
+      content: '';
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%) scale(1);
+      background: var(--green);
+      transition: transform 10s;
+      z-index: -1;
     }
   }
 `;
@@ -82,9 +109,7 @@ const BtnSuccessWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  * {
-    margin-left: 7px;
-  }
+  svg{ margin-left: .6em; }
 `;
 
 const ModalBackPlate = styled.div`
@@ -295,9 +320,10 @@ const FieldsSection = () => {
               <LoadingSpinner
                 isLoading={fieldBtnStatus.isEmailingToCrm}
                 color='white'
+                size='1em'
                 renderContent={() => (
                   <BtnSuccessWrapper>
-                    Emailed to CRM <FontAwesomeIcon icon='check' />
+                    Emailed to CRM <FontAwesomeIcon size="sm" icon='check' />
                   </BtnSuccessWrapper>
                 )}
               />
@@ -316,6 +342,8 @@ const FieldsSection = () => {
               <LoadingSpinner
                 isLoading={fieldBtnStatus.isPushingToZapier}
                 color='white'
+                size='1em'
+                border='3px'
                 renderContent={() => (
                   <BtnSuccessWrapper>
                     Pushed to Zapier <FontAwesomeIcon icon='check' />

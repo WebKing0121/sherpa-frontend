@@ -64,13 +64,6 @@ const StatusAction = styled.div`
   text-align: center;
 
   transition: background-color .2s, transform .25s cubic-bezier(0.15, 0.75, 1, 1.45);
-
-  .spinner-border {
-    width: 1.125em;
-    height: 1.125em;
-    border-width: .2em;
-    color: var(--gray) !important;
-  }
 `;
 
 const StatusActions = styled.div`
@@ -178,6 +171,8 @@ const DetailsTab = props => {
     >
       <LoadingSpinner
         isLoading={item.status}
+        size="1.125em"
+        color="var(--gray)"
         renderContent={() => (
           <>
             <FontAwesomeIcon className="mr-2" icon={item.icon} />
