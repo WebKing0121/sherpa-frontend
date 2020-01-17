@@ -26,7 +26,8 @@ import NoDesktop from './components/NoDesktop';
 //font awesome
 import './assets/fontAwesome/index.ts';
 import './App.css';
-import { maxMobileWidth } from './variables';
+import { maxMobileWidth, debounceTime } from './helpers/variables';
+import { debounce } from './helpers/utils';
 
 function App() {
   const is_auth = useSelector(isAuthenticated);
@@ -37,20 +38,9 @@ function App() {
     setIsMobile(viewWidth < maxMobileWidth);
   };
 
-  // debounce used to slow down resize to avoid making the display laggy when resizing
-  const debounce = (callback: Function, delay: number) => {
-    let debounceTimer: ReturnType<typeof setTimeout>;
-    return function(this: Function) {
-      const context = this;
-      const args = arguments;
-      clearTimeout(debounceTimer);
-      debounceTimer = setTimeout(() => callback.apply(context, args), delay);
-    };
-  };
-
   useEffect(() => {
-    const time = 30;
-    const debounced = debounce(updateViewport, time);
+    // debounce used to slow down resize to avoid making the display laggy when resizing
+    const debounced = debounce(updateViewport, debounceTime);
     window.addEventListener('resize', debounced);
     return () => window.removeEventListener('resize', debounced);
   }, []);
@@ -66,12 +56,7 @@ function App() {
     <Router history={history}>
       {determineNav()}
       <Switch>
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/'
-          component={CampaignFoldersPage}
-          exact
-        />
+        <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
         <ProtectedRoute
           is_auth={is_auth}
           path='/markets/:marketId/campaigns'
@@ -82,25 +67,17 @@ function App() {
           is_auth={is_auth}
           path='/markets/:marketId/campaigns/:campaignId/details'
           component={CampaignDetailsPage}
-          exact />
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/campaigns'
-          component={DesktopCampaignsPage}
-          exact />
+          exact
+        />
+        <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
         <ProtectedRoute
           is_auth={is_auth}
           path='/prospect/:prospectId/details'
           component={ProspectDetailsPage}
-          exact />
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/prospects'
-          component={ProspectsSearch} />
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/support'
-          component={SupportPage} />
+          exact
+        />
+        <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
+        <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
       </Switch>
       {is_auth && <ToastContainer />}
       <NoDesktop />

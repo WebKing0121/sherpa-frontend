@@ -4,7 +4,7 @@ import {
   SET_FETCH_COMPANY_OWNERS,
   SET_FETCH_COMPANY_OWNERS_ERROR
 } from './actionTypes';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 
 export const setFetchedCompanyOwnersStatus = status => ({
   type: FETCH_COMPANY_OWNERS,

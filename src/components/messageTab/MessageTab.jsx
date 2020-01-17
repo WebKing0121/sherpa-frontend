@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
 import { fetchMessages, sendMessage } from './utils';
-import * as vars from '../../variables';
+import * as vars from '../../helpers/variables';
 import { DataLoader } from '../LoadingData';
 
 const StyledList = styled.ul`
@@ -78,6 +78,7 @@ function MessagesTab(props) {
   useEffect(() => {
     fetchMessagesCB();
     let interval = setInterval(fetchMessagesCB, vars.pollingInterval);
+
     return () => clearInterval(interval);
   }, [fetchMessagesCB]);
 

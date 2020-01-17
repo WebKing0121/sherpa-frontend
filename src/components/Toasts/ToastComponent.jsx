@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Alert } from 'reactstrap';
 import styled from 'styled-components';
-import { toastLingerTime } from '../../variables';
+import { toastLingerTime } from '../../helpers/variables';
 
 const ShAlert = styled(Alert)`
   margin: var(--pad2) var(--pad2) var(--pad1) !important;

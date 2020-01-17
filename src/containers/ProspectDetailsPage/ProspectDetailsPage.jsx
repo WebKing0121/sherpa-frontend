@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DataLoader } from '../../components/LoadingData';
 import * as noteActions from '../../store/ProspectDetails/notes/actions';
 import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectDetails/notes/selectors';
-import { prospectHeaderInfo } from '../../variables';
+import { prospectHeaderInfo } from '../../helpers/variables';
 import MessagesTab from '../../components/messageTab/MessageTab';
 import { prospectIsLoading, getProspect } from '../../store/prospectStore/selectors';
 import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';

@@ -7,10 +7,9 @@ import {
   ARCHIVE_CAMPAIGN,
   UPDATE_SMS_TEMPLATE
 } from './actionTypes';
-import { Fetching } from '../../variables';
-import { arrayToMapIndex } from '../utils';
-
+import { Fetching } from '../../helpers/variables';
 import { decrementMarketCampaignCount } from '../Markets/actions';
+import { arrayToMapIndex } from '../utils';
 import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
 
 /*************************************************************************************************/
@@ -80,7 +79,6 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     });
 };
 
-
 export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
   AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false } })
     .then(({ data }) => {
@@ -130,7 +128,7 @@ export const archiveCampaign = data => (dispatch, _) => {
     });
 };
 
-export const updateSmsTemplate = (data) => (dispatch, _) => {
+export const updateSmsTemplate = data => (dispatch, _) => {
   const { id } = data;
 
   AxiosInstance.patch(`/campaigns/${id}/`, data)

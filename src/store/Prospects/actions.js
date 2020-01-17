@@ -7,7 +7,7 @@ import {
   RESET_PROSPECT_DATA,
   SET_PROSPECTS_FETCH_MORE_STATUS
 } from './actionTypes';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 import { getLeadStages } from '../leadstages/selectors';
 import { mergeLeadStageTitle } from './transformers';
 

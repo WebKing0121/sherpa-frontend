@@ -4,7 +4,7 @@ import {
   SET_FETCH_MARKETS_ERROR,
   DECREMENT_MARKET_CAMPAIGN_COUNT
 } from './actionTypes';
-import { Fetching, Success, FetchError } from '../../variables';
+import { Fetching, Success, FetchError } from '../../helpers/variables';
 
 // campaigns reducer
 export const initialState = {

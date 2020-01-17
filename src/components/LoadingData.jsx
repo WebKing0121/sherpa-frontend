@@ -1,7 +1,7 @@
 import React from 'react';
 import { Spinner } from 'reactstrap';
 import styled from 'styled-components';
-import { Fetching, Success, FetchError } from '../variables';
+import { Fetching, Success, FetchError } from '../helpers/variables';
 
 const SpinWrap = styled.div`
   text-align: center;

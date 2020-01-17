@@ -77,18 +77,27 @@ const ItemContent = styled.div`
 `;
 
 function ListItem(props) {
+  console.log(props.item);
   return (
     <StyledItem style={props.style} data-test='list-item'>
       <ItemContent id={props.id}>
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
         <ItemBody className='itemBody'>
-          <ItemHeader>
+          <ItemHeader data-test='list-item-header'>
             <ItemName className='itemName m-0'>{props.item.name}</ItemName>
             <StatusWrapper className='d-flex'>{props.item.statusWrapper}</StatusWrapper>
           </ItemHeader>
 
-          {props.item.subInfo && <SubInfo className='textM m-0'>{props.item.subInfo}</SubInfo>}
-          {props.item.mainInfo && <MainInfo className='textL'>{props.item.mainInfo}</MainInfo>}
+          {props.item.subInfo && (
+            <SubInfo data-test='list-item-sub-info' className='textM m-0'>
+              {props.item.subInfo}
+            </SubInfo>
+          )}
+          {props.item.mainInfo && (
+            <MainInfo data-test='list-item-main-info' className='textL'>
+              {props.item.mainInfo}
+            </MainInfo>
+          )}
         </ItemBody>
         {props.item.desktopCallouts ? props.item.desktopCallouts : null}
         {props.item.desktopKebab ? props.item.desktopKebab : null}

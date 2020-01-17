@@ -8,7 +8,7 @@ import {
 import { createMarketsFolders } from './transformers';
 import { history } from '../../history';
 import { saveToLocalStorage } from './utils';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 
 export const setFetchMarketsStatus = status => ({
   type: FETCH_MARKETS,

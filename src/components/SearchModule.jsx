@@ -17,7 +17,7 @@ function SearchModule(props) {
   const onClick = e => props.searchTerm(searchTerm);
 
   return (
-    <StyledSearch>
+    <StyledSearch data-test={props.dataTest || ''}>
       <Row>
         {props.showSearch && (
           <Col>
@@ -28,16 +28,9 @@ function SearchModule(props) {
                 placeholder='Search'
                 value={searchTerm}
                 onChange={onChange}
-                data-test='search-module-input'
               />
               <InputGroupAddon addonType='append'>
-                <Button
-                  data-test='search-module-button'
-                  disabled={searchTerm.length < 3}
-                  className='p-0'
-                  color='link'
-                  onClick={onClick}
-                >
+                <Button disabled={searchTerm.length < 3} className='p-0' color='link' onClick={onClick}>
                   <IconBg color='primary' width='36px' height='36px' textcol='white' icon='search' />
                 </Button>
               </InputGroupAddon>

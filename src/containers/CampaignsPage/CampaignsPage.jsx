@@ -77,6 +77,7 @@ const CampaignsPage = props => {
         }}
         marketId={marketId}
         defaultValue={activeSort}
+        dataTest='campaign-filters'
       >
         <FilterButton />
       </SearchModule>

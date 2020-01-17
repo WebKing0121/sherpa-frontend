@@ -8,7 +8,7 @@ import store from '../../store/store';
 import { patchProspect } from '../../store/prospectStore/api';
 import { updateCampaignProspectSuccess } from '../../store/campaignProspectStore/actions';
 import { prospectUpdate } from '../../store/prospectStore/thunks';
-import { ProspectActions } from '../../variables';
+import { ProspectActions } from '../../helpers/variables';
 import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection';
 
 /*

@@ -7,7 +7,7 @@ import {
   SET_PROSPECT_UPDATE_ACTION_STATUS,
   CLEAR_PROSPECT_CAMPAIGN_ID
 } from './actionTypes';
-import { Success, Fetching } from '../../../variables';
+import { Success, Fetching } from '../../../helpers/variables';
 
 // Note: BreakApart this reducer into subsets
 // use combineReducers to compose them

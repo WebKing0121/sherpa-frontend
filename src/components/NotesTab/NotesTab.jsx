@@ -10,7 +10,7 @@ import Modal from '../Modal';
 import Note from './Note';
 import NoteForm from './NoteForm';
 import { DataLoader } from '../LoadingData';
-import { messageUpdateNote, Success, Fetching } from '../../variables';
+import { messageUpdateNote, Success, Fetching } from '../../helpers/variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addNewToast } from '../../store/Toasts/actions';
 

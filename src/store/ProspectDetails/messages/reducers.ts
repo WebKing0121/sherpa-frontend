@@ -4,7 +4,7 @@ import {
   SET_PROSPECT_MESSAGES_STATUS
 } from './actionTypes';
 import { IMessage } from './actions';
-import { Fetching, Success, FetchError } from '../../../variables';
+import { Fetching, Success, FetchError } from '../../../helpers/variables';
 
 interface IAction {
   type: string;

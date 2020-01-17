@@ -44,6 +44,7 @@ function SwipeMenuAction(props) {
   const dispatch = useDispatch();
   return (
     <Action
+      data-test='swipeable-list-item-action'
       size={props.size}
       wrapList={props.wrapList}
       className='textS fw-black action'

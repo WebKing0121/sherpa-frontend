@@ -5,7 +5,7 @@ import {
 } from './actionTypes';
 import axiosInstance, { delayedRequest } from '../../../axiosConfig';
 import { Dispatch } from 'redux';
-import { Fetching, fastSpinner, generalNetworkError } from '../../../variables';
+import { Fetching, fastSpinner, generalNetworkError } from '../../../helpers/variables';
 import { addNewToast } from '../../Toasts/actions';
 
 export interface IMessage {

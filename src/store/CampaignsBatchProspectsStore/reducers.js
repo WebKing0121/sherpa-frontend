@@ -3,7 +3,7 @@ import {
   SET_FETCH_CAMPAIGNS_BATCH_PROSPECTS,
   SET_FETCH_CAMPAIGNS_BATCH_PROSPECTS_ERROR
 } from './actionTypes';
-import { Fetching, Success, FetchError } from '../../variables';
+import { Fetching, Success, FetchError } from '../../helpers/variables';
 
 export const initialState = {
   campaignsBatchProspects: [],

@@ -1,6 +1,6 @@
 import { SET_SUPPORT_ITEMS, SET_SUPPORT_ITEMS_ERROR, SET_SUPPORT_ITEMS_STATUS } from './actionTypes';
 import { ISupportItems } from './actions';
-import { Fetching, Success, FetchError } from '../../variables';
+import { Fetching, Success, FetchError } from '../../helpers/variables';
 
 interface IAction {
   type?: string;

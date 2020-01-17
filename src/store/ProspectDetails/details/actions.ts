@@ -8,7 +8,7 @@ import {
   SET_PROSPECT_UPDATE_ACTION_STATUS,
   CLEAR_PROSPECT_CAMPAIGN_ID
 } from './actionTypes';
-import { Fetching, Updating, Success } from '../../../variables';
+import { Fetching, Updating, Success } from '../../../helpers/variables';
 import { prospectDetailsData } from './selectors';
 import { addNewToast } from '../../Toasts/actions';
 

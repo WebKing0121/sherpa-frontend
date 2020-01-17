@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { TabContent, TabPane } from 'reactstrap';
 import styled from 'styled-components';
 import CampaignsListTab from './CampaignsListTab/CampaignsListTab';
-import { desktopCampaignHeaderInfo } from '../../variables';
+import { desktopCampaignHeaderInfo } from '../../helpers/variables';
 
 import TabbedHeader from '../../components/TabbedHeader';
 

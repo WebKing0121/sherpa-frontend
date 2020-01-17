@@ -1,6 +1,6 @@
 import AxiosInstance from '../../axiosConfig';
 import { SET_SUPPORT_ITEMS, SET_SUPPORT_ITEMS_ERROR, SET_SUPPORT_ITEMS_STATUS } from './actionTypes';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 
 export interface ISupportItems {
   id: number;

@@ -9,7 +9,7 @@ import {
 } from './actionTypes';
 import AxiosInstance, { delayedRequest } from '../../../axiosConfig';
 import { Dispatch } from 'redux';
-import { Fetching, generalNetworkError, fastSpinner } from '../../../variables';
+import { Fetching, generalNetworkError, fastSpinner } from '../../../helpers/variables';
 import { addNewToast } from '../../Toasts/actions';
 
 export interface INote {

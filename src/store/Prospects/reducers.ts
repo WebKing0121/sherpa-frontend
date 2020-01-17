@@ -6,7 +6,7 @@ import {
   RESET_PROSPECT_DATA,
   SET_PROSPECTS_FETCH_MORE_STATUS
 } from './actionTypes';
-import { Success } from '../../variables';
+import { Success } from '../../helpers/variables';
 
 interface IState {
   count: number;

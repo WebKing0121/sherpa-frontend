@@ -1,5 +1,5 @@
 import { profilesToAgents } from './transformers';
-import { prospectDetailsReducer } from '../../../variables';
+import { prospectDetailsReducer } from '../../../helpers/variables';
 
 const reducer = prospectDetailsReducer;
 

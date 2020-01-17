@@ -8,6 +8,9 @@ export const Success = 'Success';
 export const FetchError = 'FetchError';
 export const Updating = 'Updating';
 
+// debounce time
+export const debounceTime = 30;
+
 // min spinner times
 export const fastSpinner = 250;
 
@@ -162,7 +165,7 @@ export const desktopCampaignHeaderInfo = {
         text: 'New Campaign',
         // this is for adding the onclick later
         action: 'addProspects'
-      },
+      }
     ]
   }
 };

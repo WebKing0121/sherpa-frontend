@@ -23,7 +23,7 @@ import { prospectSearch, prospectSearchNextPage } from '../../store/prospectStor
 
 // utils
 import { prospectsToItemList } from './utils';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -86,7 +86,12 @@ function ProspectsSearch(props) {
   return (
     <div className='pageContent'>
       <Header>Prospects Search</Header>
-      <SearchModule searchTerm={search} showFilter={false} showSearch={true} />
+      <SearchModule
+        searchTerm={search}
+        showFilter={false}
+        showSearch={true}
+        dataTest='prospect-search-input'
+      />
       <DataLoader
         status={isFetching ? Fetching : ''}
         data={prospectResults}

@@ -11,9 +11,7 @@ import {
 } from '../../../store/campaignProspectStore/thunks';
 
 // actions
-import {
-  setCampaignProspectFilter
-} from '../../../store/uiStore/campaignMessagesTabView/actions';
+import { setCampaignProspectFilter } from '../../../store/uiStore/campaignMessagesTabView/actions';
 
 // selectors
 import {
@@ -21,9 +19,7 @@ import {
   isLoadingMore,
   isLoading
 } from '../../../store/campaignProspectStore/selectors';
-import {
-  campaignMessagesFilter
-} from '../../../store/uiStore/campaignMessagesTabView/selectors';
+import { campaignMessagesFilter } from '../../../store/uiStore/campaignMessagesTabView/selectors';
 import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 
@@ -32,7 +28,7 @@ import SearchModule from '../../../components/SearchModule';
 import ListItem from '../../../components/List/ListItem';
 import VirtualizedList from '../../../components/VirtualizedList';
 import SwipeListItem from '../../../components/SwipeableList/SwipeableListItem';
-import { Fetching, Success } from '../../../variables';
+import { Fetching, Success } from '../../../helpers/variables';
 import { DataLoader } from '../../../components/LoadingData';
 
 const SpinWrap = styled.div`
@@ -79,7 +75,6 @@ function MessagesTab(props) {
     }
   }, [prospectList]);
 
-
   // load more data
   const fetchMoreData = () => dispatch(campaignProspectsNextPage(activeCampaignId));
 
@@ -99,11 +94,7 @@ function MessagesTab(props) {
 
     return (
       <React.Fragment key={index}>
-        <SwipeListItem
-          style={style}
-          threshold=".25"
-          actions={item.actions}
-          key={index}>
+        <SwipeListItem style={style} threshold='.25' actions={item.actions} key={index}>
           <ListItem id={`${item.id}-${item.firstName}`} item={item} />
         </SwipeListItem>
       </React.Fragment>
@@ -117,20 +108,18 @@ function MessagesTab(props) {
         showSort={true}
         showSearch={false}
         sortingOptions={filters}
-        sortChange={(filter, id) => {
+        sortChange={filter => {
           dispatch(setCampaignProspectFilter(filter.id));
-          dispatch(campaignProspectSearch(
-            activeCampaignId,
-            { filter, force: true }
-          ));
+          dispatch(campaignProspectSearch(activeCampaignId, { filter, force: true }));
         }}
         marketId={activeCampaignId}
         defaultValue={filterId}
+        dataTest='campaign-messages-filter'
       />
       <DataLoader
         status={isFetching ? Fetching : Success}
         data={prospectResults}
-        emptyResultsMessage="No messages were found"
+        emptyResultsMessage='No messages were found'
         renderData={() => (
           <>
             <VirtualizedList
@@ -143,10 +132,9 @@ function MessagesTab(props) {
             />
             {isFetchingMore ? (
               <SpinWrap>
-                <Spinner color="primary" size="lg" />
+                <Spinner color='primary' size='lg' />
               </SpinWrap>
-            ) : null
-            }
+            ) : null}
           </>
         )}
       />

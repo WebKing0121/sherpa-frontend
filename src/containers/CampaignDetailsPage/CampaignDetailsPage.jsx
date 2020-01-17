@@ -7,7 +7,7 @@ import styled from 'styled-components';
 import NotesTab from '../../components/NotesTab/NotesTab';
 import * as noteActions from '../../store/CampaignDetails/notes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDetails/notes/selectors';
-import { campaignHeaderInfo } from '../../variables';
+import { campaignHeaderInfo } from '../../helpers/variables';
 import MessagesTab from './MessagesTab/MessagesTab';
 import { getCampaign } from '../../store/Campaigns/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';

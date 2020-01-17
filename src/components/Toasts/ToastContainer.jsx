@@ -4,7 +4,7 @@ import ToastComponent from './ToastComponent';
 import { getToasts } from '../../store/Toasts/selectors';
 import styled from 'styled-components';
 import { emptyToastArray } from '../../store/Toasts/actions';
-import { toastLingerTime } from '../../variables';
+import { toastLingerTime } from '../../helpers/variables';
 
 const Wrapper = styled.div`
   width: 100%;

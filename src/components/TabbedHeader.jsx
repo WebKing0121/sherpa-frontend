@@ -19,7 +19,7 @@ const StyledHeader = styled.div`
 
   @media (min-width: 1200px) {
     padding-top: var(--pad3);
-    padding-bottom: ${props => props.toggleTab ? "0" : "var(--pad3)"};
+    padding-bottom: ${props => (props.toggleTab ? '0' : 'var(--pad3)')};
   }
 `;
 
@@ -86,22 +86,23 @@ function TabbedHeader(props) {
       })
     : null;
 
-  const secondaryActions = props.data.actions && props.data.actions.secondary
-    ? props.data.actions.secondary.map((a, idx) => {
-        return (
-          <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
-            <IconBg
-              color='darkNavy'
-              textcol='sherpaTeal'
-              icon={a.icon}
-              width='32px'
-              height='32px'
-              size='sm'
-            />
-          </Button>
-        );
-      })
-    : null;
+  const secondaryActions =
+    props.data.actions && props.data.actions.secondary
+      ? props.data.actions.secondary.map((a, idx) => {
+          return (
+            <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
+              <IconBg
+                color='darkNavy'
+                textcol='sherpaTeal'
+                icon={a.icon}
+                width='32px'
+                height='32px'
+                size='sm'
+              />
+            </Button>
+          );
+        })
+      : null;
 
   return (
     <StyledHeader {...props}>

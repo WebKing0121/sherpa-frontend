@@ -2,7 +2,7 @@ import React from 'react';
 import { Form, Input, Button } from 'reactstrap';
 import InputGroupBorder from '../InputGroupBorder';
 import { LoadingSpinner } from '../LoadingSpinner';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 import styled from 'styled-components';
 
 const Spinner = styled.div`

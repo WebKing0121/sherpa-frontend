@@ -8,7 +8,7 @@ import {
   RESTORE_PROSPECT_NOTE
 } from './actionTypes';
 import { INote, IResults } from './actions';
-import { Fetching, Success, FetchError } from '../../../variables';
+import { Fetching, Success, FetchError } from '../../../helpers/variables';
 
 interface IAction {
   type: string;

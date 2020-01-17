@@ -3,7 +3,7 @@ import {
   SET_FETCH_COMPANY_OWNERS,
   SET_FETCH_COMPANY_OWNERS_ERROR
 } from './actionTypes';
-import { Fetching, Success, FetchError } from '../../variables';
+import { Fetching, Success, FetchError } from '../../helpers/variables';
 
 // filters reducer
 export const initialState = {

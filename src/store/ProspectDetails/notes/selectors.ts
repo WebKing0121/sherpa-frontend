@@ -1,6 +1,6 @@
 import { IState } from './reducers';
 import { IResults } from './actions';
-import { prospectDetailsReducer } from '../../../variables';
+import { prospectDetailsReducer } from '../../../helpers/variables';
 
 interface IProspectNotes {
   prospectDetailsReducer: {

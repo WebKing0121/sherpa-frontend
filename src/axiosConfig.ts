@@ -2,7 +2,7 @@ import axios from 'axios';
 import ReduxStore from './store/store';
 import { loadTokens, getNewAccessToken } from './store/Auth/utils';
 import { addNewToast } from './store/Toasts/actions';
-import { generalNetworkError } from './variables';
+import { generalNetworkError } from './helpers/variables';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -34,10 +34,8 @@ axiosInstance.interceptors.response.use(okResponseInterceptor, errorResponseInte
 
 export const delayedRequest = (expr: any, timeout: number) => {
   return expr.then((response: any) => {
-    return new Promise(
-      resolve => setTimeout(resolve, timeout, response)
-    );
+    return new Promise(resolve => setTimeout(resolve, timeout, response));
   });
-}
+};
 
 export default axiosInstance;

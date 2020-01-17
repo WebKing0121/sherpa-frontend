@@ -4,7 +4,7 @@ import {
   SET_FETCH_CAMPAIGNS_BATCH_PROSPECTS_ERROR,
   FETCH_CAMPAIGNS_BATCH_PROSPECTS
 } from './actionTypes';
-import { Fetching } from '../../variables';
+import { Fetching } from '../../helpers/variables';
 
 export const setFetchedCampaignsBatchPropsectsStatus = status => ({
   type: FETCH_CAMPAIGNS_BATCH_PROSPECTS,

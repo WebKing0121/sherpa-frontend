@@ -3,7 +3,7 @@ import {
   SET_SMS_TEMPLATES_STATUS,
   SET_SMS_TEMPLATES_ERROR
 } from './actionTypes';
-import { Fetching, FetchError, Success } from '../../../variables';
+import { Fetching, FetchError, Success } from '../../../helpers/variables';
 import { ITemplate } from './actions';
 
 interface IAction {
