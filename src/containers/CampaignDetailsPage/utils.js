@@ -18,7 +18,8 @@ import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSe
 
 export const prospectToItemList = campaignProspect => {
   const {
-    prospect: { id, name, leadStageTitle = 'Follow-Up', displayMessage, hasUnreadSms }
+    prospect: { id, name, leadStageTitle = 'Follow-Up', displayMessage },
+    hasUnreadSms
   } = campaignProspect;
 
   const prospectUpdateHasUnreadSms = () => {
