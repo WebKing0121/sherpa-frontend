@@ -4,6 +4,26 @@ import styled from 'styled-components';
 import IconBg from './IconBg';
 import InputGroupBorder from './InputGroupBorder';
 import SortModule from './SortModule';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+const FilterPills = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: var(--pad1);
+`;
+const Pill = styled.div`
+  background: var(--sherpaTeal);
+  padding: var(--pad1) var(--pad2);
+  border-radius: var(--pad4);
+  margin: var(--pad1) var(--pad1) 0 0;
+  color: white;
+  font-weight: 900;
+  font-size: .8rem;
+
+  svg {
+    margin-left: var(--pad1);
+  }
+`;
 
 const StyledSearch = styled(Container)`
   padding: var(--pad2) var(--pad3) !important;
@@ -55,6 +75,12 @@ function SearchModule(props) {
           </Col>
         )}
       </Row>
+      <FilterPills>
+        <Pill>John Adams<FontAwesomeIcon icon="times" /></Pill>
+        <Pill>Todd John<FontAwesomeIcon icon="times" /></Pill>
+        <Pill>Larry Tucker<FontAwesomeIcon icon="times" /></Pill>
+        <Pill>John Junior<FontAwesomeIcon icon="times" /></Pill>
+      </FilterPills>
     </StyledSearch>
   );
 }
