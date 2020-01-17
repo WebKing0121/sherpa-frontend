@@ -67,7 +67,7 @@ function IconHolster(props) {
   return (
     <Holster className="iconHolster">
       {icon && icon}
-      {readable && !isRead && <UnreadIndicator count={12}/>}
+      {readable && !isRead && <UnreadIndicator count={props.count} />}
     </Holster>
   );
 }
