@@ -44,7 +44,7 @@ export default function reducer(state: any = initialState, action: any) {
         error: action.payload
       };
     case UPDATE_CAMPAIGN_PROSPECT_SUCCESS: {
-      const campaignId = action.payload.campaign;
+      const campaignId = action.payload.campaign.id;
       const prospectId = action.payload.prospect.id;
       let campaignProspects = { ...state.campaignProspects };
       const prospectIndex = campaignProspects[campaignId].findIndex(
