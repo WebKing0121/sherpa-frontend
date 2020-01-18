@@ -56,13 +56,6 @@ Cypress.Commands.add('createTokensJson', () => {
   });
 });
 
-const defaultDataEl = '[data-test=displayed-data]';
-
-Cypress.Commands.add('testApiData', (element = defaultDataEl, timeout = 0) => {
-  cy.waitForCall();
-  cy.get(element, { timeout }).should('exist');
-});
-
 Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', options) => {
   const url = Cypress.env('serverUrl');
   cy.fixture('tokens').then(json => {

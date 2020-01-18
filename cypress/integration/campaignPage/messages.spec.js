@@ -12,6 +12,7 @@ describe('campaign messages', () => {
     cy.login();
   });
 
+  // uses the existing fixture to create a new fixture with standardized prospect statuses selected
   function createUpdatedfixture() {
     cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
       const newProperties = {
@@ -133,6 +134,7 @@ describe('campaign messages', () => {
           .find('a')
           .click({ force: true });
       });
+    // must use original fixture, NOT updated fixture to compare prospect status to original
     cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
       const {
         isPriority,
@@ -140,26 +142,28 @@ describe('campaign messages', () => {
         doNotCall,
         ownerVerifiedStatus
       } = fixture.results[0].prospect;
+      const white = 'rgb(255, 255, 255)';
       cy.get('[data-test=status-action-button]').then($buttons => {
         // if button background color is while, status is not active.  Should be opposite of status in fixture
         cy.wrap($buttons[0])
           .should('have.css', 'background-color')
-          .and(ownerVerifiedStatus !== 'verified' ? 'not.eq' : 'eq', 'rgb(255, 255, 255)');
+          .and(ownerVerifiedStatus !== 'verified' ? 'not.eq' : 'eq', white);
         cy.wrap($buttons[1])
           .should('have.css', 'background-color')
-          .and(!doNotCall ? 'not.eq' : 'eq', 'rgb(255, 255, 255)');
+          .and(!doNotCall ? 'not.eq' : 'eq', white);
         cy.wrap($buttons[2])
           .should('have.css', 'background-color')
-          .and(!isPriority ? 'not.eq' : 'eq', 'rgb(255, 255, 255)');
+          .and(!isPriority ? 'not.eq' : 'eq', white);
         cy.wrap($buttons[3])
           .should('have.css', 'background-color')
-          .and(!isQualifiedLead ? 'not.eq' : 'eq', 'rgb(255, 255, 255)');
+          .and(!isQualifiedLead ? 'not.eq' : 'eq', white);
         // reseting status buttons
         cy.wrap($buttons).each($btn => cy.wrap($btn[0]).click({ force: true }));
       });
     });
   });
 
+  // changes the "hasUnreadSms" property and reloads app
   function setNewFixtureAndLoadPage(bool) {
     cy.fixture(`campaign${campaignId}ProspectsUpdated`).then(fixture => {
       const newFixture = { ...fixture };
@@ -190,8 +194,6 @@ describe('campaign messages', () => {
       .should('have.css', 'font-weight')
       .and('gt', 500);
   });
-
-  // it('displays the correct ');
 
   // it('swipes prospect element left', () => {
   //   cy.get('[data-test=swipeable-list-item]')
