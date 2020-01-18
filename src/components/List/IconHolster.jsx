@@ -61,12 +61,12 @@ export const StyledIcon = styled(Icon)`
 function IconHolster(props) {
   const { icon, readable, isRead } = props;
   if (!icon && !readable) {
-    return <></>;
+    return null;
   }
 
   return (
     <Holster className='iconHolster'>
-      {icon && icon}
+      {icon}
       {readable && !isRead && (
         <UnreadIndicator data-test='unread-messages-indicator' count={props.count} />
       )}

@@ -76,15 +76,10 @@ export const prospectToItemList = opts => campaignProspect => {
     mainInfo: <MainInfo message={message} />,
     readable: true,
     isRead: !hasUnreadSms,
-    statusWrapper: (
-      <StatusWrapper
-        dt={dt}
-        link={`/prospect/${id}/details`}
-      />
-    ),
+    statusWrapper: <StatusWrapper dt={dt} link={`/prospect/${id}/details`} />,
     actions: actions
   };
 };
 
 // uses a higher-order function for re-usability
-export const prospectsToItemList = (opts) => prospects => prospects.map(prospectToItemList(opts));
+export const prospectsToItemList = opts => prospects => prospects.map(prospectToItemList(opts));

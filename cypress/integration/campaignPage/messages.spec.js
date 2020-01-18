@@ -163,7 +163,7 @@ describe('campaign messages', () => {
   function setNewFixtureAndLoadPage(bool) {
     cy.fixture(`campaign${campaignId}ProspectsUpdated`).then(fixture => {
       const newFixture = { ...fixture };
-      newFixture.results[0].prospect.hasUnreadSms = bool;
+      newFixture.results[0].hasUnreadSms = bool;
       cy.visit(`${url}/${campaignUrl}`);
       cy.reload();
       cy.login();
