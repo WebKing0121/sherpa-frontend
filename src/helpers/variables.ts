@@ -169,3 +169,5 @@ export const desktopCampaignHeaderInfo = {
     ]
   }
 };
+// new messages
+export const MESSAGES_POLLING_INTERVAL = 30000;

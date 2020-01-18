@@ -8,3 +8,7 @@ export const campaignProspectList = (campaignId: number, apiParams: any) => {
 export const campaignProspectListNextPage = (url: string) => {
   return AxiosInstance.get(url);
 }
+
+export const campaignProspectUnread = () => {
+  return AxiosInstance.get('campaign-prospects/unread/?expand=campaign')
+}

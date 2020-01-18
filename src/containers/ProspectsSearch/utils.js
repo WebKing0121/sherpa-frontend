@@ -17,7 +17,6 @@ export const prospectToItemList = prospect => {
     propertyCity,
     propertyState,
     propertyZip,
-    hasUnreadSms,
     leadStageTitle
   } = prospect;
 
@@ -33,8 +32,6 @@ export const prospectToItemList = prospect => {
     name,
     subInfo: phoneDisplay,
     mainInfo: <MainInfo addressData={addressData} />,
-    readable: true,
-    isRead: !hasUnreadSms,
     statusWrapper: <StatusWrapper link={`/prospect/${id}/details`} status={leadStageTitle} />
   };
 };

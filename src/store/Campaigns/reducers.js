@@ -7,7 +7,6 @@ import {
   UPDATE_SMS_TEMPLATE
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../helpers/variables';
-import { arrayToMapIndex, mapIndexToArray } from '../utils';
 
 // campaigns reducer
 export const initialState = {

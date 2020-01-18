@@ -3,7 +3,7 @@ import InputSelect from '../components/InputSelect';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 function SortModule(props) {
-  const { sortOptions, sortChange, marketId, defaultValue = -1 } = props;
+  const { sortOptions, sortChange, defaultValue = -1 } = props;
 
   const onSortChange = e => {
     let sortBy = sortOptions[e.target.value].value;

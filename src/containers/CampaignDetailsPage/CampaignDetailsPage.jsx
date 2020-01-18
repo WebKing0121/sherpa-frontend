@@ -29,6 +29,7 @@ function CampaignDetailsPage() {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  // fetch campaign-prospects
   useEffect(() => {
     if (campaignId) {
       const filter = { name: 'is_priority_unread', value: true };
@@ -36,6 +37,7 @@ function CampaignDetailsPage() {
     }
   }, [campaignId, dispatch]);
 
+  // fetch campaign data if not in store already
   useEffect(() => {
     if (!campaign.id) {
       dispatch(fetchSingleCampaign(campaignId));

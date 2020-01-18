@@ -137,9 +137,9 @@ const SherpNavbar = props => {
         </NavbarBrand>
         <Nav className='messages' navbar>
           <NavItem>
-            <NavLink>
+            <Link to={'/new-messages'}>
               <UnreadMsgIcon />
-            </NavLink>
+            </Link>
           </NavItem>
         </Nav>
         <NavbarToggler tag={NavIcon} onClick={toggleNavbar} />

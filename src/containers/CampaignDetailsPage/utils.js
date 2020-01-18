@@ -10,35 +10,43 @@ import { updateCampaignProspectSuccess } from '../../store/campaignProspectStore
 import { prospectUpdate } from '../../store/prospectStore/thunks';
 import { ProspectActions } from '../../helpers/variables';
 import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection';
+import { updateProspectSuccess } from '../../store/prospectStore/actions';
+import { ProspectRecord } from '../../store/prospectStore/interfaces';
 
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.
  */
 
-export const prospectToItemList = campaignProspect => {
+export const prospectToItemList = opts => campaignProspect => {
   const {
     prospect: { id, name, leadStageTitle = 'Follow-Up', displayMessage },
     hasUnreadSms
   } = campaignProspect;
 
+  // NOTE: currently un-used but will be used to dispatch the
+  // =readSms= action that is currently unknown
   const prospectUpdateHasUnreadSms = () => {
     patchProspect(id, { hasUnreadSms: false }).then(({ data }) => {
       let newCampaignProspect = {
         ...campaignProspect,
         prospect: { ...campaignProspect.prospect, hasUnreadSms: false }
       };
-      store.dispatch(updateCampaignProspectSuccess(newCampaignProspect));
+      store.dispatch(opts.updateCampaignProspectFn(newCampaignProspect));
     });
   };
 
   const prospectOnClickStatus = (attr, payload) => () => {
-    return prospectUpdate(id, payload, store.dispatch, true).then(data => {
+    return prospectUpdate(id, payload, store.dispatch).then(data => {
       let newCampaignProspect = {
         ...campaignProspect,
-        prospect: { ...campaignProspect.prospect, ...data }
+        prospect: { ...campaignProspect.prospect, ...data, campaigns: [campaignProspect.campaign] }
       };
-      store.dispatch(updateCampaignProspectSuccess(newCampaignProspect));
+      // update prospect-campaign-store
+      store.dispatch(opts.updateCampaignProspectFn(newCampaignProspect));
+
+      // // update prospect-store
+      store.dispatch(updateProspectSuccess(ProspectRecord(newCampaignProspect.prospect, false)));
     });
   };
 
@@ -72,11 +80,11 @@ export const prospectToItemList = campaignProspect => {
       <StatusWrapper
         dt={dt}
         link={`/prospect/${id}/details`}
-        onClick={!hasUnreadSms ? prospectUpdateHasUnreadSms : () => console.log('No Action')}
       />
     ),
     actions: actions
   };
 };
 
-export const prospectsToItemList = prospects => prospects.map(prospectToItemList);
+// uses a higher-order function for re-usability
+export const prospectsToItemList = (opts) => prospects => prospects.map(prospectToItemList(opts));

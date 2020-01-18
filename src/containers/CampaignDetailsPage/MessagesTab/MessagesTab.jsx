@@ -30,6 +30,7 @@ import VirtualizedList from '../../../components/VirtualizedList';
 import SwipeListItem from '../../../components/SwipeableList/SwipeableListItem';
 import { Fetching, Success } from '../../../helpers/variables';
 import { DataLoader } from '../../../components/LoadingData';
+import { updateCampaignProspectSuccess } from '../../../store/campaignProspectStore/actions';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -41,7 +42,9 @@ function MessagesTab(props) {
   const prospectResults = useSelector(getCampaignProspects(activeCampaignId));
   const isFetchingMore = useSelector(isLoadingMore);
   const isFetching = useSelector(isLoading);
-  const prospectList = prospectsToItemList(prospectResults || []);
+  const prospectList = prospectsToItemList({
+    updateCampaignProspectFn: updateCampaignProspectSuccess
+  })(prospectResults || []);
   const filterId = useSelector(campaignMessagesFilter);
   const leadStages = useSelector(getLeadStages);
   const dispatch = useDispatch();

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Router, Route, Switch } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { history } from './history';
 
 // pages
@@ -13,6 +13,10 @@ import CampaignDetailsPage from './containers/CampaignDetailsPage/CampaignDetail
 import ProspectDetailsPage from './containers/ProspectDetailsPage/ProspectDetailsPage';
 import SupportPage from './containers/SupportPage/SupportPage';
 import DesktopCampaignsPage from './containers/DesktopCampaignsPage/DesktopCampaignsPage';
+import NewMessagesPage from './containers/NewMessages/NewMessages.jsx';
+import { campaignProspectUnread } from './store/campaignProspectStore/api';
+import { MESSAGES_POLLING_INTERVAL } from './helpers/variables';
+import { fetchCampaignProspectsUnread } from './store/campaignProspectStore/actions';
 
 // store
 import { isAuthenticated } from './store/Auth/selectors';
@@ -30,6 +34,7 @@ import { maxMobileWidth, debounceTime } from './helpers/variables';
 import { debounce } from './helpers/utils';
 
 function App() {
+  const dispatch = useDispatch();
   const is_auth = useSelector(isAuthenticated);
   const [isMobile, setIsMobile] = useState(window.innerWidth < maxMobileWidth);
 
@@ -44,6 +49,20 @@ function App() {
     window.addEventListener('resize', debounced);
     return () => window.removeEventListener('resize', debounced);
   }, []);
+
+  const fetchMessages = () => {
+    campaignProspectUnread()
+      .then(({ data }) => {
+        dispatch(fetchCampaignProspectsUnread(data));
+      });
+  };
+
+  useEffect(() => {
+    if (is_auth) {
+      const interval = setInterval(fetchMessages, MESSAGES_POLLING_INTERVAL);
+      return () => clearInterval(interval);
+    }
+  }, [is_auth]);
 
   const determineNav = () => {
     const login = <Route exacts path='/login' component={LoginPage} />;
@@ -76,6 +95,7 @@ function App() {
           component={ProspectDetailsPage}
           exact
         />
+        <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
         <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
         <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
       </Switch>

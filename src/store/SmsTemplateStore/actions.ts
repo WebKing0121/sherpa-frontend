@@ -3,8 +3,8 @@ import {
   SET_SMS_TEMPLATES_STATUS,
   SET_SMS_TEMPLATES_ERROR
 } from './actionTypes';
-import AxiosInstance, { delayedRequest } from '../../axiosConfig';
-import { Fetching, fastSpinner } from '../../helpers/variables';
+import AxiosInstance from '../../axiosConfig';
+import { Fetching } from '../../helpers/variables';
 import { Dispatch } from 'redux';
 import { arrayToMapIndex } from '../utils';
 

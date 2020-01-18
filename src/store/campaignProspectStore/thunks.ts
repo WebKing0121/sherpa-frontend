@@ -6,6 +6,10 @@ import {
   fetchMoreCampaignProspects
 } from './actions';
 
+const shouldFetch = (campaign: any, force: boolean) => {
+  return !campaign || campaign.length === 0 || force;
+}
+
 export const campaignProspectSearch = (campaignId: number, options: any) => (
   dispatch: any,
   getState: any
@@ -18,7 +22,7 @@ export const campaignProspectSearch = (campaignId: number, options: any) => (
   } = getState();
 
   // Fetch if 'forced' or if don't have anything
-  if (!campaignProspects[campaignId] || campaignProspects[campaignId].length === 0 || force) {
+  if (shouldFetch(campaignProspects[campaignId], force)) {
     // construct filter
     if (filter) {
       apiParams = `&${filter.name}=${filter.value}`;
