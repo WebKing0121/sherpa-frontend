@@ -1,6 +1,5 @@
 describe('Prospect page', () => {
-  const searchModuleInput = '[data-test=search-module-input]',
-    searchModuleButton = '[data-test=search-module-button]',
+  const prospectSearchInput = '[data-test=prospect-search-input]',
     swipeableListItem = '[data-test=swipeable-list-item]',
     search = '303',
     url = Cypress.env('clientUrl');
@@ -15,17 +14,22 @@ describe('Prospect page', () => {
   });
 
   it('has search module input field', () => {
-    cy.get(searchModuleInput).should('exist');
+    cy.get(prospectSearchInput)
+      .find('input')
+      .should('exist');
   });
 
   it('accepts inputs', () => {
-    cy.get(searchModuleInput)
+    cy.get(prospectSearchInput)
+      .find('input')
       .type(search)
       .should('have.value', search);
   });
 
   it('contains button', () => {
-    cy.get(searchModuleButton).should('exist');
+    cy.get(prospectSearchInput)
+      .find('button')
+      .should('exist');
   });
 
   it('performs a prospect search and displays the results', () => {
@@ -37,7 +41,9 @@ describe('Prospect page', () => {
       method: 'GET'
     };
     const searchAndWait = resAlias => {
-      cy.get(searchModuleButton).click();
+      cy.get(prospectSearchInput)
+        .find('button')
+        .click();
       cy.wait(resAlias);
     };
     cy.stubResponse(options, searchAndWait);

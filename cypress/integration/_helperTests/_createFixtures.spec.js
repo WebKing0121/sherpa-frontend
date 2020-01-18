@@ -2,6 +2,10 @@ describe('Create fixture files from API response', () => {
   let prospectId = Cypress.env('testProspect');
   let campaignId = Cypress.env('testCampaign');
 
+  before(() => {
+    cy.login();
+  });
+
   it('creates auth token JSON file', () => {
     cy.createTokensJson();
     cy.fixture('tokens').should('exist');
@@ -33,6 +37,13 @@ describe('Create fixture files from API response', () => {
   it(`creates a campaign ${campaignId} response JSON file`, () => {
     cy.createFixture(`campaign${campaignId}.json`, `campaigns/${campaignId}`);
     cy.fixture(`campaign${campaignId}`).should('exist');
+  });
+
+  it(`creates a campaign ${campaignId} prospects response JSON file`, () => {
+    cy.createFixture(`campaign${campaignId}Prospects.json`, `campaign-prospects`, 'GET', {
+      qs: { page_size: 20, campaign: campaignId, is_priority_unread: true }
+    });
+    cy.fixture(`campaign${campaignId}Prospects`).should('exist');
   });
 
   it('creates the lead stages JSON file', () => {

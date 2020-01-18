@@ -1,5 +1,5 @@
 import React from 'react';
-import { } from 'reactstrap';
+import {} from 'reactstrap';
 import styled from 'styled-components';
 import Icon from '../Icon.jsx';
 
@@ -14,17 +14,17 @@ const UnreadIndicator = styled.div`
 
   &:after {
     /* if a count is given do secondary styling */
-    content: ${props => props.count ? "'" + props.count + "'" : "''"};
-    width: ${props => props.count ? "var(--size)" : "10px"};
-    height: ${props => props.count ? "var(--size)" : "10px"};
+    content: ${props => (props.count ? "'" + props.count + "'" : "''")};
+    width: ${props => (props.count ? 'var(--size)' : '10px')};
+    height: ${props => (props.count ? 'var(--size)' : '10px')};
     position: absolute;
     top: 0px;
     left: 50%;
     transform: translateX(-50%);
-    border-radius: ${props => props.count ? "3px" : "50%"};
+    border-radius: ${props => (props.count ? '3px' : '50%')};
     background-color: var(--red);
     color: white;
-    font-size: ${props => props.count < 100 ? "calc(var(--size) / 2)" : "8px"};
+    font-size: ${props => (props.count < 100 ? 'calc(var(--size) / 2)' : '8px')};
     font-weight: 900;
     text-align: center;
     line-height: var(--size);
@@ -33,14 +33,14 @@ const UnreadIndicator = styled.div`
   &:before {
     content: '';
     position: absolute;
-    top: calc(var(--size) * .75);
+    top: calc(var(--size) * 0.75);
     left: 15%;
     width: 0;
     height: 0;
-    border-top: calc(var(--size) * .2) solid transparent;
-    border-bottom: calc(var(--size) * .33) solid transparent;
-    border-left: calc(var(--size) * .45) solid red;
-    display: ${props => props.count ? "block" : "none"};
+    border-top: calc(var(--size) * 0.2) solid transparent;
+    border-bottom: calc(var(--size) * 0.33) solid transparent;
+    border-left: calc(var(--size) * 0.45) solid red;
+    display: ${props => (props.count ? 'block' : 'none')};
   }
 `;
 
@@ -61,13 +61,15 @@ export const StyledIcon = styled(Icon)`
 function IconHolster(props) {
   const { icon, readable, isRead } = props;
   if (!icon && !readable) {
-    return (<></>);
+    return <></>;
   }
 
   return (
-    <Holster className="iconHolster">
+    <Holster className='iconHolster'>
       {icon && icon}
-      {readable && !isRead && <UnreadIndicator count={props.count} />}
+      {readable && !isRead && (
+        <UnreadIndicator data-test='unread-messages-indicator' count={props.count} />
+      )}
     </Holster>
   );
 }

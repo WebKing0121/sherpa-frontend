@@ -6,8 +6,6 @@ describe('Prospect notes', () => {
     noteDetails = '[data-test=note-details]',
     dateMinLength = 19,
     url = Cypress.env('clientUrl'),
-    toasts = '[data-test=toast]',
-    successToast = 'alert-success',
     failureToast = 'alert-danger',
     prospectNum = Cypress.env('testProspect'),
     prospectUrl = `prospect/${prospectNum}/details`,

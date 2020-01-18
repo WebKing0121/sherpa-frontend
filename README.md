@@ -81,4 +81,4 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 `./node_modules/cypress/bin/cypress run` to run headless tests
 
-_IMPORTANT: Run `_createFixtures.spec.js` test to create the necessary fixture files_
+_IMPORTANT: Run `/_helperTests/_createFixtures.spec.js` test to create the necessary fixture files_

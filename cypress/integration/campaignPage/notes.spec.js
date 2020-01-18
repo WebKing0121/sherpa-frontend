@@ -1,13 +1,11 @@
 import { generateRandomString } from '../../helpers/functions';
 
-describe('campaign notes', () => {
+describe('Campaign notes', () => {
   const addNoteBtn = '[data-test=add-note-btn]',
     noteFormBtn = '[data-test=note-form-btn]',
     noteDetails = '[data-test=note-details]',
     dateMinLength = 19,
     url = Cypress.env('clientUrl'),
-    toasts = '[data-test=toast]',
-    successToast = 'alert-success',
     failureToast = 'alert-danger',
     marketId = Cypress.env('testCampaign'),
     campaignId = Cypress.env('testCampaign'),

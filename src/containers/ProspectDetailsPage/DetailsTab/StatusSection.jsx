@@ -7,10 +7,7 @@ import {
   activeProspectSelector,
   actionBtnStatusSelector
 } from '../../../store/uiStore/prospectDetailsView/selectors';
-import {
-  prospectUpdateStatus,
-  prospectUpdateOptimistically
-} from '../../../store/prospectStore/thunks';
+import { prospectUpdateStatus, prospectUpdateOptimistically } from '../../../store/prospectStore/thunks';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 import { getProspect } from '../../../store/prospectStore/selectors';
@@ -63,7 +60,7 @@ const StatusAction = styled.div`
   flex-shrink: 2;
   text-align: center;
 
-  transition: background-color .2s, transform .25s cubic-bezier(0.15, 0.75, 1, 1.45);
+  transition: background-color 0.2s, transform 0.25s cubic-bezier(0.15, 0.75, 1, 1.45);
 `;
 
 const StatusActions = styled.div`
@@ -147,7 +144,7 @@ const DetailsTab = props => {
   ));
 
   // onchange status
-  const onStatusChange = (attr) => () => {
+  const onStatusChange = attr => () => {
     let value = !prospect[attr];
     // special case for verified status as it is not a boolean but a
     // string
@@ -161,23 +158,25 @@ const DetailsTab = props => {
   // render statusActions
   const statusActions = statusList.map((item, key) => (
     <StatusAction
+      data-test='status-action-button'
       key={key}
       attr={item.attr}
       onClick={onStatusChange(item.attr)}
       color={item.color}
       active={item.active}
-      className="textM fw-black"
+      className='textM fw-black'
       isLoading={item.status}
     >
       <LoadingSpinner
         isLoading={item.status}
-        size="1.125em"
-        color="var(--gray)"
+        size='1.125em'
+        color='var(--gray)'
         renderContent={() => (
           <>
-            <FontAwesomeIcon className="mr-2" icon={item.icon} />
+            <FontAwesomeIcon className='mr-2' icon={item.icon} />
             {item.text}
-          </>)}
+          </>
+        )}
       />
     </StatusAction>
   ));
@@ -185,7 +184,7 @@ const DetailsTab = props => {
   // on change lead
   const onLeadStageChange = e => {
     let value = e.target.value;
-    console.log("BOOOM", prospect);
+    console.log('BOOOM', prospect);
     dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
   };
 
