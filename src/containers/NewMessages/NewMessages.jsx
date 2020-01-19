@@ -7,6 +7,11 @@ import List from '../../components/List/List';
 import { useSelector } from 'react-redux';
 import { getCampaignProspectsUnread } from '../../store/campaignProspectStore/selectors';
 import { updateCampaignProspectsUnread } from '../../store/campaignProspectStore/actions';
+import styled from 'styled-components';
+
+const Status = styled.h5`
+  color: ${props => (props.archived ? 'grey' : 'green')}
+`;
 
 const NewMessages = (props) => {
   const campaignProspectsUnread = useSelector(getCampaignProspectsUnread);
@@ -37,16 +42,26 @@ const NewMessages = (props) => {
     <div className="pageContent">
       <TabbedHeader data={{}}>New Messages</TabbedHeader>
       {
-        unreadSmsList.map((list, key) => (
-          <CollapsablePane
-            key={key}
-            toggle={toggle(key)}
-            isOpen={toggles[key]}
-            header={groupedCampaignProspects[key][0].campaign.name}
-          >
-            <List items={list} />
-          </CollapsablePane>
-        ))
+        unreadSmsList.map((list, key) => {
+          const campaign = groupedCampaignProspects[key][0].campaign;
+          return (
+            <CollapsablePane
+              key={key}
+              toggle={toggle(key)}
+              isOpen={toggles[key]}
+              header={
+                <div>
+                  <p>{campaign.name}</p>
+                  <Status archived={campaign.isArchived}>
+                    {campaign.isArchived ? 'Archived' : 'Active'}
+                  </Status>
+                </div>
+              }
+            >
+              <List items={list} />
+            </CollapsablePane>
+          );
+        })
       }
     </div>
   );
