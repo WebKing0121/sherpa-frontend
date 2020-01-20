@@ -10,33 +10,20 @@ describe('campaign messages', () => {
 
   before(() => {
     cy.login();
+    cy.createFixture(`campaign${campaignId}Prospects.json`, `campaign-prospects`, 'GET', {
+      qs: { page_size: 20, campaign: campaignId, is_priority_unread: true }
+    });
   });
 
-  // uses the existing fixture to create a new fixture with standardized prospect statuses selected
-  function createUpdatedfixture() {
-    cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
-      const newProperties = {
-        isPriority: true,
-        isQualifiedLead: false,
-        ownerVerifiedStatus: 'unverified',
-        doNotCall: false
-      };
-      const updatedFixture = { ...fixture };
-      const { prospect } = updatedFixture.results[0];
-      updatedFixture.results[0].prospect = { ...prospect, ...newProperties };
-      cy.writeFile(`cypress/fixtures/campaign${campaignId}ProspectsUpdated.json`, { ...updatedFixture });
-    });
-  }
-
   it('renders the messages tab', () => {
-    createUpdatedfixture();
+    // createUpdatedfixture();
     cy.server();
     const loadMessagesAndWait = resAlias => {
       cy.visit(`${url}/${campaignUrl}`);
       cy.wait(resAlias);
     };
     cy.stubResponse(
-      { method: 'GET', url: 'campaign-prospects', response: `campaign${campaignId}ProspectsUpdated` },
+      { method: 'GET', url: 'campaign-prospects', response: `campaign${campaignId}Prospects` },
       loadMessagesAndWait
     );
     cy.get('[data-test=Messages]').contains('Messages');
@@ -65,7 +52,7 @@ describe('campaign messages', () => {
     cy.stubResponse({
       method: 'GET',
       url: 'campaign-prospects',
-      response: `campaign${campaignId}ProspectsUpdated`
+      response: `campaign${campaignId}Prospects`
     });
     cy.get(dropDown)
       .find('option')
@@ -123,12 +110,15 @@ describe('campaign messages', () => {
   });
 
   it('clicks the action button and completes the appropriate action', () => {
+    cy.server();
+    cy.route({ method: 'PATCH', url: '**/prospects/**' }).as('action');
     cy.get('[data-test=Messages]').click({ force: true });
     cy.get('[data-test=swipeable-list-item]')
       .first()
       .within(() => {
         cy.get('[data-test=swipeable-list-item-action]').each($button => {
           cy.wrap($button).click({ force: true });
+          cy.wait('@action');
         });
         cy.get('[data-test=list-item-header]')
           .find('a')
@@ -165,7 +155,7 @@ describe('campaign messages', () => {
 
   // changes the "hasUnreadSms" property and reloads app
   function setNewFixtureAndLoadPage(bool) {
-    cy.fixture(`campaign${campaignId}ProspectsUpdated`).then(fixture => {
+    cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
       const newFixture = { ...fixture };
       newFixture.results[0].hasUnreadSms = bool;
       cy.visit(`${url}/${campaignUrl}`);

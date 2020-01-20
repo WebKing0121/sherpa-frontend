@@ -3,7 +3,7 @@ describe('Create fixture files from API response', () => {
   let campaignId = Cypress.env('testCampaign');
 
   before(() => {
-    cy.login();
+    // cy.login();
   });
 
   it('creates auth token JSON file', () => {
