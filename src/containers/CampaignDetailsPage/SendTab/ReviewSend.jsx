@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { campaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/selectors';
-import { activeCampaign } from '../../../store/uiStore/prospectDetailsView/selectors';
+import { sendInitialSmsMessage } from '../.../../../../store/CampaignsBatchProspectsStore/actions';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
 import CalloutSection from './CalloutSection';
@@ -105,11 +105,17 @@ function renderLead({ transProps, campaignProspects, count }) {
 function ReviewSend(props) {
   const [count, setCount] = useState(0);
   const campaignProspects = useSelector(campaignsBatchProspects);
+  const dispatch = useDispatch();
 
   const transProps = {};
   transProps.timeout = 70;
   transProps.classNames = 'words';
   transProps.unmountOnExit = true;
+
+  const handleSend = () => {
+    setCount(count + 1);
+    dispatch(sendInitialSmsMessage(campaignProspects[count]));
+  };
 
   return (
     <>
@@ -127,20 +133,7 @@ function ReviewSend(props) {
           size='lg'
           block
           disabled={count >= campaignProspects.length}
-          onClick={() => {
-            setCount(count + 1);
-            /* if (showMessage1) { */
-            /*   setShowMessage1(false); */
-            /*   setTimeout(function() { */
-            /*     setShowMessage2(true); */
-            /*   }, 85); */
-            /* } else { */
-            /*   setShowMessage2(false); */
-            /*   setTimeout(function() { */
-            /*     setShowMessage1(true); */
-            /*   }, 85); */
-            /* } */
-          }}
+          onClick={handleSend}
         >
           <Icon name='sendWhite' margin='mr-1 mb-1' />
           Send

@@ -36,3 +36,36 @@ export const fetchCampaignsBatchProspects = id => (dispatch, _) => {
     });
 };
 
+export const sendInitialSmsMessage = data => (dispatch, _) => {
+
+  const { id, phoneRaw, smsStatus, hasUnreadSms, campaign, prospect } = data;
+
+  const postDataCampaign = {
+    name: campaign.name,
+    company: campaign.company,
+    market: campaign.market,
+    createdBy: campaign.createdBy,
+    smsTemplateId: campaign.smsTemplate
+  }
+
+  const postDataProspect = {
+    smsRelayMap: prospect.smsRelayMap
+  }
+
+  const postData = {
+    campaigns: postDataCampaign,
+    prospect: postDataProspect,
+    smsTemplateId: campaign.smsTemplate,
+    phoneRaw,
+    smsStatus,
+    hasUnreadSms,
+  }
+
+  AxiosInstance.post(`/campaign-prospects/${id}/batch_send/`, postData)
+    .then((data) => {
+      console.log('data sms sent: ', data);
+    })
+    .catch(error => {
+      console.log('error sending sms: ', error.response);
+    });
+}
