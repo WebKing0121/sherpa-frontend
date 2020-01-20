@@ -26,7 +26,8 @@ export const selectKeys = (keys: Array<string>, map?: { [key: string]: any }) =>
 
 // get-in function and helpers
 // the different arities allows for using it with aggregates
-// It returns undefined if nothing is found on it's way.
+// getIn function takes a path and a data structure to walk through.
+// Returns undefined a path doesn't exist.
 // Ex:  data = [{hello: {one: { two: 'hello'}}}, {hello: {one: { two: 'bye'}}}]
 //      data.map(getIn(['hello', 'one', 'two'])) which yields  ['hello', 'bye']
 //
@@ -47,31 +48,25 @@ export const getIn = (path: Array<string | number>, map?: Array<any> | { [key: s
   return getInArity1(path);
 };
 
-// update-in function to update deeply nested structures
-export const updateIn = (path: Array<string | number>, changeFn: (x: any, args: any) => any, fnArgs: any, map: Array<any> | { [key: string]: any }) => {
+// update-in function to update deeply nested structures.
+// It walks the `map` 
+// NOTE: Update the function to support multiple-arities
+// this will allow it to be used with aggregates.
+export const updateIn = (
+  path: Array<string | number>,
+  changeFn: (currentMap: any, x: any, args: any) => any,
+  fnArgs: any,
+  map: Array<any> | { [key: string]: any }
+) => {
   // Note: This is update in place
+  // walk the data-structure with the path provided to get the current-value
   let value = getIn(path, map);
-  let newValue = changeFn(value, fnArgs);
+  let newValue = changeFn(map, value, fnArgs); // apply the supplied update function
   let [lastKey] = path.slice(-1);
 
+  // update the path with the new value computed with `changeFn`
   let val: any = path.slice(0, -1).reduce((acc: any, key) => acc[key], map);
   val[lastKey] = newValue;
 };
 
-// updateIn = (path, changeFn, fnArgs, map) => {
-//   // Note: This is update in place
-//   let value = getIn(path, map);
-//   let newValue = changeFn(value, fnArgs);
-//   let [lastKey] = path.slice(-1);
-
-//   let val = path.slice(0, -1).reduce((acc, key) => acc[key], map);
-//   val[lastKey] = newValue;
-// }
-
-// getIn = (path, map) => {
-//   return path.reduce((acc, step) => {
-//     if (!acc)
-//       return undefined;
-//     return acc[step];
-//   }, map)
-// }
+export const identity = (x: any) => x;

@@ -38,15 +38,15 @@ const SpinWrap = styled.div`
 `;
 
 function MessagesTab(props) {
+  const leadStages = useSelector(getLeadStages);
   const activeCampaignId = useSelector(activeCampaignSelector);
-  const prospectResults = useSelector(getCampaignProspects(activeCampaignId));
+  const prospectResults = useSelector(getCampaignProspects(activeCampaignId, leadStages));
   const isFetchingMore = useSelector(isLoadingMore);
   const isFetching = useSelector(isLoading);
   const prospectList = prospectsToItemList({
     updateCampaignProspectFn: updateCampaignProspectSuccess
   })(prospectResults || []);
   const filterId = useSelector(campaignMessagesFilter);
-  const leadStages = useSelector(getLeadStages);
   const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
   const lead_stage_filters = leadStages.map((stage, idx) => ({

@@ -6,12 +6,14 @@ import StatusWrapper from './MessagesTab/StatusWrapper';
 import { IListItem } from '../../components/List/utils';
 import store from '../../store/store';
 import { patchProspect } from '../../store/prospectStore/api';
-import { updateCampaignProspectSuccess } from '../../store/campaignProspectStore/actions';
 import { prospectUpdate } from '../../store/prospectStore/thunks';
 import { ProspectActions } from '../../helpers/variables';
 import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection';
 import { updateProspectSuccess } from '../../store/prospectStore/actions';
 import { ProspectRecord } from '../../store/prospectStore/interfaces';
+import {
+  setActiveTab
+} from '../../store/uiStore/prospectDetailsPageView/actions';
 
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
@@ -35,6 +37,13 @@ export const prospectToItemList = opts => campaignProspect => {
       store.dispatch(opts.updateCampaignProspectFn(newCampaignProspect));
     });
   };
+
+  const onClickItem = () => {
+    // when we click on the item we want to navigate to the
+    // prospect-details page Message Tab.
+    // We need to dispatch an action to set the proper tab.
+    store.dispatch(setActiveTab('2'))
+  }
 
   const prospectOnClickStatus = (attr, payload) => () => {
     return prospectUpdate(id, payload, store.dispatch).then(data => {
@@ -76,7 +85,7 @@ export const prospectToItemList = opts => campaignProspect => {
     mainInfo: <MainInfo message={message} />,
     readable: true,
     isRead: !hasUnreadSms,
-    statusWrapper: <StatusWrapper dt={dt} link={`/prospect/${id}/details`} />,
+    statusWrapper: <StatusWrapper dt={dt} link={`/prospect/${id}/details`} onClick={onClickItem} />,
     actions: actions
   };
 };

@@ -14,6 +14,8 @@ import MessagesTab from '../../components/messageTab/MessageTab';
 import { prospectIsLoading, getProspect } from '../../store/prospectStore/selectors';
 import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 import { useParams } from 'react-router-dom';
+import * as selectors from '../../store/uiStore/prospectDetailsPageView/selectors';
+import * as actions from '../../store/uiStore/prospectDetailsPageView/actions';
 
 const Wrapper = styled.div`
   display: flex;
@@ -29,7 +31,7 @@ const StyledTabContent = styled(TabContent)`
 `;
 
 function ProspectDetailsPage() {
-  const [activeTab, setActiveTab] = useState('1');
+  const activeTab = useSelector(selectors.activeTab);
   const { prospectId } = useParams();
   const prospect = useSelector(getProspect(prospectId));
   const isFetching = useSelector(prospectIsLoading);
@@ -54,10 +56,11 @@ function ProspectDetailsPage() {
     if (activeTab && prospect.campaigns.length === 1) {
       dispatch(setActiveCampaign(prospect.campaigns[0].id));
     }
+    return () => dispatch(actions.resetActiveTab());
   }, [activeTab]);
 
   const toggleTab = tab => {
-    if (activeTab !== tab) setActiveTab(tab);
+    if (activeTab !== tab) dispatch(actions.setActiveTab(tab));
   };
 
   const notesList = useSelector(prospectNotesList);

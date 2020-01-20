@@ -19,6 +19,8 @@ const initialState = {
   error: false
 };
 
+export const path = ['campaignProspectStore'];
+
 export default function reducer(state: any = initialState, action: any) {
   switch (action.type) {
     case FETCH_CAMPAIGN_PROSPECTS:

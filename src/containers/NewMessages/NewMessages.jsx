@@ -8,13 +8,15 @@ import { useSelector } from 'react-redux';
 import { getCampaignProspectsUnread } from '../../store/campaignProspectStore/selectors';
 import { updateCampaignProspectsUnread } from '../../store/campaignProspectStore/actions';
 import styled from 'styled-components';
+import { getLeadStages } from '../../store/leadstages/selectors';
 
 const Status = styled.h5`
   color: ${props => (props.archived ? 'grey' : 'green')}
 `;
 
 const NewMessages = (props) => {
-  const campaignProspectsUnread = useSelector(getCampaignProspectsUnread);
+  const leadStages = useSelector(getLeadStages);
+  const campaignProspectsUnread = useSelector(getCampaignProspectsUnread(leadStages));
   const [toggles, setToggle] = useState([]);
   const groupedCampaignProspects = groupByArray(
     ['campaign', 'id'],

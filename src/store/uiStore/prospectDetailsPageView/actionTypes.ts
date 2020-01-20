@@ -1,0 +1,2 @@
+export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB';
+export const RESET_ACTIVE_TAB = 'RESET_ACTIVE_TAB';
