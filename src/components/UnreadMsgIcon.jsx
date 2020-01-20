@@ -31,8 +31,8 @@ const UnreadMsgIcon = (props) => {
 
   return (
     <Wrapper>
-      <FontAwesomeIcon icon="comment-dots" size="lg"/>
-      <Count>83</Count>
+      <FontAwesomeIcon icon="comment-dots" size="lg" />
+      {props.count ? <Count>{props.count}</Count> : null}
     </Wrapper>
   );
 }

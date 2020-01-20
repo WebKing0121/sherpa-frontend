@@ -7,3 +7,4 @@ export const isLoadingMore = (state: any) => state.campaignProspectStore.isLoadi
 export const isLoading = (state: any) => state.campaignProspectStore.isLoading;
 
 export const getCampaignProspectsUnread = (state: any) => state.campaignProspectStore.campaignProspectsUnread;
+export const getCampaignProspectsUnreadCount = (state: any) => state.campaignProspectStore.campaignProspectsUnreadCount;

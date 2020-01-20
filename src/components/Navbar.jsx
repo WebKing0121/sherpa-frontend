@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import logo from '../assets/images/sherpaLogo.png';
 import { Link } from 'react-router-dom';
@@ -9,6 +9,7 @@ import UnreadMsgIcon from './UnreadMsgIcon';
 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { logout } from '../store/Auth/actions';
+import { getCampaignProspectsUnreadCount } from '../store/campaignProspectStore/selectors';
 
 const StyledNavbar = styled(Navbar)`
   box-shadow: 0 0 36px -4px #00000091, 0 0 5px -1px #0000008c;
@@ -109,6 +110,7 @@ const NavArrow = props => {
 
 const SherpNavbar = props => {
   const [collapse, setCollapse] = useState(false);
+  const unreadSmsCount = useSelector(getCampaignProspectsUnreadCount);
 
   const toggleNavbar = () => setCollapse(!collapse);
 
@@ -137,8 +139,8 @@ const SherpNavbar = props => {
         </NavbarBrand>
         <Nav className='messages' navbar>
           <NavItem>
-            <Link to={'/new-messages'}>
-              <UnreadMsgIcon />
+            <Link style={{ color: 'white' }} to={'/new-messages'}>
+              <UnreadMsgIcon count={unreadSmsCount} />
             </Link>
           </NavItem>
         </Nav>

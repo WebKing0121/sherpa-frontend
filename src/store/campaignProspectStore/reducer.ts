@@ -13,6 +13,7 @@ const initialState = {
   previous: null,
   campaignProspects: {},
   campaignProspectsUnread: [],
+  campaignProspectsUnreadCount: 0,
   isLoading: false,
   isLoadingMore: false,
   error: false
@@ -81,7 +82,8 @@ export default function reducer(state: any = initialState, action: any) {
 
       return {
         ...state,
-        campaignProspectsUnread: newCampaignProspects
+        campaignProspectsUnread: newCampaignProspects,
+        campaignProspectsUnreadCount: newCampaignProspects.length
       }
     }
     case UPDATE_CAMPAIGN_PROSPECTS_UNREAD: {
