@@ -24,6 +24,7 @@ import { prospectSearch, prospectSearchNextPage } from '../../store/prospectStor
 // utils
 import { prospectsToItemList } from './utils';
 import { Fetching } from '../../helpers/variables';
+import { resetProspects } from '../../store/prospectStore/actions';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -46,6 +47,9 @@ function ProspectsSearch(props) {
 
   // fetch next-page function
   const fetchMoreData = () => dispatch(prospectSearchNextPage());
+
+  // clear any previous search results
+  useEffect(() => { dispatch(resetProspects()) }, []);
 
   // calculate item height for virtualized-list
   useEffect(() => {
