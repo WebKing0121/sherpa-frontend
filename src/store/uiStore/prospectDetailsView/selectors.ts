@@ -1,35 +1,22 @@
 import { profilesToAgents } from './transformers';
+import { path as detailsViewPath } from './reducer';
+import { path as authPath } from '../../Auth/reducers';
+import {
+  createSelectorContext,
+  createSelector as createSelector2
+} from '../../../redux-helpers';
 
-export const activeProspectSelector = (state: any) => state.uiStore.prospectDetailsView.activeProspect;
+const createSelector = createSelectorContext(detailsViewPath);
 
-export const activeCampaignSelector = (state: any) => state.uiStore.prospectDetailsView.activeCampaign;
+export const activeProspectSelector = createSelector('activeProspect');
 
-export const actionBtnStatusSelector = (state: any) => {
-  const { actionButtons: {
-    ownerVerifiedStatus,
-    doNotCall,
-    isPriority,
-    isQualifiedLead
-  } } = state.uiStore.prospectDetailsView
+export const activeCampaignSelector = createSelector('activeCampaign');
 
-  return {
-    ownerVerifiedStatus,
-    doNotCall,
-    isPriority,
-    isQualifiedLead
-  };
-};
+export const actionBtnStatusSelector = createSelector('actionButtons');
 
-export const agentSelector = (state: any) => {
-  let {
-    auth: {
-      userData: {
-        company: { profiles }
-      }
-    }
-  } = state;
+export const agentSelector = createSelector2(
+  [...authPath, 'userData', 'company', 'profiles'],
+  profilesToAgents
+);
 
-  return profilesToAgents(profiles);
-}
-
-export const activeCampaign = (state: any) => state.uiStore.prospectDetailsView.activeCampaign;
+export const activeCampaign = createSelector('activeCampaign');

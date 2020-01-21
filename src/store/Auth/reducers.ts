@@ -32,6 +32,8 @@ export const initialState: AuthState = {
   }
 }
 
+export const path = ['auth'];
+
 export default function authReducer(state = initialState, action: AuthAction) {
   switch (action.type) {
     case 'SET_AUTH_STATE':

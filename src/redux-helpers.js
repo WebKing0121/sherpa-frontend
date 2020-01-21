@@ -17,5 +17,8 @@ export const createSelector =
 
 export const createSelectorContext =
   (root) =>
-    (path, transformationFn) =>
-      createSelector([...root, path], transformationFn)
+    (path, transformationFn) => {
+      if (typeof path === "string")
+        return createSelector([...root, path], transformationFn)
+      return createSelector([...root, ...path], transformationFn);
+    }

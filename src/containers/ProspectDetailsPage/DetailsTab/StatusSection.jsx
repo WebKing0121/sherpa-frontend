@@ -184,8 +184,11 @@ const DetailsTab = props => {
   // on change lead
   const onLeadStageChange = e => {
     let value = e.target.value;
-    console.log('BOOOM', prospect);
-    dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
+
+    // ignore default optoin
+    if (value) {
+      dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
+    }
   };
 
   return (
@@ -197,6 +200,7 @@ const DetailsTab = props => {
         value={prospect.leadStage || ''}
         icon={<FontAwesomeIcon icon='chevron-up' rotation={180} />}
       >
+        <option key={1000} value=''>Select a leadstage</option>
         {leadOptions}
       </InputSelect>
 

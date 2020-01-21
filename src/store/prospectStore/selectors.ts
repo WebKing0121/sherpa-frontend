@@ -1,9 +1,19 @@
 import { ProspectRecord } from './interfaces'
-export const prospectsResults = (state: any) => state.prospectStore.prospects;
-export const propspectSearchResultsError = (state: any) => state.prospectStore.error;
-export const prospectNextPageUrl = (state: any) => state.prospectStore.next;
-export const prospectIsLoading = (state: any) => state.prospectStore.isLoading;
+import { createSelectorContext } from '../../redux-helpers';
+import { path } from './reducer';
+
+const createSelector = createSelectorContext(path);
+
+export const prospectsResults = createSelector('prospects');
+export const propspectSearchResultsError = createSelector('error');
+export const prospectNextPageUrl = createSelector('next');
+export const prospectIsLoading = createSelector('isLoading');
 
 
 // individual prospects
-export const getProspect = (id: any) => (state: any) => state.prospectStore.prospects[id] || ProspectRecord({}, false);
+export const getProspect = (id: any) =>
+  createSelector(
+    'prospects',
+    (prospects: any) => prospects[id] || ProspectRecord({}, false)
+  )
+

@@ -17,6 +17,8 @@ const initialState = {
   }
 }
 
+export const path = ['uiStore', 'prospectDetailsView'];
+
 export default function reducer(state: any = initialState, action: any) {
   switch (action.type) {
     case SET_ACTIVE_CAMPAIGN:
@@ -25,9 +27,15 @@ export default function reducer(state: any = initialState, action: any) {
         activeCampaign: action.payload
       };
     case SET_ACTION_BTN_STATUS: {
-      let newState = { ...state };
-      newState.actionButtons[action.payload.btn] = action.payload.updating;
-      return newState;
+      // let newState = { ...state };
+      // newState.actionButtons[action.payload.btn] = action.payload.updating;
+      return {
+        ...state,
+        actionButtons: {
+          ...state.actionButtons,
+          [action.payload.btn]: action.payload.updating
+        }
+      };
     };
     case SET_ACTIVE_PROSPECT:
       return {

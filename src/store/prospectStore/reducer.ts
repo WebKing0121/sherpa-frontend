@@ -19,6 +19,8 @@ const initialState: IProspectStore = {
   previous: null
 }
 
+export const path = ['prospectStore'];
+
 export default function reducer(state: IProspectStore = initialState, action: any) {
   switch (action.type) {
     case FETCH_PROSPECT:

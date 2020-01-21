@@ -46,18 +46,7 @@ function ProspectDetailsPage() {
     }
   }, [prospect.id, dispatch, prospectId]);
 
-  useEffect(() => {
-    if (prospect && prospect.campaigns.length === 1) {
-      dispatch(setActiveCampaign(prospect.campaigns[0].id));
-    }
-  }, [dispatch, prospect]);
-
-  useEffect(() => {
-    if (activeTab && prospect.campaigns.length === 1) {
-      dispatch(setActiveCampaign(prospect.campaigns[0].id));
-    }
-    return () => dispatch(actions.resetActiveTab());
-  }, [activeTab]);
+  useEffect(() => () => dispatch(actions.resetActiveTab()), [dispatch]);
 
   const toggleTab = tab => {
     if (activeTab !== tab) dispatch(actions.setActiveTab(tab));
