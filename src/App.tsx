@@ -59,6 +59,7 @@ function App() {
 
   useEffect(() => {
     if (is_auth) {
+      fetchMessages();
       const interval = setInterval(fetchMessages, MESSAGES_POLLING_INTERVAL);
       return () => clearInterval(interval);
     }
