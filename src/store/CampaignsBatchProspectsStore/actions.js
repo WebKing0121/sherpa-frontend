@@ -4,7 +4,8 @@ import {
   SET_FETCH_CAMPAIGNS_BATCH_PROSPECTS_ERROR,
   FETCH_CAMPAIGNS_BATCH_PROSPECTS
 } from './actionTypes';
-import { Fetching } from '../../helpers/variables';
+import { Fetching, generalNetworkError } from '../../helpers/variables';
+import { addNewToast, emptyToastArray } from '../Toasts/actions';
 
 export const setFetchedCampaignsBatchPropsectsStatus = status => ({
   type: FETCH_CAMPAIGNS_BATCH_PROSPECTS,
@@ -16,10 +17,17 @@ export const setFetchedCampaignsBatchProspects = data => ({
   data
 });
 
-export const setFetchedCampaignsError = error => ({
+export const setCampaignsBatchProspectsError = error => ({
   type: SET_FETCH_CAMPAIGNS_BATCH_PROSPECTS_ERROR,
   error
 });
+
+const handleError = (message, error, dispatch) => {
+  console.log(message, error);
+  dispatch(emptyToastArray());
+  dispatch(addNewToast({ message: generalNetworkError, color: 'danger' }));
+  dispatch(setCampaignsBatchProspectsError(error));
+};
 
 export const fetchCampaignsBatchProspects = id => (dispatch, _) => {
   dispatch(setFetchedCampaignsBatchPropsectsStatus(Fetching));
@@ -31,8 +39,7 @@ export const fetchCampaignsBatchProspects = id => (dispatch, _) => {
       dispatch(setFetchedCampaignsBatchProspects(results));
     })
     .catch(error => {
-      console.log('error campaigns', error.response);
-      dispatch(setFetchedCampaignsError('Error when fetching campaigns batch propects'));
+      handleError('Error fetching campaign batch prospects: ', error, dispatch);
     });
 };
 
@@ -66,6 +73,6 @@ export const sendInitialSmsMessage = data => (dispatch, _) => {
       console.log('data sms sent: ', data);
     })
     .catch(error => {
-      console.log('error sending sms: ', error.response);
+      handleError('Error sending SMS message: ', error, dispatch);
     });
 }

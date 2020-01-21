@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+
 import SelectTemplate from './SelectTemplate';
 import ReviewSend from './ReviewSend';
 
 import { fetchSmsTemplates } from '../../../store/SmsTemplateStore/actions';
 import { smsTemplates } from '../../../store/SmsTemplateStore/selectors';
 
-import { updateSmsTemplate } from '../../../store/Campaigns/actions';
+import { fetchCampaigns, updateSmsTemplate } from '../../../store/Campaigns/actions';
 
 import { fetchCampaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/actions';
 
@@ -16,6 +18,7 @@ const SendTab = ({ campaign }) => {
   const dispatch = useDispatch();
   const sms_Templates = useSelector(smsTemplates);
   const { smsTemplate, id } = campaign;
+  const { campaignId, marketId } = useParams();
 
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
@@ -26,10 +29,11 @@ const SendTab = ({ campaign }) => {
   useEffect(() => {
     // fetch all sms templates belonging to the company
     dispatch(fetchSmsTemplates());
+    dispatch(fetchCampaigns(marketId));
 
-    // fetch all campaign prospects that need an sms sent to
-    if (id) {
-      dispatch(fetchCampaignsBatchProspects(id));
+    // fetch all campaign batch prospects using the campaign Id
+    if (campaignId) {
+      dispatch(fetchCampaignsBatchProspects(campaignId));
     }
   }, [dispatch]);
 

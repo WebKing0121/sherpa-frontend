@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { campaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/selectors';
+import { campaignsBatchProspects, campaignsBatchProspectsError } from '../../../store/CampaignsBatchProspectsStore/selectors';
 import { sendInitialSmsMessage } from '../.../../../../store/CampaignsBatchProspectsStore/actions';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
@@ -105,6 +105,7 @@ function renderLead({ transProps, campaignProspects, count }) {
 function ReviewSend(props) {
   const [count, setCount] = useState(0);
   const campaignProspects = useSelector(campaignsBatchProspects);
+  const batchProspectsError = useSelector(campaignsBatchProspectsError);
   const dispatch = useDispatch();
 
   const transProps = {};
@@ -113,8 +114,10 @@ function ReviewSend(props) {
   transProps.unmountOnExit = true;
 
   const handleSend = () => {
-    setCount(count + 1);
-    dispatch(sendInitialSmsMessage(campaignProspects[count]));
+    if (batchProspectsError === "") {
+      setCount(count + 1);
+      dispatch(sendInitialSmsMessage(campaignProspects[count]));
+    }
   };
 
   return (
@@ -132,7 +135,7 @@ function ReviewSend(props) {
           color='primary'
           size='lg'
           block
-          disabled={count >= campaignProspects.length}
+          disabled={count >= campaignProspects.length || batchProspectsError !== ""}
           onClick={handleSend}
         >
           <Icon name='sendWhite' margin='mr-1 mb-1' />
