@@ -17,7 +17,7 @@ import CollapsablePane from '../../../components/CollapsablePane';
 const SendTab = ({ campaign }) => {
   const dispatch = useDispatch();
   const sms_Templates = useSelector(smsTemplates);
-  const { smsTemplate, id } = campaign;
+  const { smsTemplate } = campaign;
   const { campaignId, marketId } = useParams();
 
   const [isOpen1, setIsOpen1] = useState(true);

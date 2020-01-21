@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { campaignsBatchProspects, campaignsBatchProspectsError } from '../../../store/CampaignsBatchProspectsStore/selectors';
+import { campaignsBatchProspects, campaignsBatchProspectsError, campaignsBatchPropectsStatus } from '../../../store/CampaignsBatchProspectsStore/selectors';
 import { sendInitialSmsMessage } from '../.../../../../store/CampaignsBatchProspectsStore/actions';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
 import CalloutSection from './CalloutSection';
 import Icon from '../../../components/Icon';
 import { CSSTransition } from 'react-transition-group';
+import { DataLoader } from '../../../components/LoadingData';
 
 const LeadInfo = styled.div`
   text-align: center;
@@ -102,10 +103,11 @@ function renderLead({ transProps, campaignProspects, count }) {
   });
 }
 
-function ReviewSend(props) {
+function ReviewSend() {
   const [count, setCount] = useState(0);
   const campaignProspects = useSelector(campaignsBatchProspects);
   const batchProspectsError = useSelector(campaignsBatchProspectsError);
+  const isFetching = useSelector(campaignsBatchPropectsStatus);
   const dispatch = useDispatch();
 
   const transProps = {};
@@ -124,7 +126,13 @@ function ReviewSend(props) {
     <>
       <CalloutSection />
 
-      <LeadWrapper>{renderLead({ campaignProspects, transProps, count })}</LeadWrapper>
+      <LeadWrapper>
+        <DataLoader
+          status={isFetching}
+          data={campaignProspects}
+          renderData={() => renderLead({ campaignProspects, transProps, count })}
+        />
+      </LeadWrapper>
 
       <ButtonSection>
         {

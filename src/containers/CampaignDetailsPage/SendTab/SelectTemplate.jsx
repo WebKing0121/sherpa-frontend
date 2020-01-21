@@ -9,7 +9,7 @@ const PaddedContent = styled.div`
 `;
 
 function SelectTemplate(props) {
-  const { templateChoices, templateId, smsMsg, choseTemplate } = props;
+  const { templateChoices, templateId, choseTemplate } = props;
 
   const templateOptions = Object.entries(templateChoices).map(([key, value]) =>
     <option key={key} value={value.id}>
