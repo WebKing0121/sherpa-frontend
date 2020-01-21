@@ -8,6 +8,7 @@ import CalloutSection from './CalloutSection';
 import Icon from '../../../components/Icon';
 import { CSSTransition } from 'react-transition-group';
 import { DataLoader } from '../../../components/LoadingData';
+import { Fetching } from '../../../helpers/variables';
 
 const LeadInfo = styled.div`
   text-align: center;
@@ -143,7 +144,7 @@ function ReviewSend() {
           color='primary'
           size='lg'
           block
-          disabled={count >= campaignProspects.length || batchProspectsError !== ""}
+          disabled={count >= campaignProspects.length || batchProspectsError !== "" || isFetching == Fetching}
           onClick={handleSend}
         >
           <Icon name='sendWhite' margin='mr-1 mb-1' />
