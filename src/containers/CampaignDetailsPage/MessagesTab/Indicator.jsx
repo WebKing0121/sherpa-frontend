@@ -7,11 +7,6 @@ const StyledIndicator = styled.time`
 `;
 
 export default function Indicator(props) {
-  // const timeSent = new Date(props.time).toLocaleTimeString('en-US', {
-  //   hour12: true,
-  //   hour: "numeric",
-  //   minut: "numeric"
-  // });
-  const timeSent = new moment(props.time).format('L');
+  const timeSent = new moment(props.time).format('LT');
   return <StyledIndicator>{timeSent}</StyledIndicator>;
 }

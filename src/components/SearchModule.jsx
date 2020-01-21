@@ -75,12 +75,14 @@ function SearchModule(props) {
           </Col>
         )}
       </Row>
-      <FilterPills>
-        <Pill>John Adams<FontAwesomeIcon icon="times" /></Pill>
-        <Pill>Todd John<FontAwesomeIcon icon="times" /></Pill>
-        <Pill>Larry Tucker<FontAwesomeIcon icon="times" /></Pill>
-        <Pill>John Junior<FontAwesomeIcon icon="times" /></Pill>
-      </FilterPills>
+      {props.filters ? (
+        <FilterPills>
+          {props.filters.map((filter) => (
+            <Pill>{filter}<FontAwesomeIcon icon="times" /></Pill>
+
+          ))}
+        </FilterPills>)
+        : null}
     </StyledSearch>
   );
 }
