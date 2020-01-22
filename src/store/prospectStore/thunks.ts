@@ -6,7 +6,8 @@ import {
   searchProspectsFailure,
   searchProspectsSuccess,
   searchProspectsNextPage,
-  searchProspectsNextPageSuccess
+  searchProspectsNextPageSuccess,
+  searchResetResults
 } from '../uiStore/prospectSearchView/actions';
 import {
   fetchProspectsSuccess,
@@ -53,6 +54,7 @@ const searchInitActions = (dispatch: any) => {
 // success actions
 const searchSuccessActions = (dispatch: any) => {
   dispatch(searchProspectsSuccess(true));
+  dispatch(searchResetResults(false));
 };
 
 // failure actions

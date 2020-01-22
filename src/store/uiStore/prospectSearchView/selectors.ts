@@ -12,3 +12,4 @@ export const selectProspects = (state: any) => {
 export const selectIsLoadingMoreProspects = (state: any) => state.uiStore.prospectSearchView.isLoadingMore;
 
 export const selectIsLoadingProspect = (state: any) => state.uiStore.prospectSearchView.isLoading;
+export const resetSearchResults = (state: any) => state.uiStore.prospectSearchView.reset;

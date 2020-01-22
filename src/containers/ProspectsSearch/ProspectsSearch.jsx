@@ -15,7 +15,8 @@ import ListItem from '../../components/List/ListItem';
 import {
   selectProspects,
   selectIsLoadingMoreProspects,
-  selectIsLoadingProspect
+  selectIsLoadingProspect,
+  resetSearchResults
 } from '../../store/uiStore/prospectSearchView/selectors';
 
 // thunks
@@ -35,6 +36,7 @@ function ProspectsSearch(props) {
   const prospectResults = useSelector(selectProspects);
   const isFetching = useSelector(selectIsLoadingProspect);
   const isFetchingMore = useSelector(selectIsLoadingMoreProspects);
+  const shouldReset = useSelector(resetSearchResults);
   const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
 
@@ -49,7 +51,11 @@ function ProspectsSearch(props) {
   const fetchMoreData = () => dispatch(prospectSearchNextPage());
 
   // clear any previous search results
-  useEffect(() => { dispatch(resetProspects()) }, []);
+  useEffect(() => {
+    if (shouldReset) {
+      dispatch(resetProspects());
+    }
+  }, []);
 
   // calculate item height for virtualized-list
   useEffect(() => {

@@ -1,7 +1,8 @@
 const initialState = {
   isLoading: false,
   isLoadingMore: false,
-  error: false
+  error: false,
+  reset: true
 }
 
 export default function reducer(state: any = initialState, action: any) {
@@ -33,6 +34,11 @@ export default function reducer(state: any = initialState, action: any) {
         ...state,
         isLoadingMore: false
       }
+    case 'SEARCH_RESET_RESULTS':
+      return {
+        ...state,
+        reset: action.payload
+      };
     default:
       return state;
   }
