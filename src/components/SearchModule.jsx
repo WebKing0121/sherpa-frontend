@@ -34,27 +34,32 @@ function SearchModule(props) {
   const [searchTerm, setSearchTerm] = useState('');
 
   const onChange = e => setSearchTerm(e.target.value);
-  const onClick = e => props.searchTerm(searchTerm);
+  const onSubmit = e => {
+    e.preventDefault();
+    props.searchTerm(searchTerm);
+  };
 
   return (
     <StyledSearch data-test={props.dataTest || ''}>
       <Row>
         {props.showSearch && (
           <Col>
-            <InputGroupBorder className='mb-2'>
-              <Input
-                type='text'
-                name='Search'
-                placeholder='Search'
-                value={searchTerm}
-                onChange={onChange}
-              />
-              <InputGroupAddon addonType='append'>
-                <Button disabled={searchTerm.length < 3} className='p-0' color='link' onClick={onClick}>
-                  <IconBg color='primary' width='36px' height='36px' textcol='white' icon='search' />
-                </Button>
-              </InputGroupAddon>
-            </InputGroupBorder>
+            <form onSubmit={onSubmit}>
+              <InputGroupBorder className='mb-2'>
+                <Input
+                  type='text'
+                  name='Search'
+                  placeholder='Search'
+                  value={searchTerm}
+                  onChange={onChange}
+                />
+                <InputGroupAddon addonType='append'>
+                  <Button disabled={searchTerm.length < 3} className='p-0' color='link' type="submit">
+                    <IconBg color='primary' width='36px' height='36px' textcol='white' icon='search' />
+                  </Button>
+                </InputGroupAddon>
+              </InputGroupBorder>
+            </form>
           </Col>
         )}
 
