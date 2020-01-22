@@ -9,10 +9,11 @@ const Circle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${props => props.width || "44px"};;
-  height: ${props => props.height || "44px"};;
+  width: ${props => props.width || "44px"};
+  height: ${props => props.height || "44px"};
   color: ${props => props.textcol};
-
+  flex-basis: ${props => props.width || "44px"};
+  flex-shrink: 0;
   svg {
     margin: ${props => props.nudge || 0};
   }
