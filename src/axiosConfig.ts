@@ -3,6 +3,7 @@ import ReduxStore from './store/store';
 import { loadTokens, getNewAccessToken } from './store/Auth/utils';
 import { addNewToast } from './store/Toasts/actions';
 import { generalNetworkError } from './helpers/variables';
+import { logout } from './store/Auth/actions';
 
 const baseURL = process.env.REACT_APP_BASE_URL;
 
@@ -16,6 +17,12 @@ const errorResponseInterceptor = (error: any) => {
   const {
     auth: { refreshToken }
   } = loadTokens();
+  if (error.response.data.code === "token_not_valid") {
+    // if we get an invalid-refresh token then logout
+    ReduxStore.dispatch(logout());
+    return Promise.reject(error);
+  }
+
   // updates access token if is an error 401 AND refresh token is valid
   if (status === 401 && refreshToken) {
     return getNewAccessToken(refreshToken, error);
