@@ -50,8 +50,8 @@ export default function reducer(state = initialState, action) {
         status: Success
       };
     case UPDATE_SMS_TEMPLATE:
-      let campaignsToUpdate = { ...state.campaigns };
-      campaignsToUpdate[data.id] = data;
+      let campaignsToUpdate = { ...state.campaigns, [data.id]: data };
+
       return {
         ...state,
         campaigns: campaignsToUpdate,

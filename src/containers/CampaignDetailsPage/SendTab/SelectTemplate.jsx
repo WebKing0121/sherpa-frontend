@@ -21,7 +21,7 @@ function SelectTemplate(props) {
 
   return (
     <PaddedContent>
-      <Label for='SearchField'>Template</Label>
+      <Label htmlFor='SearchField'>Template</Label>
       <InputSelect
         name='Search'
         id='SearchField'

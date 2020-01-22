@@ -41,11 +41,11 @@ const SendTab = ({ campaign }) => {
     const chosenTemplate = e.target.value;
     const templateMessage = sms_Templates[parseInt(chosenTemplate)];
 
-    let updatedCampaignTemplate = campaign;
+    let updatedCampaignTemplate = { ...campaign };
     updatedCampaignTemplate.smsTemplate = templateMessage.id;
 
     dispatch(updateSmsTemplate(updatedCampaignTemplate));
-  }
+  };
 
   return (
     <>

@@ -130,10 +130,10 @@ export const archiveCampaign = data => (dispatch, _) => {
 
 export const updateSmsTemplate = data => (dispatch, _) => {
   const { id } = data;
-
+  // optimistically update
+  dispatch(setUpdatedSmsTemplateCampaign(data));
   AxiosInstance.patch(`/campaigns/${id}/`, data)
     .then(({ data }) => {
-      dispatch(setUpdatedSmsTemplateCampaign(data));
       dispatch(fetchCampaignsBatchProspects(data.id));
     })
     .catch(error => {
