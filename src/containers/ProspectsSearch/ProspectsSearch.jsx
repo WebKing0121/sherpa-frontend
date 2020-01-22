@@ -24,7 +24,7 @@ import { prospectSearch, prospectSearchNextPage } from '../../store/prospectStor
 
 // utils
 import { prospectsToItemList } from './utils';
-import { Fetching } from '../../helpers/variables';
+import { Fetching, Success } from '../../helpers/variables';
 import { resetProspects } from '../../store/prospectStore/actions';
 
 const SpinWrap = styled.div`
@@ -34,18 +34,22 @@ const SpinWrap = styled.div`
 
 function ProspectsSearch(props) {
   const prospectResults = useSelector(selectProspects);
-  const isFetching = useSelector(selectIsLoadingProspect);
   const isFetchingMore = useSelector(selectIsLoadingMoreProspects);
   const shouldReset = useSelector(resetSearchResults);
   const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
+  const [loadingStatus, setLoadingStatus] = useState('');
 
   // transform prospect data into the appropriate data-interface for
   // ItemList
   const prospectList = prospectsToItemList(prospectResults);
 
   // search function
-  const search = term => dispatch(prospectSearch(term));
+  const search = term => {
+    setLoadingStatus(Fetching);
+    dispatch(prospectSearch(term))
+      .then(data => setLoadingStatus(Success));
+  };
 
   // fetch next-page function
   const fetchMoreData = () => dispatch(prospectSearchNextPage());
@@ -103,7 +107,7 @@ function ProspectsSearch(props) {
         dataTest='prospect-search-input'
       />
       <DataLoader
-        status={isFetching ? Fetching : ''}
+        status={loadingStatus}
         data={prospectResults}
         emptyResultsMessage='No prospects were found that matches your search.'
         renderData={() => (

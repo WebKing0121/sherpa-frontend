@@ -40,6 +40,7 @@ export const searchProspectsThunkCreator = (initActions: any, successActions: an
 
         dispatch(fetchProspectsSuccess({ ...data, results: prospectsMap }));
         successActions(dispatch);
+        return data;
       })
       .catch(_ => failActions(dispatch));
   };
