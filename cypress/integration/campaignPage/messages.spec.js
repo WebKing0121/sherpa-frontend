@@ -16,7 +16,6 @@ describe('campaign messages', () => {
   });
 
   it('renders the messages tab', () => {
-    // createUpdatedfixture();
     cy.server();
     const loadMessagesAndWait = resAlias => {
       cy.visit(`${url}/${campaignUrl}`);
@@ -47,23 +46,33 @@ describe('campaign messages', () => {
       });
   });
 
-  it('selects each option', () => {
+  it('selects each option and receives xhr status code 200', () => {
+    const callback = resAlias => {
+      cy.get(dropDown)
+        .find('option')
+        .each($option => {
+          if ($option[0].value >= 0) {
+            cy.get(dropDown)
+              .find('select')
+              .select($option[0].value)
+              .should('have.value', $option[0].value);
+            cy.wait(resAlias).then(xhr => {
+              cy.wrap(xhr)
+                .its('status')
+                .should('eq', 200);
+            });
+          }
+        });
+    };
     cy.server();
-    cy.stubResponse({
-      method: 'GET',
-      url: 'campaign-prospects',
-      response: `campaign${campaignId}Prospects`
-    });
-    cy.get(dropDown)
-      .find('option')
-      .each($option => {
-        if ($option[0].value >= 0) {
-          cy.get(dropDown)
-            .find('select')
-            .select($option[0].value)
-            .should('have.value', $option[0].value);
-        }
-      });
+    cy.stubResponse(
+      {
+        method: 'GET',
+        url: 'campaign-prospects',
+        response: `campaign${campaignId}Prospects`
+      },
+      callback
+    );
     cy.get(dropDown)
       .find('select')
       .select('Unread / Is Priority');

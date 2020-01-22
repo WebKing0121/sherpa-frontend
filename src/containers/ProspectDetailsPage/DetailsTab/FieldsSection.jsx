@@ -45,8 +45,8 @@ const BtnHolster = styled.div`
       &:after {
         width: 1px;
         height: 1px;
-        transition: all .2s ease-in-out;
-        transform: translate(-50%,-50%) scale(200);
+        transition: all 0.2s ease-in-out;
+        transform: translate(-50%, -50%) scale(200);
       }
     }
 
@@ -62,7 +62,7 @@ const BtnHolster = styled.div`
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%) scale(1);
+      transform: translate(-50%, -50%) scale(1);
       background: var(--green);
       transition: transform 10s;
       z-index: -1;
@@ -92,6 +92,7 @@ const FieldSelect = props => {
     <FieldWrapper>
       <Label>{props.label}</Label>
       <InputSelect
+        data-test={props.dataTest}
         name={props.status}
         id={props.id}
         onChange={props.onChange}
@@ -109,7 +110,9 @@ const BtnSuccessWrapper = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  svg{ margin-left: .6em; }
+  svg {
+    margin-left: 0.6em;
+  }
 `;
 
 const ModalBackPlate = styled.div`
@@ -277,6 +280,7 @@ const FieldsSection = () => {
         onChange={onAgentChange}
         value={agent}
         icon={<IconBg icon='headset' size='lg' />}
+        dataTest='agent-drop-down'
       >
         {RenderAgentOptions(agents, emptyAgentOption)}
       </FieldSelect>
@@ -290,6 +294,7 @@ const FieldsSection = () => {
           onChange={onRelayChange}
           value={id}
           icon={<IconBg icon='mobile-alt' size='lg' />}
+          dataTest='sms-relay-drop-down'
         >
           {RenderAgentOptions(agents, emptyRelayOption)}
         </FieldSelect>
@@ -323,7 +328,7 @@ const FieldsSection = () => {
                 size='1em'
                 renderContent={() => (
                   <BtnSuccessWrapper>
-                    Emailed to CRM <FontAwesomeIcon size="sm" icon='check' />
+                    Emailed to CRM <FontAwesomeIcon size='sm' icon='check' />
                   </BtnSuccessWrapper>
                 )}
               />

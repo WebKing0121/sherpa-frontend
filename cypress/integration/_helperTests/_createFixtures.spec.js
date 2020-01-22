@@ -72,6 +72,13 @@ describe('Create fixture files from API response', () => {
     cy.fixture(`prospect${prospectId}Notes`).should('exist');
   });
 
+  it('creates the sms-relay-maps route fixture', () => {
+    cy.createFixture('smsRelayMaps.json', 'sms-relay-maps', 'POST', {
+      body: { prospect: prospectId, rep: 1 }
+    });
+    cy.fixture('smsRelayMaps').should('exist');
+  });
+
   it('creates an empty response JSON file', () => {
     cy.writeFile(`cypress/fixtures/empty.json`, { results: [] });
     cy.fixture('empty').should('exist');

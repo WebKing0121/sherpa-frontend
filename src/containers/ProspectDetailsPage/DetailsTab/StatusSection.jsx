@@ -199,6 +199,7 @@ const DetailsTab = props => {
         onChange={onLeadStageChange}
         value={prospect.leadStage || ''}
         icon={<FontAwesomeIcon icon='chevron-up' rotation={180} />}
+        data-test='prospect-lead-stages-drop-down'
       >
         <option key={1000} value=''>Select a leadstage</option>
         {leadOptions}

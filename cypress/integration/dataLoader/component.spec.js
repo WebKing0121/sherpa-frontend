@@ -11,14 +11,13 @@ describe('data loader wrapper component', () => {
   });
 
   it('displays the spinner during a network request', () => {
-    const visitAndWait = resAlias => {
+    cy.server();
+    cy.stubResponse({ url: 'support-links', response: 'support', delay }).then(res => {
       cy.visit(`${url}/support`);
       cy.get(spinner).should('exist');
-      cy.wait(resAlias);
+      cy.wait(`@${res.alias}`);
       cy.get(spinner).should('not.exist');
-    };
-    cy.server();
-    cy.stubResponse({ url: 'support-links', response: 'support', delay }, visitAndWait);
+    });
   });
 
   it('displays data when no spinner or network error', () => {

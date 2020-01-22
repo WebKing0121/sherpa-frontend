@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { campaignsBatchProspects, campaignsBatchProspectsError, campaignsBatchPropectsStatus } from '../../../store/CampaignsBatchProspectsStore/selectors';
+import {
+  campaignsBatchProspects,
+  campaignsBatchProspectsError,
+  campaignsBatchPropectsStatus
+} from '../../../store/CampaignsBatchProspectsStore/selectors';
 import { sendInitialSmsMessage } from '../.../../../../store/CampaignsBatchProspectsStore/actions';
 import { Button } from 'reactstrap';
 import styled from 'styled-components';
@@ -97,7 +101,9 @@ function renderLead({ transProps, campaignProspects, count }) {
             </p>
           </LeadInfo>
 
-          <PreviewText className='textL'>{x.smsMsgText}</PreviewText>
+          <PreviewText data-test='batch-prospect-message' className='textL'>
+            {x.smsMsgText}
+          </PreviewText>
         </div>
       </TransitionStyling>
     );
@@ -117,7 +123,7 @@ function ReviewSend() {
   transProps.unmountOnExit = true;
 
   const handleSend = () => {
-    if (batchProspectsError === "") {
+    if (batchProspectsError === '') {
       setCount(count + 1);
       dispatch(sendInitialSmsMessage(campaignProspects[count]));
     }
@@ -141,10 +147,13 @@ function ReviewSend() {
           // <LinkBtn color="red"><Icon name="dnc" margin="mr-1"/>DNC</LinkBtn>
         }
         <Button
+          data-test='batch-send-button'
           color='primary'
           size='lg'
           block
-          disabled={count >= campaignProspects.length || batchProspectsError !== "" || isFetching == Fetching}
+          disabled={
+            count >= campaignProspects.length || batchProspectsError !== '' || isFetching === Fetching
+          }
           onClick={handleSend}
         >
           <Icon name='sendWhite' margin='mr-1 mb-1' />

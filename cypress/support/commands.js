@@ -111,3 +111,9 @@ Cypress.Commands.add('closeToasts', () => {
       .click()
   );
 });
+
+Cypress.Commands.add('getState', () => {
+  cy.window()
+    .its('store')
+    .invoke('getState');
+});

@@ -11,11 +11,11 @@ const PaddedContent = styled.div`
 function SelectTemplate(props) {
   const { templateChoices, templateId, choseTemplate } = props;
 
-  const templateOptions = Object.entries(templateChoices).map(([key, value]) =>
+  const templateOptions = Object.entries(templateChoices).map(([key, value]) => (
     <option key={key} value={value.id}>
       {value.templateName}
     </option>
-  );
+  ));
 
   const msg = templateChoices[templateId] ? templateChoices[templateId].message : '';
 
@@ -26,8 +26,9 @@ function SelectTemplate(props) {
         name='Search'
         id='SearchField'
         placeholder='Search'
-        onChange={(e) => choseTemplate(e)}
+        onChange={choseTemplate}
         value={templateId}
+        data-test='sms-template-drop-down'
       >
         {templateOptions}
       </InputSelect>

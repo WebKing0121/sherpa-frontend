@@ -112,9 +112,6 @@ describe('Prospect messages', () => {
         cy.wrap($form)
           .find('button[type=submit]')
           .should('exist');
-        cy.wrap($form)
-          .find('button[type=button]')
-          .should('exist');
       });
   });
 

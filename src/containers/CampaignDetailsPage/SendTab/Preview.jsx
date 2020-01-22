@@ -43,10 +43,10 @@ function ReviewSend(props) {
   return (
     <Wrapper>
       <Header>
-        <Label for="previewText">Preview</Label>
-        <CharCount className="textM">{message.length}/160 Characters</CharCount>
+        <Label for='previewText'>Preview</Label>
+        <CharCount className='textM'>{message.length}/160 Characters</CharCount>
       </Header>
-      <PreviewText className="textL mt-1">
+      <PreviewText data-test='sms-template-preview' className='textL mt-1'>
         {message}
       </PreviewText>
     </Wrapper>
