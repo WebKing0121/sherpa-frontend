@@ -16,13 +16,6 @@ function SortModule(props) {
     </option>
   ));
 
-  // adds an empty default option to the dropdown select
-  sortBy.unshift(
-    <option key={'unset'} value={-1} style={{ display: 'none' }}>
-      Sort By
-    </option>
-  );
-
   return (
     <>
       <InputSelect

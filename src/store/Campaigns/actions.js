@@ -47,7 +47,7 @@ export const setUpdatedSmsTemplateCampaign = data => ({
 
 export const fetchCampaigns = id => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
-  AxiosInstance.get('/campaigns/', { params: { market: id, is_archived: false } })
+  AxiosInstance.get('/campaigns/', { params: { market: id, ordering: 'newest', is_archived: false } })
     .then(({ data }) => {
       const { results } = data;
 

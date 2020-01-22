@@ -27,16 +27,28 @@ const CampaignsPage = props => {
 
   const sortingOptions = [
     {
-      name: 'Alphabetical',
-      value: { value: 'name', id: 0 }
+      name: 'Newest',
+      value: { value: '-created', id: 0 }
     },
     {
-      name: 'Created Date',
-      value: { value: 'created_date', id: 1 }
+      name: 'Oldest',
+      value: { value: 'created', id: 1 }
     },
     {
-      name: 'Status %',
-      value: { value: 'status', id: 2 }
+      name: 'Alpha (A-Z)',
+      value: { value: 'name', id: 2 }
+    },
+    {
+      name: 'Alpha (Z-A)',
+      value: { value: '-name', id: 3 }
+    },
+    {
+      name: 'Most complete',
+      value: { value: '-percent_complete', id: 4 }
+    },
+    {
+      name: 'Least complete',
+      value: { value: 'percent_complete', id: 5 }
     }
   ];
 
@@ -71,9 +83,9 @@ const CampaignsPage = props => {
         showSort={true}
         showSearch={false}
         sortingOptions={sortingOptions}
-        sortChange={(value, id) => {
+        sortChange={(value) => {
           setActiveSort(value.id);
-          dispatch(fetchSortedCampaigns(value.value, id));
+          dispatch(fetchSortedCampaigns(value.value, marketId));
         }}
         marketId={marketId}
         defaultValue={activeSort}
