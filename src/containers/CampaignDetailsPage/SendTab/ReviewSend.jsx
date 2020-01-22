@@ -23,6 +23,19 @@ const LeadInfo = styled.div`
   }
 `;
 
+const NoResults = styled.p`
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--darkGray);
+  padding: var(--pad3);
+  line-height: 1.3 !important;
+  font-size: 20px;
+  padding-top: 50%;
+`;
+
 const PreviewText = styled.p`
   background: var(--ghostBlue);
   padding: var(--pad3) 0;
@@ -88,10 +101,11 @@ const ButtonSection = styled.div`
 
 function renderLead({ transProps, campaignProspects, count }) {
   let show = false;
+
   return campaignProspects.map((x, idx) => {
     idx === count ? (show = true) : (show = false);
     return (
-      <TransitionStyling in={show} {...transProps} key={x.id}>
+      <TransitionStyling in={show} {...transProps} >
         <div>
           <LeadInfo>
             <h3 className='fw-bold name'>{x.prospect.name}</h3>
@@ -137,7 +151,12 @@ function ReviewSend() {
         <DataLoader
           status={isFetching}
           data={campaignProspects}
-          renderData={() => renderLead({ campaignProspects, transProps, count })}
+          emptyResultsMessage='No more messages to send'
+          renderData={() => {
+            if (count === campaignProspects.length)
+              return <NoResults>No more messages to send</NoResults>;
+            return renderLead({ campaignProspects, transProps, count });
+          }}
         />
       </LeadWrapper>
 
