@@ -99,7 +99,7 @@ function ProspectsSearch(props) {
 
   return (
     <div className='pageContent'>
-      <Header>Prospects Search</Header>
+      <Header>Prospect Search</Header>
       <SearchModule
         searchTerm={search}
         showFilter={false}

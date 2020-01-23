@@ -10,7 +10,7 @@ describe('Prospect page', () => {
   });
 
   it('displays the correct page header', () => {
-    cy.get('h1').contains('Prospects Search');
+    cy.get('h1').contains('Prospect Search');
   });
 
   it('has search module input field', () => {
