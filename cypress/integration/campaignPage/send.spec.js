@@ -9,6 +9,7 @@ describe('campaign send tab', () => {
   before(() => {
     cy.login();
     cy.createFixture(`campaign${campaignId}.json`, `campaigns/${campaignId}`);
+    cy.createFixture(`batchTemplates${campaignId}.json`, `campaigns/${campaignId}/batch_prospects`);
   });
 
   it('navigates to the correct screen', () => {
@@ -64,7 +65,7 @@ describe('campaign send tab', () => {
     cy.server();
     cy.stubResponse({
       url: `campaigns/${campaignId}/batch_prospects`,
-      response: 'batchTemplate1',
+      response: 'batchTemplates1',
       delay: 500
     }).then(res => {
       cy.get(smsTemplateDropDown)

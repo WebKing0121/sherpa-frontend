@@ -85,6 +85,8 @@ Cypress.Commands.add('stubResponse', (options, waitCallback) => {
 Cypress.Commands.add('login', () => {
   const url = Cypress.env('clientUrl');
   cy.createTokensJson();
+  cy.createFixture('userInfo.json', 'auth/users/me');
+  cy.createFixture('leadStages.json', 'leadstages');
   cy.server();
   cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' });
   cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' });
