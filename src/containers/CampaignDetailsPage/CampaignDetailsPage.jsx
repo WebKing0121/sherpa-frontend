@@ -10,23 +10,25 @@ import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDeta
 import { campaignHeaderInfo } from '../../helpers/variables';
 import MessagesTab from './MessagesTab/MessagesTab';
 import { getCampaign } from '../../store/Campaigns/selectors';
+import { getActiveTab } from '../../store/uiStore/campaignDetailsPageView/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
 import { fetchSingleCampaign } from '../../store/Campaigns/actions';
 import { campaignProspectSearch } from '../../store/campaignProspectStore/thunks';
 import { useParams } from 'react-router-dom';
+import { setCampaignActiveTab } from '../../store/uiStore/campaignDetailsPageView/actions';
 
 const StyledTabContent = styled(TabContent)`
   /* padding: 0 var(--pad3); */
 `;
 
 function CampaignDetailsPage() {
-  const [activeTab, setActiveTab] = useState('1');
+  const activeTab = useSelector(getActiveTab);
   const { campaignId } = useParams();
   const campaign = useSelector(getCampaign(campaignId));
   const dispatch = useDispatch();
 
   const toggleTab = tab => {
-    if (activeTab !== tab) setActiveTab(tab);
+    if (activeTab !== tab) dispatch(setCampaignActiveTab(tab));
   };
 
   // fetch campaign-prospects

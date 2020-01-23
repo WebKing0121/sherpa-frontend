@@ -12,7 +12,7 @@ import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSe
 import { updateProspectSuccess } from '../../store/prospectStore/actions';
 import { ProspectRecord } from '../../store/prospectStore/interfaces';
 import {
-  setActiveTab
+  setProspectActiveTab
 } from '../../store/uiStore/prospectDetailsPageView/actions';
 
 /*
@@ -38,12 +38,10 @@ export const prospectToItemList = opts => campaignProspect => {
     });
   };
 
-  const onClickItem = () => {
-    // when we click on the item we want to navigate to the
-    // prospect-details page Message Tab.
-    // We need to dispatch an action to set the proper tab.
-    store.dispatch(setActiveTab('2'))
-  }
+  // when we click on the item we want to navigate to the
+  // prospect-details page Message Tab.
+  // We need to dispatch an action to set the proper tab.
+  const onClickItem = () => store.dispatch(setProspectActiveTab('2'));
 
   const prospectOnClickStatus = (attr, payload) => () => {
     return prospectUpdate(id, payload, store.dispatch).then(data => {

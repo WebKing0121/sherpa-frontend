@@ -46,7 +46,7 @@ function ProspectDetailsPage() {
     }
   }, [prospect.id, dispatch, prospectId]);
 
-  useEffect(() => () => dispatch(actions.resetActiveTab()), [dispatch]);
+  useEffect(() => () => dispatch(actions.resetProspectActiveTab()), [dispatch]);
 
   useEffect(() => {
     if (prospect && prospect.campaigns.length === 1)
@@ -54,7 +54,7 @@ function ProspectDetailsPage() {
   }, [prospect.campaigns]);
 
   const toggleTab = tab => {
-    if (activeTab !== tab) dispatch(actions.setActiveTab(tab));
+    if (activeTab !== tab) dispatch(actions.setProspectActiveTab(tab));
   };
 
   const notesList = useSelector(prospectNotesList);

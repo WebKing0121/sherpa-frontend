@@ -1,8 +1,8 @@
 import { createAction } from '../../../redux-helpers';
 import {
-  SET_ACTIVE_TAB,
-  RESET_ACTIVE_TAB
+  SET_PROSPECT_ACTIVE_TAB,
+  RESET_PROSPECT_ACTIVE_TAB
 } from './actionTypes';
 
-export const setActiveTab = createAction(SET_ACTIVE_TAB);
-export const resetActiveTab = createAction(RESET_ACTIVE_TAB);
+export const setProspectActiveTab = createAction(SET_PROSPECT_ACTIVE_TAB);
+export const resetProspectActiveTab = createAction(RESET_PROSPECT_ACTIVE_TAB);
