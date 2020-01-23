@@ -48,6 +48,11 @@ function ProspectDetailsPage() {
 
   useEffect(() => () => dispatch(actions.resetActiveTab()), [dispatch]);
 
+  useEffect(() => {
+    if (prospect && prospect.campaigns.length === 1)
+      dispatch(setActiveCampaign(prospect.campaigns[0].id));
+  }, [prospect.campaigns]);
+
   const toggleTab = tab => {
     if (activeTab !== tab) dispatch(actions.setActiveTab(tab));
   };
