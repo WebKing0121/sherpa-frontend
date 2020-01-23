@@ -70,17 +70,25 @@ describe('Home page', () => {
   it('archives the last campaign and archive persists across page reloads', () => {
     cy.server();
     cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns');
-    cy.get('[data-test=swipeable-list-item-action] a').then($a => {
-      let linkLength = $a.length;
-      cy.wrap($a)
-        .last()
-        .click({ force: true, multiple: true });
-      cy.wrap($a).should('not.exist');
-      cy.login();
-      cy.visit(`${url}/${campaignUrl}`);
-      cy.wait('@campaigns').then(() => {
-        cy.get('[data-test=swipeable-list-item-action] a').then($updatedA => {
-          expect($updatedA.length).to.eq(linkLength - 1);
+    cy.get(`${itemHeader} h5`).then($headers => {
+      cy.get('[data-test=swipeable-list-item-action] a').then($links => {
+        let linkLength = $links.length;
+        cy.wrap($links)
+          .last()
+          .click({ force: true });
+        cy.wrap($links)
+          .last()
+          .should('not.exist');
+        cy.login();
+        cy.visit(`${url}/${campaignUrl}`);
+        cy.wait('@campaigns').then(() => {
+          cy.get('[data-test=swipeable-list-item-action] a').then($updatedA => {
+            expect($updatedA.length).to.eq(linkLength - 1);
+          });
+          cy.get(`${itemHeader} h5`).each($newHeader => {
+            const lastCampaign = $headers[$headers.length - 1];
+            cy.wrap($newHeader).should('not.contain', lastCampaign.textContent);
+          });
         });
       });
     });
