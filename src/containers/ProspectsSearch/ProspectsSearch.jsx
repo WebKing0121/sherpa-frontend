@@ -109,7 +109,7 @@ function ProspectsSearch(props) {
       <DataLoader
         status={loadingStatus}
         data={prospectResults}
-        emptyResultsMessage='No prospects were found that matches your search.'
+        emptyResultsMessage='No prospects were found that match your search'
         renderData={() => (
           <>
             <VirtualizedList
