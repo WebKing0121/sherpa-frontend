@@ -84,15 +84,15 @@ Cypress.Commands.add('stubResponse', (options, waitCallback) => {
 
 Cypress.Commands.add('login', () => {
   const url = Cypress.env('clientUrl');
-  const submitLoginAndWait = resAlias => {
-    cy.visit(url);
-    cy.get('[data-test=login-form]').submit();
-    cy.wait(resAlias);
-  };
+  cy.createTokensJson();
   cy.server();
   cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' });
   cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' });
-  cy.stubResponse({ url: 'leadstages', response: 'leadStages' }, submitLoginAndWait);
+  cy.stubResponse({ url: 'leadstages', response: 'leadStages' }).then(res => {
+    cy.visit(url);
+    cy.get('[data-test=login-form]').submit();
+    cy.wait(`@${res.alias}`);
+  });
 });
 
 const toasts = '[data-test=toast]';

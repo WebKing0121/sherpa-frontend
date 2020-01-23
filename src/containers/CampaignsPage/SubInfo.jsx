@@ -31,6 +31,14 @@ const Item = styled.div`
   }
 `;
 
+const Count = styled.span`
+  white-space: pre;
+`;
+
+const Type = styled.span`
+  white-space: pre;
+`;
+
 export default function SubInfo(props) {
   const lDisabled = props.data.totalLeads === 0;
   const pDisabled = props.data.priorityCount === 0;
@@ -39,11 +47,13 @@ export default function SubInfo(props) {
     <Holster>
       <Item disabled={lDisabled}>
         <Icon name='person' width='12px' />
-        {props.data.totalLeads} Leads
+        <Count data-test='campaign-lead-count'>{props.data.totalLeads}</Count>
+        <Type> Leads</Type>
       </Item>
       <Item color='priority' disabled={pDisabled}>
         <Icon name='priority' width='11px' />
-        {props.data.priorityCount} Priority
+        <Count data-test='campaign-priority-count'>{props.data.priorityCount}</Count>
+        <Type> Priority</Type>
       </Item>
     </Holster>
   );

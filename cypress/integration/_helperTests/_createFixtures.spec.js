@@ -1,6 +1,7 @@
 describe('Create fixture files from API response', () => {
   let prospectId = Cypress.env('testProspect');
   let campaignId = Cypress.env('testCampaign');
+  let marketId = Cypress.env('testMarket');
 
   before(() => {
     // cy.login();
@@ -32,6 +33,13 @@ describe('Create fixture files from API response', () => {
   it('creates the campaigns JSON file', () => {
     cy.createFixture('campaigns.json', 'campaigns');
     cy.fixture('campaigns').should('exist');
+  });
+
+  it(`creates a market ${marketId} campaigns JSON file`, () => {
+    cy.createFixture(`market${marketId}campaigns.json`, `campaigns`, 'GET', {
+      qs: { market: marketId, is_archived: false }
+    });
+    cy.fixture(`market${marketId}campaigns.json`).should('exist');
   });
 
   it(`creates a campaign ${campaignId} response JSON file`, () => {
