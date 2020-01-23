@@ -133,7 +133,7 @@ const FieldDateTime = props => {
       <>
         <Label>{props.label}</Label>
         <InputGroupBorder className='mb-2'>
-          <Input {..._props} />
+          <Input {..._props} disabled={true} />
           <InputGroupAddon addonType='append'>
             <Button className='p-0' color='link' onClick={openCalendar}>
               <IconBg icon={props.icon} size='lg' />
@@ -333,8 +333,8 @@ const FieldsSection = () => {
                 )}
               />
             ) : (
-              'Email to CRM'
-            )}
+                'Email to CRM'
+              )}
           </Button>
           <Button
             id='crm'
@@ -356,8 +356,8 @@ const FieldsSection = () => {
                 )}
               />
             ) : (
-              'Push to Zapier'
-            )}
+                'Push to Zapier'
+              )}
           </Button>
 
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
