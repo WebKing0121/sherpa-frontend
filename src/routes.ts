@@ -31,7 +31,7 @@ const Routes = [
     mobile: false
   },
   {
-    path: '/unreadMessages',
+    path: '/new-messages',
     name: 'New Messages',
     navIcon: 'messagesWhite',
     alt: 'Unread Messages',
