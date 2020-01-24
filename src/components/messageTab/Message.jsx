@@ -5,6 +5,25 @@ import moment from 'moment-timezone';
 const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
+  position: relative;
+
+  &.unread {
+    &:after {
+      content: "New";
+      position: absolute;
+      top: 0;
+      left: 0;
+      color: white;
+      font-weight: 900;
+      font-size: 0.7rem;
+      transform: translate(0%, -57%);
+      padding: 0.1em 0.8em 1.4em;
+      line-height: 1.8;
+      background: var(--sherpaBlue);
+      z-index: -1;
+      border-radius: 7px;
+    }
+  }
 `;
 
 const StyledMessage = styled.div`
@@ -19,6 +38,8 @@ const StyledMessage = styled.div`
   margin-bottom: var(--pad1);
   white-space: break-spaces;
   hyphens: auto;
+  border: 2px solid ${props => props.fromProspect ? 'white' : 'var(--sherpaBlue)'};
+  border-color: ${props => props.unread ? "var(--sherpaBlue)" : null};
 `;
 
 const TimeStamp = styled.time`
@@ -31,7 +52,7 @@ const TimeStamp = styled.time`
 `;
 
 function Message(props) {
-  const { message, dt, fromProspect } = props;
+  const { message, dt, fromProspect, unreadByRecipient } = props;
 
   const getFormattedDateTime = dt => {
     const zone = moment.tz.guess();
@@ -49,8 +70,8 @@ function Message(props) {
   };
 
   return (
-    <StyledListItem data-test={fromProspect ? 'prospect-message' : 'user-message'} className='message'>
-      <StyledMessage fromProspect={fromProspect}>{message}</StyledMessage>
+    <StyledListItem data-test={fromProspect ? 'prospect-message' : 'user-message'} className={unreadByRecipient ? "unread message" : "message"}>
+      <StyledMessage unread={unreadByRecipient} fromProspect={fromProspect}>{message}</StyledMessage>
       <TimeStamp fromProspect={fromProspect}>
         {`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}
       </TimeStamp>
