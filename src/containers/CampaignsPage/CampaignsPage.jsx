@@ -3,10 +3,10 @@ import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { campaignsList, campaignsStatus, activeMarket } from '../../store/Campaigns/selectors';
+import { campaignsList, campaignsStatus, activeMarket, sortByOrder } from '../../store/Campaigns/selectors';
 import { marketsList } from '../../store/Markets/selectors';
 import { campaignsToItemList } from './utils';
-import { fetchCampaigns, resetCampaignsData, fetchSortedCampaigns } from '../../store/Campaigns/actions';
+import { resetCampaignsData, fetchSortedCampaigns } from '../../store/Campaigns/actions';
 import { DataLoader } from '../../components/LoadingData';
 
 import TabbedHeader from '../../components/TabbedHeader';
@@ -14,11 +14,13 @@ import { getFromLocalStorage } from '../../store/Markets/utils';
 import { useParams } from 'react-router-dom';
 import FilterButton from '../../components/FilterButton';
 
-const CampaignsPage = props => {
+const CampaignsPage = () => {
   const activeMarketId = useSelector(activeMarket);
   const campaigns = useSelector(campaignsList);
   const campaignFolders = useSelector(marketsList);
   const isFetching = useSelector(campaignsStatus);
+  const sortBy = useSelector(sortByOrder);
+
   const dispatch = useDispatch();
   const folders = getFromLocalStorage('folderView');
   const [activeSort, setActiveSort] = useState(0);
@@ -57,8 +59,9 @@ const CampaignsPage = props => {
 
   // dispatch fetchCampaigns
   useEffect(() => {
-    // check that campaigns list hasn't changed because of a details view refresh
-    // const marketCount = folders.filter(x => x.id === parseInt(marketId))[0].campaignCount;
+    // Preserve sort order menu selection on refresh
+    const sorted = sortingOptions.filter(x => x.value.value === sortBy);
+    setActiveSort(sorted[0].value.id);
 
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
     if (campaigns.length === 0 || activeMarketId !== marketId) {

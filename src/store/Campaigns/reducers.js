@@ -13,6 +13,7 @@ export const initialState = {
   activeMarket: null,
   sortOrder: [],
   campaigns: {},
+  sortBy: '-created_date',
   error: '',
   next: '',
   previous: '',
@@ -32,6 +33,7 @@ export default function reducer(state = initialState, action) {
     case SET_FETCH_CAMPAIGNS:
       return {
         ...state,
+        sortBy: data.sortBy,
         sortOrder: data.sortOrder,
         campaigns: data.campaigns,
         activeMarket: data.marketId,

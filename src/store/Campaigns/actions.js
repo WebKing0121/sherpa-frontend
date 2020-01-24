@@ -73,7 +73,8 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
       const payload = {
         sortOrder: captureSort(results),
         campaigns: arrayToMapIndex('id', results),
-        marketId
+        marketId,
+        sortBy
       };
 
       dispatch(setFetchedCampaigns(payload));

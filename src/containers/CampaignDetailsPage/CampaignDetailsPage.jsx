@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import TabbedHeader from '../../components/TabbedHeader';
 import SendTab from './SendTab/SendTab';
@@ -42,7 +42,7 @@ function CampaignDetailsPage() {
   // fetch campaign data if not in store already
   useEffect(() => {
     if (!campaign.id) {
-      dispatch(fetchSortedCampaigns('-created', marketId));
+      dispatch(fetchSortedCampaigns('-created_date', marketId));
     }
     dispatch(setActiveCampaign(parseInt(campaignId)));
   }, [dispatch, campaign.id, campaignId]);

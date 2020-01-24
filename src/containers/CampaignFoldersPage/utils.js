@@ -12,6 +12,7 @@ import StatusWrapper from './StatusWrapper';
 export const campaignFolderToItemList = ({ id, name, campaignCount }) => {
   return {
     ...IListItem,
+    id,
     name,
     subInfo: <SubInfo data={{ campaignCount }} />,
     readable: true,

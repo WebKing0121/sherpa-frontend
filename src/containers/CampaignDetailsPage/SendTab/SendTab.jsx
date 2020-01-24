@@ -8,7 +8,7 @@ import ReviewSend from './ReviewSend';
 import { fetchSmsTemplates } from '../../../store/SmsTemplateStore/actions';
 import { smsTemplates } from '../../../store/SmsTemplateStore/selectors';
 
-import { fetchCampaigns, updateSmsTemplate } from '../../../store/Campaigns/actions';
+import { updateSmsTemplate } from '../../../store/Campaigns/actions';
 
 import { fetchCampaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/actions';
 
@@ -18,7 +18,7 @@ const SendTab = ({ campaign }) => {
   const dispatch = useDispatch();
   const sms_Templates = useSelector(smsTemplates);
   const { smsTemplate } = campaign;
-  const { campaignId, marketId } = useParams();
+  const { campaignId } = useParams();
 
   const [isOpen1, setIsOpen1] = useState(true);
   const [isOpen2, setIsOpen2] = useState(true);
@@ -29,7 +29,6 @@ const SendTab = ({ campaign }) => {
   useEffect(() => {
     // fetch all sms templates belonging to the company
     dispatch(fetchSmsTemplates());
-    // dispatch(fetchCampaigns(marketId));
 
     // fetch all campaign batch prospects using the campaign Id
     if (campaignId) {

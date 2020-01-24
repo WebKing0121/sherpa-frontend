@@ -15,3 +15,5 @@ export const campaignsStatus = (state) => state.campaigns.status;
 export const activeMarket = (state) => state.campaigns.activeMarket;
 
 export const getCampaign = (id) => (state) => state.campaigns.campaigns[id] || {};
+
+export const sortByOrder = (state) => state.campaigns.sortBy;

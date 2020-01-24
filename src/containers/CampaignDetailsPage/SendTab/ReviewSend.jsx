@@ -105,7 +105,7 @@ function renderLead({ transProps, campaignProspects, count }) {
   return campaignProspects.map((x, idx) => {
     idx === count ? (show = true) : (show = false);
     return (
-      <TransitionStyling in={show} {...transProps} >
+      <TransitionStyling in={show} {...transProps} key={'lead-id-' + x.id}>
         <div>
           <LeadInfo>
             <h3 className='fw-bold name'>{x.prospect.name}</h3>
