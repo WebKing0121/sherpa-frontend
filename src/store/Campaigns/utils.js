@@ -6,3 +6,4 @@ export const selectKeys = (map, keys) => {
   }, {});
 };
 
+export const captureSort = (data) => data.map(i => i.id);

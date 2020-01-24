@@ -11,6 +11,7 @@ import { Fetching, Success, FetchError } from '../../helpers/variables';
 // campaigns reducer
 export const initialState = {
   activeMarket: null,
+  sortOrder: [],
   campaigns: {},
   error: '',
   next: '',
@@ -31,6 +32,7 @@ export default function reducer(state = initialState, action) {
     case SET_FETCH_CAMPAIGNS:
       return {
         ...state,
+        sortOrder: data.sortOrder,
         campaigns: data.campaigns,
         activeMarket: data.marketId,
         status: Success

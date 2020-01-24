@@ -1,8 +1,11 @@
-import { mapIndexToArray } from '../utils';
-
 export const campaignsList = (state) => {
-  const { campaigns: { campaigns } } = state;
-  return mapIndexToArray(campaigns);
+  const { campaigns: { campaigns, sortOrder } } = state;
+
+  const campaignData = sortOrder.map((item) => {
+    return campaigns[item];
+  });
+
+  return campaignData;
 };
 
 export const campaignsError = (state) => state.campaigns.error;

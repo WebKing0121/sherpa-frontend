@@ -10,6 +10,7 @@ import {
 import { Fetching } from '../../helpers/variables';
 import { decrementMarketCampaignCount } from '../Markets/actions';
 import { arrayToMapIndex } from '../utils';
+import { captureSort } from './utils';
 import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
 
 /*************************************************************************************************/
@@ -69,9 +70,13 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     .then(({ data }) => {
       const { results } = data;
 
-      const campaignMap = arrayToMapIndex('id', results);
+      const payload = {
+        sortOrder: captureSort(results),
+        campaigns: arrayToMapIndex('id', results),
+        marketId
+      };
 
-      dispatch(setFetchedCampaigns({ campaigns: campaignMap }));
+      dispatch(setFetchedCampaigns(payload));
     })
     .catch(error => {
       console.log('Error fetching sorted campaigns', error.response);

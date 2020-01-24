@@ -29,7 +29,7 @@ const SendTab = ({ campaign }) => {
   useEffect(() => {
     // fetch all sms templates belonging to the company
     dispatch(fetchSmsTemplates());
-    dispatch(fetchCampaigns(marketId));
+    // dispatch(fetchCampaigns(marketId));
 
     // fetch all campaign batch prospects using the campaign Id
     if (campaignId) {

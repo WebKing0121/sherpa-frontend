@@ -61,8 +61,9 @@ const CampaignsPage = props => {
     // const marketCount = folders.filter(x => x.id === parseInt(marketId))[0].campaignCount;
 
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-    if (campaigns.length === 0 || activeMarketId !== parseInt(marketId)) {
-      dispatch(fetchCampaigns(marketId));
+    if (campaigns.length === 0 || activeMarketId !== marketId) {
+      // dispatch(fetchCampaigns(marketId));
+      dispatch(fetchSortedCampaigns('-created', marketId));
     }
   }, [dispatch, marketId, activeMarketId, campaigns.length]);
 
