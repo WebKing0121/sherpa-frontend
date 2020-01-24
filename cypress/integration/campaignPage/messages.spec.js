@@ -1,6 +1,6 @@
 describe('campaign messages', () => {
   const url = Cypress.env('clientUrl'),
-    marketId = Cypress.env('testCampaign'),
+    marketId = Cypress.env('testMarket'),
     campaignId = Cypress.env('testCampaign'),
     campaignUrl = `markets/${marketId}/campaigns/${campaignId}/details`,
     swipeableListItem = '[data-test=swipeable-list-item]',
@@ -11,21 +11,22 @@ describe('campaign messages', () => {
   before(() => {
     cy.login();
     cy.createFixture(`campaign${campaignId}Prospects.json`, `campaign-prospects`, 'GET', {
-      qs: { page_size: 20, campaign: campaignId, is_priority_unread: true }
+      qs: { expand: 'campaign', page_size: 20, campaign: campaignId, is_priority_unread: true }
     });
   });
 
   it('renders the messages tab', () => {
     cy.server();
-    const loadMessagesAndWait = resAlias => {
+    cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
+      cy.route({
+        method: 'GET',
+        url: '**/campaign-prospects/*',
+        response: fixture
+      }).as('campaign-prospects');
       cy.visit(`${url}/${campaignUrl}`);
-      cy.wait(resAlias);
-    };
-    cy.stubResponse(
-      { method: 'GET', url: 'campaign-prospects', response: `campaign${campaignId}Prospects` },
-      loadMessagesAndWait
-    );
-    cy.get('[data-test=Messages]').contains('Messages');
+      cy.wait(`@campaign-prospects`);
+      cy.get('[data-test=Messages]').contains('Messages');
+    });
   });
 
   it('selects the messages tab and renders the messages pane', () => {
@@ -41,13 +42,19 @@ describe('campaign messages', () => {
         cy.get(dropDown)
           .find('option')
           .then($option => {
-            cy.wrap($select).should('have.value', $option[1].value);
+            cy.wrap($select).should('have.value', $option[0].value);
           });
       });
   });
 
   it('selects each option and receives xhr status code 200', () => {
-    const callback = resAlias => {
+    cy.server();
+    cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
+      cy.route({
+        method: 'GET',
+        url: '**/campaign-prospects/*',
+        response: fixture
+      }).as('campaign-prospects');
       cy.get(dropDown)
         .find('option')
         .each($option => {
@@ -56,23 +63,14 @@ describe('campaign messages', () => {
               .find('select')
               .select($option[0].value)
               .should('have.value', $option[0].value);
-            cy.wait(resAlias).then(xhr => {
+            cy.wait('@campaign-prospects').then(xhr => {
               cy.wrap(xhr)
                 .its('status')
                 .should('eq', 200);
             });
           }
         });
-    };
-    cy.server();
-    cy.stubResponse(
-      {
-        method: 'GET',
-        url: 'campaign-prospects',
-        response: `campaign${campaignId}Prospects`
-      },
-      callback
-    );
+    });
     cy.get(dropDown)
       .find('select')
       .select('Unread / Is Priority');
@@ -171,7 +169,7 @@ describe('campaign messages', () => {
       cy.reload();
       cy.login();
       cy.server();
-      cy.route('**/campaign-prospects/**', newFixture).as('updated-campaign-prospects');
+      cy.route('**/campaign-prospects/*', newFixture).as('updated-campaign-prospects');
       cy.visit(`${url}/${campaignUrl}`);
       cy.wait('@updated-campaign-prospects');
       cy.get('[data-test=Messages]').click({ force: true });

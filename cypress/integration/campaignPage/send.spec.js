@@ -1,6 +1,6 @@
 describe('campaign send tab', () => {
   const url = Cypress.env('clientUrl'),
-    marketId = Cypress.env('testCampaign'),
+    marketId = Cypress.env('testMarket'),
     campaignId = Cypress.env('testCampaign'),
     campaignUrl = `markets/${marketId}/campaigns/${campaignId}/details`,
     sendTab = '[data-test=Send]',

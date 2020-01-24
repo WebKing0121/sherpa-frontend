@@ -73,13 +73,14 @@ Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', opt
   });
 });
 
-Cypress.Commands.add('stubResponse', (options, waitCallback) => {
+Cypress.Commands.add('stubResponse', (options, callback) => {
   const { url, method = 'GET', response, status = 200, delay = 0 } = options;
   cy.fixture(response).as(response);
-  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status, delay }).as(
-    `${method}-${response}`
-  );
-  waitCallback && waitCallback(`@${method}-${response}`);
+  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status, delay })
+    .as(`${method}-${response}`)
+    .then(() => {
+      callback && callback(`@${method}-${response}`);
+    });
 });
 
 Cypress.Commands.add('login', () => {
