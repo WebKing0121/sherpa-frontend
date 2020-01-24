@@ -27,10 +27,10 @@ const Action = styled.div`
 `;
 
 const ActionLink = styled.a`
+  cursor: pointer;
   &:after {
-    transition: background-color 0.3s, opacity 0.3s;
+    z-index: 0 !important;
   }
-
   &:hover,
   &:active {
     &:after {
