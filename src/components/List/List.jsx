@@ -6,11 +6,11 @@ import { maxMobileWidth } from '../../helpers/variables';
 function List(props) {
   const isMobile = window.innerWidth < maxMobileWidth;
 
-  const getItem = (item, idx) => {
-    let itm = <ListItem key={idx} item={item} actions={item.actions} />;
+  const getItem = (item) => {
+    let itm = <ListItem key={'list-item-' + item.id} item={item} actions={item.actions} />;
     if (isMobile && item.actions.length > 0) {
       itm = (
-        <SwipeListItem threshold='.25' actions={item.actions} key={idx}>
+        <SwipeListItem threshold='.25' actions={item.actions} key={'swipable-item-' + itm.key}>
           <ListItem item={item} />
         </SwipeListItem>
       );
