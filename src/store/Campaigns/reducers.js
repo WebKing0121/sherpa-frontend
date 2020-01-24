@@ -44,11 +44,13 @@ export default function reducer(state = initialState, action) {
         status: FetchError
       };
     case ARCHIVE_CAMPAIGN:
-      let updatedCampaigns = { ...state.campaigns };
-      delete updatedCampaigns[data.id];
+      let oldOrder = state.sortOrder;
+
+      let updatedCampaigns = oldOrder.filter(x => x !== data.id);
+
       return {
         ...state,
-        campaigns: updatedCampaigns,
+        sortOrder: updatedCampaigns,
         status: Success
       };
     case UPDATE_SMS_TEMPLATE:

@@ -12,7 +12,7 @@ import MessagesTab from './MessagesTab/MessagesTab';
 import { getCampaign } from '../../store/Campaigns/selectors';
 import { getActiveTab } from '../../store/uiStore/campaignDetailsPageView/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
-import { fetchSingleCampaign } from '../../store/Campaigns/actions';
+import { fetchSortedCampaigns } from '../../store/Campaigns/actions';
 import { campaignProspectSearch } from '../../store/campaignProspectStore/thunks';
 import { useParams } from 'react-router-dom';
 import { setCampaignActiveTab } from '../../store/uiStore/campaignDetailsPageView/actions';
@@ -23,7 +23,7 @@ const StyledTabContent = styled(TabContent)`
 
 function CampaignDetailsPage() {
   const activeTab = useSelector(getActiveTab);
-  const { campaignId } = useParams();
+  const { campaignId, marketId } = useParams();
   const campaign = useSelector(getCampaign(campaignId));
   const dispatch = useDispatch();
 
@@ -42,7 +42,7 @@ function CampaignDetailsPage() {
   // fetch campaign data if not in store already
   useEffect(() => {
     if (!campaign.id) {
-      dispatch(fetchSingleCampaign(campaignId));
+      dispatch(fetchSortedCampaigns('-created', marketId));
     }
     dispatch(setActiveCampaign(parseInt(campaignId)));
   }, [dispatch, campaign.id, campaignId]);
