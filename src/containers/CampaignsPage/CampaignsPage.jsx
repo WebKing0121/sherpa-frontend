@@ -28,11 +28,11 @@ const CampaignsPage = props => {
   const sortingOptions = [
     {
       name: 'Newest',
-      value: { value: '-created', id: 0 }
+      value: { value: '-created_date', id: 0 }
     },
     {
       name: 'Oldest',
-      value: { value: 'created', id: 1 }
+      value: { value: 'created_date', id: 1 }
     },
     {
       name: 'Alpha (A-Z)',
@@ -63,7 +63,7 @@ const CampaignsPage = props => {
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
     if (campaigns.length === 0 || activeMarketId !== marketId) {
       // dispatch(fetchCampaigns(marketId));
-      dispatch(fetchSortedCampaigns('-created', marketId));
+      dispatch(fetchSortedCampaigns('-created_date', marketId));
     }
   }, [dispatch, marketId, activeMarketId, campaigns.length]);
 
