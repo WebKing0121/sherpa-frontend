@@ -1,18 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
 import List from '../../../components/List/List';
-import SortModule from '../../../components/SortModule';
 import Select from '../../../components/InputSelect';
 
 import { campaignsList, campaignsStatus, activeMarket } from '../../../store/Campaigns/selectors';
 import { marketsList } from '../../../store/Markets/selectors';
 import { campaignsToItemList } from './utils';
-import { fetchCampaigns, resetCampaignsData, fetchSortedCampaigns } from '../../../store/Campaigns/actions';
+import { fetchSortedCampaigns } from '../../../store/Campaigns/actions';
 import { DataLoader } from '../../../components/LoadingData';
-
-import { getFromLocalStorage } from '../../../store/Markets/utils';
 
 const ListTab = styled.div`
   padding: var(--pad3) var(--pad3);
@@ -84,8 +81,8 @@ const FilterSort = props => {
         {// replace with sortModule
         }
         <Select>
-        {//replace with sort Options
-        }
+          {//replace with sort Options
+          }
           <option>Alphabetical</option>
           <option>Created By</option>
           <option>By Date</option>
@@ -121,7 +118,7 @@ const CampaignsListTab = props => {
   // dispatch fetchCampaigns
   useEffect(() => {
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-      dispatch(fetchCampaigns());
+    dispatch(fetchSortedCampaigns());
   }, [dispatch]);
 
   // transform campaigns to proper list item views
