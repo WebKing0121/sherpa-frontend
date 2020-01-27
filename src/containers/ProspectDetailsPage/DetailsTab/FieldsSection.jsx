@@ -43,8 +43,8 @@ const BtnHolster = styled.div`
       border-color: var(--green);
       cursor: disabled;
       &:after {
-        width: 1px;
-        height: 1px;
+        width: 3px;
+        height: 3px;
         transition: all 0.2s ease-in-out;
         transform: translate(-50%, -50%) scale(200);
       }
