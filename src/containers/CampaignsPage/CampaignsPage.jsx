@@ -44,14 +44,6 @@ const CampaignsPage = () => {
       name: 'Alpha (Z-A)',
       value: { value: '-name', id: 3 }
     },
-    {
-      name: 'Most complete',
-      value: { value: '-percent_complete', id: 4 }
-    },
-    {
-      name: 'Least complete',
-      value: { value: 'percent_complete', id: 5 }
-    }
   ];
 
   // check there are campaign folders to navigate back too
