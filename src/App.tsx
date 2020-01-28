@@ -37,6 +37,9 @@ function App() {
   const dispatch = useDispatch();
   const is_auth = useSelector(isAuthenticated);
   const [isMobile, setIsMobile] = useState(window.innerWidth < maxMobileWidth);
+  const showDesktop =
+    process.env.REACT_APP_SHOW_DESKTOP === undefined ||
+    process.env.REACT_APP_SHOW_DESKTOP === "true";
 
   const updateViewport = () => {
     const viewWidth = window.innerWidth;
@@ -72,7 +75,11 @@ function App() {
     return !is_auth ? login : isMobile ? mobileNav : desktopNav;
   };
 
-  return (
+  const showRoutes = (isMobile: boolean, showDesktop: boolean) => {
+    return isMobile || (!isMobile && showDesktop);
+  };
+
+  return showRoutes(isMobile, showDesktop) ? (
     <Router history={history}>
       {determineNav()}
       <Switch>
@@ -101,9 +108,8 @@ function App() {
         <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
       </Switch>
       {is_auth && <ToastContainer />}
-      <NoDesktop />
     </Router>
-  );
+  ) : <NoDesktop showDesktop={process.env.REACT_APP_SHOW_DESKTOP} />;
 }
 
 export default App;

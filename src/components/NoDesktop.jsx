@@ -15,7 +15,7 @@ const Message = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  display: none;
+  display: ${props => props.showDesktop === "false" ? 'flex' : 'none'};
 
   padding: 2em;
   font-size: calc(22px + .6vw);
@@ -58,21 +58,21 @@ const Message = styled.div`
   }
 
   @media (min-width: 768px) {
-    display: none;
+    display: ${props => props.showDesktop === "false" ? 'flex' : 'none'};
   }
 `;
 
 function NoDesktop(props) {
   return (
     <Message {...props}>
-      <div className="content">
+      <div className="content" data-test="no-desktop">
         <h1>Sorry...</h1>
         <div className="text">
-        We are currently working on a full desktop version of the new Sherpa. Until then, you will need to be on a mobile device to use this version of Sherpa.
+          We are currently working on a full desktop version of the new Sherpa. Until then, you will need to be on a mobile device to use this version of Sherpa.
         </div>
         <em>-The Sherpa Team</em>
       </div>
-      <img src={logo} alt="sherpa"/>
+      <img src={logo} alt="sherpa" />
     </Message>
   );
 }
