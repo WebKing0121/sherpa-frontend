@@ -163,13 +163,14 @@ describe('campaign messages', () => {
   // changes the "hasUnreadSms" property and reloads app
   function setNewFixtureAndLoadPage(bool) {
     cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
-      const newFixture = { ...fixture };
-      newFixture.results[0].hasUnreadSms = bool;
+      fixture.results.forEach(prospect => {
+        prospect.hasUnreadSms = bool;
+      });
       cy.visit(`${url}/${campaignUrl}`);
       cy.reload();
       cy.login();
       cy.server();
-      cy.route('**/campaign-prospects/*', newFixture).as('updated-campaign-prospects');
+      cy.route({ url: '**/campaign-prospects/*', response: fixture }).as('updated-campaign-prospects');
       cy.visit(`${url}/${campaignUrl}`);
       cy.wait('@updated-campaign-prospects');
       cy.get('[data-test=Messages]').click({ force: true });

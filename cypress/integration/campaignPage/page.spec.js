@@ -1,4 +1,4 @@
-describe('Home page', () => {
+describe('Campaigns page', () => {
   const url = Cypress.env('clientUrl'),
     marketId = Cypress.env('testMarket'),
     campaignUrl = `markets/${marketId}/campaigns`,
@@ -15,7 +15,7 @@ describe('Home page', () => {
 
   it('navigates to campaign page path', () => {
     cy.server();
-    cy.stubResponse({ url: `campaigns`, response: `market${marketId}campaigns` }).then(res => {
+    cy.stubResponse({ url: `campaigns/**`, response: `market${marketId}campaigns` }).then(res => {
       cy.visit(`${url}/${campaignUrl}`);
       cy.wait(`@${res.alias}`);
       cy.location().should(location => {
@@ -29,11 +29,11 @@ describe('Home page', () => {
   });
 
   it('renders the correct markets, lead amount, and priority amount', () => {
-    cy.getState().then(({ campaigns }) => {
-      const campaignArr = Object.values(campaigns.campaigns);
+    cy.getState().then(({ campaigns: { campaigns, sortOrder } }) => {
+      const campaignArr = sortOrder.map(item => campaigns[item]);
       cy.get(listItem).each(($item, idx) => {
         cy.wrap($item)
-          .find(itemHeader)
+          .find(`${itemHeader} h5`)
           .contains(campaignArr[idx].name);
         cy.wrap($item)
           .find('[data-test=campaign-lead-count]')
@@ -47,8 +47,8 @@ describe('Home page', () => {
 
   it('navigates to the correct campaign page after clicking on it, navigates back after clicking back button', () => {
     let counter = 0;
-    cy.getState().then(({ campaigns }) => {
-      const campaignArr = Object.values(campaigns.campaigns);
+    cy.getState().then(({ campaigns: { campaigns, sortOrder } }) => {
+      const campaignArr = sortOrder.map(item => campaigns[item]);
       cy.get(itemLink).then($link => {
         counter = $link.length;
         for (let i = 0; i < counter; i++) {
@@ -67,17 +67,17 @@ describe('Home page', () => {
     });
   });
 
-  it('archives the last campaign and archive persists across page reloads', () => {
+  it('archives the first campaign and archive persists across page reloads', () => {
     cy.server();
     cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns');
     cy.get(`${itemHeader} h5`).then($headers => {
       cy.get('[data-test=swipeable-list-item-action] a').then($links => {
         let linkLength = $links.length;
         cy.wrap($links)
-          .last()
+          .first()
           .click({ force: true });
         cy.wrap($links)
-          .last()
+          .first()
           .should('not.exist');
         cy.login();
         cy.visit(`${url}/${campaignUrl}`);

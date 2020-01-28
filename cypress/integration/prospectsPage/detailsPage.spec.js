@@ -11,7 +11,7 @@ describe('Prospect details page', () => {
     cy.server();
     cy.stubResponse({
       method: 'GET',
-      url: `prospects/${prospectId}`,
+      url: `prospects/${prospectId}/**`,
       response: `prospect${prospectId}`
     });
     cy.visit(`${url}/${prospectUrl}`);
@@ -37,7 +37,7 @@ describe('Prospect details page', () => {
     cy.server();
     cy.stubResponse({
       method: 'GET',
-      url: `prospects/${prospectId}`,
+      url: `prospects/${prospectId}/**`,
       response: `prospect${prospectId}`
     });
     cy.visit(`${url}/prospects`);

@@ -8,14 +8,23 @@ describe('campaign send tab', () => {
 
   before(() => {
     cy.login();
-    cy.createFixture(`campaign${campaignId}.json`, `campaigns/${campaignId}`);
+    cy.createFixture(`campaigns.json`, `campaigns`, 'GET', {
+      qs: { market: marketId, ordering: '-created', is_archived: false }
+    });
     cy.createFixture(`batchTemplates${campaignId}.json`, `campaigns/${campaignId}/batch_prospects`);
   });
 
   it('navigates to the correct screen', () => {
-    cy.visit(`${url}/${campaignUrl}`);
-    cy.location().should(location => {
-      expect(location.pathname).to.eq(`/${campaignUrl}`);
+    cy.stubResponse({
+      url: `campaigns/*`,
+      method: 'GET',
+      response: `campaigns`
+    }).then(res => {
+      cy.visit(`${url}/${campaignUrl}`);
+      cy.wait(`@${res.alias}`);
+      cy.location().should(location => {
+        expect(location.pathname).to.eq(`/${campaignUrl}`);
+      });
     });
   });
 
@@ -36,15 +45,22 @@ describe('campaign send tab', () => {
   });
 
   it('displays the correct preview message on load', () => {
-    cy.fixture(`campaign${campaignId}`).then(fixture => {
+    cy.fixture(`campaigns`).then(fixture => {
+      const campaign = fixture.results.reduce((acc, curr) => {
+        acc[curr.id] = curr;
+        return acc;
+      }, {});
+      console.log(campaign);
       cy.getState().then(({ smsTemplates: { templates } }) => {
-        cy.get('[data-test=sms-template-preview]').contains(templates[fixture.smsTemplate].message);
+        const { message } = templates[campaign[campaignId].smsTemplate];
+        cy.get('[data-test=sms-template-preview]').contains(message);
       });
     });
   });
 
   it('displays the correct preview message and full message after changing template', () => {
     cy.server();
+    // cy.route({ url: `**/campaigns/*`, method: 'GET' });
     cy.route({ url: `**/campaigns/${campaignId}/batch_prospects/**`, method: 'GET' }).as(
       'batch-prospects'
     );
@@ -61,10 +77,11 @@ describe('campaign send tab', () => {
         });
       });
   });
+
   it('displays a loading spinner while new message template is loading', () => {
     cy.server();
     cy.stubResponse({
-      url: `campaigns/${campaignId}/batch_prospects`,
+      url: `campaigns/${campaignId}/batch_prospects/**`,
       response: 'batchTemplates1',
       delay: 500
     }).then(res => {

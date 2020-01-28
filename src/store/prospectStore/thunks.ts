@@ -116,7 +116,7 @@ export const prospectUpdate = async (
 ) => {
   return api
     .patchProspect(id, payload)
-    .then(({ data }) => {
+    .then(({ data }: any) => {
       if (!optimistic) {
         const prospect = PartialProspectRecord(data, false);
         dispatch(updateProspectSuccess(prospect));
@@ -124,7 +124,7 @@ export const prospectUpdate = async (
       onSuccess();
       return data;
     })
-    .catch(error => console.log('Error updating prospect detail', error.response));
+    .catch((error: any) => console.log('Error updating prospect detail', error.response));
 };
 
 export const prospectUpdateStatus = (id: string, payload: any, attr: string) => (

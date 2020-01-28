@@ -35,18 +35,17 @@ describe('Prospect page', () => {
   it('performs a prospect search and displays the results', () => {
     cy.server();
     const options = {
-      url: 'prospects',
+      url: 'prospects/**',
       response: 'prospects',
       status: 200,
       method: 'GET'
     };
-    const searchAndWait = resAlias => {
+    cy.stubResponse(options).then(res => {
       cy.get(prospectSearchInput)
         .find('button')
         .click();
-      cy.wait(resAlias);
-    };
-    cy.stubResponse(options, searchAndWait);
+      cy.wait(`@${res.alias}`);
+    });
 
     cy.get(swipeableListItem).should($item => {
       expect($item).to.have.length.of.at.least(1);

@@ -21,20 +21,6 @@ describe('campaign details page', () => {
     });
   });
 
-  it('displays the correct header', () => {
-    cy.fixture(`campaign${campaignId}`).then(campaign => {
-      cy.get(`[data-test=tabbed-header]`).then($header => {
-        cy.wrap($header)
-          .find('h1')
-          .contains(campaign.name);
-        cy.wrap($header)
-          .find('button')
-          .should('contain', 'Campaign List')
-          .and('not.be.disabled');
-      });
-    });
-  });
-
   it('displays the correct tabs', () => {
     cy.get('[data-test=Send]')
       .should('exist')

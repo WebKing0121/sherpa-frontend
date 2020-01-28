@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import InputGroupBorder from '../../../components/InputGroupBorder';
-import { Label, Input, InputGroupAddon, Button, FormGroup, CustomInput, NavLink } from 'reactstrap';
+import { Label, Input, InputGroupAddon, Button, FormGroup, CustomInput } from 'reactstrap';
 import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -130,18 +130,18 @@ const ModalBackPlate = styled.div`
 const FieldDateTime = props => {
   const renderInput = (_props, openCalendar, closeCalendar) => {
     return (
-      <>
+      <div data-test='reminder-date-picker' onClick={openCalendar}>
         <Label>{props.label}</Label>
         <InputGroupBorder className='mb-2'>
           <Input {..._props} disabled={true} />
           <InputGroupAddon addonType='append'>
-            <Button className='p-0' color='link' onClick={openCalendar}>
+            <Button className='p-0' color='link'>
               <IconBg icon={props.icon} size='lg' />
             </Button>
           </InputGroupAddon>
         </InputGroupBorder>
         <ModalBackPlate className='modalBackPlate' onClick={closeCalendar} />
-      </>
+      </div>
     );
   };
 
@@ -316,9 +316,10 @@ const FieldsSection = () => {
         <BtnHolster>
           <Button
             id='zapier'
+            data-test='email-to-crm-btn'
             color='primary'
             className='fw-bold'
-            disabled={emailedToPodio}
+            disabled={emailedToPodio || !activeCampaign.podioPushEmailAddress}
             onClick={() => handleFieldBtnClick(prospectEmailToCrmAction, 'isEmailingToCrm')}
           >
             {fieldBtnStatus.isEmailingToCrm || emailedToPodio ? (
@@ -333,14 +334,15 @@ const FieldsSection = () => {
                 )}
               />
             ) : (
-                'Email to CRM'
-              )}
+              'Email to CRM'
+            )}
           </Button>
           <Button
             id='crm'
+            data-test='push-to-zapier-btn'
             color='primary'
             className='fw-bold'
-            disabled={pushedToZapier}
+            disabled={pushedToZapier || !activeCampaign.zapierWebhook}
             onClick={() => handleFieldBtnClick(prospectPushToZapierAction, 'isPushingToZapier')}
           >
             {fieldBtnStatus.isPushingToZapier || pushedToZapier ? (
@@ -356,8 +358,8 @@ const FieldsSection = () => {
                 )}
               />
             ) : (
-                'Push to Zapier'
-              )}
+              'Push to Zapier'
+            )}
           </Button>
 
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>

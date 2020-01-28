@@ -73,14 +73,12 @@ Cypress.Commands.add('createFixture', (fileName, route = '', method = 'GET', opt
   });
 });
 
-Cypress.Commands.add('stubResponse', (options, callback) => {
-  const { url, method = 'GET', response, status = 200, delay = 0 } = options;
+Cypress.Commands.add('stubResponse', options => {
+  const { url, method = 'GET', response, status = 200, delay = 0, ...rest } = options;
   cy.fixture(response).as(response);
-  cy.route({ method, url: `**/${url}/**`, response: `@${response}`, status, delay })
-    .as(`${method}-${response}`)
-    .then(() => {
-      callback && callback(`@${method}-${response}`);
-    });
+  cy.route({ method, url: `**/${url}`, response: `@${response}`, status, delay, ...rest }).as(
+    `${method}-${response}`
+  );
 });
 
 Cypress.Commands.add('login', () => {
@@ -91,7 +89,7 @@ Cypress.Commands.add('login', () => {
   cy.server();
   cy.stubResponse({ method: 'POST', url: 'auth/jwt/create', response: 'tokens' });
   cy.stubResponse({ url: 'auth/users/me', response: 'userInfo' });
-  cy.stubResponse({ url: 'leadstages', response: 'leadStages' }).then(res => {
+  cy.stubResponse({ url: 'leadstages/**', response: 'leadStages' }).then(res => {
     cy.visit(url);
     cy.get('[data-test=login-form]').submit();
     cy.wait(`@${res.alias}`);
