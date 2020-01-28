@@ -109,7 +109,7 @@ function App() {
       </Switch>
       {is_auth && <ToastContainer />}
     </Router>
-  ) : <NoDesktop showDesktop={process.env.REACT_APP_SHOW_DESKTOP} />;
+  ) : <NoDesktop />;
 }
 
 export default App;

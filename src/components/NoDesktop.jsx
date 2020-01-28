@@ -15,7 +15,7 @@ const Message = styled.div`
   align-items: center;
   flex-direction: column;
   justify-content: center;
-  display: ${props => props.showDesktop === "false" ? 'flex' : 'none'};
+  display: flex;
 
   padding: 2em;
   font-size: calc(22px + .6vw);
@@ -58,7 +58,7 @@ const Message = styled.div`
   }
 
   @media (min-width: 768px) {
-    display: ${props => props.showDesktop === "false" ? 'flex' : 'none'};
+    display: flex;
   }
 `;
 
