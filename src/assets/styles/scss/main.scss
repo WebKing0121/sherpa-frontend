@@ -228,3 +228,7 @@ input,select,option {
   --pad8: #{pad(8)};
   --pad9: #{pad(9)};
 }
+
+.icon {
+  transition: transform .15s;
+}

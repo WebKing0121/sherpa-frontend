@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import InputSelect from '../../../components/InputSelect';
-import { Label } from 'reactstrap';
+import InputSelect2 from '../../../components/InputSelect2';
+import { Label, DropdownItem } from 'reactstrap';
 import Preview from './Preview';
 
 const PaddedContent = styled.div`
@@ -12,9 +12,9 @@ function SelectTemplate(props) {
   const { templateChoices, templateId, choseTemplate } = props;
 
   const templateOptions = Object.entries(templateChoices).map(([key, value]) => (
-    <option key={key} value={value.id}>
+    <DropdownItem onClick={choseTemplate} key={key} value={value.id}>
       {value.templateName}
-    </option>
+    </DropdownItem>
   ));
 
   const msg = templateChoices[templateId] ? templateChoices[templateId].message : '';
@@ -22,16 +22,13 @@ function SelectTemplate(props) {
   return (
     <PaddedContent>
       <Label htmlFor='SearchField'>Template</Label>
-      <InputSelect
-        name='Search'
+      <InputSelect2
         id='SearchField'
-        placeholder='Search'
-        onChange={choseTemplate}
-        value={templateId}
+        value={templateChoices[templateId] ? templateChoices[templateId].templateName : null}
+        placeholder="Search"
         data-test='sms-template-drop-down'
-      >
-        {templateOptions}
-      </InputSelect>
+        options={templateOptions}
+      />
 
       <Preview message={msg} />
     </PaddedContent>

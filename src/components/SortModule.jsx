@@ -1,6 +1,8 @@
 import React from 'react';
-import InputSelect from '../components/InputSelect';
+import InputSelect2 from '../components/InputSelect2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { DropdownItem } from 'reactstrap';
+
 
 function SortModule(props) {
   const { sortOptions, sortChange, defaultValue = -1 } = props;
@@ -11,23 +13,18 @@ function SortModule(props) {
   };
 
   const sortBy = sortOptions.map((item, key) => (
-    <option key={key} value={key}>
+    <DropdownItem onClick={onSortChange} key={key} value={key}>
       {item.name}
-    </option>
+    </DropdownItem>
   ));
 
   return (
-    <>
-      <InputSelect
-        name='sort'
-        id='sortOrder'
-        onChange={onSortChange}
-        value={defaultValue}
-        icon={<FontAwesomeIcon icon='chevron-up' rotation={180} />}
-      >
-        {sortBy}
-      </InputSelect>
-    </>
+    <InputSelect2
+      id='sortOrder'
+      value={sortOptions[defaultValue].name}
+      placeholder="Sort By"
+      options={sortBy}
+    />
   );
 }
 

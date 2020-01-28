@@ -85,5 +85,7 @@ $popover-border-width: 0px;
 .custom-control-input:checked ~ .custom-control-label::before {
   border-color: var(--sherpaBlue) !important;
 }
-
+.form-control:disabled, .form-control[readonly] {
+  background-color: transparent !important;
+}
 @import "~bootstrap/scss/bootstrap.scss";

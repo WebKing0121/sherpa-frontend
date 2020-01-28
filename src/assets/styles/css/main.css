@@ -35,6 +35,9 @@
 .custom-control-input:checked ~ .custom-control-label::before {
   border-color: var(--sherpaBlue) !important; }
 
+.form-control:disabled, .form-control[readonly] {
+  background-color: transparent !important; }
+
 /*!
  * Bootstrap v4.4.0 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -7372,3 +7375,6 @@ input, select, option {
   --pad7: 11.66667vw;
   --pad8: 13.33333vw;
   --pad9: 15vw; }
+
+.icon {
+  transition: transform .15s; }

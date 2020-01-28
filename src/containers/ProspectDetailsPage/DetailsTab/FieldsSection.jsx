@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import InputGroupBorder from '../../../components/InputGroupBorder';
-import { Label, Input, InputGroupAddon, Button, FormGroup, CustomInput } from 'reactstrap';
+import {
+  Label,
+  DropdownItem,
+  Input,
+  InputGroupAddon,
+  Button,
+  FormGroup,
+  CustomInput } from 'reactstrap';
 import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
-import InputSelect from '../../../components/InputSelect';
+import InputSelect from '../../../components/InputSelect2';
 import Modal from '../../../components/Modal';
 import {
   agentSelector,
@@ -85,22 +92,34 @@ const FieldWrapper = styled.div`
   &:not(:last-child) {
     margin-bottom: var(--pad4);
   }
+  svg {
+    color: var(--sherpaBlue);
+  }
 `;
 
 const FieldSelect = props => {
+  let active = 0;
+
+  for (var i = 0; i < props.options.length; i++) {
+    let selectedKey = parseInt(props.value);
+    let agentNum = props.options[i].props.value;
+
+    if (agentNum === selectedKey) {
+      active = parseInt(props.options[i].key);
+    }
+  }
+
   return (
     <FieldWrapper>
       <Label>{props.label}</Label>
       <InputSelect
         data-test={props.dataTest}
-        name={props.status}
         id={props.id}
-        onChange={props.onChange}
-        value={props.value}
+        value={props.options[active].props.children}
         icon={props.icon}
-      >
-        {props.children}
-      </InputSelect>
+        options={props.options}
+        placeholder={props.options[0].fullName}
+      />
     </FieldWrapper>
   );
 };
@@ -148,13 +167,14 @@ const FieldDateTime = props => {
   return <Datetime renderInput={renderInput} onBlur={props.onBlur} defaultValue={props.defaultValue} />;
 };
 
-const RenderAgentOptions = (agents, emptyOption) => {
+const RenderAgentOptions = (agents, emptyOption, onClick) => {
   let newAgents = [emptyOption, ...agents];
-  return newAgents.map((agent, idx) => (
-    <option key={idx} value={agent.id}>
+  let options = newAgents.map((agent, idx) => (
+    <DropdownItem onClick={onClick} key={idx} value={agent.id}>
       {agent.fullName}
-    </option>
+    </DropdownItem>
   ));
+  return options;
 };
 
 // TODO: Break all these fields into their own
@@ -215,7 +235,6 @@ const FieldsSection = () => {
     let {
       target: { value }
     } = e;
-
     // if none-selected then remove it
     if (!value) {
       dispatch(prospectRemoveRelay(prospect.id, { smsRelayMap: null }));
@@ -270,20 +289,19 @@ const FieldsSection = () => {
       setEmailtoCrm(field === 'isEmailingToCrm' ? true : false);
     }
   };
-
+  let agentOpts = RenderAgentOptions(agents, emptyAgentOption, onAgentChange);
+  let relayOpts = RenderAgentOptions(agents, emptyRelayOption, onRelayChange);
   return (
     <>
       <FieldSelect
         name='status'
         id='statusSelect'
         label='Agent'
-        onChange={onAgentChange}
-        value={agent}
+        value={agent || 0}
         icon={<IconBg icon='headset' size='lg' />}
         dataTest='agent-drop-down'
-      >
-        {RenderAgentOptions(agents, emptyAgentOption)}
-      </FieldSelect>
+        options={agentOpts}
+      />
 
       {sherpaPhoneNumber ? (
         <FieldSelect
@@ -291,13 +309,11 @@ const FieldsSection = () => {
           name='sms_relay'
           label='SMS & Call Relay'
           placeholder='Select Call Relay Number'
-          onChange={onRelayChange}
           value={id}
           icon={<IconBg icon='mobile-alt' size='lg' />}
           dataTest='sms-relay-drop-down'
-        >
-          {RenderAgentOptions(agents, emptyRelayOption)}
-        </FieldSelect>
+          options={relayOpts}
+        />
       ) : null}
 
       <FieldWrapper>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
-import InputSelect from '../../../components/InputSelect';
+import InputSelect from '../../../components/InputSelect2';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   activeProspectSelector,
@@ -11,6 +11,7 @@ import { prospectUpdateStatus, prospectUpdateOptimistically } from '../../../sto
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 import { getProspect } from '../../../store/prospectStore/selectors';
+import { DropdownItem } from 'reactstrap';
 
 const StatusAction = styled.div`
   background: ${props => {
@@ -136,12 +137,25 @@ const DetailsTab = props => {
     }
   ];
 
+  // on change lead
+  const onLeadStageChange = e => {
+    let value = e.target.value;
+    // ignore default optoin
+    if (value) {
+      dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
+    }
+
+  };
+
   // render lead options
-  const leadOptions = leadStages.map((item, key) => (
-    <option key={key} value={item.id}>
+  let leadOptions = leadStages.map((item, key) => (
+    <DropdownItem onClick={onLeadStageChange} key={key} value={item.id}>
       {item.leadStageTitle}
-    </option>
+    </DropdownItem>
   ));
+  leadOptions.unshift(
+    <DropdownItem onClick={onLeadStageChange} key={1000} value={0}>Select Lead Stage</DropdownItem>
+  );
 
   // onchange status
   const onStatusChange = attr => () => {
@@ -181,29 +195,22 @@ const DetailsTab = props => {
     </StatusAction>
   ));
 
-  // on change lead
-  const onLeadStageChange = e => {
-    let value = e.target.value;
-
-    // ignore default optoin
-    if (value) {
-      dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
+  let activeLead = 0;
+  for (var i = 0; i < leadStages.length; i++) {
+    if (leadStages[i].id == prospect.leadStage) {
+      activeLead = leadStages[i].leadStageTitle;
     }
-  };
+  }
 
   return (
     <>
       <InputSelect
-        name='status'
         id='statusSelect'
-        onChange={onLeadStageChange}
-        value={prospect.leadStage || ''}
-        icon={<FontAwesomeIcon icon='chevron-up' rotation={180} />}
+        value={activeLead}
         data-test='prospect-lead-stages-drop-down'
-      >
-        <option key={1000} value=''>Select a leadstage</option>
-        {leadOptions}
-      </InputSelect>
+        placeholder={"Select Lead Stage"}
+        options={leadOptions}
+      />
 
       <StatusActions>{statusActions}</StatusActions>
     </>
