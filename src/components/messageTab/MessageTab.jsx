@@ -67,7 +67,7 @@ function MessagesTab(props) {
   };
 
   const mappedMessages = () => {
-    if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} onClick={updateMessage(msg.id)} />);
+    if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} onClick={msg.unreadByRecipient ? updateMessage(msg.id) : null} />);
     return <Placeholder className="textXL">{vars.messagesPlaceholderText}</Placeholder>;
   };
 
