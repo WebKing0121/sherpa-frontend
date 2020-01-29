@@ -41,6 +41,13 @@ const StyledDropdownMenu = styled(DropdownMenu)`
   border-radius: 0 !important;
   box-shadow: 0 3px 15px -11px var(--gray);
   top: -4px !important;
+  max-height: 50vh;
+  overflow-y: scroll;
+
+  .dropdown-item {
+    padding: calc(1.2em - 3vw) 1.5rem;
+    font-size: 1.2rem;
+  }
 `;
 
 function InputSelect2(props) {
@@ -56,12 +63,22 @@ function InputSelect2(props) {
       <Dropdown
         className="w-100"
         isOpen={dropdownOpen}
-        toggle={toggle} >
+        toggle={toggle}
+        direction="down">
         <StyledToggle tag="span" className="form-control">
           {props.value || props.placeholder}
           {icon}
         </StyledToggle>
-        <StyledDropdownMenu>
+        <StyledDropdownMenu
+          flip={false}
+          positionFixed={false}
+          modifiers={{
+            preventOverflow: {
+              enabled: false,
+              boundariesElement: document.getElementsByClassName('.tab-content')[0],
+              padding: "12px"
+            },
+          }}>
           {props.options}
         </StyledDropdownMenu>
       </Dropdown>
