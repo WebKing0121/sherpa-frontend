@@ -100,6 +100,44 @@ describe('Prospect messages', () => {
     });
   });
 
+  it('reads a messages then fails update and reverts it', () => {
+    cy.server();
+    cy.route(
+      { method: 'PATCH', url: `**/sms-messages/*`, response: [], status: 400 }
+    ).as('updateMessageRead');
+
+    // simulate click
+    cy
+      .get(`${messages} li.unread.message`)
+      .first()
+      .click();
+
+    cy.wait('@updateMessageRead');
+    cy
+      .get('[data-test=prospect-message]')
+      .first()
+      .should('have.class', 'unread');
+  });
+
+  it('reads a message and removes the unread class', () => {
+    cy.server();
+    cy.route(
+      { method: 'PATCH', url: `**/sms-messages/*/`, response: [], status: 200 }
+    ).as('updateMessageRead');
+
+    cy
+      .get(`${messages} li.unread.message`)
+      .first()
+      .click()
+
+    cy.wait('@updateMessageRead');
+
+    cy
+      .get('[data-test=prospect-message]')
+      .first()
+      .should('not.have.class', 'unread');
+  });
+
   it('displays the new message input field', () => {
     cy.get(messagesTab)
       .find('form')
@@ -222,5 +260,6 @@ describe('Prospect messages', () => {
         `${totalTime} seconds is equal to ${messageUpdateTimer} seconds`
       );
     });
-  });
+  })
+    ;
 });

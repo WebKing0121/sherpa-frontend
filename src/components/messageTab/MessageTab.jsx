@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
-import { fetchMessages, sendMessage } from './utils';
+import { fetchMessages, sendMessage, patchMessage } from './utils';
 import * as vars from '../../helpers/variables';
 import { DataLoader } from '../LoadingData';
 
@@ -41,8 +41,29 @@ function MessagesTab(props) {
   const [messages, setMessages] = useState([]);
   const [messagesStatus, setMessagesStatus] = useState(vars.Fetching);
 
+
+  const updateMessages = (idx, value) => {
+    console.log('wassa', idx, value);
+    const updatedMessages = [...messages];
+    updatedMessages[idx].unreadByRecipient = value;
+    setMessages(updatedMessages);
+  };
+
+  const updateMessage = (id) => () => {
+    const messageIdx = messages.findIndex(m => m.id === id);
+
+    if (messageIdx) {
+      // optimistic update
+      updateMessages(messageIdx, false);
+      patchMessage(id)
+        .catch(error => {
+          updateMessages(messageIdx, true);
+        });
+    }
+  };
+
   const mappedMessages = () => {
-    if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} />);
+    if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} onClick={updateMessage(msg.id)} />);
     return <Placeholder className="textXL">{vars.messagesPlaceholderText}</Placeholder>;
   };
 
@@ -53,10 +74,14 @@ function MessagesTab(props) {
   tabContent.scrollTop = messagesRef.scrollHeight;
 
   const fetchMessagesCB = useCallback(() => {
-    fetchMessages(props.subjectId).then(res => {
-      setMessages(res || []);
-      setMessagesStatus(res ? vars.Success : vars.FetchError);
-    });
+    fetchMessages(props.subjectId)
+      .then(res => {
+        setMessages(res || []);
+        setMessagesStatus(res ? vars.Success : vars.FetchError);
+      })
+      .catch(error => {
+        console.log('some errors');
+      });
   }, [props.subjectId, setMessages]);
 
   const scrollToNewMessageCB = useCallback(() => {

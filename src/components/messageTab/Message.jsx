@@ -70,7 +70,11 @@ function Message(props) {
   };
 
   return (
-    <StyledListItem data-test={fromProspect ? 'prospect-message' : 'user-message'} className={unreadByRecipient ? "unread message" : "message"}>
+    <StyledListItem
+      data-test={fromProspect ? 'prospect-message' : 'user-message'}
+      className={unreadByRecipient ? "unread message" : "message"}
+      onClick={props.onClick}
+    >
       <StyledMessage unread={unreadByRecipient} fromProspect={fromProspect}>{message}</StyledMessage>
       <TimeStamp fromProspect={fromProspect}>
         {`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}
