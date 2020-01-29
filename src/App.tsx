@@ -26,6 +26,7 @@ import { ProtectedRoute } from './components/ProtectedRoute';
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
 import ToastContainer from './components/Toasts/ToastContainer';
 import NoDesktop from './components/NoDesktop';
+import ErrorBoundary from './components/ErrorBoundary';
 
 //font awesome
 import './assets/fontAwesome/index.ts';
@@ -82,31 +83,33 @@ function App() {
   return showRoutes(isMobile, showDesktop) ? (
     <Router history={history}>
       {determineNav()}
-      <Switch>
-        <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/markets/:marketId/campaigns'
-          component={CampaignsPage}
-          exact
-        />
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/markets/:marketId/campaigns/:campaignId/details'
-          component={CampaignDetailsPage}
-          exact
-        />
-        <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
-        <ProtectedRoute
-          is_auth={is_auth}
-          path='/prospect/:prospectId/details'
-          component={ProspectDetailsPage}
-          exact
-        />
-        <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
-        <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
-        <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
-      </Switch>
+      <ErrorBoundary>
+        <Switch>
+          <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
+          <ProtectedRoute
+            is_auth={is_auth}
+            path='/markets/:marketId/campaigns'
+            component={CampaignsPage}
+            exact
+          />
+          <ProtectedRoute
+            is_auth={is_auth}
+            path='/markets/:marketId/campaigns/:campaignId/details'
+            component={CampaignDetailsPage}
+            exact
+          />
+          <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
+          <ProtectedRoute
+            is_auth={is_auth}
+            path='/prospect/:prospectId/details'
+            component={ProspectDetailsPage}
+            exact
+          />
+          <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
+          <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
+          <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
+        </Switch>
+      </ErrorBoundary>
       {is_auth && <ToastContainer />}
     </Router>
   ) : <NoDesktop />;

@@ -118,3 +118,13 @@ Cypress.Commands.add('getState', () => {
     .its('store')
     .invoke('getState');
 });
+
+
+Cypress.Commands.add('dispatchAction', action => {
+    cy.window()
+	.its('store').invoke('dispatch', action);
+})
+
+// Cypress.on('uncaught:exception', (err, runnable) => {
+//     return false;
+// });
