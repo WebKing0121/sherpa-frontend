@@ -9,4 +9,4 @@ export const sendMessage = (id, body) => axiosInstance.post(`/prospects/${id}/se
 
 export const patchMessage = id =>
   axiosInstance
-    .patch(`/sms-messages/${id}/`, { unreadByRecipient: false })
+    .patch(`/sms-messages/${id}/`, { unreadByRecipient: false });

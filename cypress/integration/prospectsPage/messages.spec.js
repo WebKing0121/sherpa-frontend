@@ -117,6 +117,7 @@ describe('Prospect messages', () => {
       .get('[data-test=prospect-message]')
       .first()
       .should('have.class', 'unread');
+    cy.checkForNewToast('alert-danger');
   });
 
   it('reads a message and removes the unread class', () => {
@@ -229,6 +230,7 @@ describe('Prospect messages', () => {
       });
     cy.wait('@sendMessage');
     cy.checkForNewToast('alert-danger');
+    cy.closeToasts();
   });
 
   it(`updates messages periodically every ${messageUpdateTimer} seconds`, () => {

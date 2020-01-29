@@ -5,6 +5,8 @@ import MessageInput from './MessageInput';
 import { fetchMessages, sendMessage, patchMessage } from './utils';
 import * as vars from '../../helpers/variables';
 import { DataLoader } from '../LoadingData';
+import { addNewToast } from '../../store/Toasts/actions';
+import { useDispatch } from 'react-redux';
 
 const StyledList = styled.ul`
   padding: var(--pad3) var(--pad3) 0;
@@ -40,6 +42,7 @@ const InputWrapper = styled.div`
 function MessagesTab(props) {
   const [messages, setMessages] = useState([]);
   const [messagesStatus, setMessagesStatus] = useState(vars.Fetching);
+  const dispatch = useDispatch();
 
 
   const updateMessages = (idx, value) => {
@@ -58,6 +61,7 @@ function MessagesTab(props) {
       patchMessage(id)
         .catch(error => {
           updateMessages(messageIdx, true);
+          dispatch(addNewToast({ message: vars.generalNetworkError, color: 'danger' }));
         });
     }
   };
