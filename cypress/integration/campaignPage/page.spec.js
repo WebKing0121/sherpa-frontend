@@ -1,3 +1,4 @@
+
 describe('Campaigns page', () => {
   const url = Cypress.env('clientUrl'),
     marketId = Cypress.env('testMarket'),
@@ -86,8 +87,8 @@ describe('Campaigns page', () => {
             expect($updatedA.length).to.eq(linkLength - 1);
           });
           cy.get(`${itemHeader} h5`).each($newHeader => {
-            const lastCampaign = $headers[$headers.length - 1];
-            cy.wrap($newHeader).should('not.contain', lastCampaign.textContent);
+            const firstCampaign = $headers[0];
+            cy.wrap($newHeader).should('not.contain', firstCampaign.textContent);
           });
         });
       });
