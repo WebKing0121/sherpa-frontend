@@ -2,7 +2,7 @@ import AxiosInstance, { delayedRequest } from '../../axiosConfig';
 import { fastSpinner } from '../../helpers/variables';
 
 export const listProspects = (term: string) => {
-  const url = `/prospects/?search=${term}&page_size=20&expand=campaigns,sms_relay_map`;
+  const url = `/prospects/search/?search=${term}&page_size=20&expand=campaigns,sms_relay_map`;
   return AxiosInstance.get(url);
 };
 
