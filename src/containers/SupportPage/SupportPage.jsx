@@ -25,13 +25,13 @@ const Subtitle = styled.p`
   line-height: 1.4 !important;
 `;
 function SupportPage() {
-  const support_items = useSelector(supportItemsArray);
-  const support_status = useSelector(supportItemsStatus);
-  const dispatch = useDispatch();
+  const support_items = useSelector(supportItemsArray),
+    support_status = useSelector(supportItemsStatus),
+    dispatch = useDispatch();
 
-  const mappedSupportItems = support_items.map((item, idx) => {
-    return <SupportCard key={idx} item={item} />;
-  });
+  const mappedSupportItems = support_items.map((item, idx) =>
+    <SupportCard key={idx} item={item} />
+  );
 
   useEffect(() => {
     if (support_items.length === 0) {
