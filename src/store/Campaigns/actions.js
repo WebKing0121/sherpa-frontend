@@ -12,6 +12,7 @@ import { decrementMarketCampaignCount } from '../Markets/actions';
 import { arrayToMapIndex } from '../utils';
 import { captureSort } from './utils';
 import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
+import { sortByOrder } from './selectors';
 
 /*************************************************************************************************/
 
@@ -85,14 +86,20 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     });
 };
 
-export const fetchFilteredData = (ownerId, marketId) => (dispatch, _) => {
-  AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false } })
+export const fetchFilteredData = (ownerId, marketId, sortBy) => (dispatch, _) => {
+  dispatch(setFetchedCampaignStatus(Fetching));
+  AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false, ordering: sortBy } })
     .then(({ data }) => {
       const { results } = data;
 
-      const campaignMap = arrayToMapIndex('id', results);
+      const payload = {
+        sortOrder: captureSort(results),
+        campaigns: arrayToMapIndex('id', results),
+        marketId,
+        sortBy
+      };
 
-      dispatch(setFetchedCampaigns({ campaigns: campaignMap }));
+      dispatch(setFetchedCampaigns(payload));
     })
     .catch(error => {
       console.log('Error fetching filtered data by owner: ', error);

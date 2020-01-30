@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { fetchFilteredData } from '../store/Campaigns/actions';
 import { fetchCompanyOwners } from '../store/CompanyOwners/actions';
 import { owners, companyId } from '../store/CompanyOwners/selectors';
+import { sortByOrder } from '../store/Campaigns/selectors';
 import { useParams } from 'react-router-dom';
 
 const Pane = styled.div`
@@ -68,6 +69,7 @@ function FilterButton() {
   const [ownerFilterId, setOwnersFilterId] = useState(null);
   const { marketId } = useParams();
 
+  const sortBy = useSelector(sortByOrder);
   const ownersList = useSelector(owners);
   const company = useSelector(companyId);
   const dispatch = useDispatch();
@@ -89,7 +91,7 @@ function FilterButton() {
   };
 
   const handleSubmit = () => {
-    dispatch(fetchFilteredData(ownerFilterId, marketId));
+    dispatch(fetchFilteredData(ownerFilterId, marketId, sortBy));
     setModal(false);
   };
 
@@ -105,17 +107,18 @@ function FilterButton() {
         label={`${first} ${last}`}
         id={owner.id}
         onChange={handleSelect}
+        data-test='filter-radio'
       />
     );
   });
 
   return (
     <>
-      <Button className='p-0' color='link' onClick={toggle}>
+      <Button className='p-0' color='link' data-test='filter-btn' onClick={toggle}>
         <FontAwesomeIcon icon='filter' size='lg' />
       </Button>
 
-      <Modal isOpen={modal} toggle={toggle} title='Filters' btnText='Apply Filters'>
+      <Modal isOpen={modal} toggle={toggle} title='Filters' btnText='Apply Filters' data-test='filter-modal'>
         <div>
           <Pane>
             <ToggleHeader className='fw-black textL' onClick={toggle1}>
@@ -132,7 +135,7 @@ function FilterButton() {
           </Pane>
         </div>
 
-        <Button color='primary' size='lg' block className='mt-4' onClick={handleSubmit}>
+        <Button color='primary' size='lg' block className='mt-4' onClick={handleSubmit} data-test='apply-filter'>
           Apply Filters
         </Button>
       </Modal>
