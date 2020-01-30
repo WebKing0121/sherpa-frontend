@@ -21,7 +21,7 @@ describe('Prospect messages', () => {
   it('renders the messages tab', () => {
     cy.server();
     cy.route({ method: 'GET', url: `**/prospects/**` }).as('prospect');
-    cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages`, response: {} }).as(
+    cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages`, response: [] }).as(
       'messages'
     );
     cy.visit(`${prospectUrl}`);
@@ -182,6 +182,10 @@ describe('Prospect messages', () => {
   it('adds the new message on submit', () => {
     cy.server();
     cy.route({ method: 'POST', url: `**/prospects/${prospectNum}/send_message/` }).as('sendMessage');
+    cy.route({
+      method: 'POST',
+      url: `**/prospects/*/mark_as_read/**`
+    }).as('markAllMessagesAsRead');
     cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages/` }).as('getMessages');
     cy.get(messagesTab)
       .find('form')
@@ -195,8 +199,16 @@ describe('Prospect messages', () => {
           .click();
       });
     cy.wait('@sendMessage');
+    cy.wait('@markAllMessagesAsRead');
     cy.wait('@getMessages');
     cy.get(`${messages} li`).should('have.length', messagesLength + 1);
+    cy
+      .get('[data-test=prospect-message]')
+      .each($message => {
+        cy
+          .wrap($message)
+          .should('not.have.class', 'unread');
+      });
   });
 
   it('displays the new message', () => {
@@ -250,7 +262,7 @@ describe('Prospect messages', () => {
     cy.route({
       method: 'GET',
       url: `**/prospects/${prospectNum}/messages`,
-      response: {}
+      response: []
     }).as('pollingCheck');
     cy.wait('@pollingCheck', options).then(req => {
       stopTime = Date.now();

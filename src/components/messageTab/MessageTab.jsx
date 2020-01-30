@@ -2,7 +2,7 @@ import React, { useEffect, useState, useCallback, useRef } from 'react';
 import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
-import { fetchMessages, sendMessage, patchMessage } from './utils';
+import { fetchMessages, sendMessage, patchMessage, markAllMessagesAsRead } from './utils';
 import * as vars from '../../helpers/variables';
 import { DataLoader } from '../LoadingData';
 import { addNewToast } from '../../store/Toasts/actions';
@@ -42,11 +42,14 @@ const InputWrapper = styled.div`
 function MessagesTab(props) {
   const [messages, setMessages] = useState([]);
   const [messagesStatus, setMessagesStatus] = useState(vars.Fetching);
+  const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setHasUnreadMessages(messages.some(message => message.unreadByRecipient));
+  }, [messages]);
 
   const updateMessages = (idx, value) => {
-    console.log('wassa', idx, value);
     const updatedMessages = [...messages];
     updatedMessages[idx].unreadByRecipient = value;
     setMessages(updatedMessages);
@@ -100,7 +103,15 @@ function MessagesTab(props) {
   }, [messagesRef]);
 
   const addNewMessage = message => {
-    return sendMessage(props.subjectId, { message }).then(fetchMessagesCB);
+    return sendMessage(props.subjectId, { message })
+      .then(args => {
+        if (hasUnreadMessages) {
+          markAllMessagesAsRead(props.subjectId)
+            .then(() => fetchMessagesCB(args));
+        } else {
+          fetchMessagesCB(args);
+        }
+      });
   };
 
   // retrieves all messages and sets an interval for periodic retrieval
