@@ -81,4 +81,17 @@ describe('Login form', () => {
       expect(location.pathname).to.eq('/');
     });
   });
+
+  it('successfully fetches userInfo on page reload', () => {
+    cy.login();
+    cy.server();
+    cy.route({ method: 'GET', url: '**/auth/users/me/' }).as('fetchUserInfo');
+    cy.reload();
+    cy.wait('@fetchUserInfo')
+      .then((response) => {
+        console.log("RESONSE", response);
+        const { status } = response;
+        assert.equal(status, 200);
+      });
+  });
 });

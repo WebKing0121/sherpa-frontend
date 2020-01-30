@@ -23,7 +23,6 @@ export const fetchUserInfo = (dispatch: any) => {
   return AxiosInstance.get('/auth/users/me/')
     .then(({ data }) => {
       dispatch(setUserInfo(data));
-      saveToLocalStorage('userData', JSON.stringify(data));
       return data;
     })
     .catch(({ response }) => {
@@ -43,7 +42,7 @@ export const authenticate = (credentials: any) => {
       .then(({ data }) => {
         setAuthToken(data);
 
-        return Promise.all([fetchUserInfo(dispatch), dispatch(getLeadStages())])
+        return dispatch(getLeadStages())
           .then(() => {
             // don't care about results
             updateAuth(dispatch, data);

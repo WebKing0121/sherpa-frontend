@@ -33,6 +33,7 @@ import './assets/fontAwesome/index.ts';
 import './App.css';
 import { maxMobileWidth, debounceTime } from './helpers/variables';
 import { debounce } from './helpers/utils';
+import { fetchUserInfo } from './store/Auth/actions';
 
 function App() {
   const dispatch = useDispatch();
@@ -63,8 +64,13 @@ function App() {
 
   useEffect(() => {
     if (is_auth) {
+      // fetch messages
       fetchMessages();
       const interval = setInterval(fetchMessages, MESSAGES_POLLING_INTERVAL);
+
+      // fetch auth-data on reload
+      fetchUserInfo(dispatch);
+
       return () => clearInterval(interval);
     }
   }, [is_auth]);
