@@ -66,6 +66,7 @@ export const prospectToItemList = opts => campaignProspect => {
 
   return {
     ...IListItem,
+    id,
     name: <Title name={name} isRead={!hasUnreadSms} />,
     subInfo: <SubInfo status={leadStageTitle} />,
     mainInfo: <MainInfo message={message} />,
