@@ -11,7 +11,7 @@ interface IProspectMessges {
 const reducer = prospectDetailsReducer;
 
 export const prospectMessagesList = ({ [reducer]: { prospectMessages } }: IProspectMessges) =>
-  prospectMessages.list;
+  prospectMessages.list || [];
 
 export const prospectMessgesStatus = ({ [reducer]: { prospectMessages } }: IProspectMessges) =>
   prospectMessages.status;

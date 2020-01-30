@@ -11,7 +11,7 @@ interface IProspectNotes {
 const reducer = prospectDetailsReducer;
 
 export const prospectNotesList = ({ [reducer]: { prospectNotes } }: IProspectNotes) =>
-  prospectNotes.list;
+  prospectNotes.list || [];
 
 export const prospectNotesStatus = ({ [reducer]: { prospectNotes } }: IProspectNotes) =>
   prospectNotes.status;
@@ -20,5 +20,5 @@ export const dateSortedProspectList = ({ [reducer]: { prospectNotes } }: IProspe
   [...prospectNotes.list!].sort((a: any, b: any) => {
     const aDate = new Date(a.createdDate),
       bDate = new Date(b.createdDate);
-    return aDate < bDate ? 1 : aDate > bDate ? -1 : 0;
+    return (aDate < bDate ? 1 : aDate > bDate ? -1 : 0);
   });

@@ -5,4 +5,4 @@ interface IToastsReducer {
   toastsReducer: IToast & IState;
 }
 
-export const getToasts = ({ toastsReducer }: IToastsReducer) => toastsReducer.list;
+export const getToasts = ({ toastsReducer }: IToastsReducer) => toastsReducer.list || [];
