@@ -51,7 +51,7 @@ const IconBg = (props) => {
       />) : icon;
 
   return (
-    <Circle {...props} color={color} textcol={textcol} >
+    <Circle className="iconBg" {...props} color={color} textcol={textcol} >
       {icon}
     </Circle>
   );

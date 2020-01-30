@@ -92,7 +92,7 @@ const FieldWrapper = styled.div`
   &:not(:last-child) {
     margin-bottom: var(--pad4);
   }
-  svg {
+  .iconBg {
     color: var(--sherpaBlue);
   }
 `;

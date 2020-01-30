@@ -66,7 +66,7 @@ function InputSelect2(props) {
         toggle={toggle}
         direction="down">
         <StyledToggle tag="span" className="form-control">
-          {props.value || props.placeholder}
+          <div>{props.value || props.placeholder}</div>
           {icon}
         </StyledToggle>
         <StyledDropdownMenu
