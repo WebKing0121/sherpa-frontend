@@ -26,18 +26,6 @@ export const prospectToItemList = opts => campaignProspect => {
     hasUnreadSms
   } = campaignProspect;
 
-  // NOTE: currently un-used but will be used to dispatch the
-  // =readSms= action that is currently unknown
-  const prospectUpdateHasUnreadSms = () => {
-    patchProspect(id, { hasUnreadSms: false }).then(({ data }) => {
-      let newCampaignProspect = {
-        ...campaignProspect,
-        prospect: { ...campaignProspect.prospect, hasUnreadSms: false }
-      };
-      store.dispatch(opts.updateCampaignProspectFn(newCampaignProspect));
-    });
-  };
-
   // when we click on the item we want to navigate to the
   // prospect-details page Message Tab.
   // We need to dispatch an action to set the proper tab.
