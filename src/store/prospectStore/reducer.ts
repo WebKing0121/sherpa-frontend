@@ -82,7 +82,8 @@ export default function reducer(state: IProspectStore = initialState, action: an
     case RESET_PROSPECTS:
       return {
         ...state,
-        prospects: {}
+        prospects: {},
+        sort_order: []
       };
     default:
       return state;
