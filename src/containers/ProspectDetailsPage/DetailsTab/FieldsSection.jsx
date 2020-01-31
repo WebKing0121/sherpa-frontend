@@ -7,7 +7,8 @@ import {
   InputGroupAddon,
   Button,
   FormGroup,
-  CustomInput } from 'reactstrap';
+  CustomInput
+} from 'reactstrap';
 import IconBg from '../../../components/IconBg';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
@@ -220,7 +221,7 @@ const FieldsSection = () => {
     const {
       target: { value }
     } = e;
-    let payload = { agent: value };
+    let payload = { agent: parseInt(value) };
     dispatch(prospectUpdateOptimistically(prospect.id, payload));
   };
 
@@ -350,8 +351,8 @@ const FieldsSection = () => {
                 )}
               />
             ) : (
-              'Email to CRM'
-            )}
+                'Email to CRM'
+              )}
           </Button>
           <Button
             id='crm'
@@ -374,8 +375,8 @@ const FieldsSection = () => {
                 )}
               />
             ) : (
-              'Push to Zapier'
-            )}
+                'Push to Zapier'
+              )}
           </Button>
 
           <Modal isOpen={modal} toggle={() => setModal(false)} title='Campaigns'>
