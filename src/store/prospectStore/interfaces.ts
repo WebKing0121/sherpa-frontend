@@ -92,6 +92,7 @@ delete PartialProspect.campaigns;
 
 export interface IProspectStore extends IResourceStore {
   prospects: { [key: number]: IProspect };
+  sort_order: Array<number>;
 }
 
 export const ProspectRecord = Record(Prospect);

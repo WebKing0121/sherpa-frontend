@@ -25,7 +25,7 @@ import { getProspect } from './selectors';
 
 // utils
 import { arrayToMapIndex } from '../utils';
-import { ProspectRecord, PartialProspectRecord } from './interfaces';
+import { ProspectRecord, PartialProspectRecord, IProspect } from './interfaces';
 
 // search thunk generators
 export const searchProspectsThunkCreator = (initActions: any, successActions: any, failActions: any) => {
@@ -36,9 +36,10 @@ export const searchProspectsThunkCreator = (initActions: any, successActions: an
       .listProspects(term)
       .then(({ data }) => {
         const prospectRecords = data.results.map((prospect: any) => ProspectRecord(prospect, false));
+        const sort_order = prospectRecords.map((rec: IProspect) => rec.id);
         const prospectsMap = arrayToMapIndex('id', prospectRecords);
 
-        dispatch(fetchProspectsSuccess({ ...data, results: prospectsMap }));
+        dispatch(fetchProspectsSuccess({ ...data, results: prospectsMap, sort_order: sort_order }));
         successActions(dispatch);
         return data;
       })
@@ -78,9 +79,10 @@ export const prospectSearchNextPage = () => (dispatch: any, getState: any) => {
     dispatch(searchProspectsNextPage(true));
     return api.listProspectsNextPage(next).then(({ data }) => {
       const prospectRecords = data.results.map((prospect: any) => ProspectRecord(prospect, false));
+      const sort_order = prospectRecords.map((rec: IProspect) => rec.id);
       const prospectsMap = arrayToMapIndex('id', prospectRecords);
 
-      dispatch(updateProspectList({ ...data, results: prospectsMap }));
+      dispatch(updateProspectList({ ...data, results: prospectsMap, sort_order: sort_order }));
       dispatch(searchProspectsNextPageSuccess(false));
     });
   }

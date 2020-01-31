@@ -5,7 +5,8 @@ import { mergeLeadStageTitle } from '../../prospectStore/transformers';
 export const selectProspects = (state: any) => {
   const prospects = prospectsResults(state);
   const { leadStages: { leadStages } } = state;
-  const prospectsArray = mapIndexToArray(prospects);
+  const { sort_order = [] } = state.prospectStore;
+  const prospectsArray = sort_order.map((id: number) => prospects[id]);
   return mergeLeadStageTitle(prospectsArray, leadStages);
 }
 

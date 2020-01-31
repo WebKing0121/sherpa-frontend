@@ -15,6 +15,7 @@ const initialState: IProspectStore = {
   isLoading: false,
   error: false,
   prospects: {} as { [key: number]: IProspect },
+  sort_order: [],
   next: null,
   previous: null
 }
@@ -40,6 +41,7 @@ export default function reducer(state: IProspectStore = initialState, action: an
       return {
         ...state,
         prospects: action.payload.results,
+        sort_order: action.payload.sort_order,
         next: action.payload.next,
         previous: action.payload.previous,
         isLoading: false
@@ -47,6 +49,10 @@ export default function reducer(state: IProspectStore = initialState, action: an
     case UPDATE_PROSPECT_LIST: {
       let newState = { ...state };
       newState.prospects = { ...newState.prospects, ...action.payload.results };
+      newState.sort_order = [
+        ...newState.sort_order,
+        ...action.payload.sort_order
+      ];
       newState.next = action.payload.next;
       newState.previous = action.payload.previous;
 
