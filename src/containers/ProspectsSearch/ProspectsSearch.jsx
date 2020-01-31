@@ -38,6 +38,7 @@ function ProspectsSearch(props) {
   const shouldReset = useSelector(resetSearchResults);
   const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
+  const [listHeight, setListHeight] = useState(600);
   const [loadingStatus, setLoadingStatus] = useState('');
 
   // transform prospect data into the appropriate data-interface for
@@ -59,6 +60,10 @@ function ProspectsSearch(props) {
     if (shouldReset) {
       dispatch(resetProspects());
     }
+    // compute list size
+    const windowHeight = window.innerHeight;
+    const listHeight = document.getElementById("virtualizedList").offsetTop;
+    setListHeight(windowHeight - listHeight);
   }, []);
 
   // calculate item height for virtualized-list
@@ -113,7 +118,8 @@ function ProspectsSearch(props) {
         renderData={() => (
           <>
             <VirtualizedList
-              height={600}
+              id={'virtualizedList'}
+              height={listHeight}
               itemHeight={itemHeight}
               onScroll={onScroll}
               items={prospectList}

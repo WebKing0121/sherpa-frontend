@@ -32,6 +32,21 @@ describe('Prospect page', () => {
       .should('exist');
   });
 
+  it('virtualized list has proper height ', () => {
+    cy.window()
+      .then(window => {
+        cy.get('#virtualizedList')
+          .should($vl => {
+            console.log("lskdjfl", $vl.offsetTop, window.innerHeight);
+            const listOffsetTop = window.document.getElementById("virtualizedList").offsetTop;
+            const expectedHeight = window.innerHeight - listOffsetTop;
+            console.log("EXPECTED HEIGHT", expectedHeight, listOffsetTop);
+            expect($vl).to.have.css('height', `${expectedHeight}px`);
+
+          });
+      });
+  });
+
   it('performs a prospect search and displays the results', () => {
     cy.server();
     const options = {
