@@ -37,12 +37,9 @@ describe('Prospect page', () => {
       .then(window => {
         cy.get('#virtualizedList')
           .should($vl => {
-            console.log("lskdjfl", $vl.offsetTop, window.innerHeight);
             const listOffsetTop = window.document.getElementById("virtualizedList").offsetTop;
             const expectedHeight = window.innerHeight - listOffsetTop;
-            console.log("EXPECTED HEIGHT", expectedHeight, listOffsetTop);
             expect($vl).to.have.css('height', `${expectedHeight}px`);
-
           });
       });
   });
@@ -55,6 +52,32 @@ describe('Prospect page', () => {
       status: 200,
       method: 'GET'
     };
+    cy.stubResponse(options).then(res => {
+      cy.get(prospectSearchInput)
+        .find('button')
+        .click();
+      cy.wait(`@${res.alias}`);
+    });
+
+    cy.get(swipeableListItem).should($item => {
+      expect($item).to.have.length.of.at.least(1);
+    });
+  });
+
+  it('performs a second prospect search and displays the results', () => {
+    cy.server();
+    cy.get(prospectSearchInput)
+      .find('input')
+      .clear()
+      .type(search);
+
+    const options = {
+      url: 'prospects/**',
+      response: 'prospects',
+      status: 200,
+      method: 'GET'
+    };
+
     cy.stubResponse(options).then(res => {
       cy.get(prospectSearchInput)
         .find('button')
