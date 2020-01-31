@@ -7,13 +7,24 @@ import './assets/styles/css/main.css';
 import { Provider } from 'react-redux';
 import ReduxStore from './store/store';
 import { setAuthTokenHeader } from './store/Auth/utils';
+import ErrorBoundary from './components/ErrorBoundary.jsx';
+import * as Sentry from '@sentry/browser';
+
+console.log(process.env.NODE_ENV);
+
+if (process.env.NODE_ENV === 'production') {
+  console.log('logging errors to sentry');
+  Sentry.init({ dsn: 'https://cdd0b4541cf9438db73498151a71a4c2@sentry.io/1917554' });
+}
 
 setAuthTokenHeader();
 
 ReactDOM.render(
-  <Provider store={ReduxStore}>
-    <App />
-  </Provider>,
+  <ErrorBoundary>
+    <Provider store={ReduxStore}>
+	<App />
+    </Provider>
+  </ErrorBoundary>,
   document.getElementById('root')
 );
 

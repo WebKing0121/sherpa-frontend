@@ -5,14 +5,6 @@ import { LoadingSpinner } from '../LoadingSpinner';
 import { Fetching } from '../../helpers/variables';
 import styled from 'styled-components';
 
-const Spinner = styled.div`
-  .spinner-border {
-    width: 1.125em;
-    height: 1.125em;
-    border-width: .1em;
-  }
-`;
-
 function NoteForm(props) {
   const { text, setText, submitNote, note, btnText, notesStatus } = props;
   const onSubmit = e => {
@@ -20,6 +12,7 @@ function NoteForm(props) {
     if (!text) return;
     submitNote(note);
   };
+
   return (
     <Form onSubmit={onSubmit}>
       <InputGroupBorder border='full'>
@@ -40,12 +33,12 @@ function NoteForm(props) {
         data-test='note-form-btn'
         disabled={notesStatus === Fetching}
       >
-      <LoadingSpinner
-        isLoading={notesStatus === Fetching ? true : false}
-        color='white'
-        size='1.5em'
-        renderContent={() => <>{btnText}</>}
-      />
+        <LoadingSpinner
+          isLoading={notesStatus === Fetching ? true : false}
+          color='white'
+          size='1.5em'
+          renderContent={() => <>{btnText}</>}
+        />
       </Button>
     </Form>
   );
