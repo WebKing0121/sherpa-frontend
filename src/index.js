@@ -10,9 +10,9 @@ import { setAuthTokenHeader } from './store/Auth/utils';
 import ErrorBoundary from './components/ErrorBoundary.jsx';
 import * as Sentry from '@sentry/browser';
 
-console.log(process.env.NODE_ENV);
+console.log('NODE_ENV = ' + process.env.NODE_ENV);
 
-if (process.env.NODE_ENV === 'production') {
+if (process.env.REACT_APP_LOG_ERRORS === 'true') {
   console.log('logging errors to sentry');
   Sentry.init({ dsn: 'https://cdd0b4541cf9438db73498151a71a4c2@sentry.io/1917554' });
 }
