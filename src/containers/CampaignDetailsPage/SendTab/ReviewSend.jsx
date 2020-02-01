@@ -139,8 +139,8 @@ function ReviewSend() {
 
   const handleSend = () => {
     if (batchProspectsError === '') {
-      setCount(count + 1);
       dispatch(sendInitialSmsMessage(campaignProspects[count]));
+      setCount(state => state + 1);
     }
   };
 
