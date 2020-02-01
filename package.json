@@ -35,8 +35,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "sass": "node-sass -w --importer node_modules/node-sass-package-importer/dist/cli.js src/assets/styles/scss/main.scss src/assets/styles/css/main.css",
-      "cypress": "cypress open",
-      "sentry": "@sentry"
+    "cypress": "cypress open",
+    "sentry": "@sentry"
   },
   "eslintConfig": {
     "extends": "react-app"

@@ -14,12 +14,16 @@ import { getFromLocalStorage } from '../../store/Markets/utils';
 import { useParams } from 'react-router-dom';
 import FilterButton from '../../components/FilterButton';
 
+import { getActiveFilter } from '../../store/uiStore/campaignsPageView/selectors';
+import { resetCampaignFilter } from '../../store/uiStore/campaignsPageView/actions';
+
 const CampaignsPage = () => {
   const activeMarketId = useSelector(activeMarket);
   const campaigns = useSelector(campaignsList);
   const campaignFolders = useSelector(marketsList);
   const isFetching = useSelector(campaignsStatus);
   const sortBy = useSelector(sortByOrder);
+  const activeFilter = useSelector(getActiveFilter);
 
   const dispatch = useDispatch();
   const folders = getFromLocalStorage('folderView');
@@ -56,11 +60,18 @@ const CampaignsPage = () => {
     setActiveSort(sorted[0].value.id);
 
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-    if (campaigns.length === 0 || activeMarketId !== marketId) {
-      // dispatch(fetchCampaigns(marketId));
+    if (activeMarketId !== marketId) {
+      dispatch(resetCampaignFilter());
       dispatch(fetchSortedCampaigns('-created_date', marketId));
     }
-  }, [dispatch, marketId, activeMarketId, campaigns.length]);
+  }, [dispatch, marketId, activeMarketId, campaigns.length, activeFilter.length]);
+
+  // Refetch campaigns if the filter gets reset
+  useEffect(() => {
+    if (activeFilter.length === 0) {
+      dispatch(fetchSortedCampaigns('-created_date', marketId));
+    }
+  }, [dispatch, activeFilter.length])
 
   // transform campaigns to proper list item views
   const listItems = campaignsToItemList(campaigns);

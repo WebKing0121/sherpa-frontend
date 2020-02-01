@@ -20,3 +20,5 @@ const userData = {
 }
 
 export const getUserData = (state: any) => ({ ...userData, ...state.auth.userData });
+
+export const getCompanyData = (state: any) => state.auth.userData.company;

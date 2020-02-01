@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Container, Row, Col, Button, Input, InputGroupAddon } from 'reactstrap';
 import styled from 'styled-components';
 import IconBg from './IconBg';
 import InputGroupBorder from './InputGroupBorder';
 import SortModule from './SortModule';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { resetCampaignFilter } from '../store/uiStore/campaignsPageView/actions';
+import { getFilteredOwners } from '../store/uiStore/campaignsPageView/selectors';
 
 const FilterPills = styled.div`
   display: flex;
@@ -32,6 +36,8 @@ const StyledSearch = styled(Container)`
 
 function SearchModule(props) {
   const [searchTerm, setSearchTerm] = useState('');
+  const filterOwner = useSelector(getFilteredOwners);
+  const dispatch = useDispatch();
 
   const onChange = e => setSearchTerm(e.target.value);
   const onSubmit = e => {
@@ -80,11 +86,10 @@ function SearchModule(props) {
           </Col>
         )}
       </Row>
-      {props.filters ? (
+      {filterOwner ? (
         <FilterPills>
-          {props.filters.map((filter) => (
-            <Pill>{filter}<FontAwesomeIcon icon="times" /></Pill>
-
+          {filterOwner.map((filter) => (
+            <Pill key={`filter-${filter.id}`}>{filter.user.fullName}<FontAwesomeIcon icon="times" onClick={() => dispatch(resetCampaignFilter())} /></Pill>
           ))}
         </FilterPills>)
         : null}

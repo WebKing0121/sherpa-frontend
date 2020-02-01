@@ -7,9 +7,14 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import { fetchFilteredData } from '../store/Campaigns/actions';
 import { fetchCompanyOwners } from '../store/CompanyOwners/actions';
-import { owners, companyId } from '../store/CompanyOwners/selectors';
+import { owners } from '../store/CompanyOwners/selectors';
 import { sortByOrder } from '../store/Campaigns/selectors';
 import { useParams } from 'react-router-dom';
+
+import { getCompanyData } from '../store/Auth/selectors';
+import { setCampaignFilter } from '../store/uiStore/campaignsPageView/actions';
+
+import { getActiveFilter } from '../store/uiStore/campaignsPageView/selectors';
 
 const Pane = styled.div`
   overflow: hidden;
@@ -66,12 +71,14 @@ const Arrow = styled.div`
 
 function FilterButton() {
   const [modal, setModal] = useState(false);
-  const [ownerFilterId, setOwnersFilterId] = useState(null);
+  const [ownerFilterId, setOwnersFilterId] = useState(0);
   const { marketId } = useParams();
 
   const sortBy = useSelector(sortByOrder);
   const ownersList = useSelector(owners);
-  const company = useSelector(companyId);
+  const company = useSelector(getCompanyData);
+  const activeFilter = useSelector(getActiveFilter);
+
   const dispatch = useDispatch();
 
   const toggle = () => setModal(!modal);
@@ -81,17 +88,28 @@ function FilterButton() {
   const toggle1 = () => setIsOpen1(!isOpen1);
 
   // fetch owners to filter by
-  useEffect(() => dispatch(fetchCompanyOwners(company)), [dispatch, company]);
+  useEffect(() => {
+    if (company) {
+      dispatch(fetchCompanyOwners(company.id))
+    }
+  }, [dispatch, company]);
+
+  useEffect(() => {
+    if (activeFilter.length === 0) {
+      setOwnersFilterId(0);
+    }
+  }, [activeFilter.length])
 
   const handleSelect = event => {
     const {
       target: { id }
     } = event;
-    setOwnersFilterId(id);
+    setOwnersFilterId(parseInt(id));
   };
 
   const handleSubmit = () => {
     dispatch(fetchFilteredData(ownerFilterId, marketId, sortBy));
+    dispatch(setCampaignFilter(ownerFilterId));
     setModal(false);
   };
 
@@ -108,6 +126,7 @@ function FilterButton() {
         id={owner.id}
         onChange={handleSelect}
         data-test='filter-radio'
+        checked={ownerFilterId === owner.id}
       />
     );
   });
