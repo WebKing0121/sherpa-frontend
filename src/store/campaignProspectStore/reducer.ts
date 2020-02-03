@@ -5,7 +5,8 @@ import {
   UPDATE_CAMPAIGN_PROSPECT_SUCCESS,
   FETCH_MORE_CAMPAIGN_PROSPECTS,
   FETCH_CAMPAIGN_PROSPECTS_UNREAD_SUCCESS,
-  UPDATE_CAMPAIGN_PROSPECTS_UNREAD
+  UPDATE_CAMPAIGN_PROSPECTS_UNREAD,
+  REMOVE_CAMPAIGN_PROSPECT_UNREAD
 } from './actionTypes';
 
 const initialState = {
@@ -102,6 +103,18 @@ export default function reducer(state: any = initialState, action: any) {
         ...state,
         campaignProspectsUnread: newCampaignProspectsUnread
       };
+    }
+    case REMOVE_CAMPAIGN_PROSPECT_UNREAD: {
+      const count = state.campaignProspectsUnreadCount;
+      let newState = {
+        ...state,
+        campaignProspectsUnread: state.campaignProspectsUnread.filter(
+          (cp: any) => cp.prospect.id !== action.payload
+        ) || [],
+        campaignProspectsUnreadCount: count < 1 ? 0 : count - 1
+      };
+
+      return newState;
     }
     default:
       return state;

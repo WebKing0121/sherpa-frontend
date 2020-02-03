@@ -126,18 +126,44 @@ describe('Prospect messages', () => {
     cy.route(
       { method: 'PATCH', url: `**/sms-messages/*/`, response: [], status: 200 }
     ).as('updateMessageRead');
-
+    let unreadMessagesCount = 0;
     cy
-      .get(`${messages} li.unread.message`)
-      .first()
-      .click()
+      .getState()
+      .then(store => {
+        const { campaignProspectStore: { campaignProspectsUnreadCount } } = store;
+        cy
+          .get(`${messages} li.unread.message`)
+          .then($messages => { unreadMessagesCount = $messages.length });
 
-    cy.wait('@updateMessageRead');
+        cy
+          .get(`${messages} li.unread.message`)
+          .first()
+          .click()
 
-    cy
-      .get('[data-test=prospect-message]')
-      .first()
-      .should('not.have.class', 'unread');
+        cy.wait('@updateMessageRead');
+
+        cy
+          .getState()
+          .then(store2 => {
+            if (unreadMessagesCount === 1) {
+              assert.equal(
+                campaignProspectsUnreadCount - 1,
+                store2.campaignProspectStore.campaignProspectsUnreadCount
+              );
+            } else if (unreadMessagesCount > 1) {
+              assert.equal(
+                campaignProspectsUnreadCount,
+                store2.campaignProspectStore.campaignProspectsUnreadCount
+              );
+            }
+          });
+        cy
+          .get('[data-test=prospect-message]')
+          .first()
+          .should('not.have.class', 'unread');
+
+
+      })
   });
 
   it('displays the new message input field', () => {
@@ -181,34 +207,57 @@ describe('Prospect messages', () => {
 
   it('adds the new message on submit', () => {
     cy.server();
-    cy.route({ method: 'POST', url: `**/prospects/${prospectNum}/send_message/` }).as('sendMessage');
-    cy.route({
-      method: 'POST',
-      url: `**/prospects/*/mark_as_read/**`
-    }).as('markAllMessagesAsRead');
-    cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages/` }).as('getMessages');
-    cy.get(messagesTab)
-      .find('form')
-      .within($form => {
-        cy.wrap($form)
-          .find('input')
-          .clear()
-          .type(testMessage);
-        cy.wrap($form)
-          .find('button[type=submit]')
-          .click();
-      });
-    cy.wait('@sendMessage');
-    cy.wait('@markAllMessagesAsRead');
-    cy.wait('@getMessages');
-    cy.get(`${messages} li`).should('have.length', messagesLength + 1);
+    let startCount = 0;
     cy
-      .get('[data-test=prospect-message]')
-      .each($message => {
+      .getState()
+      .then(store => {
+        console.log("STORE", store)
+        const { campaignProspectStore: { campaignProspectsUnread, campaignProspectsUnreadCount } } = store;
+        startCount = campaignProspectsUnreadCount;
+
+        cy.route({ method: 'POST', url: `**/prospects/${prospectNum}/send_message/` }).as('sendMessage');
+        cy.route({
+          method: 'POST',
+          url: `**/prospects/*/mark_as_read/**`
+        }).as('markAllMessagesAsRead');
+        cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages/` }).as('getMessages');
+        cy.get(messagesTab)
+          .find('form')
+          .within($form => {
+            cy.wrap($form)
+              .find('input')
+              .clear()
+              .type(testMessage);
+            cy.wrap($form)
+              .find('button[type=submit]')
+              .click();
+          });
+        cy.wait('@sendMessage');
+        cy.wait('@markAllMessagesAsRead');
+        cy.wait('@getMessages');
+        cy.get(`${messages} li`).should('have.length', messagesLength + 1);
         cy
-          .wrap($message)
-          .should('not.have.class', 'unread');
+          .get('[data-test=prospect-message]')
+          .each($message => {
+            cy
+              .wrap($message)
+              .should('not.have.class', 'unread');
+          });
+
+
+        cy
+          .getState()
+          .then(store2 => {
+            assert.equal(
+              store2.campaignProspectStore.campaignProspectsUnreadCount, startCount - 1
+            );
+            assert.equal(
+              store2.campaignProspectStore.campaignProspectsUnread.length,
+              store.campaignProspectStore.campaignProspectsUnread.length - 1
+            );
+          })
       });
+
   });
 
   it('displays the new message', () => {
@@ -274,6 +323,5 @@ describe('Prospect messages', () => {
         `${totalTime} seconds is equal to ${messageUpdateTimer} seconds`
       );
     });
-  })
-    ;
+  });
 });

@@ -9,7 +9,8 @@ import {
   UPDATE_CAMPAIGN_PROSPECT_FAILURE,
   FETCH_MORE_CAMPAIGN_PROSPECTS,
   FETCH_CAMPAIGN_PROSPECTS_UNREAD_SUCCESS,
-  UPDATE_CAMPAIGN_PROSPECTS_UNREAD
+  UPDATE_CAMPAIGN_PROSPECTS_UNREAD,
+  REMOVE_CAMPAIGN_PROSPECT_UNREAD
 } from './actionTypes';
 
 // fetching batch
@@ -31,3 +32,6 @@ export const fetchCampaignProspectsUnread = createAction(FETCH_CAMPAIGN_PROSPECT
 
 // update single campaign-prospect-unread
 export const updateCampaignProspectsUnread = createAction(UPDATE_CAMPAIGN_PROSPECTS_UNREAD);
+
+// DELETE
+export const removeCampaignProspect = createAction(REMOVE_CAMPAIGN_PROSPECT_UNREAD);

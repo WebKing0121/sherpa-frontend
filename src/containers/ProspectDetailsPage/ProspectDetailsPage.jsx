@@ -94,7 +94,7 @@ function ProspectDetailsPage() {
               <TabPane tabId='2'>
                 <MessagesTab
                   marginTop={headerRef.current && headerRef.current.clientHeight}
-                  subjectId={prospectId}
+                  subjectId={parseInt(prospectId)}
                   scrollToBot={activeTab === '2'}
                 />
               </TabPane>

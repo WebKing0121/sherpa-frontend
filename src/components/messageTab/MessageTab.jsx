@@ -7,6 +7,7 @@ import * as vars from '../../helpers/variables';
 import { DataLoader } from '../LoadingData';
 import { addNewToast } from '../../store/Toasts/actions';
 import { useDispatch } from 'react-redux';
+import { removeCampaignProspect } from '../../store/campaignProspectStore/actions';
 
 const StyledList = styled.ul`
   padding: var(--pad3) var(--pad3) 0;
@@ -62,6 +63,13 @@ function MessagesTab(props) {
       // optimistic update
       updateMessages(messageIdx, false);
       patchMessage(id)
+        .then(_ => {
+          const hasMessagesUnread = messages.some(message => message.unreadByRecipient);
+          if (!hasMessagesUnread) {
+            // remove campaign prospect from list
+            dispatch(removeCampaignProspect(parseInt(props.subjectId)));
+          }
+        })
         .catch(error => {
           updateMessages(messageIdx, true);
           dispatch(addNewToast({ message: vars.generalNetworkError, color: 'danger' }));
@@ -107,7 +115,10 @@ function MessagesTab(props) {
       .then(args => {
         if (hasUnreadMessages) {
           markAllMessagesAsRead(props.subjectId)
-            .then(() => fetchMessagesCB(args));
+            .then(() => {
+              fetchMessagesCB(args);
+              dispatch(removeCampaignProspect(parseInt(props.subjectId)));
+            });
         } else {
           fetchMessagesCB(args);
         }
