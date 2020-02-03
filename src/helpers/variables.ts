@@ -171,3 +171,8 @@ export const desktopCampaignHeaderInfo = {
 };
 // new messages
 export const MESSAGES_POLLING_INTERVAL = 30000;
+
+// no desktop messages
+export const underConstructionMessage = "We are currently working on a full desktop version of the new Sherpa. Until then, you will need to be on a mobile device to use this version of Sherpa."
+
+export const noSubscriptionMessage = "You do not have an active subscription, please use the desktop version for subscription activation."

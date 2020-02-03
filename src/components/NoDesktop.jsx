@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import logo from "../assets/images/sherpaLogo.png";
 
 const Message = styled.div`
+  display: flex;
   height: 100vh;
   width: 100vw;
   position: absolute;
@@ -68,7 +69,7 @@ function NoDesktop(props) {
       <div className="content" data-test="no-desktop">
         <h1>Sorry...</h1>
         <div className="text">
-          We are currently working on a full desktop version of the new Sherpa. Until then, you will need to be on a mobile device to use this version of Sherpa.
+          {props.message}
         </div>
         <em>-The Sherpa Team</em>
       </div>

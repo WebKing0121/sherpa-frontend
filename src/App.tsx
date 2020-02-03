@@ -15,11 +15,11 @@ import SupportPage from './containers/SupportPage/SupportPage';
 import DesktopCampaignsPage from './containers/DesktopCampaignsPage/DesktopCampaignsPage';
 import NewMessagesPage from './containers/NewMessages/NewMessages.jsx';
 import { campaignProspectUnread } from './store/campaignProspectStore/api';
-import { MESSAGES_POLLING_INTERVAL } from './helpers/variables';
 import { fetchCampaignProspectsUnread } from './store/campaignProspectStore/actions';
 
 // store
-import { isAuthenticated } from './store/Auth/selectors';
+import { isAuthenticated, getUserData } from './store/Auth/selectors';
+
 
 // components
 import { ProtectedRoute } from './components/ProtectedRoute';
@@ -30,26 +30,28 @@ import NoDesktop from './components/NoDesktop';
 //font awesome
 import './assets/fontAwesome/index.ts';
 import './App.css';
-import { maxMobileWidth, debounceTime } from './helpers/variables';
+import * as vars from './helpers/variables';
 import { debounce } from './helpers/utils';
 import { fetchUserInfo } from './store/Auth/actions';
 
 function App() {
   const dispatch = useDispatch();
   const is_auth = useSelector(isAuthenticated);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < maxMobileWidth);
+  const userData = useSelector(getUserData);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < vars.maxMobileWidth);
   const showDesktop =
-    process.env.REACT_APP_SHOW_DESKTOP === undefined ||
-    process.env.REACT_APP_SHOW_DESKTOP === "true";
+    (process.env.REACT_APP_SHOW_DESKTOP === undefined ||
+      process.env.REACT_APP_SHOW_DESKTOP === "true") &&
+    userData.company.subscriptionStatus === "active";
 
   const updateViewport = () => {
     const viewWidth = window.innerWidth;
-    setIsMobile(viewWidth < maxMobileWidth);
+    setIsMobile(viewWidth < vars.maxMobileWidth);
   };
 
   useEffect(() => {
     // debounce used to slow down resize to avoid making the display laggy when resizing
-    const debounced = debounce(updateViewport, debounceTime);
+    const debounced = debounce(updateViewport, vars.debounceTime);
     window.addEventListener('resize', debounced);
     return () => window.removeEventListener('resize', debounced);
   }, []);
@@ -65,7 +67,7 @@ function App() {
     if (is_auth) {
       // fetch messages
       fetchMessages();
-      const interval = setInterval(fetchMessages, MESSAGES_POLLING_INTERVAL);
+      const interval = setInterval(fetchMessages, vars.MESSAGES_POLLING_INTERVAL);
 
       // fetch auth-data on reload
       fetchUserInfo(dispatch);
@@ -79,6 +81,10 @@ function App() {
     const desktopNav = <NavbarDesktop page={history} />;
     const mobileNav = <Navbar page={history} />;
     return !is_auth ? login : isMobile ? mobileNav : desktopNav;
+  };
+
+  const determineMessage = () => {
+    return userData.company.subscriptionStatus !== 'active' ? vars.noSubscriptionMessage : vars.underConstructionMessage;
   };
 
   const showRoutes = (isMobile: boolean, showDesktop: boolean) => {
@@ -115,7 +121,7 @@ function App() {
       </Switch>
       {is_auth && <ToastContainer />}
     </Router>
-  ) : <NoDesktop />;
+  ) : <NoDesktop message={determineMessage()} />;
 }
 
 export default App;
