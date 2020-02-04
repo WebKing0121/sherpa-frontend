@@ -15,7 +15,7 @@ const DesktopCampaignsPage = props => {
   };
 
   return (
-    <div className="pageContent">
+    <div className="pageContent d-flex flex-column">
       <TabbedHeader data={desktopCampaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>Campaigns</TabbedHeader>
       <TabContent activeTab={activeTab}>
         <TabPane tabId='1'>
