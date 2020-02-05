@@ -106,7 +106,6 @@ function App() {
     renderData={() => {
       console.log(isMobile, showDesktop);
       return (showRoutes(isMobile, showDesktop) ? (
-        <div style={{ display: 'flex', width: '100vw' }}>
           <Router history={history}>
             {determineNav()}
             <Switch>
@@ -135,7 +134,7 @@ function App() {
               <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
             </Switch>
             {is_auth && <ToastContainer />}
-          </Router></div>
+          </Router>
       ) : <NoDesktop message={determineMessage()} />);
     }}
   />;

@@ -232,3 +232,8 @@ input,select,option {
 .icon {
   transition: transform .15s;
 }
+
+#root > .displayedData {
+  display: flex;
+  width: 100%;
+}

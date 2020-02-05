@@ -10,7 +10,9 @@
     flex-grow: 1;
   }
 }
-
+.pageContent {
+  width: 100%;
+}
 .rdt {
   position: relative;
 }
