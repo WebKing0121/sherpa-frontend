@@ -20,6 +20,8 @@ const SpinWrap = styled.div`
   }
 `;
 
+const DisplayedData = styled.div``;
+
 const NoResults = styled.p`
   display: flex;
   text-align: center;
@@ -47,7 +49,7 @@ export const DataLoader = props => {
     emptyResultsMessage = 'No Results Found',
     networkError = 'Cannot be displayed at this time.  Please try again later.',
     renderData,
-    fullPage
+    fullPage = true
   } = props;
 
   const renderedResults = whenNoResults(status, data) ? (
@@ -55,7 +57,7 @@ export const DataLoader = props => {
   ) : whenError(status) && !data.length ? (
     <NoResults data-test='network-error-message'>{networkError}</NoResults>
   ) : (
-        <div data-test='displayed-data'>{renderData()}</div>
+        <DisplayedData data-test='displayed-data'>{renderData()}</DisplayedData>
       );
 
   return (
