@@ -5,7 +5,9 @@ import {
   RESET_CAMPAIGNS_DATA,
   FETCH_CAMPAIGNS,
   ARCHIVE_CAMPAIGN,
-  UPDATE_SMS_TEMPLATE
+  UPDATE_SMS_TEMPLATE,
+  SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS,
+  SET_FETCH_CAMPAIGNS_NEXT_PAGE
 } from './actionTypes';
 import { Fetching } from '../../helpers/variables';
 import { decrementMarketCampaignCount } from '../Markets/actions';
@@ -45,6 +47,16 @@ export const setUpdatedSmsTemplateCampaign = data => ({
   data
 });
 
+export const setFetchCampaignsNextPage = (payload) => ({
+  type: SET_FETCH_CAMPAIGNS_NEXT_PAGE,
+  payload
+});
+
+export const setFetchCampaignsNextPageSuccess = (data) => ({
+  type: SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS,
+  data
+});
+
 /*************************************************************************************************/
 
 export const fetchCampaigns = id => (dispatch, _) => {
@@ -63,10 +75,10 @@ export const fetchCampaigns = id => (dispatch, _) => {
     });
 };
 
-export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
+export const fetchSortedCampaigns = (params = {}) => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
   AxiosInstance.get('/campaigns/', {
-    params: { market: marketId, ordering: sortBy, is_archived: false }
+    params
   })
     .then(({ data }) => {
       const { results } = data;
@@ -74,8 +86,8 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
       const payload = {
         sortOrder: captureSort(results),
         campaigns: arrayToMapIndex('id', results),
-        marketId,
-        sortBy
+        marketId: params.market,
+        sortBy: params.ordering
       };
 
       dispatch(setFetchedCampaigns(payload));
@@ -86,24 +98,42 @@ export const fetchSortedCampaigns = (sortBy, marketId) => (dispatch, _) => {
     });
 };
 
-export const fetchFilteredData = (ownerId, marketId, sortBy) => (dispatch, _) => {
+export const fetchFilteredData = (params, overrideData = true) => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));
-  AxiosInstance.get('/campaigns/', { params: { owner: ownerId, market: marketId, is_archived: false, ordering: sortBy } })
+  return AxiosInstance.get('/campaigns/', { params })
     .then(({ data }) => {
       const { results } = data;
 
       const payload = {
         sortOrder: captureSort(results),
         campaigns: arrayToMapIndex('id', results),
-        marketId,
-        sortBy
+        marketId: params.market,
+        sortBy: params.ordering,
+        overrideData
       };
 
       dispatch(setFetchedCampaigns(payload));
+
+      return data;
     })
     .catch(error => {
       console.log('Error fetching filtered data by owner: ', error);
     });
+};
+
+export const fetchFilteredDataNextPage = (nextUrl) => (dispatch, _) => {
+  // dispatch if fetching more
+  setFetchCampaignsNextPage(true);
+  return AxiosInstance.get(nextUrl)
+    .then(({ data }) => {
+      const { results } = data;
+
+      const payload = {
+        campaigns: arrayToMapIndex('id', results),
+      };
+      dispatch(setFetchCampaignsNextPageSuccess(payload));
+      return data;
+    })
 };
 
 export const fetchSingleCampaign = id => (dispatch, _) => {

@@ -13,7 +13,7 @@ export const createAction = (type, payloadKey = 'payload') => {
 
 export const createSelector =
   (path, transformationFn = identity) =>
-    state => transformationFn(getIn(path, state));
+    state => transformationFn(getIn(path, state), state);
 
 export const createSelectorContext =
   (root) =>

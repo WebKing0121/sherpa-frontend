@@ -52,7 +52,6 @@ const CampaignsPage = () => {
 
   // check there are campaign folders to navigate back too
   const hasCampaignFolders = campaignFolders.length > 0 || folders;
-
   // dispatch fetchCampaigns
   useEffect(() => {
     // Preserve sort order menu selection on refresh
@@ -62,16 +61,16 @@ const CampaignsPage = () => {
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
     if (activeMarketId !== marketId) {
       dispatch(resetCampaignFilter());
-      dispatch(fetchSortedCampaigns('-created_date', marketId));
+      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false }));
     }
-  }, [dispatch, marketId, activeMarketId, campaigns.length, activeFilter.length]);
+  }, [dispatch, marketId, activeMarketId]);
 
   // Refetch campaigns if the filter gets reset
   useEffect(() => {
     if (activeFilter.length === 0) {
-      dispatch(fetchSortedCampaigns('-created_date', marketId));
+      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false }));
     }
-  }, [dispatch, activeFilter.length])
+  }, [dispatch, activeFilter.length]);
 
   // transform campaigns to proper list item views
   const listItems = campaignsToItemList(campaigns);
@@ -92,7 +91,7 @@ const CampaignsPage = () => {
         sortingOptions={sortingOptions}
         sortChange={(value) => {
           setActiveSort(value.id);
-          dispatch(fetchSortedCampaigns(value.value, marketId));
+          dispatch(fetchSortedCampaigns({ ordering: value.value, market: marketId, is_archived: false }));
         }}
         marketId={marketId}
         defaultValue={activeSort}

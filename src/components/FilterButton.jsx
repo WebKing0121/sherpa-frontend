@@ -90,15 +90,15 @@ function FilterButton() {
   // fetch owners to filter by
   useEffect(() => {
     if (company) {
-      dispatch(fetchCompanyOwners(company.id))
+      dispatch(fetchCompanyOwners(company.id));
     }
   }, [dispatch, company]);
 
   useEffect(() => {
-    if (activeFilter.length === 0) {
+    if (activeFilter) {
       setOwnersFilterId(0);
     }
-  }, [activeFilter.length])
+  }, [activeFilter]);
 
   const handleSelect = event => {
     const {
@@ -108,7 +108,7 @@ function FilterButton() {
   };
 
   const handleSubmit = () => {
-    dispatch(fetchFilteredData(ownerFilterId, marketId, sortBy));
+    dispatch(fetchFilteredData({ owner: ownerFilterId, market: marketId, is_archived: false, ordering: sortBy }));
     dispatch(setCampaignFilter(ownerFilterId));
     setModal(false);
   };

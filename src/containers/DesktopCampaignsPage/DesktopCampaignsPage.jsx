@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState } from 'react';
 import { TabContent, TabPane } from 'reactstrap';
-import styled from 'styled-components';
 import CampaignsListTab from './CampaignsListTab/CampaignsListTab';
 import { desktopCampaignHeaderInfo } from '../../helpers/variables';
 

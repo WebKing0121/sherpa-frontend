@@ -47,13 +47,19 @@ const Callout = props => {
 };
 
 const DesktopCallouts = props => {
+  const { data } = props;
+  const percentCompleted =
+    typeof (data.percentCompleteUnsent) === "string" ?
+      data.percentCompleteUnsent :
+      `${parseInt(data.percentCompleteUnsent)}%`;
+
   return (
     <Callouts>
-      <Callout value="989" label="Leads" icon="user" iconCol="sherpaTeal"/>
-      <Callout value="3" label="Priority" icon="bolt" iconCol="orange"/>
-      <Callout value="100%" label="Status"/>
-      <Callout value="Good" label="Health"/>
-      <Callout value="Denver Metro" label="Market"/>
+      <Callout value={data.totalLeads || 0} label="Leads" icon="user" iconCol="sherpaTeal" />
+      <Callout value={data.priorityCount} label="Priority" icon="bolt" iconCol="orange" />
+      <Callout value={percentCompleted} label="Status" />
+      <Callout value={data.health} label="Health" />
+      <Callout value={data.market.name} label="Market" />
     </Callouts>
   );
 };

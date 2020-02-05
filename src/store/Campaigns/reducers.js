@@ -4,7 +4,9 @@ import {
   SET_FETCH_CAMPAIGNS_ERROR,
   RESET_CAMPAIGNS_DATA,
   ARCHIVE_CAMPAIGN,
-  UPDATE_SMS_TEMPLATE
+  UPDATE_SMS_TEMPLATE,
+  SET_FETCH_CAMPAIGNS_NEXT_PAGE,
+  SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../helpers/variables';
 
@@ -18,8 +20,11 @@ export const initialState = {
   next: '',
   previous: '',
   count: 0,
-  status: Fetching
+  status: Fetching,
+  isLoadingMore: false
 };
+
+export const path = ['campaigns'];
 
 export default function reducer(state = initialState, action) {
   const { data } = action;
@@ -31,14 +36,29 @@ export default function reducer(state = initialState, action) {
         status: Fetching
       };
     case SET_FETCH_CAMPAIGNS:
-      return {
+      let newState = {
         ...state,
         sortBy: data.sortBy,
         sortOrder: data.sortOrder,
-        campaigns: data.campaigns,
-        activeMarket: data.marketId,
         status: Success
       };
+
+      // override campaigns or concatenate
+      if (action.overrideData) {
+        newState.campaigns = data.campaigns
+      } else {
+        newState.campaigns = {
+          ...newState.campaigns,
+          ...data.campaigns
+        }
+      }
+
+      // set active market if there's not one already set
+      if (!newState.activeMarket) {
+        newState.activeMarket = data.marketId;
+      }
+
+      return newState;
     case SET_FETCH_CAMPAIGNS_ERROR:
       return {
         ...state,
@@ -65,6 +85,19 @@ export default function reducer(state = initialState, action) {
       }
     case RESET_CAMPAIGNS_DATA:
       return initialState;
+    case SET_FETCH_CAMPAIGNS_NEXT_PAGE:
+      return {
+        ...state,
+        isLoadingMore: action.payload
+      };
+    case SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS: {
+      let newState = {
+        ...state,
+        campaigns: { ...state.campaigns, ...data.campaigns },
+        isLoadingMore: false
+      };
+      return newState;
+    }
     default:
       return state;
   }

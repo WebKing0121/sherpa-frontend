@@ -1,11 +1,9 @@
+export const getAllCampaigns = (state) => state.campaigns.campaigns || [];
+
 export const campaignsList = (state) => {
   const { campaigns: { campaigns, sortOrder } } = state;
 
-  const campaignData = sortOrder.map((item) => {
-    return campaigns[item];
-  });
-
-  return campaignData;
+  return sortOrder.map((item) => campaigns[item]);
 };
 
 export const campaignsError = (state) => state.campaigns.error;

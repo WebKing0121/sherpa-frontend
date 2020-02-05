@@ -5,6 +5,7 @@ import campaignMessagesView from './campaignMessagesTabView/reducer';
 import prospectDetailsPageView from './prospectDetailsPageView/reducer';
 import campaignDetailsPageView from './campaignDetailsPageView/reducer';
 import campaignsPageView from './campaignsPageView/reducer';
+import campaignsPageDesktopView from './campaignsPageDesktopView/reducers';
 
 const reducers = combineReducers({
   prospectSearchView,
@@ -12,7 +13,8 @@ const reducers = combineReducers({
   campaignMessagesView,
   prospectDetailsPageView,
   campaignDetailsPageView,
-  campaignsPageView
+  campaignsPageView,
+  campaignsPageDesktopView
 });
 
 export default reducers;

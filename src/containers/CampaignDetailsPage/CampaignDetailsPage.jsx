@@ -42,7 +42,7 @@ function CampaignDetailsPage() {
   // fetch campaign data if not in store already
   useEffect(() => {
     if (!campaign.id) {
-      dispatch(fetchSortedCampaigns('-created_date', marketId));
+      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false }));
     }
     dispatch(setActiveCampaign(parseInt(campaignId)));
   }, [dispatch, campaign.id, campaignId]);

@@ -8,7 +8,7 @@ import { archiveCampaign } from '../../../store/Campaigns/actions';
  * component to render.
  */
 export const campaignToItemList = campaign => {
-  const { id, name, priorityCount, totalLeads, hasUnreadSMS, owner, createdDate, health, market, percentCompleteUnsent } = campaign;
+  const { id, name, priorityCount, totalLeads, hasUnreadSMS, createdBy, createdDate, health, market, percentCompleteUnsent } = campaign;
 
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -21,16 +21,19 @@ export const campaignToItemList = campaign => {
   };
 
   const date = getFormattedDateTime(createdDate);
-
+  const subInfoStr = `By ${createdBy.fullName} ${date}`;
   return {
     ...IListItem,
     id,
     name,
-    subInfo: "By " + owner + " " + date,
+    subInfo: subInfoStr,
     readable: true,
     isRead: false,
-    desktopCallouts: <DesktopCallouts/>,
-    desktopKebab: <DesktopKebab idx={id}/>,
+    desktopCallouts: (
+      <DesktopCallouts
+        data={{ priorityCount, totalLeads, health, percentCompleteUnsent, market }}
+      />),
+    desktopKebab: <DesktopKebab idx={id} />,
     actions: [
       {
         name: 'Export',
