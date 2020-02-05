@@ -55,8 +55,8 @@ export const DataLoader = props => {
   ) : whenError(status) && !data.length ? (
     <NoResults data-test='network-error-message'>{networkError}</NoResults>
   ) : (
-    <div data-test='displayed-data'>{renderData()}</div>
-  );
+        <div data-test='displayed-data'>{renderData()}</div>
+      );
 
   return (
     <>
@@ -65,8 +65,8 @@ export const DataLoader = props => {
           <Spinner color='primary' />
         </SpinWrap>
       ) : (
-        renderedResults
-      )}
+          renderedResults
+        )}
     </>
   );
 };

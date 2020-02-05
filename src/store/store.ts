@@ -17,7 +17,7 @@ import prospectMessages from './ProspectDetails/messages/reducers';
 import supportItems from './Support/reducers';
 import toastsReducer from './Toasts/reducers';
 import leadStages from './leadstages/reducer';
-import smsTemplates from './CampaignDetails/sent/reducers';
+import smsTemplates from './SmsTemplateStore/reducers';
 import uiStore from './uiStore/reducers';
 import prospectStore from './prospectStore/reducer';
 import nav from './Nav/reducer';

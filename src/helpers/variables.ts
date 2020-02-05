@@ -1,3 +1,4 @@
+
 // responsiveness
 export const maxMobileWidth = 768;
 
@@ -30,6 +31,7 @@ export const prospectDetailsReducer = 'prospectDetailsReducer';
 // sms stuff
 export const pollingInterval = 20000;
 export const messagesPlaceholderText = 'Send a message to start a conversation with this prospect';
+export const quickRepliesPlaceholderText = 'No Quick Replies';
 
 export const campaignHeaderInfo = {
   fromText: 'Campaign List',

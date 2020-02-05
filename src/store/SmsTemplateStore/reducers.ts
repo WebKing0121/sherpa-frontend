@@ -1,7 +1,8 @@
 import {
   POPULATE_SMS_TEMPLATES,
   SET_SMS_TEMPLATES_STATUS,
-  SET_SMS_TEMPLATES_ERROR
+  SET_SMS_TEMPLATES_ERROR,
+  POPULATE_QUICK_REPLIES
 } from './actionTypes';
 import { Fetching, FetchError, Success } from '../../helpers/variables';
 import { ITemplate } from './actions';
@@ -11,12 +12,14 @@ interface IAction {
   templates?: ITemplate[];
   status?: string;
   error?: string;
+  quickReplies: any[];
 }
 
 const initialState: IAction = {
   templates: [],
   status: Fetching,
-  error: ''
+  error: '',
+  quickReplies: []
 };
 
 export default function(state = initialState, action: IAction) {
@@ -38,6 +41,11 @@ export default function(state = initialState, action: IAction) {
         error: action.error,
         status: FetchError
       };
+    case POPULATE_QUICK_REPLIES:
+      return {
+        ...state,
+        quickReplies: action.quickReplies
+      }
     default:
       return state;
   }

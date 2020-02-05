@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
@@ -8,6 +9,9 @@ import { DataLoader } from '../LoadingData';
 import { addNewToast } from '../../store/Toasts/actions';
 import { useDispatch } from 'react-redux';
 import { removeCampaignProspect } from '../../store/campaignProspectStore/actions';
+import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
+import Modal from '../Modal';
+import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
 
 const StyledList = styled.ul`
   padding: var(--pad3) var(--pad3) 0;
@@ -159,7 +163,10 @@ function MessagesTab(props) {
         )}
       />
       <InputWrapper ref={inputRef}>
-        <MessageInput messagesStatus={props.messagesStatus} addNewMessage={addNewMessage} />
+        <MessageInput
+          messagesStatus={props.messagesStatus}
+          addNewMessage={addNewMessage}
+        />
       </InputWrapper>
     </div>
   );

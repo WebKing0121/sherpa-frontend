@@ -1,7 +1,8 @@
 import {
   POPULATE_SMS_TEMPLATES,
   SET_SMS_TEMPLATES_STATUS,
-  SET_SMS_TEMPLATES_ERROR
+  SET_SMS_TEMPLATES_ERROR,
+  POPULATE_QUICK_REPLIES
 } from './actionTypes';
 import AxiosInstance from '../../axiosConfig';
 import { Fetching } from '../../helpers/variables';
@@ -31,6 +32,11 @@ export const setSmsTemplatesError = (error: string) => ({
   error
 });
 
+export const populateQuickReplies = (quickReplies: any[]) => ({
+  type: POPULATE_QUICK_REPLIES,
+  quickReplies
+})
+
 const handleError = (message: string, error: string, dispatch: Dispatch) => {
   console.log(message, error);
   dispatch(setSmsTemplatesError(error));
@@ -45,4 +51,13 @@ export const fetchSmsTemplates = () => (dispatch: Dispatch) => {
       dispatch(populateSmsTemplates(smsMap));
     })
     .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
+};
+
+export const fetchQuickReplies = () => (dispatch: Dispatch) => {
+  dispatch(setSmsTemplatesStatus(Fetching));
+  AxiosInstance.get('/quick-replies/')
+    .then(({ data }) => {
+      dispatch(populateQuickReplies(data));
+    })
+    .catch((error: any) => handleError(`quick-replies GET error `, error, dispatch));
 };
