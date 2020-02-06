@@ -5,8 +5,6 @@ import {
   searchProspects,
   searchProspectsFailure,
   searchProspectsSuccess,
-  searchProspectsNextPage,
-  searchProspectsNextPageSuccess,
   searchResetResults
 } from '../uiStore/prospectSearchView/actions';
 import {
@@ -15,7 +13,8 @@ import {
   updateProspectList,
   updateProspectSuccess,
   fetchProspect,
-  fetchProspectSuccess
+  fetchProspectSuccess,
+  fetchProspectNextPage
 } from '../prospectStore/actions';
 import * as detailsViewActions from '../uiStore/prospectDetailsView/actions';
 import { addNewToast } from '../Toasts/actions';
@@ -76,14 +75,14 @@ export const prospectSearchNextPage = () => (dispatch: any, getState: any) => {
   } = getState();
 
   if (next && !isLoadingMore) {
-    dispatch(searchProspectsNextPage(true));
+    dispatch(fetchProspectNextPage(true));
     return api.listProspectsNextPage(next).then(({ data }) => {
       const prospectRecords = data.results.map((prospect: any) => ProspectRecord(prospect, false));
       const sort_order = prospectRecords.map((rec: IProspect) => rec.id);
       const prospectsMap = arrayToMapIndex('id', prospectRecords);
 
       dispatch(updateProspectList({ ...data, results: prospectsMap, sort_order: sort_order }));
-      dispatch(searchProspectsNextPageSuccess(false));
+      dispatch(fetchProspectNextPage(false));
     });
   }
 

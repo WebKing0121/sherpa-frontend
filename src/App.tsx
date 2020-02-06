@@ -123,7 +123,6 @@ function App() {
     data={[userData]}
     dataTest={isMobile ? 'mobile-view' : 'desktop-view'}
     renderData={() => {
-      /* console.log(isMobile, showDesktop); */
       return (showRoutes(isMobile, showDesktop) ? (
         <Router history={history}>
           {determineNav()}

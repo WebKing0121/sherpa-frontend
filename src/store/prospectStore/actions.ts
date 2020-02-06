@@ -13,7 +13,8 @@ import {
   DELETE_PROSPECT,
   DELETE_PROSPECT_FAILURE,
   DELETE_PROSPECT_SUCCESS,
-  RESET_PROSPECTS
+  RESET_PROSPECTS,
+  FETCH_PROSPECT_NEXT_PAGE
 } from './actionTypes';
 
 // fetching
@@ -41,3 +42,6 @@ export const deleteProspectFailure = createAction(DELETE_PROSPECT_FAILURE);
 
 // reset prospect action
 export const resetProspects = createAction(RESET_PROSPECTS);
+
+// fetching next pages
+export const fetchProspectNextPage = createAction(FETCH_PROSPECT_NEXT_PAGE);

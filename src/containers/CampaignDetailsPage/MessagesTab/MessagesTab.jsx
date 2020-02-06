@@ -87,7 +87,7 @@ function MessagesTab(props) {
     let offset = event.srcElement.offsetHeight + top;
 
     // only fire if we're at the bottom of the page
-    if (offset >= pageOffset) {
+    if (offset + (25 * itemHeight) >= pageOffset) {
       fetchMoreData();
     }
   };

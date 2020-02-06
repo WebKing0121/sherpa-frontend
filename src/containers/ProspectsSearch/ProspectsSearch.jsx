@@ -14,8 +14,6 @@ import ListItem from '../../components/List/ListItem';
 
 import {
   selectProspects,
-  selectIsLoadingMoreProspects,
-  selectIsLoadingProspect,
   resetSearchResults
 } from '../../store/uiStore/prospectSearchView/selectors';
 
@@ -26,6 +24,7 @@ import { prospectSearch, prospectSearchNextPage } from '../../store/prospectStor
 import { prospectsToItemList } from './utils';
 import { Fetching, Success } from '../../helpers/variables';
 import { resetProspects } from '../../store/prospectStore/actions';
+import { prospectIsLoadingMore } from '../../store/prospectStore/selectors';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -34,7 +33,7 @@ const SpinWrap = styled.div`
 
 function ProspectsSearch(props) {
   const prospectResults = useSelector(selectProspects);
-  const isFetchingMore = useSelector(selectIsLoadingMoreProspects);
+  const isFetchingMore = useSelector(prospectIsLoadingMore);
   const shouldReset = useSelector(resetSearchResults);
   const dispatch = useDispatch();
   const [itemHeight, setItemHeight] = useState(150);
@@ -85,7 +84,7 @@ function ProspectsSearch(props) {
     let offset = event.srcElement.offsetHeight + top;
 
     // only fire if we're at the bottom of the page
-    if (offset >= pageOffset) {
+    if ((offset + (25 * itemHeight)) >= pageOffset) {
       fetchMoreData();
     }
   };

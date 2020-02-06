@@ -18,6 +18,7 @@ export interface IResourceStore {
   next: string | null;
   previous: string | null;
   isLoading: boolean;
+  isLoadingMore: boolean;
   error: boolean;
   errorMessage?: string;
 }

@@ -8,11 +8,13 @@ import {
   DELETE_PROSPECT_SUCCESS,
   RESET_PROSPECTS,
   FETCH_PROSPECT,
-  FETCH_PROSPECT_SUCCESS
+  FETCH_PROSPECT_SUCCESS,
+  FETCH_PROSPECT_NEXT_PAGE,
 } from './actionTypes';
 
 const initialState: IProspectStore = {
   isLoading: false,
+  isLoadingMore: false,
   error: false,
   prospects: {} as { [key: number]: IProspect },
   sort_order: [],
@@ -78,6 +80,13 @@ export default function reducer(state: IProspectStore = initialState, action: an
       delete newState.prospects[action.paydload.id];
 
       return newState;
+    }
+
+    case FETCH_PROSPECT_NEXT_PAGE: {
+      return {
+        ...state,
+        isLoadingMore: action.payload
+      };
     }
     case RESET_PROSPECTS:
       return {
