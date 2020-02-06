@@ -85,7 +85,6 @@ describe('Campaign Desktop Page', () => {
               }
             } = nextState;
 
-            console.log("BOOOOM", all.sortedBy, tabs.all.sortedBy);
             assert.notEqual(all.sortedBy, tabs.all.sortedBy);
           });
       });
