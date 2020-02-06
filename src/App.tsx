@@ -35,16 +35,13 @@ import * as vars from './helpers/variables';
 import { debounce } from './helpers/utils';
 import { fetchUserInfo } from './store/Auth/actions';
 
-const showDesktopEnvs = process.env.REACT_APP_SHOW_DESKTOP === undefined || process.env.REACT_APP_SHOW_DESKTOP === "true";
-
 function App() {
   // selectors
   const is_auth = useSelector(isAuthenticated);
   const userData = useSelector(getUserData);
-  console.log(userData);
   // local state
   const [isMobile, setIsMobile] = useState(window.innerWidth < vars.maxMobileWidth);
-  const [showDesktop, setShowDesktop] = useState(showDesktopEnvs);
+  const [showDesktop, setShowDesktop] = useState(vars.showDesktopStateEnvs);
 
   const dispatch = useDispatch();
 
@@ -69,7 +66,6 @@ function App() {
 
 
   useEffect(() => {
-    // console.log(showDesktop);
   }, [showDesktop]);
   useEffect(() => {
     if (is_auth) {
@@ -85,17 +81,8 @@ function App() {
   }, [is_auth]);
 
   useEffect(() => {
-    // setShowDesktop(state => state && (userData.company.subscriptionStatus === "active" || !is_auth));
-    // console.log("show desktop: ", showDesktop);
-  }, [userData]);
-
-  useEffect(() => {
-    const newUserData = { ...userData };
-    (newUserData.company.subscriptionStatus = "inactive");
-    console.log(userData);
-    // userData.company && console.log("newUserData : ", newUserData.company.subscriptionStatus);
-    // dispatch({ type: "SET_USER_DATA", userData });
-  }, [showDesktop]);
+    userData.company && setShowDesktop(vars.showDesktopStateEnvs && userData.company.subscriptionStatus === "active" || !is_auth);
+  }, [userData.company.subscriptionStatus, vars.showDesktopStateEnvs]);
 
   const determineNav = () => {
     const login = <Route exacts path='/login' component={LoginPage} />;
@@ -109,14 +96,12 @@ function App() {
   };
 
   const showRoutes = (isMobile: boolean, showDesktop: boolean) => {
-    // console.log(isMobile, showDesktop);
     return isMobile || (!isMobile && showDesktop);
   };
 
   const determineLoadingStatus = () => {
     return !userData.company.subscriptionStatus && is_auth ? vars.Fetching : vars.Success;
   };
-
   return <DataLoader
     emptyResultsMessage="User could not be authorized"
     status={determineLoadingStatus()}

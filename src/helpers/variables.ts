@@ -178,3 +178,6 @@ export const MESSAGES_POLLING_INTERVAL = 30000;
 export const underConstructionMessage = "We are currently working on a full desktop version of the new Sherpa. Until then, you will need to be on a mobile device to use this version of Sherpa."
 
 export const noSubscriptionMessage = "You do not have an active subscription, please use the desktop version for subscription activation."
+
+
+export const showDesktopStateEnvs = process.env.REACT_APP_SHOW_DESKTOP === undefined || process.env.REACT_APP_SHOW_DESKTOP === "true";
