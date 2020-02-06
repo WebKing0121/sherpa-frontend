@@ -53,9 +53,9 @@ export const fetchSmsTemplates = () => (dispatch: Dispatch) => {
     .catch((error: any) => handleError(`campaign-notes GET error `, error, dispatch));
 };
 
-export const fetchQuickReplies = () => (dispatch: Dispatch) => {
+export const fetchQuickReplies = (id: number) => (dispatch: Dispatch) => {
   dispatch(setSmsTemplatesStatus(Fetching));
-  AxiosInstance.get('/quick-replies/')
+  AxiosInstance.get(`/prospects/${id}/quick_replies/`)
     .then(({ data }) => {
       dispatch(populateQuickReplies(data));
     })

@@ -5,12 +5,12 @@ describe('Message quick replies', () => {
 
   before(() => {
     cy.login();
-    cy.createFixture(`quickReplies.json`, 'quick-replies', 'GET');
+    cy.createFixture(`quickReplies.json`, `prospects/${prospectId}/quick_replies`, 'GET');
   });
 
   it('displays quick reply pop-up when button is clicked', () => {
     cy.server();
-    cy.route({ url: '**/quick-replies', method: 'GET', response: `fixture:quickReplies` }).as('quick-replies');
+    cy.route({ url: `**/prospects/${prospectId}/quick_replies`, method: 'GET', response: `fixture:quickReplies` }).as('quick-replies');
     cy.visit(`${url}/prospect/${prospectId}/details`);
     cy.wait('@quick-replies');
     cy.get('[data-test=Messages]').click({ force: true });
@@ -48,7 +48,7 @@ describe('Message quick replies', () => {
   it('displays a special message when there are no quick replies', () => {
     cy.login();
     cy.server();
-    cy.route({ url: '**/quick-replies', method: 'GET', response: [] }).as('quick-replies');
+    cy.route({ url: `**/prospects/${prospectId}/quick_replies`, method: 'GET', response: [] }).as('quick-replies');
     cy.visit(`${url}/prospect/${prospectId}/details`);
     cy.wait('@quick-replies');
     cy.get('[data-test=quick-reply-btn]').click({ force: true });

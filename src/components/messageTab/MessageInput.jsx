@@ -10,6 +10,7 @@ import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
 import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
 import { quickRepliesPlaceholderText, Success, Fetching } from '../../helpers/variables';
 import { DataLoader } from '../LoadingData';
+import { useParams } from 'react-router-dom';
 
 const SendMessage = styled.form`
   padding: var(--pad2) var(--pad3);
@@ -25,6 +26,7 @@ function MessageInput(props) {
   // quick replies use the data loader component, which using a string instead of a boolean
   const [isFetchingQuickReplies, setIsFetchingQuickReplies] = useState(Success);
 
+  const { prospectId } = useParams();
   const dispatch = useDispatch();
   const quickReplies = useSelector(getQuickReplies);
 
@@ -53,7 +55,7 @@ function MessageInput(props) {
   useEffect(() => {
     if (!quickReplies.length) {
       setIsFetchingQuickReplies(Fetching);
-      dispatch(fetchQuickReplies());
+      dispatch(fetchQuickReplies(prospectId));
     }
   }, []);
 
