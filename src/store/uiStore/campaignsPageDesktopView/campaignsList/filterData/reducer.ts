@@ -6,7 +6,7 @@ import {
 
 const initialState = {
   activeSort: '-created_date',
-  activeTab: 'all',
+  activeTab: 'active',
   tabs: {
     'all': {
       count: 0,

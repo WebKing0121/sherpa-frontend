@@ -73,7 +73,7 @@ const FilterSort = props => {
   return (
     <FilterSortSection>
       <div className="groups">
-        <ul>
+        <ul data-test="campaign-filter-tabs">
           {props.tabs.map((tab, idx) => (
             <li
               key={tab.id}
@@ -87,7 +87,7 @@ const FilterSort = props => {
       <div className="sortBy">
         {// replace with sortModule
         }
-        <Select onChange={props.onChangeSort}>
+        <Select data-test="filter-campaigns-select" onChange={props.onChangeSort}>
           {//replace with sort Options
             props.sortingOptions.map(
               (option) => (
