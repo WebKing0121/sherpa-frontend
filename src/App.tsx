@@ -35,16 +35,16 @@ import * as vars from './helpers/variables';
 import { debounce } from './helpers/utils';
 import { fetchUserInfo } from './store/Auth/actions';
 
+const showDesktopEnvs = process.env.REACT_APP_SHOW_DESKTOP === undefined || process.env.REACT_APP_SHOW_DESKTOP === "true";
+
 function App() {
   // selectors
   const is_auth = useSelector(isAuthenticated);
   const userData = useSelector(getUserData);
-
+  console.log(userData);
   // local state
   const [isMobile, setIsMobile] = useState(window.innerWidth < vars.maxMobileWidth);
-  let showDesktop =
-    (process.env.REACT_APP_SHOW_DESKTOP === undefined ||
-      process.env.REACT_APP_SHOW_DESKTOP === "true");
+  const [showDesktop, setShowDesktop] = useState(showDesktopEnvs);
 
   const dispatch = useDispatch();
 
@@ -67,6 +67,10 @@ function App() {
       });
   };
 
+
+  useEffect(() => {
+    // console.log(showDesktop);
+  }, [showDesktop]);
   useEffect(() => {
     if (is_auth) {
       // fetch messages
@@ -81,8 +85,17 @@ function App() {
   }, [is_auth]);
 
   useEffect(() => {
-    showDesktop = showDesktop && (userData.company.subscriptionStatus === "active" || !is_auth);
+    // setShowDesktop(state => state && (userData.company.subscriptionStatus === "active" || !is_auth));
+    // console.log("show desktop: ", showDesktop);
   }, [userData]);
+
+  useEffect(() => {
+    const newUserData = { ...userData };
+    (newUserData.company.subscriptionStatus = "inactive");
+    console.log(userData);
+    // userData.company && console.log("newUserData : ", newUserData.company.subscriptionStatus);
+    // dispatch({ type: "SET_USER_DATA", userData });
+  }, [showDesktop]);
 
   const determineNav = () => {
     const login = <Route exacts path='/login' component={LoginPage} />;
@@ -96,49 +109,54 @@ function App() {
   };
 
   const showRoutes = (isMobile: boolean, showDesktop: boolean) => {
+    // console.log(isMobile, showDesktop);
     return isMobile || (!isMobile && showDesktop);
+  };
+
+  const determineLoadingStatus = () => {
+    return !userData.company.subscriptionStatus && is_auth ? vars.Fetching : vars.Success;
   };
 
   return <DataLoader
     emptyResultsMessage="User could not be authorized"
-    status={userData.company.subscriptionStatus === 'active' ? vars.Success : vars.Fetching}
+    status={determineLoadingStatus()}
     data={[userData]}
+    dataTest={isMobile ? 'mobile-view' : 'desktop-view'}
     renderData={() => {
-      console.log(isMobile, showDesktop);
+      /* console.log(isMobile, showDesktop); */
       return (showRoutes(isMobile, showDesktop) ? (
-          <Router history={history}>
-            {determineNav()}
-            <Switch>
-              <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
-              <ProtectedRoute
-                is_auth={is_auth}
-                path='/markets/:marketId/campaigns'
-                component={CampaignsPage}
-                exact
-              />
-              <ProtectedRoute
-                is_auth={is_auth}
-                path='/markets/:marketId/campaigns/:campaignId/details'
-                component={CampaignDetailsPage}
-                exact
-              />
-              <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
-              <ProtectedRoute
-                is_auth={is_auth}
-                path='/prospect/:prospectId/details'
-                component={ProspectDetailsPage}
-                exact
-              />
-              <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
-              <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
-              <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
-            </Switch>
-            {is_auth && <ToastContainer />}
-          </Router>
+        <Router history={history}>
+          {determineNav()}
+          <Switch>
+            <ProtectedRoute is_auth={is_auth} path='/' component={CampaignFoldersPage} exact />
+            <ProtectedRoute
+              is_auth={is_auth}
+              path='/markets/:marketId/campaigns'
+              component={CampaignsPage}
+              exact
+            />
+            <ProtectedRoute
+              is_auth={is_auth}
+              path='/markets/:marketId/campaigns/:campaignId/details'
+              component={CampaignDetailsPage}
+              exact
+            />
+            <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
+            <ProtectedRoute
+              is_auth={is_auth}
+              path='/prospect/:prospectId/details'
+              component={ProspectDetailsPage}
+              exact
+            />
+            <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
+            <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
+            <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
+          </Switch>
+          {is_auth && <ToastContainer />}
+        </Router>
       ) : <NoDesktop message={determineMessage()} />);
     }}
   />;
-
 }
 
 export default App;

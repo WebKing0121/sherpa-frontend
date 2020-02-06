@@ -49,6 +49,7 @@ export const DataLoader = props => {
     emptyResultsMessage = 'No Results Found',
     networkError = 'Cannot be displayed at this time.  Please try again later.',
     renderData,
+    dataTest = '',
     fullPage = true
   } = props;
 
@@ -57,7 +58,7 @@ export const DataLoader = props => {
   ) : whenError(status) && !data.length ? (
     <NoResults data-test='network-error-message'>{networkError}</NoResults>
   ) : (
-        <DisplayedData className="displayedData" data-test='displayed-data'>{renderData()}</DisplayedData>
+        <DisplayedData data-test={dataTest} className="displayedData" data-test='displayed-data'>{renderData()}</DisplayedData>
       );
 
   return (
