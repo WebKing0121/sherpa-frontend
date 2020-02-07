@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   height: 100%;
 
   .notes-area {
-    flex-basis: 70%;
+    flex-basis: 60%;
     background: white;
     flex-grow: 2;
   }
@@ -38,7 +38,7 @@ const Wrapper = styled.div`
     color: white;
     font-weight: bold;
     font-size: 1.4rem;
-    line-height: 1.2;
+    line-height: 1.4;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -192,7 +192,7 @@ function NotesTab(props) {
       </div>
       {!isMobile &&
         <div className="comingSoon text-center">
-          Notes Activity Feed <br/>
+          Campaign Activity Feed <br/>
           ...Coming Soon...
         </div>
       }
