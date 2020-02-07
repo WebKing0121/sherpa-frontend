@@ -88,4 +88,12 @@ $popover-border-width: 0px;
 .form-control:disabled, .form-control[readonly] {
   background-color: transparent !important;
 }
+
+.tab-content {
+  flex-grow: 1;
+
+  .tab-pane {
+    height: 100%;  
+  }
+}
 @import "~bootstrap/scss/bootstrap.scss";

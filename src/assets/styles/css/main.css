@@ -38,6 +38,11 @@
 .form-control:disabled, .form-control[readonly] {
   background-color: transparent !important; }
 
+.tab-content {
+  flex-grow: 1; }
+  .tab-content .tab-pane {
+    height: 100%; }
+
 /*!
  * Bootstrap v4.4.0 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -7197,6 +7202,9 @@ a.text-dark:hover, a.text-dark:focus {
   --highlight:     #b2e4e7;
   --blueHighlight: #c8d6fb;
   --coolGray:      #ecf1fd;
+  --xpad: var(--pad3);
+  --ypad: var(--pad4);
+  --xypad: var(--ypad) var(--xpad);
   /* Gradients */
   --tealBlueGradient: linear-gradient(
     135deg,
@@ -7238,6 +7246,11 @@ a.text-dark:hover, a.text-dark:focus {
     var(--yellow),
     var(--orange)
   ); }
+  @media (min-width: 768px) {
+    :root {
+      --xpad: var(--pad5);
+      --ypad: var(--pad4);
+      --xypad: var(--ypad) var(--xpad); } }
 
 @font-face {
   font-family: "Lato";

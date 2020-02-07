@@ -12,7 +12,7 @@ import { fetchSortedCampaigns } from '../../../store/Campaigns/actions';
 import { DataLoader } from '../../../components/LoadingData';
 
 const ListTab = styled.div`
-  padding: var(--pad3) var(--pad3);
+  padding: var(--ypad) var(--xpad);
 `;
 
 const FilterSortSection = styled.div`

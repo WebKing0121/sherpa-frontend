@@ -30,6 +30,15 @@
   --highlight:     #{$highlight};
   --blueHighlight: #{$blueHighlight};
   --coolGray:      #{$coolGray};
+
+  --xpad: var(--pad3);
+  --ypad: var(--pad4);
+  --xypad: var(--ypad) var(--xpad);
+  @media (min-width: 768px) {
+    --xpad: var(--pad5);
+    --ypad: var(--pad4);
+    --xypad: var(--ypad) var(--xpad);
+  }
   /* Gradients */
   --tealBlueGradient: linear-gradient(
     135deg,

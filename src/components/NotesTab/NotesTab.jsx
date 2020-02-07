@@ -13,15 +13,44 @@ import { DataLoader } from '../LoadingData';
 import { messageUpdateNote, Success, Fetching } from '../../helpers/variables';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { addNewToast } from '../../store/Toasts/actions';
+import { maxMobileWidth } from '../../helpers/variables';
+
+const isMobile = window.innerWidth < maxMobileWidth;
 
 const Heading = styled.div`
-  padding: var(--pad5) var(--pad3) var(--pad3);
+  padding: var(--ypad) var(--xpad) var(--pad3);
   display: flex;
   justify-content: space-between;
 `;
 
+const Wrapper = styled.div`
+  display: flex;
+  background: var(--darkNavy);
+  height: 100%;
+
+  .notes-area {
+    flex-basis: 70%;
+    background: white;
+    flex-grow: 2;
+  }
+
+  .comingSoon {
+    color: white;
+    font-weight: bold;
+    font-size: 1.4rem;
+    line-height: 1.2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex-basis: 400px;
+    padding: var(--pad6);
+    flex-grow: 1;
+    flex-shrink: 2;
+  }
+`;
+
 const List = styled.ul`
-  padding: 0 var(--pad3) 0;
+  padding: 0 var(--xpad);
   overflow: hidden;
 `;
 
@@ -137,29 +166,37 @@ function NotesTab(props) {
   };
 
   return (
-    <div data-test='notes-tab'>
-      <Heading>
-        <h3>Notes</h3>
-        <Button color='primary' onClick={toggle} data-test='add-note-btn'>
-          Add Note
-        </Button>
-      </Heading>
-      <Modal isOpen={modal} toggle={notes_status !== Fetching ? toggle : () => null} title='Add a Note'>
-        <NoteForm
-          submitNote={handleNewNote}
-          text={newNoteText}
-          setText={setNewNoteText}
-          btnText={getBtnText()}
-          notesStatus={notes_status}
+    <Wrapper data-test='notes-tab'>
+      <div className="notes-area">
+        <Heading>
+          <h3>Notes</h3>
+          <Button color='primary' onClick={toggle} data-test='add-note-btn'>
+            Add Note
+          </Button>
+        </Heading>
+        <Modal isOpen={modal} toggle={notes_status !== Fetching ? toggle : () => null} title='Add a Note'>
+          <NoteForm
+            submitNote={handleNewNote}
+            text={newNoteText}
+            setText={setNewNoteText}
+            btnText={getBtnText()}
+            notesStatus={notes_status}
+          />
+        </Modal>
+        <DataLoader
+          status={notes_status}
+          data={notesList}
+          emptyResultsMessage='Currently there are no notes to display.'
+          renderData={() => <List>{memoizedNotes}</List>}
         />
-      </Modal>
-      <DataLoader
-        status={notes_status}
-        data={notesList}
-        emptyResultsMessage='Currently there are no notes to display.'
-        renderData={() => <List>{memoizedNotes}</List>}
-      />
-    </div>
+      </div>
+      {!isMobile &&
+        <div className="comingSoon text-center">
+          Notes Activity Feed <br/>
+          ...Coming Soon...
+        </div>
+      }
+    </Wrapper>
   );
 }
 
