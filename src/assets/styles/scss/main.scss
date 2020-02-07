@@ -30,52 +30,60 @@
   --highlight:     #{$highlight};
   --blueHighlight: #{$blueHighlight};
   --coolGray:      #{$coolGray};
-/* Gradients */
---tealBlueGradient: linear-gradient(
-  135deg,
-  var(--sherpaTeal),
-  var(--sherpaBlue)
-);
---tealBlueGradientFlip: linear-gradient(
-  -45deg,
-  var(--sherpaTeal),
-  var(--sherpaBlue)
-);
 
---sherpaBlueGradient: linear-gradient(
-  135deg,
-  #4888FF,
-  var(--sherpaBlue)
-);
---sherpaBlueGradientFlip: linear-gradient(
-  -45deg,
-  #4888FF,
-  var(--sherpaBlue)
-);
+  --xpad: var(--pad3);
+  --ypad: var(--pad4);
+  --xypad: var(--ypad) var(--xpad);
+  @media (min-width: 768px) {
+    --xpad: var(--pad5);
+    --ypad: var(--pad4);
+    --xypad: var(--ypad) var(--xpad);
+  }
+  /* Gradients */
+  --tealBlueGradient: linear-gradient(
+    135deg,
+    var(--sherpaTeal),
+    var(--sherpaBlue)
+  );
+  --tealBlueGradientFlip: linear-gradient(
+    -45deg,
+    var(--sherpaTeal),
+    var(--sherpaBlue)
+  );
 
---sherpaTealGradient: linear-gradient(
-  135deg,
-  #45DFD7,
-  var(--sherpaTeal)
-);
---sherpaTealGradientFlip: linear-gradient(
-  -45deg,
-  #45DFD7,
-  var(--sherpaTeal)
-);
+  --sherpaBlueGradient: linear-gradient(
+    135deg,
+    #4888FF,
+    var(--sherpaBlue)
+  );
+  --sherpaBlueGradientFlip: linear-gradient(
+    -45deg,
+    #4888FF,
+    var(--sherpaBlue)
+  );
 
---warningGradient: linear-gradient(
-  135deg,
-  var(--yellow),
-  var(--orange)
-);
---warningGradientFlip: linear-gradient(
-  -45deg,
-  var(--yellow),
-  var(--orange)
-);
+  --sherpaTealGradient: linear-gradient(
+    135deg,
+    #45DFD7,
+    var(--sherpaTeal)
+  );
+  --sherpaTealGradientFlip: linear-gradient(
+    -45deg,
+    #45DFD7,
+    var(--sherpaTeal)
+  );
+
+  --warningGradient: linear-gradient(
+    135deg,
+    var(--yellow),
+    var(--orange)
+  );
+  --warningGradientFlip: linear-gradient(
+    -45deg,
+    var(--yellow),
+    var(--orange)
+  );
 }
-
 // Fonts
 @font-face {
   font-family: "Lato";
@@ -113,28 +121,15 @@
 body,html {
   font-family: "Lato";
   font-size: 16px;
-  font-size: calc(7px + 2vw);
+  font-size: calc(10px + 1.5vw);
 
   @media (min-width: 768px) {
-    font-size: calc(6px + .6vw);
+    font-size: calc(2px + 1vw);
     background: var(--ghostBlue);
 
-    $padUnit: 2vw;
-
-    --padUnit: #{$padUnit};
-
-    --pad1: #{pad(1,$padUnit)};
-    --pad2: #{pad(2,$padUnit)};
-    --pad3: #{pad(3,$padUnit)};
-    --pad4: #{pad(4,$padUnit)};
-    --pad5: #{pad(5,$padUnit)};
-    --pad6: #{pad(6,$padUnit)};
-    --pad7: #{pad(7,$padUnit)};
-    --pad8: #{pad(8,$padUnit)};
-    --pad9: #{pad(9,$padUnit)};
   }
-  @media (min-width: 1800px) {
-    font-size: calc(6px + 10.8px);
+  @media (min-width: 1600px) {
+    font-size: calc(2px + 16px);
   }
 }
 

@@ -19,7 +19,7 @@ import ListItem from '../../../components/List/ListItem';
 import List from '../../../components/List/List';
 
 const ListTab = styled.div`
-  padding: var(--pad3) var(--pad3);
+  padding: var(--ypad) var(--xpad);
 `;
 
 const FilterSortSection = styled.div`

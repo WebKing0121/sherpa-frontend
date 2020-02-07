@@ -9,7 +9,7 @@ import Modal from './Modal';
 
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
-  padding: var(--pad4) var(--pad3) ${props => (props.toggleTab ? '0' : null)};
+  padding: var(--ypad) var(--xpad) ${props => (props.toggleTab ? '0' : null)};
 
   @media (max-width: 768px) {
     margin-top: 60px;
@@ -17,9 +17,8 @@ const StyledHeader = styled.div`
     margin-top: calc(31px + 5vw + 1rem);
   }
 
-  @media (min-width: 1200px) {
-    padding-top: var(--pad3);
-    padding-bottom: ${props => (props.toggleTab ? '0' : 'var(--pad3)')};
+  @media (min-width: 768px) {
+    padding-bottom: ${props => (props.toggleTab ? '0' : 'var(--pad4)')};
   }
 `;
 
@@ -43,6 +42,9 @@ const BackArrowHolster = styled.div`
 const HeaderTop = styled.div`
   display: flex;
   justify-content: space-between;
+
+  margin-bottom: ${props => props.backbtn ? "-1rem" : null};
+
 `;
 
 const ActionsHolster = styled.div`
@@ -106,7 +108,7 @@ function TabbedHeader(props) {
 
   return (
     <StyledHeader {...props}>
-      <HeaderTop>
+      <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
         <div data-test='tabbed-header'>
           <h1 className='text-white text-left m-0'>{props.children}</h1>
 

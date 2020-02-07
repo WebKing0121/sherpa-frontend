@@ -147,8 +147,8 @@ const ArrowBtnHolster = styled.div`
   /* padding and size of logo so it lines up with logo */
   top: calc(2rem + (34px / 2));
   right: 0;
-  width: calc(.8rem + 2.2vw);
-  height: calc(.8rem + 2.2vw);
+  width: calc(.6rem + 1.8vw);
+  height: calc(.6rem + 1.8vw);
   display: flex;
   transition: transform 0.15s;
   transform-origin: center center;
@@ -171,7 +171,7 @@ const ArrowBtnHolster = styled.div`
   }
 
   img {
-    width: calc(6px + 1vw);
+    width: calc(6px + .8vw);
     transition: transform 0.3s;
     transform: rotate(${props => (props.isOpen ? '0deg' : '180deg')});
   }

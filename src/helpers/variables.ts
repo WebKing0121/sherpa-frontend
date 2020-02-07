@@ -152,6 +152,12 @@ export const desktopCampaignHeaderInfo = {
       idx: '2',
       name: 'All Unread',
       icon: 'comment-dots'
+    },
+    // // TODO: This is here temporarily, until we make campaigns details page
+    {
+      idx: '3',
+      name: 'Notes',
+      icon: 'sticky-note'
     }
   ],
   actions: {
