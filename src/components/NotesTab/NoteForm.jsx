@@ -17,6 +17,7 @@ function NoteForm(props) {
     <Form onSubmit={onSubmit}>
       <InputGroupBorder border='full'>
         <Input
+          spellCheck={true}
           style={{ maxHeight: '50vh' }}
           type='textarea'
           placeholder='Enter Your Note...'

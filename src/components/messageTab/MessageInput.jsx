@@ -106,6 +106,7 @@ function MessageInput(props) {
           data-test='message-input'
           value={input}
           onChange={handleChange}
+          spellCheck={true}
         />
         <InputGroupAddon addonType='append'>
           <Button type='submit' name='submit' className='p-0' color='link' disabled={!input}>
