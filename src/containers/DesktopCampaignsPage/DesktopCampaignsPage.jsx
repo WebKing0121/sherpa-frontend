@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { TabContent, TabPane } from 'reactstrap';
 import CampaignsListTab from './CampaignsListTab/CampaignsListTab';
 import NotesTab from '../../components/NotesTab/NotesTab';
