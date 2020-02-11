@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import Routes from './../routes.ts';
 import Icon from './Icon.jsx';
 import UnreadMsgIcon from './UnreadMsgIcon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { logout } from '../store/Auth/actions';
@@ -119,7 +120,7 @@ const SherpNavbar = props => {
 
     return (
       <StyledNavItem className={activeClass} key={idx}>
-        <Icon name={r.navIcon} width='22px' margin='mr-2' />
+        <FontAwesomeIcon icon={r.navIcon} size="lg" className='mr-2' color="white"/>
         <NavLink className='navLink textL stretched-link' tag={Link} to={r.path} onClick={toggleNavbar}>
           {r.name}
         </NavLink>

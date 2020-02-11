@@ -18,6 +18,10 @@ const StyledItem = styled(ListGroupItem)`
     border: none;
     margin-bottom: var(--pad1);
   }
+
+  &:hover {
+    background-color: ${props => props.islink ? "#ffffffa5" : "white"};
+  }
 `;
 
 const SubInfo = styled.div`
@@ -78,7 +82,7 @@ const ItemContent = styled.div`
 
 function ListItem(props) {
   return (
-    <StyledItem style={props.style} data-test='list-item'>
+    <StyledItem islink={props.item.link ? 1 : 0} style={props.style} data-test='list-item'>
       <ItemContent id={props.id}>
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
         <ItemBody className='itemBody'>
@@ -100,6 +104,9 @@ function ListItem(props) {
         </ItemBody>
         {props.item.desktopCallouts ? props.item.desktopCallouts : null}
         {props.item.desktopKebab ? props.item.desktopKebab : null}
+        {props.item.link && (
+          <a href={props.item.link} className="stretched-link"></a>
+        )}
       </ItemContent>
     </StyledItem>
   );

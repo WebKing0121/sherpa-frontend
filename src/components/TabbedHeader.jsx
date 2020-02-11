@@ -97,8 +97,8 @@ function TabbedHeader(props) {
                 color='darkNavy'
                 textcol='sherpaTeal'
                 icon={a.icon}
-                width='32px'
-                height='32px'
+                width='2rem'
+                height='2rem'
                 size='sm'
               />
             </Button>

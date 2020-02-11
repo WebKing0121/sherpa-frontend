@@ -32,7 +32,7 @@
   --coolGray:      #{$coolGray};
 
   --xpad: var(--pad3);
-  --ypad: var(--pad4);
+  --ypad: var(--pad3);
   --xypad: var(--ypad) var(--xpad);
   @media (min-width: 768px) {
     --xpad: var(--pad5);
@@ -197,6 +197,9 @@ h3 {
 .gray {
   color: $gray;
 }
+.o-100 {
+  opacity: 1 !important;
+}
 .darkGray {
   color: $darkGray;
 }
@@ -209,6 +212,10 @@ ul {
 }
 input,select,option {
   cursor: pointer;
+}
+.disabled,[disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none;
 }
 :root {
   --padUnit: #{$padUnit};
@@ -231,4 +238,12 @@ input,select,option {
 #root > .displayedData {
   display: flex;
   width: 100%;
+}
+
+textarea {
+  resize: none;
+}
+
+.no-br {
+  border-radius: 0 !important;
 }

@@ -153,9 +153,45 @@ export const desktopCampaignHeaderInfo = {
       name: 'All Unread',
       icon: 'comment-dots'
     },
-    // // TODO: This is here temporarily, until we make campaigns details page
+  ],
+  actions: {
+    main: [
+      {
+        btnType: 'secondary',
+        text: 'Create Follow-Up',
+        // this is for adding the onclick later
+        action: 'createFollowUp'
+      },
+      {
+        btnType: 'primary',
+        text: 'New Campaign',
+        // this is for adding the onclick later
+        action: 'addProspects'
+      }
+    ]
+  }
+};
+
+export const desktopCampaignDetailHeaderInfo = {
+  hasBackButton: true,
+  tabs: [
+    {
+      idx: '1',
+      name: 'Metrics',
+      icon: 'chart-bar'
+    },
+    {
+      idx: '2',
+      name: 'Send',
+      icon: 'paper-plane'
+    },
     {
       idx: '3',
+      name: 'Prospects & Messages',
+      icon: 'comment-dots'
+    },
+    {
+      idx: '4',
       name: 'Notes',
       icon: 'sticky-note'
     }
@@ -173,6 +209,18 @@ export const desktopCampaignHeaderInfo = {
         text: 'New Campaign',
         // this is for adding the onclick later
         action: 'addProspects'
+      }
+    ],
+    secondary: [
+      {
+        icon: 'pencil-alt',
+        // this is for adding the onclick later
+        action: 'editCampaign'
+      },
+      {
+        icon: 'trash',
+        // this is for adding the onclick later
+        action: 'archiveCampaign'
       }
     ]
   }
