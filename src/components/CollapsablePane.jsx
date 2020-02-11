@@ -4,7 +4,7 @@ import Icon from './Icon';
 import { Collapse } from 'reactstrap';
 
 const Pane = styled.div`
-  overflow: hidden;
+  /* overflow: hidden; */
 `;
 
 const ToggleHeader = styled.h3`
