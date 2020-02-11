@@ -81,7 +81,8 @@ function App() {
   }, [is_auth]);
 
   useEffect(() => {
-    userData.company && setShowDesktop(vars.showDesktopStateEnvs && (userData.company.subscriptionStatus === "active" || !is_auth));
+    const subscription = (userData.company && userData.company.subscriptionStatus) || null;
+    setShowDesktop(vars.showDesktopStateEnvs && (subscription === "active" || !is_auth));
   }, [userData.company.subscriptionStatus, vars.showDesktopStateEnvs]);
 
   const determineNav = () => {
