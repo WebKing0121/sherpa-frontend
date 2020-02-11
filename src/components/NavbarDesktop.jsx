@@ -5,10 +5,10 @@ import sherpaIcon from '../assets/images/sherpaIcon.png';
 import sherpaLogo from '../assets/images/sherpaLogo.png';
 import { Link } from 'react-router-dom';
 import Routes from '../desktopRoutes.ts';
-import Icon from './Icon.jsx';
 import { CSSTransition } from 'react-transition-group';
 import { path } from '../store/Nav/selectors';
 import { setPath } from '../store/Nav/actions';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { logout } from '../store/Auth/actions';
@@ -79,7 +79,7 @@ const StyledNavbar = styled(Navbar)`
     props.isOpen ? "300px" : "100px"};
   flex-basis: ${props =>
     props.isOpen ? "calc(4rem + 14vw)" : "calc(4rem + 4vw)"};
-  flex-shrink: 0;
+  flex-shrink: 4;
   flex-grow: 0;
   padding: 0 !important;
   flex-flow: column nowrap !important;
@@ -117,7 +117,7 @@ const StyledNavItem = styled(NavItem)`
   justify-content: center;
   align-items: center;
   border-left: 4px solid transparent;
-  padding: var(--pad1) var(--pad3);
+  padding: var(--pad1) var(--pad2);
   position: relative;
   width: 100%;
 
@@ -129,6 +129,10 @@ const StyledNavItem = styled(NavItem)`
   &.active {
     background: rgba(0, 0, 0, 0.6);
     border-left-color: var(--sherpaBlue);
+
+    svg {
+      color: white;
+    }
   }
   &:not(.active) img,
   &:not(.active) span {
@@ -138,7 +142,16 @@ const StyledNavItem = styled(NavItem)`
   img {
     max-width: 3vw;
   }
-
+  svg {
+    /* width: 2rem !important;
+    height: 2rem; */
+    color: #ffffff44;
+  }
+  .navLink {
+    padding: .6rem !important;
+    justify-content: center;
+    align-items: center;
+  }
   span {white-space: nowrap;}
 `;
 
@@ -179,17 +192,13 @@ const ArrowBtnHolster = styled.div`
   @media (min-width: 1700px) {
     width: calc(.8rem + 37.4px);
     height: calc(.8rem + 37.4px);
-
-    img {
-      width: calc(6px + 17px);
-    }
   }
 `;
 
 const NavArrow = props => {
   return (
     <ArrowBtnHolster isOpen={props.isOpen} onClick={props.onClick} data-test='navbar-arrow'>
-      <Icon name='arrowWhite' width='15px' />
+      <FontAwesomeIcon icon='chevron-up' rotation={props.isOpen ? null : 180} color="white" />
     </ArrowBtnHolster>
   );
 };
@@ -209,7 +218,7 @@ const NavbarDesktop = props => {
     return (
       <StyledNavItem className={activeClass} key={idx} onClick={() => dispatch(setPath(r.path))}>
         <NavLink className={linkClass} tag={Link} to={r.path} >
-          <Icon name={r.navIcon} width='30' />
+          <FontAwesomeIcon icon={r.navIcon} size="lg" />
           <SlideIn
             in={collapse}
             timeout={300}

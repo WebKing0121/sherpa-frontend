@@ -7,6 +7,7 @@ import {
   faPaperPlane,
   faQuestionCircle,
   faCheck,
+  faCheckCircle,
   faUser,
   faBolt,
   faCommentDots,
@@ -29,7 +30,9 @@ import {
   faTrash,
   faPencilAlt,
   faListUl,
-  faEllipsisV
+  faEllipsisV,
+  faChartBar,
+  faPlusCircle
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -41,6 +44,7 @@ library.add(
   faPaperPlane,
   faQuestionCircle,
   faCheck,
+  faCheckCircle,
   faUser,
   faBolt,
   faCommentDots,
@@ -63,6 +67,8 @@ library.add(
   faTrash,
   faPencilAlt,
   faListUl,
-  faEllipsisV
+  faEllipsisV,
+  faChartBar,
+  faPlusCircle
 
 );

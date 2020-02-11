@@ -1,6 +1,4 @@
 import React from 'react';
-import DesktopCallouts from './DesktopCallouts';
-import DesktopKebab from './DesktopKebab';
 import { IListItem } from '../../../components/List/utils';
 import { archiveCampaign } from '../../../store/Campaigns/actions';
 /*
@@ -29,12 +27,6 @@ export const campaignToItemList = campaign => {
     subInfo: subInfoStr,
     readable: true,
     isRead: false,
-    desktopCallouts: (
-      <DesktopCallouts
-        data={{ priorityCount, totalLeads, health, percentCompleteUnsent, market }}
-      />),
-    desktopKebab: <DesktopKebab idx={id} />,
-    link: '/campaignDetails',
     actions: [
       {
         name: 'Export',

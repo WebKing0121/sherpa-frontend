@@ -6,7 +6,7 @@ const Routes = [
   {
     path: '/',
     name: 'Campaigns',
-    navIcon: 'campaignsWhite',
+    navIcon: 'bullhorn',
     alt: '',
     exact: true,
     component: CampaignsFolders,
@@ -15,7 +15,7 @@ const Routes = [
   {
     path: '/prospects',
     name: 'Prospects',
-    navIcon: 'prospectSearchWhite',
+    navIcon: 'search',
     alt: 'prospects',
     exact: true,
     component: ProspectsSearch,
@@ -24,7 +24,7 @@ const Routes = [
   {
     path: '/support',
     name: 'Support',
-    navIcon: 'supportWhite',
+    navIcon: 'question-circle',
     alt: 'support',
     exact: true,
     component: SupportPage,
@@ -33,7 +33,7 @@ const Routes = [
   {
     path: '/new-messages',
     name: 'New Messages',
-    navIcon: 'messagesWhite',
+    navIcon: 'comment-dots',
     alt: 'Unread Messages',
     exact: true,
     component: SupportPage,

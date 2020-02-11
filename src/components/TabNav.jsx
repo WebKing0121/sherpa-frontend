@@ -58,7 +58,7 @@ const StyledNav = styled(Nav)`
   justify-content: space-between;
   border: none !important;
   position: relative;
-  margin-top: var(--pad2);
+  margin-top: var(--pad3);
   padding-top: 0;
 
   @media (min-width: 768px) {

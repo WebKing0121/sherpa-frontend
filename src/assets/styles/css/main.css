@@ -7199,11 +7199,11 @@ a.text-dark:hover, a.text-dark:focus {
   --lightGray:     #f3f3f3;
   --white:         #ffffff;
   --lightBlue:     #65C8CE;
-  --highlight:     #b2e4e7;
+  --highlight:     #d9f1f3;
   --blueHighlight: #c8d6fb;
   --coolGray:      #ecf1fd;
   --xpad: var(--pad3);
-  --ypad: var(--pad4);
+  --ypad: var(--pad3);
   --xypad: var(--ypad) var(--xpad);
   /* Gradients */
   --tealBlueGradient: linear-gradient(
@@ -7353,6 +7353,9 @@ h3 {
 .gray {
   color: #B5B5B5; }
 
+.o-100 {
+  opacity: 1 !important; }
+
 .darkGray {
   color: #747474; }
 
@@ -7366,6 +7369,10 @@ ul {
 
 input, select, option {
   cursor: pointer; }
+
+.disabled, [disabled="true"] {
+  cursor: not-allowed;
+  pointer-events: none; }
 
 :root {
   --padUnit: 1.5rem;
@@ -7385,3 +7392,9 @@ input, select, option {
 #root > .displayedData {
   display: flex;
   width: 100%; }
+
+textarea {
+  resize: none; }
+
+.no-br {
+  border-radius: 0 !important; }
