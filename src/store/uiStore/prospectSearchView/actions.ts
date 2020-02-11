@@ -8,3 +8,5 @@ export const searchProspectsNextPage = createAction('SEARCH_PROSPECTS_NEXT_PAGE'
 
 export const searchProspectsNextPageSuccess = createAction('SEARCH_PROSPECTS_NEXT_PAGE_SUCCESS')
 export const searchResetResults = createAction('SEARCH_RESET_RESULTS');
+
+export const setSearchProspectIds = createAction('SET_SEARCH_PROSPECT_IDS');

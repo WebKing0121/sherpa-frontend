@@ -17,4 +17,3 @@ export const getProspect = (id: any) =>
     'prospects',
     (prospects: any) => prospects[id] || ProspectRecord({}, false)
   );
-

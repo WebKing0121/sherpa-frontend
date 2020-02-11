@@ -1,8 +1,9 @@
 const initialState = {
   isLoading: false,
   isLoadingMore: false,
+  sort_order: [],
   error: false,
-  reset: true
+  reset: false
 }
 
 export default function reducer(state: any = initialState, action: any) {
@@ -32,12 +33,17 @@ export default function reducer(state: any = initialState, action: any) {
     case 'SEARCH_PROSPECTS_NEXT_PAGE_SUCCESS':
       return {
         ...state,
-        isLoadingMore: false
+        isLoadingMore: false,
       }
     case 'SEARCH_RESET_RESULTS':
       return {
         ...state,
-        reset: action.payload
+        sort_order: []
+      };
+    case 'SET_SEARCH_PROSPECT_IDS':
+      return {
+        ...state,
+        sort_order: [...state.sort_order, ...action.payload]
       };
     default:
       return state;

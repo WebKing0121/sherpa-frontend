@@ -1,12 +1,15 @@
 import {
-  POPULATE_PROSPECT_MESSAGES,
-  SET_PROSPECT_MESSAGES_ERROR,
-  SET_PROSPECT_MESSAGES_STATUS
+  FETCH_PROSPECT_MESSAGES_LIST_SUCCESS,
+  FETCH_PROSPECT_MESSAGES_LIST_ERROR,
+  SET_PROSPECT_MESSAGES_LIST_STATUS,
+  UPDATE_PROSPECT_MESSAGE,
+  UPDATE_PROSPECT_MESSAGES
 } from './actionTypes';
 import axiosInstance, { delayedRequest } from '../../../axiosConfig';
 import { Dispatch } from 'redux';
 import { Fetching, fastSpinner, generalNetworkError } from '../../../helpers/variables';
 import { addNewToast } from '../../Toasts/actions';
+import { createAction } from '../../../redux-helpers';
 
 export interface IMessage {
   prospect: number;
@@ -23,30 +26,8 @@ export interface IResults {
   results?: IMessage[];
 }
 
-export const populateProspectMessages = (data: IMessage[]) => ({
-  type: POPULATE_PROSPECT_MESSAGES,
-  data
-});
-
-export const setProspectMessagesError = (error: any) => ({
-  type: SET_PROSPECT_MESSAGES_ERROR,
-  error
-});
-
-export const setProspectMessagesStatus = (status: string) => ({
-  type: SET_PROSPECT_MESSAGES_STATUS,
-  status
-});
-
-const handleError = (message: string, error: string, dispatch: any) => {
-  console.log(message, error);
-  dispatch(addNewToast({ message: generalNetworkError, color: 'danger' }));
-  dispatch(setProspectMessagesError(error));
-};
-
-export const fetchProspectMessages = (id: number) => (dispatch: Dispatch) => {
-  dispatch(setProspectMessagesStatus(Fetching));
-  delayedRequest(axiosInstance.get(`/prospects/${id}/messages/`), fastSpinner)
-    .then(({ data }: any) => dispatch(populateProspectMessages(data)))
-    .catch((error: any) => handleError(`prospects messages GET error `, error, dispatch));
-};
+export const populateProspectMessages = createAction(FETCH_PROSPECT_MESSAGES_LIST_SUCCESS);
+export const setProspectMessagesError = createAction(FETCH_PROSPECT_MESSAGES_LIST_ERROR);
+export const setProspectMessagesStatus = createAction(SET_PROSPECT_MESSAGES_LIST_STATUS);
+export const updateProspectMessage = createAction(UPDATE_PROSPECT_MESSAGE);
+export const updateProspectMessages = createAction(UPDATE_PROSPECT_MESSAGES)

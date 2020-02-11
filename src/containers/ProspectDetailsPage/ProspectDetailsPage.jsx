@@ -12,11 +12,13 @@ import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectDeta
 import { prospectHeaderInfo } from '../../helpers/variables';
 import MessagesTab from '../../components/messageTab/MessageTab';
 import { prospectIsLoading, getProspect } from '../../store/prospectStore/selectors';
-import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
+import { setActiveProspect } from '../../store/uiStore/prospectDetailsView/actions';
 import { useParams } from 'react-router-dom';
 import * as selectors from '../../store/uiStore/prospectDetailsPageView/selectors';
 import * as actions from '../../store/uiStore/prospectDetailsPageView/actions';
-
+import { getProspectsToCycle } from '../../store/uiStore/prospectDetailsView/selectors';
+import { Link } from 'react-router-dom';
+import { prospectMessagesList } from '../../store/ProspectDetails/messages/selectors';
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
@@ -30,6 +32,39 @@ const StyledTabContent = styled(TabContent)`
     props.activeTab === '2' ? 'var(--ghostBlue)' : 'white'};
 `;
 
+const renderTabbedHeaderContent = (prospects, id, content) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: prospects.length > 0 ? "space-around" : "baseline"
+      }}>
+      {id > 0 ? (
+        <h1>
+          <Link
+            data-test="prospect-cycle-left"
+            style={{ color: "white", frontSize: "40px" }}
+            to={`/prospect/${prospects[id - 1]}/details`}
+          >{"<<"}
+          </Link>
+        </h1>) : null}
+      <h1 className='text-white text-left m-0'>{content}</h1>
+      {
+        id + 1 < prospects.length ? (
+          <h1>
+            <Link
+              data-test="prospect-cycle-right"
+              style={{ color: "white", frontSize: "40px" }}
+              to={`/prospect/${prospects[id + 1]}/details`}
+            >
+              {">>"}
+            </Link>
+          </h1>) : null
+      }
+    </div>
+  );
+};
+
 function ProspectDetailsPage() {
   // hooks
   const { prospectId } = useParams();
@@ -39,6 +74,16 @@ function ProspectDetailsPage() {
   const activeTab = useSelector(selectors.activeTab);
   const prospect = useSelector(getProspect(prospectId));
   const isFetching = useSelector(prospectIsLoading);
+  const prospectsToCycle = useSelector(getProspectsToCycle);
+  const messages = useSelector(prospectMessagesList(prospectId));
+  const [curIdx, setCurIdx] = useState(0);
+
+  useEffect(() => {
+    if (prospectsToCycle.length > 0 && prospect.id) {
+      const idx = prospectsToCycle.findIndex(p => p === prospect.id);
+      setCurIdx(idx);
+    }
+  }, [prospectsToCycle, prospect]);
 
   // fetch the prospect
   useEffect(() => {
@@ -50,11 +95,6 @@ function ProspectDetailsPage() {
   }, [prospect.id, dispatch, prospectId]);
 
   useEffect(() => () => dispatch(actions.resetProspectActiveTab()), [dispatch]);
-
-  useEffect(() => {
-    if (prospect && prospect.campaigns.length === 1)
-      dispatch(setActiveCampaign(prospect.campaigns[0].id));
-  }, [prospect.campaigns]);
 
   const toggleTab = tab => {
     if (activeTab !== tab) dispatch(actions.setProspectActiveTab(tab));
@@ -87,7 +127,7 @@ function ProspectDetailsPage() {
           <Wrapper>
             <div ref={headerRef}>
               <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={prospectHeaderInfo}>
-                {prospect.name}
+                {renderTabbedHeaderContent(prospectsToCycle, curIdx, prospect.name)}
               </TabbedHeader>
             </div>
             <StyledTabContent activeTab={activeTab}>
@@ -97,8 +137,9 @@ function ProspectDetailsPage() {
               <TabPane tabId='2'>
                 <MessagesTab
                   marginTop={headerRef.current && headerRef.current.clientHeight}
-                  subjectId={parseInt(prospectId)}
+                  subjectId={prospect.id}
                   scrollToBot={activeTab === '2'}
+                  messages={messages}
                 />
               </TabPane>
               <TabPane tabId='3'>

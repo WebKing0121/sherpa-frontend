@@ -36,6 +36,7 @@ import Datetime from 'react-datetime';
 import moment from 'moment-timezone';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { prospectGetCampaigns } from '../../../store/prospectStore/api';
 
 const BtnHolster = styled.div`
   display: flex;
@@ -184,6 +185,8 @@ const FieldsSection = () => {
   const prospectId = useSelector(activeProspectSelector);
   const prospect = useSelector(getProspect(prospectId));
   const activeCampaignId = useSelector(activeCampaignSelector);
+  const [campaigns, setCampaigns] = useState([]);
+  const [campaignsLoading, setCampaignIsLoading] = useState(false);
   const agents = useSelector(agentSelector);
   const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
@@ -200,13 +203,12 @@ const FieldsSection = () => {
     emailedToPodio,
     pushedToZapier,
     zillowLink,
-    campaigns,
     smsRelayMap: {
       rep: { id }
     }
   } = prospect;
-  const activeCampaign = campaigns.find(campaign => campaign.id === activeCampaignId) || {};
 
+  const activeCampaign = campaigns.find(campaign => campaign.id === activeCampaignId) || {};
   // clears active-campaign when navigating away
   useEffect(() => () => dispatch(clearActiveCampaign()), [dispatch]);
 
@@ -262,13 +264,13 @@ const FieldsSection = () => {
     setSubmitting(true);
     if (emailToCrm) {
       // dispatch that action
-      dispatch(prospectEmailToCrmAction(prospect.id, { campaign: activeCampaign.id })).then(() => {
+      dispatch(prospectEmailToCrmAction(prospect.id, { campaign: activeCampaignId })).then(() => {
         setSubmitting(false);
         setModal(false);
       });
     } else {
       // dispatch other action
-      dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaign.id })).then(() => {
+      dispatch(prospectPushToZapierAction(prospect.id, { campaign: activeCampaignId })).then(() => {
         setSubmitting(false);
         setModal(false);
       });
@@ -279,13 +281,26 @@ const FieldsSection = () => {
     dispatch(setActiveCampaign(campaign.id));
   };
 
+  // fetch campaigns
+  const fetchProspectCampaigns = () => {
+    setCampaignIsLoading(true);
+    prospectGetCampaigns(prospectId)
+      .then(({ data }) => {
+        setCampaigns(data);
+        setCampaignIsLoading(false);
+      });
+  };
+
   const handleFieldBtnClick = (action, field) => {
-    const args = [prospect.id, { campaign: activeCampaign.id }];
-    const newFieldBtnStatus = { ...fieldBtnStatus, [field]: false };
     if (activeCampaignId) {
+      const args = [prospect.id, { campaign: activeCampaignId }];
+      const newFieldBtnStatus = { ...fieldBtnStatus, [field]: false };
+
       setFieldBtnStatus({ ...fieldBtnStatus, [field]: true });
       dispatch(action(...args)).then(() => setFieldBtnStatus(newFieldBtnStatus));
     } else {
+      // dispatch thunk to show campaigns
+      fetchProspectCampaigns();
       setModal(true);
       setEmailtoCrm(field === 'isEmailingToCrm' ? true : false);
     }
@@ -323,7 +338,7 @@ const FieldsSection = () => {
             data-test='email-to-crm-btn'
             color='primary'
             className='fw-bold'
-            disabled={emailedToPodio || !activeCampaign.podioPushEmailAddress}
+            disabled={emailedToPodio || fieldBtnStatus.isEmailingToCrm}
             onClick={() => handleFieldBtnClick(prospectEmailToCrmAction, 'isEmailingToCrm')}
           >
             {fieldBtnStatus.isEmailingToCrm || emailedToPodio ? (
@@ -347,7 +362,7 @@ const FieldsSection = () => {
             data-test='push-to-zapier-btn'
             color='primary'
             className='fw-bold'
-            disabled={pushedToZapier || !activeCampaign.zapierWebhook}
+            disabled={pushedToZapier || fieldBtnStatus.isPushingToZapier}
             onClick={() => handleFieldBtnClick(prospectPushToZapierAction, 'isPushingToZapier')}
           >
             {fieldBtnStatus.isPushingToZapier || pushedToZapier ? (
@@ -373,18 +388,29 @@ const FieldsSection = () => {
                 Complete your action using the following campaign:
               </Label>
               <FormGroup className='mt-1 mb-3' htmlFor='campaigns'>
-                {campaigns.map((campaign, idx) => (
-                  <Radio
-                    key={idx}
-                    type='radio'
-                    name='campaigns'
-                    label={campaign.name}
-                    defaultChecked={activeCampaign.id === campaign.id}
-                    value={campaign.id}
-                    onChange={campaignOnChange(campaign)}
-                    id={idx}
-                  />
-                ))}
+                <LoadingSpinner
+                  isLoading={campaignsLoading}
+                  color='blue'
+                  size='1em'
+                  border='3px'
+                  renderContent={() => (
+                    <>
+                      {campaigns.map((campaign, idx) => (
+                        <Radio
+                          key={idx}
+                          type='radio'
+                          name='campaigns'
+                          label={campaign.name}
+                          defaultChecked={activeCampaignId === campaign.id}
+                          value={campaign.id}
+                          onChange={campaignOnChange(campaign)}
+                          id={idx}
+                        />
+                      ))}
+                    </>
+                  )}
+                />
+
               </FormGroup>
               <Button
                 color='primary'
@@ -393,7 +419,8 @@ const FieldsSection = () => {
                 disabled={
                   !activeCampaign.id ||
                   (emailToCrm && (emailedToPodio || !activeCampaign.podioPushEmailAddress)) ||
-                  (!emailToCrm && (pushedToZapier || !activeCampaign.zapierWebhook))
+                  (!emailToCrm && (pushedToZapier || !activeCampaign.zapierWebhook)) ||
+                  submitting
                 }
               >
                 <LoadingSpinner isLoading={submitting} color='light' renderContent={() => <>Submit</>} />

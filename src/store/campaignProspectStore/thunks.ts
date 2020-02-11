@@ -5,6 +5,10 @@ import {
   fetchCampaignProspectsSuccess,
   fetchMoreCampaignProspects
 } from './actions';
+import { updateProspectList } from '../prospectStore/actions';
+import { trimProspectsAndMessages } from './transformers';
+import { arrayToMapIndex } from '../utils';
+import { populateProspectMessages } from '../ProspectDetails/messages/actions';
 
 const shouldFetch = (campaign: any, force: boolean) => {
   return !campaign || campaign.length === 0 || force;
@@ -36,16 +40,22 @@ export const campaignProspectSearch = (campaignId: number, options: any) => (
     dispatch(fetchCampaignProspects(true));
     return campaignProspectList(campaignId, apiParams)
       .then(({ data }) => {
+        const [prospects, campaignProspects, messages] = trimProspectsAndMessages(data.results);
         dispatch(
           fetchCampaignProspectsSuccess({
             ...data,
             concatResults,
-            results: { [campaignId]: data.results }
+            results: { [campaignId]: campaignProspects }
           })
         );
+        dispatch(updateProspectList({
+          results: arrayToMapIndex('id', prospects),
+          next: null,
+          previous: null
+        }));
+        dispatch(populateProspectMessages(messages));
       })
-      .catch(error => {
-        console.log('UERRROR', error);
+      .catch((_: any) => {
         dispatch(fetchCampaignProspectsFailure(true));
       });
   }
@@ -61,15 +71,22 @@ export const campaignProspectsNextPage = (campaignId: number) => (dispatch: any,
     dispatch(fetchMoreCampaignProspects(true));
     return campaignProspectListNextPage(next)
       .then(({ data }) => {
+        const [prospects, campaignProspects, messages] = trimProspectsAndMessages(data.results);
         dispatch(
           fetchCampaignProspectsSuccess({
             ...data,
             concatResults: true,
             results: {
-              [campaignId]: [...existingCampaignProspects, ...data.results]
+              [campaignId]: [...existingCampaignProspects, ...campaignProspects]
             }
           })
         );
+        dispatch(updateProspectList({
+          results: arrayToMapIndex('id', prospects),
+          next: null,
+          previous: null
+        }));
+        dispatch(populateProspectMessages(messages));
       })
       .catch(error => console.log('ERROR', error.response));
   }

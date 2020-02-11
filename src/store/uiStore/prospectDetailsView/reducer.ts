@@ -2,13 +2,16 @@ import {
   SET_ACTIVE_CAMPAIGN,
   SET_ACTION_BTN_STATUS,
   SET_ACTIVE_PROSPECT,
-  CLEAR_ACTIVE_CAMPAIGN
+  CLEAR_ACTIVE_CAMPAIGN,
+  SET_PROSPECT_CYCLE_SOURCE_PATH,
+  CLEAR_PROSPECT_CYCLE_SOURCE_PATH
 } from './actionTypes';
 
 const initialState = {
   isLoading: true,
   activeProspect: null,
   activeCampaign: null,
+  prospectSourcePath: [],
   actionButtons: {
     ownerVerifiedStatus: false,
     doNotCall: false,
@@ -27,8 +30,6 @@ export default function reducer(state: any = initialState, action: any) {
         activeCampaign: action.payload
       };
     case SET_ACTION_BTN_STATUS: {
-      // let newState = { ...state };
-      // newState.actionButtons[action.payload.btn] = action.payload.updating;
       return {
         ...state,
         actionButtons: {
@@ -46,6 +47,11 @@ export default function reducer(state: any = initialState, action: any) {
       return {
         ...state,
         activeCampaign: null
+      };
+    case SET_PROSPECT_CYCLE_SOURCE_PATH:
+      return {
+        ...state,
+        prospectSourcePath: action.payload
       };
     default:
       return state;

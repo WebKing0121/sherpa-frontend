@@ -45,7 +45,6 @@ function CampaignDetailsPage() {
     if (!campaign.id) {
       dispatch(fetchSortedCampaigns(defaultCampaignQuery));
     }
-    dispatch(setActiveCampaign(parseInt(campaignId)));
   }, [dispatch, campaign.id, campaignId]);
 
   const notesList = useSelector(campaignNotesList);
@@ -66,14 +65,14 @@ function CampaignDetailsPage() {
   return (
     <div className='pageContent'>
       <TabbedHeader data={campaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>
-        {campaign.name}
+        <h1 className='text-white text-left m-0'>{campaign.name}</h1>
       </TabbedHeader>
       <StyledTabContent activeTab={activeTab}>
         <TabPane tabId='1'>
           <SendTab campaign={campaign} />
         </TabPane>
         <TabPane tabId='2'>
-          <MessagesTab />
+          <MessagesTab campaignId={campaignId} />
         </TabPane>
         <TabPane tabId='3'>
           <NotesTab {...notesProps} />

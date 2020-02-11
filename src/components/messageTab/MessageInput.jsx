@@ -97,7 +97,10 @@ function MessageInput(props) {
     e.preventDefault();
     if (input === '') return;
     setIsFetchingMessages(true);
-    addNewMessage(input).then(() => setIsFetchingMessages(false));
+    addNewMessage(input)
+      .then(() => setIsFetchingMessages(false))
+      .catch(() => setIsFetchingMessages(false));
+
     setInput('');
   };
 

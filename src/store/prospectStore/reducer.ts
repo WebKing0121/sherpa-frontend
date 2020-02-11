@@ -17,7 +17,6 @@ const initialState: IProspectStore = {
   isLoadingMore: false,
   error: false,
   prospects: {} as { [key: number]: IProspect },
-  sort_order: [],
   next: null,
   previous: null
 }
@@ -42,8 +41,7 @@ export default function reducer(state: IProspectStore = initialState, action: an
     case FETCH_PROSPECTS_SUCCESS:
       return {
         ...state,
-        prospects: action.payload.results,
-        sort_order: action.payload.sort_order,
+        prospects: { ...state.prospects, ...action.payload.results },
         next: action.payload.next,
         previous: action.payload.previous,
         isLoading: false
@@ -51,12 +49,8 @@ export default function reducer(state: IProspectStore = initialState, action: an
     case UPDATE_PROSPECT_LIST: {
       let newState = { ...state };
       newState.prospects = { ...newState.prospects, ...action.payload.results };
-      newState.sort_order = [
-        ...newState.sort_order,
-        ...action.payload.sort_order
-      ];
-      newState.next = action.payload.next;
-      newState.previous = action.payload.previous;
+      newState.next = action.payload.next ? action.payload.next : state.next;
+      newState.previous = action.payload.previous ? action.payload.previous : state.previous;
 
       return newState;
     }
@@ -65,9 +59,6 @@ export default function reducer(state: IProspectStore = initialState, action: an
       let newState = { ...state };
       const prospect = newState.prospects[id];
 
-      // mutate in-place since newState is a new copy
-      // keep campaigns as most of the =patch= calls do not
-      // return the expanded =campaigns=
       newState.prospects[id] = {
         ...prospect,
         ...action.payload
@@ -91,8 +82,7 @@ export default function reducer(state: IProspectStore = initialState, action: an
     case RESET_PROSPECTS:
       return {
         ...state,
-        prospects: {},
-        sort_order: []
+        prospects: {}
       };
     default:
       return state;

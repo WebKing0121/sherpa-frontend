@@ -14,6 +14,9 @@ import { ProspectRecord } from '../../store/prospectStore/interfaces';
 import {
   setProspectActiveTab
 } from '../../store/uiStore/prospectDetailsPageView/actions';
+import {
+  setProspectCyclePath, setActiveCampaign
+} from '../../store/uiStore/prospectDetailsView/actions';
 
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
@@ -29,7 +32,21 @@ export const prospectToItemList = opts => campaignProspect => {
   // when we click on the item we want to navigate to the
   // prospect-details page Message Tab.
   // We need to dispatch an action to set the proper tab.
-  const onClickItem = () => store.dispatch(setProspectActiveTab('2'));
+  const onClickItem = () => {
+    // set the source of prospects to cycle through
+    store.dispatch(setProspectCyclePath([
+      ...opts.prospectPath,
+      campaignProspect.campaign.id
+    ]));
+
+    // set the active campaign
+    if (opts.setActiveCampaign) {
+      store.dispatch(setActiveCampaign(campaignProspect.campaign.id))
+    }
+
+    // set the active tab for prospect-details
+    store.dispatch(setProspectActiveTab('2'));
+  };
 
   const prospectOnClickStatus = (attr, payload) => () => {
     return prospectUpdate(id, payload, store.dispatch).then(data => {

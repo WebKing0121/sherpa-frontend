@@ -33,7 +33,7 @@ const DesktopCampaignDetailPage = props => {
 
   return (
     <div className="pageContent d-flex flex-column">
-      <TabbedHeader data={desktopCampaignDetailHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}>Greeley/Fort Collins - 2019-05-08</TabbedHeader>
+      <TabbedHeader data={desktopCampaignDetailHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}><h1 className='text-white text-left m-0'>Greeley/Fort Collins - 2019-05-08</h1></TabbedHeader>
       <TabContent activeTab={activeTab}>
         <TabPane tabId='1'>
         </TabPane>

@@ -35,10 +35,9 @@ export const searchProspectsThunkCreator = (initActions: any, successActions: an
       .listProspects(term)
       .then(({ data }) => {
         const prospectRecords = data.results.map((prospect: any) => ProspectRecord(prospect, false));
-        const sort_order = prospectRecords.map((rec: IProspect) => rec.id);
         const prospectsMap = arrayToMapIndex('id', prospectRecords);
 
-        dispatch(fetchProspectsSuccess({ ...data, results: prospectsMap, sort_order: sort_order }));
+        dispatch(fetchProspectsSuccess({ ...data, results: prospectsMap }));
         successActions(dispatch);
         return data;
       })
@@ -48,7 +47,6 @@ export const searchProspectsThunkCreator = (initActions: any, successActions: an
 
 // init actions
 const searchInitActions = (dispatch: any) => {
-  dispatch(resetProspects(true));
   dispatch(searchProspects(true));
 };
 
@@ -78,15 +76,16 @@ export const prospectSearchNextPage = () => (dispatch: any, getState: any) => {
     dispatch(fetchProspectNextPage(true));
     return api.listProspectsNextPage(next).then(({ data }) => {
       const prospectRecords = data.results.map((prospect: any) => ProspectRecord(prospect, false));
-      const sort_order = prospectRecords.map((rec: IProspect) => rec.id);
       const prospectsMap = arrayToMapIndex('id', prospectRecords);
 
-      dispatch(updateProspectList({ ...data, results: prospectsMap, sort_order: sort_order }));
+      dispatch(updateProspectList({ ...data, results: prospectsMap }));
       dispatch(fetchProspectNextPage(false));
+
+      return data;
     });
   }
 
-  return new Promise((resolve, __) => resolve({}));
+  return new Promise((resolve, __) => resolve({ results: [] }));
 };
 
 // prospect details

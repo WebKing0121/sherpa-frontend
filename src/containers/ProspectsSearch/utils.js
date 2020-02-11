@@ -32,7 +32,12 @@ export const prospectToItemList = prospect => {
     name,
     subInfo: phoneDisplay,
     mainInfo: <MainInfo addressData={addressData} />,
-    statusWrapper: <StatusWrapper link={`/prospect/${id}/details`} status={leadStageTitle} />
+    statusWrapper: (
+      <StatusWrapper
+        link={`/prospect/${id}/details`}
+        status={leadStageTitle}
+      />
+    )
   };
 };
 

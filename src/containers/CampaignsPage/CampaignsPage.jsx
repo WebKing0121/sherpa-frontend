@@ -133,7 +133,7 @@ const CampaignsPage = () => {
 
   return (
     <div className='pageContent'>
-      <TabbedHeader data={headerInfo}>Campaigns</TabbedHeader>
+      <TabbedHeader data={headerInfo}><h1 className='text-white text-left m-0'>Campaigns</h1></TabbedHeader>
       <SearchModule
         showFilter={true}
         showSort={true}

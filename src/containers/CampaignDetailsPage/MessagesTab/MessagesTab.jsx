@@ -22,6 +22,7 @@ import {
 import { campaignMessagesFilter } from '../../../store/uiStore/campaignMessagesTabView/selectors';
 import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { getLeadStages } from '../../../store/leadstages/selectors';
+import { path } from '../../../store/campaignProspectStore/reducer';
 
 // custom-components
 import SearchModule from '../../../components/SearchModule';
@@ -39,12 +40,13 @@ const SpinWrap = styled.div`
 
 function MessagesTab(props) {
   const leadStages = useSelector(getLeadStages);
-  const activeCampaignId = useSelector(activeCampaignSelector);
-  const prospectResults = useSelector(getCampaignProspects(activeCampaignId, leadStages));
+  const prospectResults = useSelector(getCampaignProspects(props.campaignId));
   const isFetchingMore = useSelector(isLoadingMore);
   const isFetching = useSelector(isLoading);
   const prospectList = prospectsToItemList({
-    updateCampaignProspectFn: updateCampaignProspectSuccess
+    updateCampaignProspectFn: updateCampaignProspectSuccess,
+    prospectPath: [...path, "campaignProspects"],
+    setActiveCampaign: true
   })(prospectResults || []);
   const filterId = useSelector(campaignMessagesFilter);
   const dispatch = useDispatch();
@@ -79,7 +81,7 @@ function MessagesTab(props) {
   }, [prospectList]);
 
   // load more data
-  const fetchMoreData = () => dispatch(campaignProspectsNextPage(activeCampaignId));
+  const fetchMoreData = () => dispatch(campaignProspectsNextPage(props.campaignId));
 
   // onScroll event to fetch more data
   const onScroll = (top, event) => {
@@ -113,9 +115,9 @@ function MessagesTab(props) {
         sortingOptions={filters}
         sortChange={filter => {
           dispatch(setCampaignProspectFilter(filter.id));
-          dispatch(campaignProspectSearch(activeCampaignId, { filter, force: true }));
+          dispatch(campaignProspectSearch(props.campaignId, { filter, force: true }));
         }}
-        marketId={activeCampaignId}
+        marketId={props.campaignId}
         defaultValue={filterId}
         dataTest='campaign-messages-filter'
       />

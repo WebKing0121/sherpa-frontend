@@ -2,7 +2,7 @@ import AxiosInstance, { delayedRequest } from '../../axiosConfig';
 import { fastSpinner } from '../../helpers/variables';
 
 export const listProspects = (term: string) => {
-  const url = `/prospects/search/?search=${term}&page_size=20&expand=campaigns,sms_relay_map`;
+  const url = `/prospects/search/?search=${term}&page_size=50&expand=campaigns,sms_relay_map`;
   return AxiosInstance.get(url);
 };
 
@@ -51,3 +51,8 @@ export const prospectSetRelay = (payload: any) => {
   const url = `sms-relay-maps/`;
   return AxiosInstance.post(url, payload);
 };
+
+export const prospectGetCampaigns = (id: number) => {
+  const url = `prospects/${id}/campaigns/`;
+  return AxiosInstance.get(url);
+}

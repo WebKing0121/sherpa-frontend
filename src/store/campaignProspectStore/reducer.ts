@@ -8,6 +8,7 @@ import {
   UPDATE_CAMPAIGN_PROSPECTS_UNREAD,
   REMOVE_CAMPAIGN_PROSPECT_UNREAD
 } from './actionTypes';
+import { removeCampaignProsectUnread } from './utils';
 
 const initialState = {
   next: null,
@@ -72,21 +73,10 @@ export default function reducer(state: any = initialState, action: any) {
       return state;
     }
     case FETCH_CAMPAIGN_PROSPECTS_UNREAD_SUCCESS: {
-      const ids = state.campaignProspectsUnread
-        .map((campaignProspect: any) => campaignProspect.prospect.id);
-
-      const newCampaignProspects = action.payload
-        .map((campaignProspect: any) => {
-          if (!ids.includes(campaignProspect.prospect.id)) {
-            return { ...campaignProspect, animate: true };
-          }
-          return campaignProspect;
-        })
-
       return {
         ...state,
-        campaignProspectsUnread: newCampaignProspects,
-        campaignProspectsUnreadCount: newCampaignProspects.length
+        campaignProspectsUnread: action.payload.data,
+        campaignProspectsUnreadCount: action.payload.count
       }
     }
     case UPDATE_CAMPAIGN_PROSPECTS_UNREAD: {
@@ -106,11 +96,13 @@ export default function reducer(state: any = initialState, action: any) {
     }
     case REMOVE_CAMPAIGN_PROSPECT_UNREAD: {
       const count = state.campaignProspectsUnreadCount;
+      const newCampaignProspectsUnread = removeCampaignProsectUnread(
+        state.campaignProspectsUnread,
+        action.payload
+      );
       let newState = {
         ...state,
-        campaignProspectsUnread: state.campaignProspectsUnread.filter(
-          (cp: any) => cp.prospect.id !== action.payload
-        ) || [],
+        campaignProspectsUnread: newCampaignProspectsUnread,
         campaignProspectsUnreadCount: count < 1 ? 0 : count - 1
       };
 

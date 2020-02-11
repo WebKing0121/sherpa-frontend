@@ -36,11 +36,16 @@ import './App.css';
 import * as vars from './helpers/variables';
 import { debounce } from './helpers/utils';
 import { fetchUserInfo } from './store/Auth/actions';
+import { arrayToMapIndex, groupBy } from './store/utils';
+import { trimProspectsAndMessages } from './store/campaignProspectStore/transformers';
+import { updateProspectList } from './store/prospectStore/actions';
+import { populateProspectMessages } from './store/ProspectDetails/messages/actions';
 
 function App() {
   // selectors
   const is_auth = useSelector(isAuthenticated);
   const userData = useSelector(getUserData);
+
   // local state
   const [isMobile, setIsMobile] = useState(window.innerWidth < vars.maxMobileWidth);
   const [showDesktop, setShowDesktop] = useState(vars.showDesktopStateEnvs);
@@ -62,7 +67,18 @@ function App() {
   const fetchMessages = () => {
     campaignProspectUnread()
       .then(({ data }) => {
-        dispatch(fetchCampaignProspectsUnread(data));
+        const [prospects, prospectCampaigns, messages] = trimProspectsAndMessages(data);
+        dispatch(fetchCampaignProspectsUnread({
+          data: groupBy((campaignProspect: any) =>
+            campaignProspect.campaign.id, prospectCampaigns),
+          count: data.length
+        }));
+        dispatch(updateProspectList({
+          results: arrayToMapIndex('id', prospects),
+          next: null,
+          previous: null
+        }));
+        dispatch(populateProspectMessages(messages));
       });
   };
 

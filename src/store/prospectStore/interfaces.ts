@@ -35,6 +35,7 @@ export interface IProspect {
   isQualifiedLead: boolean;
   lastName: string;
   displayMessage: IDisplayMessage | null;
+  messages?: Array<any> | null;
   leadStage: number | null;
   name: string;
   ownerVerifiedStatus: string;
@@ -84,16 +85,17 @@ const Prospect: IProspect = {
   smsRelayMap: { rep: { id: -1 } } as ISmsRelayMap,
   wrongNumber: false,
   campaigns: [],
+  messages: null,
   zillowLink: ""
 }
 
 // does not include campaigns
 export const PartialProspect: IProspect = { ...Prospect }
 delete PartialProspect.campaigns;
+delete PartialProspect.messages;
 
 export interface IProspectStore extends IResourceStore {
   prospects: { [key: number]: IProspect };
-  sort_order: Array<number>;
 }
 
 export const ProspectRecord = Record(Prospect);

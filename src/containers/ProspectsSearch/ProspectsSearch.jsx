@@ -25,6 +25,7 @@ import { prospectsToItemList } from './utils';
 import { Fetching, Success, vListItems, vListHeight } from '../../helpers/variables';
 import { resetProspects } from '../../store/prospectStore/actions';
 import { prospectIsLoadingMore } from '../../store/prospectStore/selectors';
+import { searchProspectsSuccess, searchProspectsNextPageSuccess, setSearchProspectIds, searchResetResults } from '../../store/uiStore/prospectSearchView/actions';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -47,17 +48,31 @@ function ProspectsSearch() {
   // search function
   const search = term => {
     setLoadingStatus(Fetching);
+    dispatch(searchResetResults());
     dispatch(prospectSearch(term))
-      .then(() => setLoadingStatus(Success));
+      .then(data => {
+        setLoadingStatus(Success);
+        dispatch(setSearchProspectIds(
+          data.results.map(prospect => prospect.id)
+        ));
+      });
   };
 
   // fetch next-page function
-  const fetchMoreData = () => dispatch(prospectSearchNextPage());
+  const fetchMoreData = () =>
+    dispatch(prospectSearchNextPage())
+      .then(data => {
+        if (data.results.length > 0) {
+          dispatch(setSearchProspectIds(
+            data.results.map(prospect => prospect.id)
+          ));
+        }
+      });
 
   // clear any previous search results
   useEffect(() => {
     if (shouldReset) {
-      dispatch(resetProspects());
+      dispatch(searchResetResults());
     }
     // compute list size
     const windowHeight = window.innerHeight;

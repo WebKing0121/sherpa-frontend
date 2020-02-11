@@ -7,6 +7,7 @@ import { history } from '../history';
 import IconBg from './IconBg';
 import Modal from './Modal';
 
+
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
   padding: var(--ypad) var(--xpad) ${props => (props.toggleTab ? '0' : null)};
@@ -80,38 +81,39 @@ function TabbedHeader(props) {
 
   const mainActions = props.data.actions
     ? props.data.actions.main.map((a, idx) => {
-        return (
-          <Button size='md' id={a.action} color={a.btnType} className='ml-1' onClick={toggle} key={idx}>
-            {a.text}
-          </Button>
-        );
-      })
+      return (
+        <Button size='md' id={a.action} color={a.btnType} className='ml-1' onClick={toggle} key={idx}>
+          {a.text}
+        </Button>
+      );
+    })
     : null;
 
   const secondaryActions =
     props.data.actions && props.data.actions.secondary
       ? props.data.actions.secondary.map((a, idx) => {
-          return (
-            <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
-              <IconBg
-                color='darkNavy'
-                textcol='sherpaTeal'
-                icon={a.icon}
-                width='2rem'
-                height='2rem'
-                size='sm'
-              />
-            </Button>
-          );
-        })
+        return (
+          <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
+            <IconBg
+              color='darkNavy'
+              textcol='sherpaTeal'
+              icon={a.icon}
+              width='2rem'
+              height='2rem'
+              size='sm'
+            />
+          </Button>
+        );
+      })
       : null;
 
   return (
     <StyledHeader {...props}>
       <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
-        <div data-test='tabbed-header'>
-          <h1 className='text-white text-left m-0'>{props.children}</h1>
-
+        <div data-test='tabbed-header' style={{ width: "100%" }}>
+          <div>
+            {props.children}
+          </div>
           {props.data.hasBackButton && (
             <BackButton className='text-dark textL pl-0' color='link' onClick={back}>
               <BackArrowHolster>

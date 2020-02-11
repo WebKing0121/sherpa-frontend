@@ -9,9 +9,8 @@ import { DataLoader } from '../LoadingData';
 import { addNewToast } from '../../store/Toasts/actions';
 import { useDispatch } from 'react-redux';
 import { removeCampaignProspect } from '../../store/campaignProspectStore/actions';
-import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
-import Modal from '../Modal';
-import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
+import { arrayToMapIndex } from '../../store/utils';
+import { populateProspectMessages, updateProspectMessage } from '../../store/ProspectDetails/messages/actions';
 
 const StyledList = styled.ul`
   padding: var(--pad3) var(--pad3) 0;
@@ -45,31 +44,30 @@ const InputWrapper = styled.div`
 `;
 
 function MessagesTab(props) {
-  const [messages, setMessages] = useState([]);
-  const [messagesStatus, setMessagesStatus] = useState(vars.Fetching);
+  const [messagesStatus, setMessagesStatus] = useState(vars.Success);
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
+  const { messages } = props;
   const dispatch = useDispatch();
 
   useEffect(() => {
     setHasUnreadMessages(messages.some(message => message.unreadByRecipient));
   }, [messages]);
 
+  // deprecated by action that needs to update optimistically
   const updateMessages = (idx, value) => {
-    const updatedMessages = [...messages];
-    updatedMessages[idx].unreadByRecipient = value;
-    setMessages(updatedMessages);
+    dispatch(updateProspectMessage({ ...messages[idx], unreadByRecipient: value }));
   };
 
   const updateMessage = (id) => () => {
     const messageIdx = messages.findIndex(m => m.id === id);
-
+    const hasOneUnreadMessage = messages.filter(message => message.unreadByRecipient).length === 1;
     if (messageIdx) {
       // optimistic update
       updateMessages(messageIdx, false);
       patchMessage(id)
         .then(_ => {
-          const hasMessagesUnread = messages.some(message => message.unreadByRecipient);
-          if (!hasMessagesUnread) {
+          // this means it's the one we just clicked
+          if (hasOneUnreadMessage) {
             // remove campaign prospect from list
             dispatch(removeCampaignProspect(parseInt(props.subjectId)));
           }
@@ -95,13 +93,13 @@ function MessagesTab(props) {
   const fetchMessagesCB = useCallback(() => {
     fetchMessages(props.subjectId)
       .then(res => {
-        setMessages(res || []);
+        dispatch(populateProspectMessages({ [props.subjectId]: arrayToMapIndex('id', res) }));
         setMessagesStatus(res ? vars.Success : vars.FetchError);
       })
       .catch(error => {
         console.log('some errors');
       });
-  }, [props.subjectId, setMessages]);
+  }, [props.subjectId]);
 
   const scrollToNewMessageCB = useCallback(() => {
     const { current } = messagesRef;
@@ -131,7 +129,10 @@ function MessagesTab(props) {
 
   // retrieves all messages and sets an interval for periodic retrieval
   useEffect(() => {
-    fetchMessagesCB();
+    if (messages.length === 0) {
+      // fetch messages in case we come from prospect-search
+      fetchMessagesCB();
+    }
     let interval = setInterval(fetchMessagesCB, vars.pollingInterval);
 
     return () => clearInterval(interval);

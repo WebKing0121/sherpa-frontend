@@ -1,7 +1,9 @@
 import {
-  POPULATE_PROSPECT_MESSAGES,
-  SET_PROSPECT_MESSAGES_ERROR,
-  SET_PROSPECT_MESSAGES_STATUS
+  FETCH_PROSPECT_MESSAGES_LIST_SUCCESS,
+  FETCH_PROSPECT_MESSAGES_LIST_ERROR,
+  SET_PROSPECT_MESSAGES_LIST_STATUS,
+  UPDATE_PROSPECT_MESSAGES,
+  UPDATE_PROSPECT_MESSAGE
 } from './actionTypes';
 import { IMessage } from './actions';
 import { Fetching, Success, FetchError } from '../../../helpers/variables';
@@ -22,31 +24,49 @@ export interface IState {
   status?: string;
 }
 
-const initialState: IState = {
+const initialState = {
   error: '',
-  list: [],
+  list: {},
   status: Fetching
 };
 
-export default function(state = initialState, action: IAction) {
+export const path = ['prospectDetailsReducer', 'prospectMessages'];
+
+export default function(state: any = initialState, action: any) {
   switch (action.type) {
-    case SET_PROSPECT_MESSAGES_STATUS:
+    case SET_PROSPECT_MESSAGES_LIST_STATUS:
       return {
         ...state,
         status: action.status
       };
-    case POPULATE_PROSPECT_MESSAGES:
+    case UPDATE_PROSPECT_MESSAGES:
+    case FETCH_PROSPECT_MESSAGES_LIST_SUCCESS:
       return {
         ...state,
-        list: [...action.data!],
+        list: { ...state.list, ...action.payload },
         status: Success
       };
-    case SET_PROSPECT_MESSAGES_ERROR:
+    case FETCH_PROSPECT_MESSAGES_LIST_ERROR:
       return {
         ...state,
         error: action.error,
         status: FetchError
       };
+    case UPDATE_PROSPECT_MESSAGE:
+      const { payload } = action;
+      // const messages = { ...state.list[message.id] };
+      // messages.splice(index, 0, message);
+
+      return {
+        ...state,
+        list: {
+          ...state.list,
+          [payload.prospect]: {
+            ...state.list[payload.prospect],
+            [payload.id]: payload
+          }
+        }
+      }
     default:
       return state;
   }

@@ -1,17 +1,18 @@
 import { IState } from './reducers';
 import { IResults } from './actions';
 import { prospectDetailsReducer } from '../../../helpers/variables';
-
-interface IProspectMessges {
-  prospectDetailsReducer: {
-    prospectMessages: IState & IResults;
-  };
-}
+import { createSelectorContext } from '../../../redux-helpers';
+import { path } from './reducers';
+import { mapIndexToArray } from '../../utils';
 
 const reducer = prospectDetailsReducer;
+const createSelector = createSelectorContext(path);
 
-export const prospectMessagesList = ({ [reducer]: { prospectMessages } }: IProspectMessges) =>
-  prospectMessages.list || [];
+export const prospectMessagesList =
+  (prospectId: number) =>
+    createSelector(
+      ['list', prospectId],
+      (messages: any) => mapIndexToArray(messages || {})
+    );
 
-export const prospectMessgesStatus = ({ [reducer]: { prospectMessages } }: IProspectMessges) =>
-  prospectMessages.status;
+export const prospectMessgesStatus = createSelector('status');
