@@ -7,7 +7,9 @@ import {
   ARCHIVE_CAMPAIGN,
   UPDATE_SMS_TEMPLATE,
   SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS,
-  SET_FETCH_CAMPAIGNS_NEXT_PAGE
+  SET_FETCH_CAMPAIGNS_NEXT_PAGE,
+  UPDATE_CAMPAIGN_LIST,
+  FETCH_CAMPAIGN_NEXT_PAGE
 } from './actionTypes';
 import { Fetching } from '../../helpers/variables';
 import { decrementMarketCampaignCount } from '../Markets/actions';
@@ -15,8 +17,13 @@ import { arrayToMapIndex } from '../utils';
 import { captureSort } from './utils';
 import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
 import { sortByOrder } from './selectors';
+import * as api from './api';
+import { createAction } from '../../redux-helpers';
 
 /*************************************************************************************************/
+
+export const fetchCampaignNextPage = createAction(FETCH_CAMPAIGN_NEXT_PAGE);
+export const updateCampaignList = createAction(UPDATE_CAMPAIGN_LIST, 'data');
 
 export const setFetchedCampaignStatus = status => ({
   type: FETCH_CAMPAIGNS,
@@ -46,7 +53,6 @@ export const setUpdatedSmsTemplateCampaign = data => ({
   type: UPDATE_SMS_TEMPLATE,
   data
 });
-
 export const setFetchCampaignsNextPage = (payload) => ({
   type: SET_FETCH_CAMPAIGNS_NEXT_PAGE,
   payload
@@ -97,6 +103,21 @@ export const fetchSortedCampaigns = (params = {}) => (dispatch, _) => {
       dispatch(setFetchedCampaignsError('Error when fetching sorted campaigns'));
     });
 };
+
+export const campaignsNextPage = () => (dispatch, getState) => {
+  let {
+    campaigns: { next = null, isLoadingMore = false }
+  } = getState();
+
+  if (next && !isLoadingMore) {
+    dispatch(fetchCampaignNextPage(true));
+    return api.listCampaignsNextPage(next).then(({ data }) => {
+      dispatch(updateCampaignList({ ...data }));
+      dispatch(fetchCampaignNextPage(false));
+    });
+  }
+}
+
 
 export const fetchFilteredData = (params, overrideData = true) => (dispatch, _) => {
   dispatch(setFetchedCampaignStatus(Fetching));

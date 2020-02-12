@@ -235,3 +235,28 @@ export const noSubscriptionMessage = "You do not have an active subscription, pl
 
 
 export const showDesktopStateEnvs = process.env.REACT_APP_SHOW_DESKTOP === undefined || process.env.REACT_APP_SHOW_DESKTOP === "true";
+
+// virtualize list
+export const vListHeight = 600;
+export const vListItems = 150;
+
+// campaign sorting
+export const campaignSortingOptions = [
+  {
+    name: 'Newest',
+    value: { value: '-created_date', id: 0 }
+  },
+  {
+    name: 'Oldest',
+    value: { value: 'created_date', id: 1 }
+  },
+  {
+    name: 'Alpha (A-Z)',
+    value: { value: 'name', id: 2 }
+  },
+  {
+    name: 'Alpha (Z-A)',
+    value: { value: '-name', id: 3 }
+  },
+];
+
