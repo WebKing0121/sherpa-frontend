@@ -32,7 +32,8 @@ import {
   faListUl,
   faEllipsisV,
   faChartBar,
-  faPlusCircle
+  faPlusCircle,
+  faUserCog
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -69,6 +70,7 @@ library.add(
   faListUl,
   faEllipsisV,
   faChartBar,
-  faPlusCircle
+  faPlusCircle,
+  faUserCog
 
 );

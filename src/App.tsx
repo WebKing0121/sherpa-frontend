@@ -13,6 +13,7 @@ import CampaignDetailsPage from './containers/CampaignDetailsPage/CampaignDetail
 import ProspectDetailsPage from './containers/ProspectDetailsPage/ProspectDetailsPage';
 import SupportPage from './containers/SupportPage/SupportPage';
 import DesktopCampaignsPage from './containers/DesktopCampaignsPage/DesktopCampaignsPage';
+import AccountSettingsPage from './containers/AccountSettingsPage/AccountSettingsPage';
 import DesktopCampaignDetailPage from './containers/DesktopCampaignDetailPage/DesktopCampaignDetailPage';
 import NewMessagesPage from './containers/NewMessages/NewMessages.jsx';
 import { campaignProspectUnread } from './store/campaignProspectStore/api';
@@ -126,6 +127,7 @@ function App() {
               exact
             />
             <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
+            <ProtectedRoute is_auth={is_auth} path='/account-settings' component={AccountSettingsPage} exact />
             <ProtectedRoute is_auth={is_auth} path='/campaignDetails' component={DesktopCampaignDetailPage} exact />
             <ProtectedRoute
               is_auth={is_auth}

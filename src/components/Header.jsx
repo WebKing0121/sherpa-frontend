@@ -3,7 +3,7 @@ import styled from 'styled-components';
 
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
-  padding: var(--pad4) var(--pad3);
+  padding: var(--ypad) var(--xpad);
 
   @media (max-width: 768px) {
     margin-top: 60px;
