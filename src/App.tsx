@@ -26,7 +26,7 @@ import { isAuthenticated, getUserData } from './store/Auth/selectors';
 import { ProtectedRoute } from './components/ProtectedRoute';
 import ProspectsSearch from './containers/ProspectsSearch/ProspectsSearch.jsx';
 import ToastContainer from './components/Toasts/ToastContainer';
-import NoDesktop from './components/NoDesktop';
+import NoApp from './components/NoApp';
 import { DataLoader } from './components/LoadingData';
 
 //font awesome
@@ -65,9 +65,6 @@ function App() {
       });
   };
 
-
-  useEffect(() => {
-  }, [showDesktop]);
   useEffect(() => {
     if (is_auth) {
       // fetch messages
@@ -81,11 +78,6 @@ function App() {
     }
   }, [is_auth]);
 
-  useEffect(() => {
-    const subscription = (userData.company && userData.company.subscriptionStatus) || null;
-    setShowDesktop(vars.showDesktopStateEnvs && (subscription === "active" || !is_auth));
-  }, [userData.company.subscriptionStatus, vars.showDesktopStateEnvs]);
-
   const determineNav = () => {
     const login = <Route exacts path='/login' component={LoginPage} />;
     const desktopNav = <NavbarDesktop page={history} />;
@@ -98,7 +90,13 @@ function App() {
   };
 
   const showRoutes = (isMobile: boolean, showDesktop: boolean) => {
-    return isMobile || (!isMobile && showDesktop);
+    if (userData.company && is_auth) {
+      const subscriptionStatus = userData.company.subscriptionStatus;
+      if (subscriptionStatus !== 'active' && isMobile) return false;
+      if (!showDesktop && !isMobile) return false;
+    }
+
+    return true;
   };
 
   const determineLoadingStatus = () => {
@@ -141,7 +139,7 @@ function App() {
           </Switch>
           {is_auth && <ToastContainer />}
         </Router>
-      ) : <NoDesktop message={determineMessage()} />);
+      ) : <NoApp message={determineMessage()} />);
     }}
   />;
 }

@@ -63,10 +63,10 @@ const Message = styled.div`
   }
 `;
 
-function NoDesktop(props) {
+function NoApp(props) {
   return (
     <Message {...props}>
-      <div className="content" data-test="no-desktop">
+      <div className="content" data-test="no-app">
         <h1>Sorry...</h1>
         <div className="text">
           {props.message}
@@ -78,4 +78,4 @@ function NoDesktop(props) {
   );
 }
 
-export default NoDesktop;
+export default NoApp;
