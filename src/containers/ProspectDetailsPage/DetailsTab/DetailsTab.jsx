@@ -20,7 +20,7 @@ const PaddedSection = styled(Section)`
   padding-bottom: var(--pad4);
 `;
 
-const DetailsTab = (props) => {
+const DetailsTab = () => {
   return (
     <>
       <StatusSection>
@@ -32,6 +32,6 @@ const DetailsTab = (props) => {
       </PaddedSection>
     </>
   );
-}
+};
 
 export default DetailsTab;

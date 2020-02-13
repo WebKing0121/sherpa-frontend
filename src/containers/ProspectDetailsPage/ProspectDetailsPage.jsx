@@ -16,9 +16,7 @@ import { setActiveProspect, setActiveCampaign } from '../../store/uiStore/prospe
 import { useParams } from 'react-router-dom';
 import * as selectors from '../../store/uiStore/prospectDetailsPageView/selectors';
 import * as actions from '../../store/uiStore/prospectDetailsPageView/actions';
-import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
-import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
-import Modal from '../../components/Modal';
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;

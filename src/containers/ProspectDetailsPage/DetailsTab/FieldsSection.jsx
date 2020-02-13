@@ -291,7 +291,7 @@ const FieldsSection = () => {
     }
   };
   let agentOpts = RenderAgentOptions(agents, emptyAgentOption, onAgentChange);
-  let relayOpts = RenderAgentOptions(agents, emptyRelayOption, onRelayChange);
+
   return (
     <>
       <FieldSelect
@@ -303,19 +303,6 @@ const FieldsSection = () => {
         dataTest='agent-drop-down'
         options={agentOpts}
       />
-
-      {sherpaPhoneNumber ? (
-        <FieldSelect
-          id='relay'
-          name='sms_relay'
-          label='SMS & Call Relay'
-          placeholder='Select Call Relay Number'
-          value={id}
-          icon={<IconBg icon='mobile-alt' size='lg' />}
-          dataTest='sms-relay-drop-down'
-          options={relayOpts}
-        />
-      ) : null}
 
       <FieldWrapper>
         <FieldDateTime
@@ -353,6 +340,7 @@ const FieldsSection = () => {
             ) : (
                 'Email to CRM'
               )}
+
           </Button>
           <Button
             id='crm'
