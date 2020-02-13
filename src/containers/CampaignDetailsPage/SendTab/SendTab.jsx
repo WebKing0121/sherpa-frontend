@@ -10,7 +10,7 @@ import { fetchSmsTemplates } from '../../../store/SmsTemplateStore/actions';
 import { smsTemplates } from '../../../store/SmsTemplateStore/selectors';
 import { getUserData } from '../../../store/Auth/selectors';
 
-import { updateSmsTemplate } from '../../../store/Campaigns/actions';
+import { updateSmsTemplate } from '../../../store/Campaigns/thunks';
 
 import { fetchCampaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/actions';
 

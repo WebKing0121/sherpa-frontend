@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import SearchModule from '../../components/SearchModule';
 import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,7 +7,9 @@ import { Spinner } from 'reactstrap';
 import { campaignsList, campaignsStatus, activeMarket, sortByOrder, campaignIsLoadingMore } from '../../store/Campaigns/selectors';
 import { marketsList } from '../../store/Markets/selectors';
 import { campaignsToItemList } from './utils';
-import { resetCampaignsData, fetchSortedCampaigns, campaignsNextPage } from '../../store/Campaigns/actions';
+import { fetchSortedCampaigns, campaignsNextPage } from '../../store/Campaigns/thunks';
+
+import { resetCampaignsData } from '../../store/Campaigns/actions';
 import { DataLoader } from '../../components/LoadingData';
 import SwipeListItem from '../../components/SwipeableList/SwipeableListItem';
 
@@ -20,7 +22,8 @@ import FilterButton from '../../components/FilterButton';
 
 import { getActiveFilter } from '../../store/uiStore/campaignsPageView/selectors';
 import { resetCampaignFilter } from '../../store/uiStore/campaignsPageView/actions';
-import { vListItems, vListHeight, campaignSortingOptions } from '../../helpers/variables';
+import { vListItems, vListHeight, campaignSortingOptions, Fetching } from '../../helpers/variables';
+import usePrevious from '../../hooks/usePrevious';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);
@@ -49,9 +52,11 @@ const CampaignsPage = () => {
 
   // fetch next-page function
   const fetchMoreData = () => dispatch(campaignsNextPage());
+  const defaultCampaignQuery = { ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 };
 
   // check there are campaign folders to navigate back too
   const hasCampaignFolders = campaignFolders.length > 0 || folders;
+
   // dispatch fetchCampaigns
   useEffect(() => {
     // Preserve sort order menu selection on refresh
@@ -59,16 +64,16 @@ const CampaignsPage = () => {
     setActiveSort(sorted[0].value.id);
 
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-    if (activeMarketId !== marketId) {
+    if (activeMarketId !== marketId && isFetching !== Fetching) {
       dispatch(resetCampaignFilter());
-      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false }));
+      dispatch(fetchSortedCampaigns(defaultCampaignQuery));
     }
   }, [dispatch, marketId, activeMarketId]);
 
   // Refetch campaigns if the filter gets reset
   useEffect(() => {
     if (activeFilter.length === 0) {
-      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false }));
+      dispatch(fetchSortedCampaigns(defaultCampaignQuery));
     }
   }, [dispatch, activeFilter.length]);
 
@@ -99,10 +104,9 @@ const CampaignsPage = () => {
 
     // only fire if we're at the bottom of the page
     if ((offset + (25 * itemHeight)) >= pageOffset) {
-      fetchMoreData();          //
+      fetchMoreData();
     }
   };
-
 
   useEffect(() => {
     if (campaigns.length > 0) {
@@ -110,18 +114,22 @@ const CampaignsPage = () => {
       let itemId = `${sampleItem.id}-${sampleItem.name}`;
       let item = document.getElementById(itemId);
 
-      if (item && item.offsetHeight !== 0) {
+      if (item && item.setHeight !== 0) {
         setItemHeight(item.offsetHeight);
       }
     }
   }, [campaigns]);
 
+  const prevListHeight = usePrevious(listHeight);
+
   useEffect(() => {
     const virtualizeList = document.getElementById("campaignVirtualizedList");
     const windowHeight = window.innerHeight;
     const listHeight = (virtualizeList && virtualizeList.offsetTop) || 0;
+    // if (prevListHeight !== listHeight) {
     setListHeight(windowHeight - listHeight);
-  }, []);
+    // }
+  });
 
   return (
     <div className='pageContent'>
@@ -133,7 +141,7 @@ const CampaignsPage = () => {
         sortingOptions={campaignSortingOptions}
         sortChange={(value) => {
           setActiveSort(value.id);
-          dispatch(fetchSortedCampaigns({ ordering: value.value, market: marketId, is_archived: false }));
+          dispatch(fetchSortedCampaigns(defaultCampaignQuery));
         }}
         marketId={marketId}
         defaultValue={activeSort}

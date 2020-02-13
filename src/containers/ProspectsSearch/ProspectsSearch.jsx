@@ -22,7 +22,7 @@ import { prospectSearch, prospectSearchNextPage } from '../../store/prospectStor
 
 // utils
 import { prospectsToItemList } from './utils';
-import { Fetching, Success } from '../../helpers/variables';
+import { Fetching, Success, vListItems, vListHeight } from '../../helpers/variables';
 import { resetProspects } from '../../store/prospectStore/actions';
 import { prospectIsLoadingMore } from '../../store/prospectStore/selectors';
 
@@ -31,13 +31,13 @@ const SpinWrap = styled.div`
   text-align: center;
 `;
 
-function ProspectsSearch(props) {
+function ProspectsSearch() {
   const prospectResults = useSelector(selectProspects);
   const isFetchingMore = useSelector(prospectIsLoadingMore);
   const shouldReset = useSelector(resetSearchResults);
   const dispatch = useDispatch();
-  const [itemHeight, setItemHeight] = useState(150);
-  const [listHeight, setListHeight] = useState(600);
+  const [itemHeight, setItemHeight] = useState(vListItems);
+  const [listHeight, setListHeight] = useState(vListHeight);
   const [loadingStatus, setLoadingStatus] = useState('');
 
   // transform prospect data into the appropriate data-interface for
@@ -48,7 +48,7 @@ function ProspectsSearch(props) {
   const search = term => {
     setLoadingStatus(Fetching);
     dispatch(prospectSearch(term))
-      .then(data => setLoadingStatus(Success));
+      .then(() => setLoadingStatus(Success));
   };
 
   // fetch next-page function

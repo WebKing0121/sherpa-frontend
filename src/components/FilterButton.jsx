@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { fetchFilteredData } from '../store/Campaigns/actions';
+import { fetchFilteredData } from '../store/Campaigns/thunks';
 import { fetchCompanyOwners } from '../store/CompanyOwners/actions';
 import { owners } from '../store/CompanyOwners/selectors';
 import { sortByOrder } from '../store/Campaigns/selectors';

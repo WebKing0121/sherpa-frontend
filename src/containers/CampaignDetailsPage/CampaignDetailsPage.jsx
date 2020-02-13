@@ -12,7 +12,7 @@ import MessagesTab from './MessagesTab/MessagesTab';
 import { getCampaign } from '../../store/Campaigns/selectors';
 import { getActiveTab } from '../../store/uiStore/campaignDetailsPageView/selectors';
 import { setActiveCampaign } from '../../store/uiStore/prospectDetailsView/actions';
-import { fetchSortedCampaigns } from '../../store/Campaigns/actions';
+import { fetchSortedCampaigns } from '../../store/Campaigns/thunks';
 import { campaignProspectSearch } from '../../store/campaignProspectStore/thunks';
 import { useParams } from 'react-router-dom';
 import { setCampaignActiveTab } from '../../store/uiStore/campaignDetailsPageView/actions';
@@ -39,10 +39,11 @@ function CampaignDetailsPage() {
     }
   }, [campaignId, dispatch]);
 
+  const defaultCampaignQuery = { ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 };
   // fetch campaign data if not in store already
   useEffect(() => {
     if (!campaign.id) {
-      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false }));
+      dispatch(fetchSortedCampaigns(defaultCampaignQuery));
     }
     dispatch(setActiveCampaign(parseInt(campaignId)));
   }, [dispatch, campaign.id, campaignId]);

@@ -1,7 +1,7 @@
 import React from 'react';
 import SubInfo from './SubInfo';
 import { IListItem } from '../../components/List/utils';
-import { archiveCampaign } from '../../store/Campaigns/actions';
+import { archiveCampaign } from '../../store/Campaigns/thunks';
 import StatusWrapper from './StatusWrapper';
 import { setCampaignActiveTab } from '../../store/uiStore/campaignDetailsPageView/actions';
 import store from '../../store/store';
@@ -10,31 +10,31 @@ import store from '../../store/store';
  * component to render.
  */
 export const campaignToItemList = campaign => {
-  const { id, market, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
+    const { id, market, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
 
-  const onClickItem = () => store.dispatch(setCampaignActiveTab('1'))
+    const onClickItem = () => store.dispatch(setCampaignActiveTab('1'))
 
-  return {
-    ...IListItem,
-    id,
-    name,
-    subInfo: <SubInfo data={{ priorityCount, totalLeads }} />,
-    readable: true,
-    isRead: !hasUnreadSMS,
-    statusWrapper: (
-      <StatusWrapper
-        link={`/markets/${market}/campaigns/${id}/details`}
-        onClick={onClickItem}
-      />),
-    actions: [
-      {
-        icon: 'archive',
-        name: 'Archive',
-        link: archiveCampaign(campaign),
-        background: 'gray'
-      }
-    ]
-  };
+    return {
+        ...IListItem,
+        id,
+        name,
+        subInfo: <SubInfo data={{ priorityCount, totalLeads }} />,
+        readable: true,
+        isRead: !hasUnreadSMS,
+        statusWrapper: (
+            <StatusWrapper
+                link={`/markets/${market}/campaigns/${id}/details`}
+                onClick={onClickItem}
+            />),
+        actions: [
+            {
+                icon: 'archive',
+                name: 'Archive',
+                link: archiveCampaign(campaign),
+                background: 'gray'
+            }
+        ]
+    };
 };
 
 export const campaignsToItemList = campaigns => campaigns.map(campaignToItemList);

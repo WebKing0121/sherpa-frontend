@@ -6,7 +6,7 @@ import Select from '../../../components/InputSelect';
 
 import { campaignsStatus } from '../../../store/Campaigns/selectors';
 import { campaignsToItemList } from './utils';
-import { fetchFilteredData, fetchFilteredDataNextPage } from '../../../store/Campaigns/actions';
+import { fetchFilteredData, fetchFilteredDataNextPage } from '../../../store/Campaigns/thunks';
 import { DataLoader } from '../../../components/LoadingData';
 import { uiGetCampaignPageActiveTab, uiGetCampaignPageActiveSort, uiGetCampaigns } from '../../../store/uiStore/campaignsPageDesktopView/campaignsList/filterData/selectors';
 import {
