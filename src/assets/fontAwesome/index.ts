@@ -33,7 +33,9 @@ import {
   faEllipsisV,
   faChartBar,
   faPlusCircle,
-  faUserCog
+  faUserCog,
+  faChevronCircleRight,
+  faChevronCircleLeft
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -71,6 +73,8 @@ library.add(
   faEllipsisV,
   faChartBar,
   faPlusCircle,
-  faUserCog
+  faUserCog,
+  faChevronCircleRight,
+  faChevronCircleLeft
 
 );

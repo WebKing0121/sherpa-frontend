@@ -19,10 +19,25 @@ import * as actions from '../../store/uiStore/prospectDetailsPageView/actions';
 import { getProspectsToCycle } from '../../store/uiStore/prospectDetailsView/selectors';
 import { Link } from 'react-router-dom';
 import { prospectMessagesList } from '../../store/ProspectDetails/messages/selectors';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   height: 100vh;
+`;
+
+const CycleBtnHoltser = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  a {
+    font-weight: 900;
+    font-size: 1.1rem;
+    margin-bottom: .6rem;
+    display: inline-block;
+  }
 `;
 
 const StyledTabContent = styled(TabContent)`
@@ -33,35 +48,43 @@ const StyledTabContent = styled(TabContent)`
 `;
 
 const renderTabbedHeaderContent = (prospects, id, content) => {
+  const prevIcon = <FontAwesomeIcon className="mr-1" icon="chevron-circle-left" size="sm"/>;
+  const nextIcon = <FontAwesomeIcon className="ml-1" icon="chevron-circle-right" size="sm"/>;
+
   return (
-    <div
-      style={{
-        display: "flex",
-        justifyContent: prospects.length > 0 ? "space-around" : "baseline"
-      }}>
-      {id > 0 ? (
-        <h1>
-          <Link
-            data-test="prospect-cycle-left"
-            style={{ color: "white", frontSize: "40px" }}
-            to={`/prospect/${prospects[id - 1]}/details`}
-          >{"<<"}
-          </Link>
-        </h1>) : null}
+    <>
+      <CycleBtnHoltser>
+        <span>
+          {
+            id > 0 ? (
+              <Link
+                data-test="prospect-cycle-left"
+                style={{ color: "white", frontSize: "40px" }}
+                to={`/prospect/${prospects[id - 1]}/details`}
+              >
+              {prevIcon} Prev
+              </Link>
+            ) : null
+          }
+        </span>
+        <span>
+          {
+            id + 1 < prospects.length ? (
+
+              <Link
+                data-test="prospect-cycle-right"
+                style={{ color: "white", frontSize: "40px" }}
+                to={`/prospect/${prospects[id + 1]}/details`}
+              >
+                Next {nextIcon}
+              </Link>
+            ) : null
+          }
+        </span>
+      </CycleBtnHoltser>
+
       <h1 className='text-white text-left m-0'>{content}</h1>
-      {
-        id + 1 < prospects.length ? (
-          <h1>
-            <Link
-              data-test="prospect-cycle-right"
-              style={{ color: "white", frontSize: "40px" }}
-              to={`/prospect/${prospects[id + 1]}/details`}
-            >
-              {">>"}
-            </Link>
-          </h1>) : null
-      }
-    </div>
+    </>
   );
 };
 
