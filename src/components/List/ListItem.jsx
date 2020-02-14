@@ -46,6 +46,13 @@ const ItemHeader = styled.div`
 `;
 const ItemName = styled(ListGroupItemHeading)`
   font-weight: ${props => (props.isBold ? '900' : '400')};
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 60vw;
+  overflow: hidden;
+  @media (min-width: 768px) {
+    width: 40vw;
+  }
 `;
 const StatusWrapper = styled.div`
   display: flex;
