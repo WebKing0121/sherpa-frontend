@@ -20,8 +20,6 @@ const SpinWrap = styled.div`
   }
 `;
 
-const DisplayedData = styled.div``;
-
 const NoResults = styled.p`
   display: flex;
   text-align: center;
@@ -58,7 +56,7 @@ export const DataLoader = props => {
   ) : whenError(status) && !data.length ? (
     <NoResults data-test='network-error-message'>{networkError}</NoResults>
   ) : (
-    <DisplayedData data-test={dataTest || 'displayed-data'} className="displayedData">{renderData()}</DisplayedData>
+        <div data-test={dataTest || 'displayed-data'} className="displayedData">{renderData()}</div>
       );
 
   return (

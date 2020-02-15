@@ -37,8 +37,8 @@ const IconBg = (props) => {
     textcol = props.textcol;
   }
 
-  let icon = <FontAwesomeIcon {...props}/>;
   const size = props.width ? "calc("  + props.width + " / 2 )" : "22px";
+  let icon = <FontAwesomeIcon size={props.faSize} {...props}/>;
 
   icon = props.loader ? (
       <LoadingSpinner

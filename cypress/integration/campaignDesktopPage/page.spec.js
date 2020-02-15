@@ -5,7 +5,7 @@ describe('Campaign Desktop Page', () => {
   const campaignPath = `${url}/campaigns/`
 
   it('loads campaigns desktop page and has the active tab selected ', () => {
-    cy.viewport(950, 800)
+    cy.viewport(950, 800);
     cy.login();
     cy.visit(campaignPath);
     cy
@@ -17,23 +17,21 @@ describe('Campaign Desktop Page', () => {
 
   it('loads campaigns list', () => {
     cy.viewport(950, 800);
-    cy.login();
-
-    cy.server();
-    cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns');
-    cy.visit(campaignPath);
-    cy.wait('@campaigns');
-
     cy
       .getState()
       .then(store => {
-        const { campaigns: { campaigns } } = store;
+        const {
+          uiStore: {
+            campaignsPageDesktopView: {
+              campaignsList: { filterData: { tabs: { active } } }
+            } } } = store;
 
         cy
-          .get('[data-test=list-item]')
-          .parent()
+          .get('#virtualizedList')
           .children()
-          .should('have.length', Object.keys(campaigns).length);
+          .first()
+          .children()
+          .should('have.length', active.sortOrder.length);
       });
   });
 

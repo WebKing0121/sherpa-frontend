@@ -7,7 +7,7 @@ import { IListItem } from '../../components/List/utils';
 import store from '../../store/store';
 import { prospectUpdate } from '../../store/prospectStore/thunks';
 import { ProspectActions } from '../../helpers/variables';
-import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection';
+import { getNewVerifiedStatus } from '../../components/StatusActionBtns';
 import {
   setProspectActiveTab
 } from '../../store/uiStore/prospectDetailsPageView/actions';

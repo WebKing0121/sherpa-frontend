@@ -65,12 +65,16 @@ describe('Prospect messages', () => {
     cy.get('[data-test=user-message]').each($msg => {
       cy.wrap($msg)
         .find('div')
+        .children()
+        .first()
         .should('have.css', 'background-color')
         .and('eq', messageColors.sherpaBlue);
     });
     cy.get('[data-test=prospect-message]').each($msg => {
       cy.wrap($msg)
         .find('div')
+        .children()
+        .first()
         .should('have.css', 'background-color')
         .and('eq', messageColors.sherpaWhite);
     });

@@ -1,11 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import Icon from './Icon';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse } from 'reactstrap';
-
-const Pane = styled.div`
-  /* overflow: hidden; */
-`;
 
 const ToggleHeader = styled.h3`
   padding: var(--pad4) var(--pad3);
@@ -14,27 +10,25 @@ const ToggleHeader = styled.h3`
   margin: 0;
   display: flex;
   justify-content: space-between;
-`;
+  cursor: pointer;
 
-const Arrow = styled.div`
-  img {
-    transition: transform 0.3s;
-    transform: ${props => (props.isOpen ? 'rotate(-90deg)' : 'rotate(90deg)')};
+  @media (min-width: 768px) {
+    padding: var(--pad2) 0;
   }
 `;
 
 function CollapsablePane(props) {
   const { toggle, isOpen, header, children } = props;
+  const icon = <FontAwesomeIcon icon="chevron-up" rotation={!isOpen ? 180 : null} />;
+
   return (
-    <Pane>
+    <div>
       <ToggleHeader className='fw-bold' onClick={toggle}>
         {header}
-        <Arrow isOpen={isOpen}>
-          <Icon name='arrow' width='10px' />
-        </Arrow>
+        {icon}
       </ToggleHeader>
       <Collapse isOpen={isOpen}>{children}</Collapse>
-    </Pane>
+    </div>
   );
 }
 

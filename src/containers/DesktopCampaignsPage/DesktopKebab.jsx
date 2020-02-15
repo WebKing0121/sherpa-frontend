@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Popover, PopoverBody } from 'reactstrap';
-import { exportCampaign } from '../../../store/Campaigns/thunks';
+import { exportCampaign } from '../../store/Campaigns/thunks';
 
 const KebabWrap = styled.a`
   display: flex;
@@ -11,6 +11,7 @@ const KebabWrap = styled.a`
   padding: 0 var(--pad2);
   transition: background-color .2s, color .2s;
   z-index: 2;
+  margin-left: 1rem;
 
   &:hover,
   &:focus {

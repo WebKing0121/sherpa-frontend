@@ -1,11 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
 import moment from 'moment-timezone';
+import NameBubble from '../NameBubble';
 
 const StyledListItem = styled.li`
   list-style: none;
   margin: 0;
   position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin-bottom: var(--pad4);
 
   &.unread {
     &:after {
@@ -24,6 +28,15 @@ const StyledListItem = styled.li`
       border-radius: 7px;
     }
   }
+
+  .nameBubble {
+    margin-bottom: calc(1.125rem + var(--pad1));
+  }
+`;
+
+const MessageInfo = styled.div`
+  flex-basis: 100%;
+  margin-${props => props.fromProspect ? 'left' : 'right'}: var(--pad2);
 `;
 
 const StyledMessage = styled.div`
@@ -45,7 +58,6 @@ const StyledMessage = styled.div`
 const TimeStamp = styled.time`
   display: flex;
   justify-content: ${props => (props.fromProspect ? 'flex-start' : 'flex-end')};
-  margin-bottom: var(--pad4);
   color: var(--darkGray);
   font-size: 0.75rem;
   white-space: pre;
@@ -69,16 +81,21 @@ function Message(props) {
     return date === today ? 'Today' : date === yesterday ? 'Yesterday' : date;
   };
 
+  const bubbleColor = fromProspect ? 'sherpaTeal' : 'sherpaBlue';
+
   return (
     <StyledListItem
       data-test={fromProspect ? 'prospect-message' : 'user-message'}
       className={unreadByRecipient ? "unread message" : "message"}
       onClick={props.onClick}
     >
-      <StyledMessage unread={unreadByRecipient} fromProspect={fromProspect}>{message}</StyledMessage>
-      <TimeStamp fromProspect={fromProspect}>
-        {`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}
-      </TimeStamp>
+      <MessageInfo>
+        <StyledMessage unread={unreadByRecipient} fromProspect={fromProspect}>{message}</StyledMessage>
+        <TimeStamp fromProspect={fromProspect}>
+          {`${checkWhenDate(dateTime[0])}  |  ${dateTime[1]}`}
+        </TimeStamp>
+      </MessageInfo>
+      {props.showInitials && <NameBubble color={bubbleColor} initials="SV"/>}
     </StyledListItem>
   );
 }

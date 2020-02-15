@@ -11,6 +11,22 @@ import { useDispatch } from 'react-redux';
 import { removeCampaignProspect } from '../../store/campaignProspectStore/actions';
 import { arrayToMapIndex } from '../../store/utils';
 import { populateProspectMessages, updateProspectMessage } from '../../store/ProspectDetails/messages/actions';
+import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
+import Modal from '../Modal';
+import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
+
+const MessagesWrapper = styled.div`
+  @media (min-width: 768px) {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    & > div.dataWrapper {
+      flex-grow: 1;
+      overflow-y: scroll;
+      height: 0;
+    }
+  }
+`;
 
 const StyledList = styled.ul`
   padding: var(--pad3) var(--pad3) 0;
@@ -23,6 +39,10 @@ const StyledList = styled.ul`
   display: flex;
   flex-direction: column-reverse;
   margin: 0;
+
+  @media (min-width: 768px) {
+    padding-bottom: 0;
+  }
 `;
 
 const Placeholder = styled.div`
@@ -41,6 +61,10 @@ const InputWrapper = styled.div`
   bottom: 0;
   width: 100%;
   z-index: 2;
+
+  @media (min-width: 768px) {
+    position: relative;
+  }
 `;
 
 function MessagesTab(props) {
@@ -48,6 +72,8 @@ function MessagesTab(props) {
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const { messages } = props;
   const dispatch = useDispatch();
+
+  console.log("MESSAGES",messages);
 
   useEffect(() => {
     setHasUnreadMessages(messages.some(message => message.unreadByRecipient));
@@ -152,7 +178,7 @@ function MessagesTab(props) {
   }, [props.scrollToBot, tabContent]);
 
   return (
-    <div data-test='messages-tab'>
+    <MessagesWrapper data-test='messages-tab'>
       <DataLoader
         status={messagesStatus}
         data={(messages.length && messages) || [vars.messagesPlaceholderText]}
@@ -169,7 +195,7 @@ function MessagesTab(props) {
           addNewMessage={addNewMessage}
         />
       </InputWrapper>
-    </div>
+    </MessagesWrapper>
   );
 }
 

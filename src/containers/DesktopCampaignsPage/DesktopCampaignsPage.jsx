@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { TabContent, TabPane } from 'reactstrap';
 import CampaignsListTab from './CampaignsListTab/CampaignsListTab';
 import { desktopCampaignHeaderInfo } from '../../helpers/variables';
-
+import UnreadMsgTab from './UnreadMsgTab/UnreadMsgTab';
 import TabbedHeader from '../../components/TabbedHeader';
 
 const DesktopCampaignsPage = props => {
@@ -15,11 +15,12 @@ const DesktopCampaignsPage = props => {
   return (
     <div className="pageContent d-flex flex-column">
       <TabbedHeader data={desktopCampaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}><h1 className='text-white text-left m-0'>Campaigns</h1></TabbedHeader>
-      <TabContent activeTab={activeTab}>
+      <TabContent className="h-100" activeTab={activeTab}>
         <TabPane tabId='1'>
           <CampaignsListTab />
         </TabPane>
-        <TabPane tabId='2'>
+        <TabPane className="h-100" tabId='2'>
+          <UnreadMsgTab />
         </TabPane>
         <TabPane tabId='3'>
         </TabPane>

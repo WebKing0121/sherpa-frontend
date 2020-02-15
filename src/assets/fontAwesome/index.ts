@@ -35,7 +35,8 @@ import {
   faPlusCircle,
   faUserCog,
   faChevronCircleRight,
-  faChevronCircleLeft
+  faChevronCircleLeft,
+  faExternalLinkAlt
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -75,6 +76,7 @@ library.add(
   faPlusCircle,
   faUserCog,
   faChevronCircleRight,
-  faChevronCircleLeft
+  faChevronCircleLeft,
+  faExternalLinkAlt
 
 );

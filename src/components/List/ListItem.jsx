@@ -52,7 +52,8 @@ const ItemName = styled(ListGroupItemHeading)`
   width: 60vw;
   overflow: hidden;
   @media (min-width: 768px) {
-    width: 40vw;
+    max-width: 40vw;
+    width: 100%;
   }
 `;
 const StatusWrapper = styled.div`
@@ -62,8 +63,6 @@ const StatusWrapper = styled.div`
   margin: 0;
 `;
 
-const ItemBody = styled.div``;
-
 const ItemContent = styled.div`
   display: flex;
   flex-direction: row;
@@ -72,19 +71,18 @@ const ItemContent = styled.div`
   padding: var(--pad2) var(--pad3);
 
   .itemBody {
-    flex-basis: 100%;
-    flex-shrink: 1;
+    flex: 4 1 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 
+  .desktopCallouts {
+    flex-grow: 2;
+  }
+
   @media (min-width: 768px) {
     padding: calc(1.5 * var(--pad1)) var(--pad2);
-
-    .itemBody {
-      flex-basis: 40%;
-    }
   }
 `;
 
@@ -93,7 +91,7 @@ function ListItem(props) {
     <StyledItem islink={props.item.link ? 1 : 0} style={props.style} data-test='list-item'>
       <ItemContent id={props.id}>
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
-        <ItemBody className='itemBody'>
+        <div className='itemBody'>
           <ItemHeader data-test='list-item-header'>
             <ItemName className='itemName m-0'>{props.item.name}</ItemName>
             <StatusWrapper className='d-flex'>{props.item.statusWrapper}</StatusWrapper>
@@ -109,7 +107,7 @@ function ListItem(props) {
               {props.item.mainInfo}
             </MainInfo>
           )}
-        </ItemBody>
+        </div>
         {props.item.desktopCallouts ? props.item.desktopCallouts : null}
         {props.item.desktopKebab ? props.item.desktopKebab : null}
         {props.item.link && (

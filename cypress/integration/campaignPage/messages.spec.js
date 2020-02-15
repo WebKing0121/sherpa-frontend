@@ -5,9 +5,9 @@ describe('campaign messages', () => {
     campaignUrl = `markets/${marketId}/campaigns/${campaignId}/details`,
     swipeableListItem = '[data-test=swipeable-list-item]',
     messagesFilter = '[data-test=campaign-messages-filter]',
-        option = '.dropdown-item',
-        dropDown = '[data-test=custom-dropdown]',
-        dropDownValue = '.dropdown span';
+    option = '.dropdown-item',
+    dropDown = '[data-test=custom-dropdown]',
+    dropDownValue = '.dropdown span';
 
   const actions = ['Verified', 'DNC', 'Priority', 'Qualified'];
 
@@ -64,16 +64,16 @@ describe('campaign messages', () => {
           console.log($options)
           const optionsLen = $options.length;
           for (let i = 0; i < optionsLen; i++) {
-            cy.get(messagesFilter).click({ force: true  })
-            cy.get(messagesFilter).find(option).eq(i).click({ force: true  })
+            cy.get(messagesFilter).click({ force: true })
+            cy.get(messagesFilter).find(option).eq(i).click({ force: true })
             cy.wait('@campaign-prospects').then(xhr => {
-            cy.wrap(xhr)
-              .its('status')
-              .should('eq', 200);
+              cy.wrap(xhr)
+                .its('status')
+                .should('eq', 200);
             });
           }
         });
-        })
+    })
     cy.get(messagesFilter)
       .find(option).first().click({ force: true })
   });
@@ -124,15 +124,22 @@ describe('campaign messages', () => {
     cy.get('[data-test=Messages]').click({ force: true });
     cy.get('[data-test=swipeable-list-item]')
       .first()
+      .children()
+      .first()
       .within(() => {
         cy.get('[data-test=swipeable-list-item-action]').each($button => {
-          cy.wrap($button).click({ force: true });
-          cy.wait('@action');
+          cy.wrap($button)
+            .within(() => {
+              cy.get('a')
+                .click({ force: true })
+            })
         });
-        cy.get('[data-test=list-item-header]')
-          .find('a')
-          .click({ force: true });
       });
+    cy.wait('@action');
+    cy.get('[data-test=list-item-header]')
+      .find('a')
+      .first()
+      .click({ force: true });
     // must use original fixture, NOT updated fixture to compare prospect status to original
     cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
       const {

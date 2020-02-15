@@ -31,6 +31,40 @@ const SendMessage = styled.form`
   padding: var(--pad2) var(--pad3);
   width: 100%;
   background: white;
+
+
+  @media (min-width: 768px) {
+    box-shadow: 0 0 12px -3px var(--mediumGray);
+    border-radius: 8px;
+    margin: var(--pad3);
+    width: calc(100% - var(--pad3) - var(--pad3));
+    padding: var(--pad2) var(--pad2);
+    .inputGroup {
+      --border: none !important;
+    }
+    #sendMessage {
+      height: calc(1.5em + 3rem);
+    }
+  }
+`;
+
+const Header = styled.div`
+  display: flex;
+  button {
+    padding: 0 .8rem;
+    border-radius: 0;
+    &:first-child {
+      padding-left: 0;
+      border-right: 1px solid var(--mediumGray);
+    }
+  }
+`;
+
+const ActionWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  .nudgeIcon {margin-right: .5rem}
 `;
 
 const PopBody = styled(PopoverBody)`
@@ -166,8 +200,16 @@ function MessageInput(props) {
     </Modal>
   );
 
+  const header = (
+    <Header>
+      <Button color="link">Reply</Button>
+      <Button color="link" className="gray">Add Note</Button>
+    </Header>
+  );
+
   return (
     <SendMessage onSubmit={handleSubmit}>
+      { !isMobile ? header : null }
       <InputGroupBorder className='mb-2'>
         <InputGroupAddon addonType='prepend'>
           <Button

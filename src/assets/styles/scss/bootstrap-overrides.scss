@@ -21,7 +21,7 @@ $theme-colors: (
 
 $grid-gutter-width: $padUnit;
 $spacer: $padUnit;
-
+$headings-margin-bottom: .5em;
 $input-padding-x: 0;
 $input-padding-y: 1rem;
 $input-bg: transparent;
@@ -93,7 +93,7 @@ $popover-border-width: 0px;
   flex-grow: 1;
 
   .tab-pane {
-    height: 100%;  
+    height: 100%;
   }
 }
 @import "~bootstrap/scss/bootstrap.scss";

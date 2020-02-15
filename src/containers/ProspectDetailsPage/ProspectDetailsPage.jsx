@@ -20,6 +20,9 @@ import { getProspectsToCycle } from '../../store/uiStore/prospectDetailsView/sel
 import { Link } from 'react-router-dom';
 import { prospectMessagesList } from '../../store/ProspectDetails/messages/selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
+import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
+import Modal from '../../components/Modal';
 
 const Wrapper = styled.div`
   display: flex;
@@ -101,6 +104,8 @@ function ProspectDetailsPage() {
   const messages = useSelector(prospectMessagesList(prospectId));
   const [curIdx, setCurIdx] = useState(0);
 
+  console.log("MESSAGES 2",messages);
+
   useEffect(() => {
     if (prospectsToCycle.length > 0 && prospect.id) {
       const idx = prospectsToCycle.findIndex(p => p === prospect.id);
@@ -163,7 +168,7 @@ function ProspectDetailsPage() {
               <TabPane tabId='2'>
                 <MessagesTab
                   marginTop={headerRef.current && headerRef.current.clientHeight}
-                  subjectId={prospect.id}
+                  subjectId={parseInt(prospectId)}
                   scrollToBot={activeTab === '2'}
                   messages={messages}
                 />

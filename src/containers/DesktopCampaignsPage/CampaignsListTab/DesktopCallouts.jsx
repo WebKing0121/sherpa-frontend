@@ -54,7 +54,7 @@ const DesktopCallouts = props => {
       `${parseInt(data.percentCompleteUnsent)}%`;
 
   return (
-    <Callouts>
+    <Callouts className="desktopCallouts">
       <Callout value={data.totalLeads || 0} label="Leads" icon="user" iconCol="sherpaTeal" />
       <Callout value={data.priorityCount} label="Priority" icon="bolt" iconCol="orange" />
       <Callout value={percentCompleted} label="Status" />

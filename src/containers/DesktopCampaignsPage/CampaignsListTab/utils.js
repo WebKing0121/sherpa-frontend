@@ -1,6 +1,6 @@
 import React from 'react';
 import DesktopCallouts from './DesktopCallouts';
-import DesktopKebab from './DesktopKebab';
+import DesktopKebab from '../DesktopKebab';
 import { IListItem } from '../../../components/List/utils';
 import { archiveCampaign, exportCampaign } from '../../../store/Campaigns/thunks';
 import store from '../../../store/store';
