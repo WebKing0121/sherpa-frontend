@@ -8,7 +8,8 @@ import {
     SET_FETCH_CAMPAIGNS_NEXT_PAGE,
     UPDATE_CAMPAIGN_LIST,
     FETCH_CAMPAIGN_NEXT_PAGE,
-    RESET_CAMPAIGNS_DATA
+    RESET_CAMPAIGNS_DATA,
+    PAGINATE_CAMPAIGN_LIST
 } from './actionTypes';
 import { createAction } from '../../redux-helpers';
 
@@ -17,6 +18,8 @@ import { createAction } from '../../redux-helpers';
 export const fetchCampaignNextPage = createAction(FETCH_CAMPAIGN_NEXT_PAGE);
 
 export const updateCampaignList = createAction(UPDATE_CAMPAIGN_LIST);
+
+export const paginateCampaignList = createAction(PAGINATE_CAMPAIGN_LIST);
 
 export const setFetchedCampaignStatus = createAction(FETCH_CAMPAIGNS);
 

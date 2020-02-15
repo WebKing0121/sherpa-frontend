@@ -52,7 +52,6 @@ const CampaignsPage = () => {
 
   // fetch next-page function
   const fetchMoreData = () => dispatch(campaignsNextPage());
-  const defaultCampaignQuery = { ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 };
 
   // check there are campaign folders to navigate back too
   const hasCampaignFolders = campaignFolders.length > 0 || folders;
@@ -62,18 +61,19 @@ const CampaignsPage = () => {
     // Preserve sort order menu selection on refresh
     const sorted = campaignSortingOptions.filter(x => x.value.value === sortBy);
     setActiveSort(sorted[0].value.id);
-
+    console.log(marketId !== activeMarketId)
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
     if (activeMarketId !== marketId && isFetching !== Fetching) {
       dispatch(resetCampaignFilter());
-      dispatch(fetchSortedCampaigns(defaultCampaignQuery));
+      console.log(marketId, activeMarketId)
+      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false, page_size: 5}));
     }
   }, [dispatch, marketId, activeMarketId]);
 
   // Refetch campaigns if the filter gets reset
   useEffect(() => {
     if (activeFilter.length === 0) {
-      dispatch(fetchSortedCampaigns(defaultCampaignQuery));
+      dispatch(fetchSortedCampaigns({ ordering: sortBy, market: marketId, is_archived: false, page_size: 5}));
     }
   }, [dispatch, activeFilter.length]);
 
@@ -126,9 +126,9 @@ const CampaignsPage = () => {
     const virtualizeList = document.getElementById("campaignVirtualizedList");
     const windowHeight = window.innerHeight;
     const listHeight = (virtualizeList && virtualizeList.offsetTop) || 0;
-    // if (prevListHeight !== listHeight) {
-    setListHeight(windowHeight - listHeight);
-    // }
+    if (prevListHeight !== listHeight) {
+      setListHeight(windowHeight - listHeight);
+    }
   });
 
   return (
@@ -141,7 +141,7 @@ const CampaignsPage = () => {
         sortingOptions={campaignSortingOptions}
         sortChange={(value) => {
           setActiveSort(value.id);
-          dispatch(fetchSortedCampaigns(defaultCampaignQuery));
+          dispatch(fetchSortedCampaigns({ ordering: value.value, market: marketId, is_archived: false, page_size: 5}));
         }}
         marketId={marketId}
         defaultValue={activeSort}

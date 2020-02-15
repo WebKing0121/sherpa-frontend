@@ -39,11 +39,10 @@ function CampaignDetailsPage() {
     }
   }, [campaignId, dispatch]);
 
-  const defaultCampaignQuery = { ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 };
   // fetch campaign data if not in store already
   useEffect(() => {
     if (!campaign.id) {
-      dispatch(fetchSortedCampaigns(defaultCampaignQuery));
+      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 }));
     }
   }, [dispatch, campaign.id, campaignId]);
 

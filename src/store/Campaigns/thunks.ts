@@ -8,7 +8,8 @@ import {
   setUpdatedSmsTemplateCampaign,
   setFetchCampaignsNextPage,
   setFetchCampaignsNextPageSuccess,
-  setFetchedCampaignsError
+    setFetchedCampaignsError,
+    paginateCampaignList
 } from './actions';
 
 import AxiosInstance from '../../axiosConfig';
@@ -17,9 +18,7 @@ import { decrementMarketCampaignCount } from '../Markets/actions';
 import { arrayToMapIndex } from '../utils';
 import { captureSort } from './utils';
 import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
-import { sortByOrder } from './selectors';
 import * as api from './api';
-import { createAction } from '../../redux-helpers';
 
 interface IParams {
   market: number;
@@ -61,7 +60,7 @@ export const campaignsNextPage = () => (dispatch: any, getState: any) => {
     dispatch(fetchCampaignNextPage(true));
     return api.listCampaignsNextPage(next).then(({ data }) => {
       const payload = formatCampaigns(data);
-      dispatch(setFetchedCampaigns({ ...payload }));
+      dispatch(paginateCampaignList({ ...payload }));
       dispatch(fetchCampaignNextPage(false));
     });
   }

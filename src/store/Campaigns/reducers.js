@@ -6,7 +6,8 @@ import {
   ARCHIVE_CAMPAIGN,
   UPDATE_SMS_TEMPLATE,
   SET_FETCH_CAMPAIGNS_NEXT_PAGE,
-  SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS
+  SET_FETCH_CAMPAIGNS_NEXT_PAGE_SUCCESS,
+  PAGINATE_CAMPAIGN_LIST
 } from './actionTypes';
 import { Fetching, Success, FetchError } from '../../helpers/variables';
 import { FETCH_CAMPAIGN_NEXT_PAGE } from '../campaignProspectStore/actionTypes';
@@ -45,8 +46,8 @@ export default function reducer(state = initialState, action) {
       let newState = {
         ...state,
         ...payload,
-        campaigns: { ...state.campaigns, ...payload.campaigns },
-        sortOrder: [...state.sortOrder, ...payload.sortOrder],
+        campaigns: payload.campaigns,
+        sortOrder: payload.sortOrder,
         status: Success,
       };
 
@@ -66,6 +67,14 @@ export default function reducer(state = initialState, action) {
       }
 
       return newState;
+    case PAGINATE_CAMPAIGN_LIST:
+      return {
+        ...state,
+        ...payload,
+        campaigns: { ...state.campaigns, ...action.payload.campaigns },
+        sortOrder: [ ...state.sortOrder, ...action.payload.sortOrder ],
+        status: Success
+      }
     case SET_FETCH_CAMPAIGNS_ERROR:
       return {
         ...state,
