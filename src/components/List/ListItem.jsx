@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import IconHolster from './IconHolster.jsx';
 
 import { ListGroupItem, ListGroupItemHeading, ListGroupItemText } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 const StyledItem = styled(ListGroupItem)`
   padding: 0 !important;
@@ -112,7 +113,8 @@ function ListItem(props) {
         {props.item.desktopCallouts ? props.item.desktopCallouts : null}
         {props.item.desktopKebab ? props.item.desktopKebab : null}
         {props.item.link && (
-          <a href={props.item.link} className="stretched-link"></a>
+          <Link to={props.item.link} className="stretched-link"></Link>
+
         )}
       </ItemContent>
     </StyledItem>

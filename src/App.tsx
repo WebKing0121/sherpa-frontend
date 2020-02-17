@@ -144,7 +144,7 @@ function App() {
             />
             <ProtectedRoute is_auth={is_auth} path='/campaigns' component={DesktopCampaignsPage} exact />
             <ProtectedRoute is_auth={is_auth} path='/account-settings' component={AccountSettingsPage} exact />
-            <ProtectedRoute is_auth={is_auth} path='/campaignDetails' component={DesktopCampaignDetailPage} exact />
+            <ProtectedRoute is_auth={is_auth} path='/campaign/:id/details' component={DesktopCampaignDetailPage} exact />
             <ProtectedRoute
               is_auth={is_auth}
               path='/prospect/:prospectId/details'

@@ -66,14 +66,14 @@ const CampaignsPage = () => {
     if (activeMarketId !== marketId && isFetching !== Fetching) {
       dispatch(resetCampaignFilter());
       console.log(marketId, activeMarketId)
-      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false, page_size: 5}));
+      dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 }));
     }
   }, [dispatch, marketId, activeMarketId]);
 
   // Refetch campaigns if the filter gets reset
   useEffect(() => {
     if (activeFilter.length === 0) {
-      dispatch(fetchSortedCampaigns({ ordering: sortBy, market: marketId, is_archived: false, page_size: 5}));
+      dispatch(fetchSortedCampaigns({ ordering: sortBy, market: marketId, is_archived: false, page_size: 20 }));
     }
   }, [dispatch, activeFilter.length]);
 
@@ -141,7 +141,7 @@ const CampaignsPage = () => {
         sortingOptions={campaignSortingOptions}
         sortChange={(value) => {
           setActiveSort(value.id);
-          dispatch(fetchSortedCampaigns({ ordering: value.value, market: marketId, is_archived: false, page_size: 5}));
+          dispatch(fetchSortedCampaigns({ ordering: value.value, market: marketId, is_archived: false, page_size: 20 }));
         }}
         marketId={marketId}
         defaultValue={activeSort}

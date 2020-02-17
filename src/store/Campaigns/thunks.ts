@@ -118,8 +118,22 @@ export const fetchSingleCampaign = (id: string) => (dispatch: any) => {
 
 /*************************************************************************************************/
 
+export const exportCampaign = (id: number) => (dispatch: any) => {
+  return AxiosInstance.get(
+    `/campaigns/${id}/export/?lead_stage=45`,
+    {
+      headers: {
+        "Content-Type": "application/octet-stream"
+      }
+    }
+  )
+    .then((data: any) => {
+      console.log("DATA", data);
+    });
+}
+
 export const archiveCampaign = (data: any) => (dispatch: any) => {
-  const { id, name, company, market, createdBy, priorityCount } = data;
+  const { id, name, company, market, createdBy, priorityCount, isArchived } = data;
 
   const body = {
     name,
@@ -127,10 +141,10 @@ export const archiveCampaign = (data: any) => (dispatch: any) => {
     market,
     createdBy,
     priorityCount,
-    isArchived: true
+    isArchived
   };
 
-  AxiosInstance.put(`/campaigns/${id}/`, body)
+  return AxiosInstance.put(`/campaigns/${id}/`, body)
     .then(({ data }) => {
       dispatch(setArchiveCampaign(data));
       dispatch(decrementMarketCampaignCount(market));

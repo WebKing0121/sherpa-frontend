@@ -44,7 +44,6 @@ function MessagesTab(props) {
   const isFetchingMore = useSelector(isLoadingMore);
   const isFetching = useSelector(isLoading);
   const prospectList = prospectsToItemList({
-    updateCampaignProspectFn: updateCampaignProspectSuccess,
     prospectPath: [...path, "campaignProspects"],
     setActiveCampaign: true
   })(prospectResults || []);

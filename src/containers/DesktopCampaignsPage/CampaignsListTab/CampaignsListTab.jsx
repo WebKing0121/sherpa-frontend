@@ -105,11 +105,11 @@ const FilterSort = props => {
 
 
 const tabs = [
-  { id: 'all', name: 'All', params: { expand: 'market,created_by', page_size: 8 } },
-  { id: 'active', name: 'Active', params: { is_archived: false, expand: 'market,created_by', page_size: 8 } },
-  { id: 'followup', name: 'Follow-Up', params: { is_archived: false, is_followup: true, expand: 'market,created_by', page_size: 8 } },
-  { id: 'ownedbyme', name: 'Owned By Me', params: { owner: 1, expand: 'market,created_by', page_size: 8 } },
-  { id: 'archived', name: 'Archived', params: { is_archived: true, expand: 'market,created_by', page_size: 8 } }
+  { id: 'all', name: 'All', params: { expand: 'market,created_by', page_size: 20 } },
+  { id: 'active', name: 'Active', params: { is_archived: false, expand: 'market,created_by', page_size: 20 } },
+  { id: 'followup', name: 'Follow-Up', params: { is_archived: false, is_followup: true, expand: 'market,created_by', page_size: 20 } },
+  { id: 'ownedbyme', name: 'Owned By Me', params: { owner: 1, expand: 'market,created_by', page_size: 20 } },
+  { id: 'archived', name: 'Archived', params: { is_archived: true, expand: 'market,created_by', page_size: 20 } }
 ];
 
 const sortingOptions = [

@@ -1,3 +1,5 @@
+// import { uiGetCampaigns } from '../../../src/store/uiStore/campaignsPageDesktopView/campaignsList/filterData/selectors';
+
 describe('Campaign Desktop Page', () => {
   const url = Cypress.env('clientUrl');
   const campaignPath = `${url}/campaigns/`
@@ -89,4 +91,97 @@ describe('Campaign Desktop Page', () => {
           });
       });
   });
+
+  it('Archives a campaign', () => {
+    cy.viewport(950, 800);
+    cy.server();
+    cy.route({ method: 'PUT', url: '**/campaigns/*/**' }).as('campaigns');
+    cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns2');
+
+    cy
+      .get('[data-test=campaign-filter-tabs]')
+      .children()
+      .next()
+      .first()
+      .click();
+
+    cy.wait('@campaigns2');
+
+    cy
+      .getState()
+      .then(data => {
+        const {
+          uiStore: {
+            campaignsPageDesktopView: { campaignsList: { filterData: { tabs: { active } } } }
+          }
+        } = data;
+
+        cy
+          .get(`[data-test=kebab-${active.sortOrder[0]}]`)
+          .click();
+        cy
+          .get('[data-test=Archive]')
+          .click()
+
+        cy.wait('@campaigns');
+
+        cy
+          .getState()
+          .then(data2 => {
+            const {
+              uiStore: {
+                campaignsPageDesktopView: { campaignsList: { filterData: { tabs: { active: active2 } } } }
+              }
+            } = data2;
+
+            assert.equal(active.sortOrder.length, active2.sortOrder.length + 1);
+          })
+      });
+  })
+
+  it('UnArchives a Campaigns', () => {
+    cy.viewport(950, 800);
+    cy.server();
+    cy.route({ method: 'PUT', url: '**/campaigns/*/**' }).as('campaigns');
+    cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns2');
+
+    cy
+      .get('[data-test=campaign-filter-tabs]')
+      .children()
+      .last()
+      .click();
+
+    cy.wait('@campaigns2');
+
+    cy
+      .getState()
+      .then(data => {
+        const {
+          uiStore: {
+            campaignsPageDesktopView: { campaignsList: { filterData: { tabs: { archived } } } }
+          }
+        } = data;
+
+        cy
+          .get(`[data-test=kebab-${archived.sortOrder[0]}]`)
+          .click();
+        cy
+          .get('[data-test=Un-Archive]')
+          .click()
+
+        cy.wait('@campaigns');
+
+        cy
+          .getState()
+          .then(data2 => {
+            const {
+              uiStore: {
+                campaignsPageDesktopView: { campaignsList: { filterData: { tabs: { archived: archived2 } } } }
+              }
+            } = data2;
+
+            assert.equal(archived.sortOrder.length, archived2.sortOrder.length + 1);
+          })
+      });
+  })
 });

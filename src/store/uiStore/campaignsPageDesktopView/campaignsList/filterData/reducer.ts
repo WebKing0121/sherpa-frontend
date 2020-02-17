@@ -3,6 +3,7 @@ import {
   SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_SORT,
   SET_CAMPAIGN_DESKTOP_TAB_DATA
 } from './actionTypes';
+import { ARCHIVE_CAMPAIGN, UNARCHIVE_CAMPAIGN } from '../../../../Campaigns/actionTypes';
 
 const initialState = {
   activeSort: '-created_date',
@@ -85,6 +86,46 @@ export default function reducer(state: any = initialState, action: any) {
           }
         }
       }
+    }
+    case ARCHIVE_CAMPAIGN: {
+      // remove the archived campaign from each tab except archived tab
+      if (action.payload.isArchived) {
+        const tabsToRemoveFrom = ['active', 'ownedbyme', 'followup'];
+        const newTabs = tabsToRemoveFrom.reduce((acc: any, key: string) => {
+          const tab = { ...state.tabs[key] };
+          tab.sortOrder = tab.sortOrder.filter((id: number) => id !== action.payload.id)
+          acc[key] = tab;
+
+          return acc
+        }, {});
+
+        // update archived list
+        const newArchivedTab = { ...state.tabs.archived };
+        newArchivedTab.sortOrder.push(action.payload.id)
+
+        return {
+          ...state,
+          tabs: {
+            ...state.tabs,
+            ...newTabs,
+            archived: { ...newArchivedTab }
+          }
+        };
+      }
+    }
+    case UNARCHIVE_CAMPAIGN: {
+      const newArchivedState = { ...state.tabs.archived };
+      newArchivedState.sortOrder = newArchivedState.sortOrder.filter(
+        (id: any) => id !== action.payload
+      );
+
+      return {
+        ...state,
+        tabs: {
+          ...state.tabs,
+          archived: newArchivedState
+        }
+      };
     }
     default:
       return state;

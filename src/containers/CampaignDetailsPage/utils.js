@@ -49,17 +49,7 @@ export const prospectToItemList = opts => campaignProspect => {
   };
 
   const prospectOnClickStatus = (attr, payload) => () => {
-    return prospectUpdate(id, payload, store.dispatch).then(data => {
-      let newCampaignProspect = {
-        ...campaignProspect,
-        prospect: { ...campaignProspect.prospect, ...data, campaigns: [campaignProspect.campaign] }
-      };
-      // update prospect-campaign-store
-      store.dispatch(opts.updateCampaignProspectFn(newCampaignProspect));
-
-      // // update prospect-store
-      store.dispatch(updateProspectSuccess(ProspectRecord(newCampaignProspect.prospect, false)));
-    });
+    return prospectUpdate(id, payload, store.dispatch);
   };
 
   const actions = ProspectActions.map(action => {
@@ -77,8 +67,6 @@ export const prospectToItemList = opts => campaignProspect => {
     };
   });
 
-  // NOTE(Diego): Make sure we normalize displayMessage so we don't
-  // handle null logic
   const { message = '', dt = '' } = displayMessage || {};
 
   return {

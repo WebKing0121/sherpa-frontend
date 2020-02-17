@@ -6,7 +6,7 @@ import { archiveCampaign } from '../../../store/Campaigns/actions';
  * component to render.
  */
 export const campaignToItemList = campaign => {
-  const { id, name, priorityCount, totalLeads, hasUnreadSMS, createdBy, createdDate, health, market, percentCompleteUnsent } = campaign;
+  const { id, name, createdBy, createdDate } = campaign;
 
   const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
@@ -30,15 +30,15 @@ export const campaignToItemList = campaign => {
     actions: [
       {
         name: 'Export',
-        link: archiveCampaign(campaign),
+        link: archiveCampaign({ ...campaign, isArchived: !campaign.isArchived }),
       },
       {
         name: 'Rename',
-        link: archiveCampaign(campaign),
+        link: archiveCampaign({ ...campaign, isArchived: !campaign.isArchived }),
       },
       {
         name: 'Archive',
-        link: archiveCampaign(campaign),
+        link: archiveCampaign({ ...campaign, isArchived: !campaign.isArchived }),
       }
     ]
   };

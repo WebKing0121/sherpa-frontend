@@ -19,7 +19,6 @@ const NewMessages = (props) => {
 
   const unreadSmsList = campaignProspectsUnread.map(
     prospectsToItemList({
-      updateCampaignProspectFn: updateCampaignProspectsUnread,
       prospectPath: [...path, "campaignProspectsUnread"]
     }));
 

@@ -10,31 +10,31 @@ import store from '../../store/store';
  * component to render.
  */
 export const campaignToItemList = campaign => {
-    const { id, market, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
+  const { id, market, name, priorityCount, totalLeads, hasUnreadSMS } = campaign;
 
-    const onClickItem = () => store.dispatch(setCampaignActiveTab('1'))
+  const onClickItem = () => store.dispatch(setCampaignActiveTab('1'))
 
-    return {
-        ...IListItem,
-        id,
-        name,
-        subInfo: <SubInfo data={{ priorityCount, totalLeads }} />,
-        readable: true,
-        isRead: !hasUnreadSMS,
-        statusWrapper: (
-            <StatusWrapper
-                link={`/markets/${market}/campaigns/${id}/details`}
-                onClick={onClickItem}
-            />),
-        actions: [
-            {
-                icon: 'archive',
-                name: 'Archive',
-                link: archiveCampaign(campaign),
-                background: 'gray'
-            }
-        ]
-    };
+  return {
+    ...IListItem,
+    id,
+    name,
+    subInfo: <SubInfo data={{ priorityCount, totalLeads }} />,
+    readable: true,
+    isRead: !hasUnreadSMS,
+    statusWrapper: (
+      <StatusWrapper
+        link={`/markets/${market}/campaigns/${id}/details`}
+        onClick={onClickItem}
+      />),
+    actions: [
+      {
+        icon: 'archive',
+        name: 'Archive',
+        link: archiveCampaign({ ...campaign, isArchived: !campaign.isArchived }),
+        background: 'gray'
+      }
+    ]
+  };
 };
 
 export const campaignsToItemList = campaigns => campaigns.map(campaignToItemList);

@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { TabContent, TabPane } from 'reactstrap';
 import { desktopCampaignDetailHeaderInfo } from '../../helpers/variables';
 import SendTab from './CampaignSendTab/CampaignSendTab';
@@ -7,14 +7,26 @@ import TabbedHeader from '../../components/TabbedHeader';
 import NotesTab from '../../components/NotesTab/NotesTab';
 import * as noteActions from '../../store/CampaignDetails/notes/actions';
 import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDetails/notes/selectors';
+import { useParams } from 'react-router-dom';
+import { getCampaign } from '../../store/Campaigns/selectors';
+import { fetchSingleCampaign } from '../../store/Campaigns/thunks';
 
 const DesktopCampaignDetailPage = props => {
   const [activeTab, setActiveTab] = useState('2');
-  const campaignId = 1;
+  const { id } = useParams();
+  const campaign = useSelector(getCampaign(id));
+  const dispatch = useDispatch();
 
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   };
+
+  useEffect(() => {
+    // when there is no campaign
+    if (!campaign.id) {
+      dispatch(fetchSingleCampaign(id));
+    }
+  }, [campaign]);
 
   const notesList = useSelector(campaignNotesList);
 
@@ -22,7 +34,7 @@ const DesktopCampaignDetailPage = props => {
     fetchNotes: noteActions.fetchCampaignNotes,
     updateNotes: noteActions.updateCampaignNotes,
     subject: 'campaign',
-    subjectId: campaignId,
+    subjectId: id,
     notesList,
     notesStatus: campaignNotesStatus,
     addNote: noteActions.addCampaignNote,
@@ -33,7 +45,13 @@ const DesktopCampaignDetailPage = props => {
 
   return (
     <div className="pageContent d-flex flex-column">
-      <TabbedHeader data={desktopCampaignDetailHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}><h1 className='text-white text-left m-0'>Greeley/Fort Collins - 2019-05-08</h1></TabbedHeader>
+      <TabbedHeader
+        data={desktopCampaignDetailHeaderInfo}
+        toggleTab={toggleTab}
+        activeTab={activeTab}
+      >
+        {campaign.name}
+      </TabbedHeader>
       <TabContent activeTab={activeTab}>
         <TabPane tabId='1'>
         </TabPane>

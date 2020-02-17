@@ -45,21 +45,15 @@ export default function reducer(state = initialState, action) {
     case SET_FETCH_CAMPAIGNS:
       let newState = {
         ...state,
-        ...payload,
-        campaigns: payload.campaigns,
+        next: payload.next,
+        previous: payload.previous,
         sortOrder: payload.sortOrder,
+        campaigns: {
+          ...state.campaigns,
+          ...payload.campaigns
+        },
         status: Success,
       };
-
-      // override campaigns or concatenate
-      if (action.overrideData) {
-        newState.campaigns = payload.campaigns;
-      } else {
-        newState.campaigns = {
-          ...newState.campaigns,
-          ...payload.campaigns
-        };
-      }
 
       // set active market if there's not one already set
       if (!newState.activeMarket) {
@@ -72,7 +66,7 @@ export default function reducer(state = initialState, action) {
         ...state,
         ...payload,
         campaigns: { ...state.campaigns, ...action.payload.campaigns },
-        sortOrder: [ ...state.sortOrder, ...action.payload.sortOrder ],
+        sortOrder: [...state.sortOrder, ...action.payload.sortOrder],
         status: Success
       }
     case SET_FETCH_CAMPAIGNS_ERROR:
@@ -82,13 +76,21 @@ export default function reducer(state = initialState, action) {
         status: FetchError
       };
     case ARCHIVE_CAMPAIGN:
-      let oldOrder = state.sortOrder;
-
-      let updatedCampaigns = oldOrder.filter(x => x !== payload.id);
+      const oldOrder = state.sortOrder;
+      const updatedCampaigns = oldOrder.filter(x => x !== payload.id);
+      const campaign = state.campaigns[payload.id];
 
       return {
         ...state,
         sortOrder: updatedCampaigns,
+        campaigns: {
+          ...state.campaigns,
+          [payload.id]: {
+            ...payload,
+            market: campaign.market,
+            createdBy: campaign.createdBy
+          }
+        },
         status: Success
       };
     case UPDATE_SMS_TEMPLATE:

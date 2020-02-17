@@ -79,21 +79,6 @@ export default function reducer(state: any = initialState, action: any) {
         campaignProspectsUnreadCount: action.payload.count
       }
     }
-    case UPDATE_CAMPAIGN_PROSPECTS_UNREAD: {
-      const idx = state.campaignProspectsUnread.findIndex(
-        (pru: any) => pru.prospect.id === action.payload.prospect.id
-      );
-      const newCampaignProspectsUnread = [...state.campaignProspectsUnread];
-      newCampaignProspectsUnread[idx] = {
-        ...newCampaignProspectsUnread[idx],
-        ...action.payload
-      }
-
-      return {
-        ...state,
-        campaignProspectsUnread: newCampaignProspectsUnread
-      };
-    }
     case REMOVE_CAMPAIGN_PROSPECT_UNREAD: {
       const count = state.campaignProspectsUnreadCount;
       const newCampaignProspectsUnread = removeCampaignProsectUnread(

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Popover, PopoverBody } from 'reactstrap';
+import { exportCampaign } from '../../../store/Campaigns/thunks';
 
 const KebabWrap = styled.a`
   display: flex;
@@ -37,19 +38,19 @@ const DesktopKebab = props => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const modal =(
+  const modal = (
     <Popover placement="bottom" isOpen={isOpen} offset={-35} target={"kebab" + props.idx} toggle={toggle}>
       <Body>
-        <Button color="link">Export</Button>
-        <Button color="link">Rename</Button>
-        <Button color="link">Archive</Button>
+        {props.actions.map((action, index) => (
+          <Button data-test={action.name} color="link" key={index} onClick={action.onClick}>{action.name}</Button>
+        ))}
       </Body>
     </Popover>
   );
 
   return (
-    <KebabWrap id={"kebab" + props.idx} onClick={toggle}>
-      <FontAwesomeIcon icon="ellipsis-v" size="2x"/>
+    <KebabWrap data-test={`kebab-${props.idx}`} id={"kebab" + props.idx} onClick={toggle}>
+      <FontAwesomeIcon icon="ellipsis-v" size="2x" />
       {modal}
     </KebabWrap>
   );
