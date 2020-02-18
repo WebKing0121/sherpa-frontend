@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Wrapper = styled.div`
@@ -57,7 +57,6 @@ function InputSelect2(props) {
   const icon = props.icon ? props.icon : (
     <FontAwesomeIcon className="icon" icon="chevron-up" rotation={!dropdownOpen ? 180 : null} />
   );
-
   return (
     <Wrapper>
       <Dropdown
@@ -66,10 +65,11 @@ function InputSelect2(props) {
         toggle={toggle}
         direction="down">
         <StyledToggle tag="span" className="form-control">
-          <div>{props.value || props.placeholder}</div>
+          <div data-test='dropdown-value'>{props.value || props.placeholder}</div>
           {icon}
         </StyledToggle>
         <StyledDropdownMenu
+          data-test='custom-dropdown'
           flip={false}
           positionFixed={false}
           modifiers={{

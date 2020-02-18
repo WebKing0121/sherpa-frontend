@@ -51,6 +51,10 @@ describe('Navbar', () => {
   });
 
   it('loads root route when navbar brand logo is clicked', () => {
+    cy
+      .get('[data-test=navbar-arrow]')
+      .click()
+
     cy.get('[data-test=routes] > li')
       .contains('Support')
       .click();
@@ -67,10 +71,9 @@ describe('Navbar', () => {
   });
 
   it('expands and collapses navbar', () => {
+    cy.get('[data-test=navbar-collapse').should('have.class', 'show');
     cy.get('[data-test=navbar-arrow]').click();
-    cy.get('[data-test=navbar-collapse').should('be.visible');
-    cy.get('[data-test=navbar-arrow]').click();
-    cy.get('[data-test=navbar-collapse').should('not.be.visible');
+    cy.get('[data-test=navbar-collapse').should('not.have.class', 'show');
   });
 
   it('logs user out', () => {

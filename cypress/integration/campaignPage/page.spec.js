@@ -70,25 +70,25 @@ describe('Campaigns page', () => {
 
   it('archives the first campaign and archive persists across page reloads', () => {
     cy.server();
-    cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns');
+    cy.route({ method: 'GET', url: '**/campaigns/**' }).as('campaigns-get');
+    cy.route({ method: 'PUT', url: '**/campaigns/**' }).as('campaigns-put');
     cy.get(`${itemHeader} h5`).then($headers => {
+      const firstHeader = $headers[0].textContent;
       cy.get('[data-test=swipeable-list-item-action] a').then($links => {
         let linkLength = $links.length;
         cy.wrap($links)
-          .first()
+          .eq(0)
           .click({ force: true });
-        cy.wrap($links)
-          .first()
-          .should('not.exist');
+        cy.wait('@campaigns-put');
+        Cypress.dom.isDetached($links[0]);
         cy.login();
         cy.visit(`${url}/${campaignUrl}`);
-        cy.wait('@campaigns').then(() => {
-          cy.get('[data-test=swipeable-list-item-action] a').then($updatedA => {
-            expect($updatedA.length).to.eq(linkLength - 1);
+        cy.wait('@campaigns-get').then(() => {
+          cy.get('[data-test=swipeable-list-item-action] a').then($actionLink => {
+            expect($actionLink.length).to.eq(linkLength - 1);
           });
           cy.get(`${itemHeader} h5`).each($newHeader => {
-            const firstCampaign = $headers[0];
-            cy.wrap($newHeader).should('not.contain', firstCampaign.textContent);
+            cy.wrap($newHeader).should('not.contain', firstHeader.textContent);
           });
         });
       });

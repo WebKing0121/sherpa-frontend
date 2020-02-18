@@ -203,17 +203,16 @@ const DetailsTab = props => {
   }
 
   return (
-    <>
+    <div data-test='prospect-lead-stages-drop-down'>
       <InputSelect
         id='statusSelect'
         value={activeLead}
-        data-test='prospect-lead-stages-drop-down'
         placeholder={"Select Lead Stage"}
         options={leadOptions}
       />
 
       <StatusActions>{statusActions}</StatusActions>
-    </>
+    </div>
   );
 };
 

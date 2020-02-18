@@ -4,7 +4,10 @@ describe('campaign send tab', () => {
     campaignId = Cypress.env('testCampaign'),
     campaignUrl = `markets/${marketId}/campaigns/${campaignId}/details`,
     sendTab = '[data-test=Send]',
-    smsTemplateDropDown = '[data-test=sms-template-drop-down]';
+    smsTemplateDropDown = '[data-test=sms-template-dropdown]',
+    option = '.dropdown-item',
+    dropDown = '[data-test=custom-dropdown]',
+    dropDownValue = '.dropdown span';
 
   before(() => {
     cy.login();
@@ -37,7 +40,7 @@ describe('campaign send tab', () => {
     cy.getState().then(({ smsTemplates: { templates } }) => {
       const templatesArr = Object.values(templates);
       cy.get(smsTemplateDropDown)
-        .find('option')
+        .find(option)
         .each(($option, idx) => {
           cy.wrap($option).contains(templatesArr[idx].templateName);
         });
@@ -65,9 +68,10 @@ describe('campaign send tab', () => {
       'batch-prospects'
     );
     cy.get(smsTemplateDropDown)
-      .find('option')
-      .each($option => {
-        cy.get(smsTemplateDropDown).select($option[0].value);
+      .find(option)
+      .each(($option, idx) => {
+        cy.get(smsTemplateDropDown).click({ force: true })
+        cy.get(smsTemplateDropDown).find(option).eq(idx).click({ force: true })
         cy.wait('@batch-prospects');
         cy.getState().then(state => {
           const { message: templateMsg } = state.smsTemplates.templates[$option[0].value];
@@ -86,9 +90,10 @@ describe('campaign send tab', () => {
       delay: 500
     }).then(res => {
       cy.get(smsTemplateDropDown)
-        .find('option')
-        .each($option => {
-          cy.get(smsTemplateDropDown).select($option[0].value);
+        .find(option)
+        .each(($option, idx) => {
+          cy.get(smsTemplateDropDown).click({ force: true });
+          cy.get(smsTemplateDropDown).find(option).eq(idx).click({ force: true })
           cy.get('[data-test=spinner]').should('exist');
           cy.get('[data-test=batch-prospect-message]').should('not.exist');
           cy.wait(`@${res.alias}`);

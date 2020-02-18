@@ -4,7 +4,10 @@ describe('campaign messages', () => {
     campaignId = Cypress.env('testCampaign'),
     campaignUrl = `markets/${marketId}/campaigns/${campaignId}/details`,
     swipeableListItem = '[data-test=swipeable-list-item]',
-    dropDown = '[data-test=campaign-messages-filter]';
+    messagesFilter = '[data-test=campaign-messages-filter]',
+        option = '.dropdown-item',
+        dropDown = '[data-test=custom-dropdown]',
+        dropDownValue = '.dropdown span';
 
   const actions = ['Verified', 'DNC', 'Priority', 'Qualified'];
 
@@ -32,17 +35,17 @@ describe('campaign messages', () => {
   it('selects the messages tab and renders the messages pane', () => {
     cy.get('[data-test=Messages]').click({ force: true });
     cy.get('[data-test=Messages]').should('have.class', 'active');
-    cy.get(dropDown).should('exist');
+    cy.get(messagesFilter).should('exist');
   });
 
   it('has the first option in the filter dropdown selected', () => {
-    cy.get(dropDown)
-      .find('select')
+    cy.get(messagesFilter)
+      .find(dropDownValue)
       .then($select => {
-        cy.get(dropDown)
-          .find('option')
+        cy.get(messagesFilter)
+          .find(option)
           .then($option => {
-            cy.wrap($select).should('have.value', $option[0].value);
+            cy.wrap($select).contains($option[0].textContent);
           });
       });
   });
@@ -52,28 +55,27 @@ describe('campaign messages', () => {
     cy.fixture(`campaign${campaignId}Prospects`).then(fixture => {
       cy.route({
         method: 'GET',
-        url: '**/campaign-prospects/*',
+        url: '**/campaign-prospects/**',
         response: fixture
       }).as('campaign-prospects');
-      cy.get(dropDown)
-        .find('option')
-        .each($option => {
-          if ($option[0].value >= 0) {
-            cy.get(dropDown)
-              .find('select')
-              .select($option[0].value)
-              .should('have.value', $option[0].value);
+      cy.get(messagesFilter)
+        .find(option)
+        .then($options => {
+          console.log($options)
+          const optionsLen = $options.length;
+          for (let i = 0; i < optionsLen; i++) {
+            cy.get(messagesFilter).click({ force: true  })
+            cy.get(messagesFilter).find(option).eq(i).click({ force: true  })
             cy.wait('@campaign-prospects').then(xhr => {
-              cy.wrap(xhr)
-                .its('status')
-                .should('eq', 200);
+            cy.wrap(xhr)
+              .its('status')
+              .should('eq', 200);
             });
           }
         });
-    });
-    cy.get(dropDown)
-      .find('select')
-      .select('Unread / Is Priority');
+        })
+    cy.get(messagesFilter)
+      .find(option).first().click({ force: true })
   });
 
   it('contains each action button with the correct text and an icon', () => {

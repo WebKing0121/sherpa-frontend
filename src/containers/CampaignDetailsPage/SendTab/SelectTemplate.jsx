@@ -12,7 +12,7 @@ function SelectTemplate(props) {
   const { templateChoices, templateId, choseTemplate } = props;
 
   const templateOptions = Object.entries(templateChoices).map(([key, value]) => (
-    <DropdownItem onClick={choseTemplate} key={key} value={value.id}>
+    <DropdownItem   onClick={choseTemplate} key={key} value={value.id}>
       {value.templateName}
     </DropdownItem>
   ));
@@ -20,13 +20,12 @@ function SelectTemplate(props) {
   const msg = templateChoices[templateId] ? templateChoices[templateId].message : '';
 
   return (
-    <PaddedContent>
+    <PaddedContent data-test='sms-template-dropdown'>
       <Label htmlFor='SearchField'>Template</Label>
       <InputSelect2
         id='SearchField'
         value={templateChoices[templateId] ? templateChoices[templateId].templateName : null}
         placeholder="Search"
-        data-test='sms-template-drop-down'
         options={templateOptions}
       />
 

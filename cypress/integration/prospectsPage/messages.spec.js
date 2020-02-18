@@ -20,15 +20,13 @@ describe('Prospect messages', () => {
 
   it('renders the messages tab', () => {
     cy.server();
+    cy.createFixture(`campaignProspects.json`, 'campaign-prospects/unread', 'GET', { qs: { expand: 'campaign' } })
     cy.route({ method: 'GET', url: `**/prospects/**` }).as('prospect');
-    cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages`, response: [] }).as(
-      'messages'
-    );
+    cy.route({ method: 'GET', url: `**/campaign-prospect/unread/**` }).as('campaign-prospect');
     cy.visit(`${prospectUrl}`);
     cy.wait('@prospect').then(() => {
       cy.get('[data-test=Messages]').contains('Messages');
     });
-    cy.wait('@messages');
   });
 
   it('selects and renders the messages pane', () => {
@@ -36,22 +34,11 @@ describe('Prospect messages', () => {
     cy.get('[data-test=Messages').should('have.class', 'active');
   });
 
-  it('displays an empty messages text when there are no messages', () => {
-    cy.get(messages).then($msgs => {
-      cy.wrap($msgs)
-        .find('li')
-        .should('not.exist');
-      cy.wrap($msgs)
-        .find('div')
-        .contains(emptyMessagesText);
-    });
-  });
-
   it('displays messages', () => {
     cy.reload();
     cy.login();
     cy.route({ method: 'GET', url: '**/prospects/**' }).as('prospect');
-    cy.route({ method: 'GET', url: `**/prospects/${prospectNum}/messages` }).as('messages');
+    cy.route({ method: 'GET', url: `**/campaign-prospects/unread/**` }).as('messages');
     cy.visit(`${prospectUrl}`);
     cy.get('[data-test=Messages]').click();
     cy.wait('@prospect');
@@ -248,12 +235,14 @@ describe('Prospect messages', () => {
         cy
           .getState()
           .then(store2 => {
+            console.log(store2)
+            const campaignId = store2.prospectStore.prospects[prospectNum].campaigns[0].id;
             assert.equal(
               store2.campaignProspectStore.campaignProspectsUnreadCount, startCount - 1
             );
             assert.equal(
-              store2.campaignProspectStore.campaignProspectsUnread.length,
-              store.campaignProspectStore.campaignProspectsUnread.length - 1
+              store2.campaignProspectStore.campaignProspectsUnread[campaignId].length,
+              store.campaignProspectStore.campaignProspectsUnread[campaignId].length - 1
             );
           })
       });
@@ -317,11 +306,16 @@ describe('Prospect messages', () => {
       stopTime = Date.now();
       const totalTime = ((stopTime - startTime) / 1000).toFixed();
       assert.isNotNull(req.response.body, `full api request has completed`);
-      assert.equal(
+      assert.isAbove(
         totalTime,
-        messageUpdateTimer,
-        `${totalTime} seconds is equal to ${messageUpdateTimer} seconds`
+        messageUpdateTimer - 5,
+        `${messageUpdateTimer - 5} seconds is less than ${totalTime} seconds`
       );
+
+      assert.isBelow(
+        totalTime,
+        messageUpdateTimer + 5,
+        `${totalTime} seconds is less than ${messageUpdateTimer + 5} seconds`);
     });
   });
 });

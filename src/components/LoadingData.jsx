@@ -58,7 +58,7 @@ export const DataLoader = props => {
   ) : whenError(status) && !data.length ? (
     <NoResults data-test='network-error-message'>{networkError}</NoResults>
   ) : (
-        <DisplayedData data-test={dataTest} className="displayedData" data-test='displayed-data'>{renderData()}</DisplayedData>
+    <DisplayedData data-test={dataTest || 'displayed-data'} className="displayedData">{renderData()}</DisplayedData>
       );
 
   return (

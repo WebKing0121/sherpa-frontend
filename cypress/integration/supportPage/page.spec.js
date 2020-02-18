@@ -8,41 +8,21 @@ describe('Support page', () => {
     cy.login();
   });
 
-  it('renders support page route', () => {
+  it('renders support page route and makes a successful api call', () => {
     cy.server();
-    cy.stubResponse({ url: 'support-links', response: 'support' });
+    cy.route({ url: '**/support-links', response: 'fixture:support.json' }).as('support-links');
     cy.visit(`${url}/support`);
-
+    cy.wait('@support-links').then(xhr => {
+      expect(xhr.status).to.eq(200);
+    });
     cy.location().should(location => {
       expect(location.pathname).to.eq('/support');
     });
   });
 
-  it('displays correct support results', () => {
-    cy.fixture('support').then(support => {
-      cy.get('[data-test=displayed-data] a').should('have.length', support.results.length);
-    });
-  });
-
-  it('displays the correct header text', () => {
-    cy.get('h1').contains('Support');
-    cy.get('h2').contains('How can we help');
-  });
-
-  it('displays the correct attributes, elements, and be clickable for each support result', () => {
-    cy.get('p').contains(supportText);
+  it('displays the correct amount of support cards', () => {
     cy.fixture('support').then(support => {
       cy.get(supportCards).should('have.length', support.results.length);
-      cy.get(supportCards).each(($card, index) => {
-        const { url, icon, title, description } = support.results[index];
-        expect($card).to.have.attr('href', url);
-        expect($card).to.not.have.attr('disabled');
-        cy.wrap($card).within(() => {
-          cy.get('svg').should('have.attr', 'data-icon', icon[1]);
-          cy.get('h3').should('contain', title);
-          cy.get('div div').should('contain', description);
-        });
-      });
     });
   });
 });

@@ -61,15 +61,17 @@ describe('Filter functionality', () => {
               cy.wait(`@camps`);
 
               cy.getState().then(({ campaigns: { campaigns, sortOrder } }) => {
-
                 const campaignArr = sortOrder.map(item => campaigns[item]);
+                console.log(campaignArr)
 
                 // Checking the UI element is correct per the store
-                cy.get(listItem).each(($item, idx) => {
-                  cy.wrap($item)
-                    .find(`${itemHeader} h5`)
-                    .contains(campaignArr[idx].name);
-                });
+                if (Cypress.dom.isDom(listItem)) {
+                  cy.get(listItem).each(($item, idx) => {
+                    cy.wrap($item)
+                      .find(`${itemHeader} h5`)
+                      .contains(campaignArr[idx].name);
+                  });
+                }
 
                 // Checks that the radio id belongs to the correct owner in the store
                 campaignArr.forEach((item) => {

@@ -112,10 +112,9 @@ const FieldSelect = props => {
   }
 
   return (
-    <FieldWrapper>
+    <FieldWrapper data-test={props.dataTest} >
       <Label>{props.label}</Label>
       <InputSelect
-        data-test={props.dataTest}
         id={props.id}
         value={props.options[active].props.children}
         icon={props.icon}
@@ -186,6 +185,7 @@ const FieldsSection = () => {
   const prospect = useSelector(getProspect(prospectId));
   const activeCampaignId = useSelector(activeCampaignSelector);
   const [campaigns, setCampaigns] = useState([]);
+  const [activeCampaign, setActiveCampaign] = useState({});
   const [campaignsLoading, setCampaignIsLoading] = useState(false);
   const agents = useSelector(agentSelector);
   const dispatch = useDispatch();
@@ -208,10 +208,15 @@ const FieldsSection = () => {
     }
   } = prospect;
 
-  const activeCampaign = campaigns.find(campaign => campaign.id === activeCampaignId) || {};
   // clears active-campaign when navigating away
   useEffect(() => () => dispatch(clearActiveCampaign()), [dispatch]);
 
+  useEffect(() => {
+  if (activeCampaignId) {
+    const campaign = prospect.campaigns.find(c => c.id === activeCampaignId) || {};
+    setActiveCampaign(campaign)
+  }
+  }, [activeCampaignId])
   // agent controls
   const emptyAgentOption = {
     id: '',
@@ -338,7 +343,7 @@ const FieldsSection = () => {
             data-test='email-to-crm-btn'
             color='primary'
             className='fw-bold'
-            disabled={emailedToPodio || fieldBtnStatus.isEmailingToCrm}
+            disabled={emailedToPodio || fieldBtnStatus.isEmailingToCrm || (activeCampaignId && !activeCampaign.podioPushEmailAddress)}
             onClick={() => handleFieldBtnClick(prospectEmailToCrmAction, 'isEmailingToCrm')}
           >
             {fieldBtnStatus.isEmailingToCrm || emailedToPodio ? (
@@ -362,7 +367,7 @@ const FieldsSection = () => {
             data-test='push-to-zapier-btn'
             color='primary'
             className='fw-bold'
-            disabled={pushedToZapier || fieldBtnStatus.isPushingToZapier}
+            disabled={pushedToZapier || fieldBtnStatus.isPushingToZapier || (activeCampaignId && !activeCampaign.zapierWebhook)}
             onClick={() => handleFieldBtnClick(prospectPushToZapierAction, 'isPushingToZapier')}
           >
             {fieldBtnStatus.isPushingToZapier || pushedToZapier ? (

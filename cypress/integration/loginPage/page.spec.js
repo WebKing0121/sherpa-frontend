@@ -83,15 +83,14 @@ describe('Login form', () => {
   });
 
   it('successfully fetches userInfo on page reload', () => {
+    cy.reload();
     cy.login();
     cy.server();
     cy.route({ method: 'GET', url: '**/auth/users/me/' }).as('fetchUserInfo');
-    cy.reload();
     cy.wait('@fetchUserInfo')
-      .then((response) => {
-        console.log("RESONSE", response);
-        const { status } = response;
-        assert.equal(status, 200);
+      .then(xhr => {
+        console.log(xhr)
+        expect(xhr.status).to.eq(200);
       });
   });
 });

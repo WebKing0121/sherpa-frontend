@@ -25,22 +25,6 @@ describe('data loader wrapper component', () => {
     cy.get(displayedData).should('exist');
   });
 
-  it('displays data when is both an error and data', () => {
-    cy.server();
-    cy.stubResponse({ url: 'support-links', response: 'support', status: 500 });
-    cy.login();
-    cy.visit(`${url}/support`);
-    cy.fixture('support').then(support => {
-      cy.window()
-        .its('store')
-        .then(store => store.dispatch({ type: 'SET_SUPPORT_ITEMS', items: support.results }));
-    });
-    cy.get(displayedData).should('exist');
-    cy.get(networkErrorMsg).should('not.exist');
-    cy.get(emptyDataMsg).should('not.exist');
-    cy.checkForNewToast('alert-danger');
-  });
-
   it('display an error message when is network error and no data', () => {
     cy.reload();
     cy.login();
