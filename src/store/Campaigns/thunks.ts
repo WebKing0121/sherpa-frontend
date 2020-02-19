@@ -183,3 +183,12 @@ export const createFollowupCampaign = (payload: any) => (dispatch: any) => {
       return error;
     });
 }
+
+export const createCampaign = (payload: any) => (dispatch: any) => {
+  return AxiosInstance
+    .post('/campaigns/', payload)
+    .then(({ data }) => {
+      dispatch(updateCampaignList(data))
+      return data;
+    })
+}
