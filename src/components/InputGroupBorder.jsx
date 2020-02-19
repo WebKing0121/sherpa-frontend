@@ -14,6 +14,10 @@ const StyledInputGroup = styled(InputGroup)`
     padding-left: var(--pad2);
     padding-right: var(--pad2);
   }
+
+  @media (min-width: 768px) {
+    --border: 2px solid var(--mediumGray) !important;
+  }
 `;
 
 function InputGroupBorder(props) {

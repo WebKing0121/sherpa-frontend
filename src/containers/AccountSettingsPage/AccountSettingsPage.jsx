@@ -3,7 +3,13 @@ import styled from 'styled-components';
 import { Nav, NavItem, NavLink, TabContent, TabPane, } from 'reactstrap';
 import Header from '../../components/Header';
 import classnames from 'classnames';
+// Tabs
 import AccountInfoTab from './Tabs/AccountInfoTab';
+import BillingInfoTab from './Tabs/BillingInfoTab';
+import UsersTab from './Tabs/UsersTab';
+import AutoSettingsTab from './Tabs/AutoSettingsTab';
+import ManageAppsTab from './Tabs/ManageAppsTab';
+import RelaySettingsTab from './Tabs/RelaySettingsTab';
 
 const SettingsBody = styled.div`
   display: flex;
@@ -39,13 +45,13 @@ const StyledNavLink = styled(NavLink)`
 const StyledNav = styled(Nav)`
   display: flex;
   flex-direction: column;
-  flex: 500px 2 4;
+  flex: 1 0 25%;
   background: white;
   padding: var(--ypad) var(--xpad) !important;
 `;
 
 const StyledTabContent = styled(TabContent)`
-  flex: 80% 4 1;
+  flex: 4 1 80% !important;
 
   .tab-pane {
     padding: var(--ypad) var(--xpad);
@@ -74,7 +80,7 @@ function AccountSettingsPage() {
             <StyledNavLink
               className={classnames({ active: activeTab === '2' })}
               onClick={() => { toggle('2'); }}
-            >Billing & Order History</StyledNavLink>
+            >Billing Information</StyledNavLink>
           </NavItem>
           <NavItem>
             <StyledNavLink
@@ -107,19 +113,19 @@ function AccountSettingsPage() {
             <AccountInfoTab />
           </TabPane>
           <TabPane tabId="2">
-            Billing
+            <BillingInfoTab />
           </TabPane>
           <TabPane tabId="3">
-            Users
+            <UsersTab />
           </TabPane>
           <TabPane tabId="4">
-            Auto Settings
+            <AutoSettingsTab />
           </TabPane>
           <TabPane tabId="5">
-            Manage app integerations
+            <ManageAppsTab />
           </TabPane>
           <TabPane tabId="6">
-            Prospect Relay Settings
+            <RelaySettingsTab />
           </TabPane>
         </StyledTabContent>
       </SettingsBody>

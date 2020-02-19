@@ -71,14 +71,14 @@ function AccountInfoTab(props) {
 
   // header buttons
   const accountHeaderBtn = (
-    <Button color="primary" size="sm" onClick={()=>{}}>
+    <Button color="primary" size="md" onClick={()=>{}}>
       Save Changes
     </Button>
   );
 
   const marketsHeaderBtn = (
     <ModalToggle config={newMarketConfig}>
-      <Button color="primary" size="sm" onClick={()=>{}}>
+      <Button color="primary" size="md" onClick={()=>{}}>
         {plusIcon}New Market
       </Button>
     </ModalToggle>
@@ -144,26 +144,31 @@ function AccountInfoTab(props) {
 
       <SettingsSection type="list" header={marketsHeader}>
         <ul className="p-0">
-          <li className="item textS mb-1">
+          <li className="item textM mb-1">
             <span>Denver Metro</span>
-
             <span className="gray">
               Forwarding to
               <span className="ml-1 darkGray fw-bold">(605)215-9699</span>
               <ModalToggle config={forwardNumModalConfig}>{editIcon}</ModalToggle>
             </span>
-
             <span>{checkIcon}Active</span>
           </li>
-          <li className="item textS mb-1">
+          <li className="item textM mb-1">
             <span>Pueblo/Springs</span>
-
             <span className="gray">
               Forwarding to
               <span className="ml-1 darkGray fw-bold">(605)215-9699</span>
               <ModalToggle config={forwardNumModalConfig}>{editIcon}</ModalToggle>
             </span>
-
+            <span>{checkIcon}Active</span>
+          </li>
+          <li className="item textM mb-1">
+            <span>Pueblo/Springs</span>
+            <span className="gray">
+              Forwarding to
+              <span className="ml-1 darkGray fw-bold">(605)215-9699</span>
+              <ModalToggle config={forwardNumModalConfig}>{editIcon}</ModalToggle>
+            </span>
             <span>{checkIcon}Active</span>
           </li>
         </ul>

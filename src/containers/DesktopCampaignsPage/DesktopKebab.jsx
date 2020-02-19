@@ -39,8 +39,13 @@ const DesktopKebab = props => {
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
 
-  const modal = (
-    <Popover placement="bottom" isOpen={isOpen} offset={-35} target={"kebab" + props.idx} toggle={toggle}>
+  const popover = (
+    <Popover
+      placement="bottom"
+      isOpen={isOpen}
+      offset={-35}
+      target={"kebab" + props.idx}
+      toggle={toggle}>
       <Body>
         {props.actions.map((action, index) => (
           <Button data-test={action.name} color="link" key={index} onClick={action.onClick}>{action.name}</Button>
@@ -50,9 +55,14 @@ const DesktopKebab = props => {
   );
 
   return (
-    <KebabWrap data-test={`kebab-${props.idx}`} id={"kebab" + props.idx} onClick={toggle}>
-      <FontAwesomeIcon icon="ellipsis-v" size="2x" />
-      {modal}
+    <KebabWrap
+      data-test={`kebab-${props.idx}`}
+      id={"kebab" + props.idx}
+      onClick={toggle}
+      tabindex="0"
+      role="button">
+      <FontAwesomeIcon icon="ellipsis-v" size={props.size || "2x"} />
+      {popover}
     </KebabWrap>
   );
 };

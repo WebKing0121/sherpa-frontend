@@ -4,6 +4,7 @@ import {
   faBullhorn,
   faSearch,
   faChevronUp,
+  faChevronDown,
   faPaperPlane,
   faQuestionCircle,
   faCheck,
@@ -36,7 +37,8 @@ import {
   faUserCog,
   faChevronCircleRight,
   faChevronCircleLeft,
-  faExternalLinkAlt
+  faExternalLinkAlt,
+  faPlus
 
 } from "@fortawesome/free-solid-svg-icons";
 
@@ -45,6 +47,7 @@ library.add(
   faBullhorn,
   faSearch,
   faChevronUp,
+  faChevronDown,
   faPaperPlane,
   faQuestionCircle,
   faCheck,
@@ -77,6 +80,7 @@ library.add(
   faUserCog,
   faChevronCircleRight,
   faChevronCircleLeft,
-  faExternalLinkAlt
+  faExternalLinkAlt,
+  faPlus
 
 );

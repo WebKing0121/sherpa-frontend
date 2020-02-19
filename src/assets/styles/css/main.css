@@ -216,8 +216,8 @@ table {
   border-collapse: collapse; }
 
 caption {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   color: #6c757d;
   text-align: left;
   caption-side: bottom; }
@@ -1190,7 +1190,7 @@ pre {
   color: #212529; }
   .table th,
   .table td {
-    padding: 0.75rem;
+    padding: 1.5rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6; }
   .table thead th {
@@ -1550,12 +1550,12 @@ textarea.form-control {
 .form-row {
   display: flex;
   flex-wrap: wrap;
-  margin-right: -5px;
-  margin-left: -5px; }
+  margin-right: -0.75rem;
+  margin-left: -0.75rem; }
   .form-row > .col,
   .form-row > [class*="col-"] {
-    padding-right: 5px;
-    padding-left: 5px; }
+    padding-right: 0.75rem;
+    padding-left: 0.75rem; }
 
 .form-check {
   position: relative;
@@ -7369,6 +7369,10 @@ ul {
 
 input, select, option {
   cursor: pointer; }
+
+label.required:after {
+  content: "*";
+  color: var(--sherpaTeal); }
 
 .disabled, [disabled="true"] {
   cursor: not-allowed;
