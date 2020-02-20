@@ -12,7 +12,7 @@ import { prospectNotesStatus, prospectNotesList } from '../../store/ProspectDeta
 import { prospectHeaderInfo } from '../../helpers/variables';
 import MessagesTab from '../../components/messageTab/MessageTab';
 import { prospectIsLoading, getProspect } from '../../store/prospectStore/selectors';
-import { setActiveProspect } from '../../store/uiStore/prospectDetailsView/actions';
+import { setActiveProspect, clearProspectCyclePath } from '../../store/uiStore/prospectDetailsView/actions';
 import { useParams } from 'react-router-dom';
 import * as selectors from '../../store/uiStore/prospectDetailsPageView/selectors';
 import * as actions from '../../store/uiStore/prospectDetailsPageView/actions';
@@ -48,8 +48,8 @@ const StyledTabContent = styled(TabContent)`
 `;
 
 const renderTabbedHeaderContent = (prospects, id, content) => {
-  const prevIcon = <FontAwesomeIcon className="mr-1" icon="chevron-circle-left" size="sm"/>;
-  const nextIcon = <FontAwesomeIcon className="ml-1" icon="chevron-circle-right" size="sm"/>;
+  const prevIcon = <FontAwesomeIcon className="mr-1" icon="chevron-circle-left" size="sm" />;
+  const nextIcon = <FontAwesomeIcon className="ml-1" icon="chevron-circle-right" size="sm" />;
 
   return (
     <>
@@ -62,7 +62,7 @@ const renderTabbedHeaderContent = (prospects, id, content) => {
                 style={{ color: "white", frontSize: "40px" }}
                 to={`/prospect/${prospects[id - 1]}/details`}
               >
-              {prevIcon} Prev
+                {prevIcon} Prev
               </Link>
             ) : null
           }
@@ -117,7 +117,10 @@ function ProspectDetailsPage() {
     }
   }, [prospect.id, dispatch, prospectId]);
 
-  useEffect(() => () => dispatch(actions.resetProspectActiveTab()), [dispatch]);
+  useEffect(() => () => {
+    dispatch(clearProspectCyclePath());
+    dispatch(actions.resetProspectActiveTab());
+  }, [dispatch]);
 
   const toggleTab = tab => {
     if (activeTab !== tab) dispatch(actions.setProspectActiveTab(tab));

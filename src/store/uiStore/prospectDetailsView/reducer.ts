@@ -53,6 +53,11 @@ export default function reducer(state: any = initialState, action: any) {
         ...state,
         prospectSourcePath: action.payload
       };
+    case CLEAR_PROSPECT_CYCLE_SOURCE_PATH:
+      return {
+        ...state,
+        prospectSourcePath: []
+      }
     default:
       return state;
   }
