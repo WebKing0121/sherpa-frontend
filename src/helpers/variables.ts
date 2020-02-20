@@ -120,7 +120,7 @@ export const ProspectActions = [
     status: false,
     attr: 'doNotCall',
     link: null,
-    background: 'white'
+    background: 'red'
   },
   {
     icon: 'priority',

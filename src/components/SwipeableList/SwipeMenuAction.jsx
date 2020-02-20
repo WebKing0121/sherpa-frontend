@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Icon from '../Icon.jsx';
+import { LoadingSpinner } from '../LoadingSpinner.jsx';
 
 const Action = styled.div`
   position: relative;
@@ -42,6 +43,7 @@ const ActionLink = styled.a`
 
 function SwipeMenuAction(props) {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   return (
     <Action
       data-test='swipeable-list-item-action'
@@ -49,10 +51,26 @@ function SwipeMenuAction(props) {
       wrapList={props.wrapList}
       className='textS fw-black action'
       bg={props.background}
-      onClick={() => dispatch(props.handleClick)}
     >
-      <Icon margin='mb-2' height='26px' width='auto' name={'action-' + props.icon} />
-      <ActionLink className='stretched-link'>{props.name}</ActionLink>
+      <LoadingSpinner
+        isLoading={isLoading}
+        size='1.125em'
+        color='var(--gray)'
+        renderContent={() => (
+          <>
+            <Icon margin='mb-2' height='26px' width='auto' name={'action-' + props.icon} />
+            <ActionLink
+              className='stretched-link'
+              onClick={() => {
+                setIsLoading(true);
+                dispatch(props.handleClick).then(() => setIsLoading(false));
+              }}
+            >
+              {props.name}
+            </ActionLink>
+          </>
+        )}
+      />
     </Action>
   );
 }

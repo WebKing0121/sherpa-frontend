@@ -20,7 +20,6 @@ import {
   isLoading
 } from '../../../store/campaignProspectStore/selectors';
 import { campaignMessagesFilter } from '../../../store/uiStore/campaignMessagesTabView/selectors';
-import { activeCampaignSelector } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 import { path } from '../../../store/campaignProspectStore/reducer';
 
@@ -31,7 +30,6 @@ import VirtualizedList from '../../../components/VirtualizedList';
 import SwipeListItem from '../../../components/SwipeableList/SwipeableListItem';
 import { Fetching, Success } from '../../../helpers/variables';
 import { DataLoader } from '../../../components/LoadingData';
-import { updateCampaignProspectSuccess } from '../../../store/campaignProspectStore/actions';
 
 const SpinWrap = styled.div`
   padding: var(--pad5);

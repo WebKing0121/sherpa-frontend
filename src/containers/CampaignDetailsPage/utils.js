@@ -5,12 +5,9 @@ import Title from './MessagesTab/Title';
 import StatusWrapper from './MessagesTab/StatusWrapper';
 import { IListItem } from '../../components/List/utils';
 import store from '../../store/store';
-import { patchProspect } from '../../store/prospectStore/api';
 import { prospectUpdate } from '../../store/prospectStore/thunks';
 import { ProspectActions } from '../../helpers/variables';
 import { getNewVerifiedStatus } from '../ProspectDetailsPage/DetailsTab/StatusSection';
-import { updateProspectSuccess } from '../../store/prospectStore/actions';
-import { ProspectRecord } from '../../store/prospectStore/interfaces';
 import {
   setProspectActiveTab
 } from '../../store/uiStore/prospectDetailsPageView/actions';
@@ -55,15 +52,25 @@ export const prospectToItemList = opts => campaignProspect => {
   const actions = ProspectActions.map(action => {
     const status = campaignProspect.prospect[action.attr];
     let payload = { [action.attr]: !status };
+    let backgroundColor = campaignProspect.prospect[action.attr] ? action.background : 'grey';
+
     // special case for ownerVerifiedStatus
     if (action.attr === 'ownerVerifiedStatus') {
       payload[action.attr] = getNewVerifiedStatus(status);
+
+      // here we set the background color to grey if it's not
+      // verified
+      if (status !== "verified") {
+        backgroundColor = 'grey';
+      }
     }
+
 
     return {
       ...action,
       status,
-      link: prospectOnClickStatus(action.attr, payload)
+      link: prospectOnClickStatus(action.attr, payload),
+      background: backgroundColor
     };
   });
 

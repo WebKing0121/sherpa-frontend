@@ -89,7 +89,7 @@ const CampaignsPage = () => {
   const renderItem = ({ index, style }) => {
     let item = listItems[index];
     return (
-      <React.Fragment key={index}>
+      <React.Fragment key={item.id}>
         <SwipeListItem style={style} threshold='.25' actions={item.actions} key={index}>
           <ListItem id={`${item.id}-${item.name}`} item={item} />
         </SwipeListItem>
