@@ -1,6 +1,5 @@
 import React from 'react';
 import InputSelect2 from '../components/InputSelect2';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { DropdownItem } from 'reactstrap';
 
 

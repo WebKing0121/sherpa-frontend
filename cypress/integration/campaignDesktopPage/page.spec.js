@@ -35,6 +35,37 @@ describe('Campaign Desktop Page', () => {
       });
   });
 
+  // test export capability
+  it('exports campaign', () => {
+    cy.viewport(950, 800);
+    cy.server();
+    cy.route({ method: 'GET', url: '**/campaigns/*/export/**' }).as('export');
+
+    cy
+      .getState()
+      .then(data => {
+        const {
+          uiStore: {
+            campaignsPageDesktopView: { campaignsList: { filterData: { tabs: { active } } } }
+          }
+        } = data;
+
+        cy
+          .get(`[data-test=kebab-${active.sortOrder[0]}]`)
+          .click();
+        cy
+          .get('[data-test=Export]')
+          .click()
+
+        cy
+          .wait('@export')
+          .then(xhr => {
+            expect(xhr.status).to.eq(200);
+            cy.checkForNewToast('alert-success');
+          });
+      });
+  });
+
   // chains off the previous one
   it('shows loading spinner when switching to new tab', () => {
     cy.viewport(950, 800);

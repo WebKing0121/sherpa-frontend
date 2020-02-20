@@ -6,6 +6,8 @@ import { archiveCampaign, exportCampaign } from '../../../store/Campaigns/thunks
 import store from '../../../store/store';
 import { setUnArchiveCampaign } from '../../../store/Campaigns/actions';
 import { addNewToast } from '../../../store/Toasts/actions';
+import { Button } from 'reactstrap';
+
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.
@@ -15,30 +17,49 @@ const makeKebabActions = (campaign) => {
   const archiveOrUnArchive = campaign.isArchived ? 'Un-Archive' : 'Archive';
 
   const kebabActions = [
-    { name: 'Export', onClick: () => store.dispatch(exportCampaign(campaign.id)) },
-    { name: 'Rename', onClick: () => console.log("Ready to Rename") },
+    {
+      name: 'Export',
+      data: {
+        onClick: () => store.dispatch(exportCampaign(campaign.name, campaign.id)),
+        color: 'link'
+      },
+      component: Button
+    }
+    ,
+    {
+      name: 'Rename',
+      data: {
+        onClick: () => console.log("Ready to Rename"),
+        color: 'link'
+      },
+      component: Button
+    },
     {
       name: archiveOrUnArchive,
-      onClick: () => {
-        store.dispatch(
-          archiveCampaign({
-            ...campaign,
-            market: campaign.market.id,
-            createdBy: campaign.createdBy.id,
-            isArchived: !campaign.isArchived
-          })
-        ).then(_ => {
-          // NOTE: nasty way of doing it for now until we refactor the
-          // `archiveCampaign` thunk.
-          if (campaign.isArchived) {
-            // only unarchive if the unarchived action was dispatched
-            store.dispatch(setUnArchiveCampaign(campaign.id));
-            store.dispatch(addNewToast({ message: 'Campaign Unarchived', color: 'success' }))
-          } else {
-            store.dispatch(addNewToast({ message: 'Campaign Archived', color: 'success' }))
-          }
-        });
-      }
+      data: {
+        color: 'link',
+        onClick: () => {
+          store.dispatch(
+            archiveCampaign({
+              ...campaign,
+              market: campaign.market.id,
+              createdBy: campaign.createdBy.id,
+              isArchived: !campaign.isArchived
+            })
+          ).then(_ => {
+            // NOTE: nasty way of doing it for now until we refactor the
+            // `archiveCampaign` thunk.
+            if (campaign.isArchived) {
+              // only unarchive if the unarchived action was dispatched
+              store.dispatch(setUnArchiveCampaign(campaign.id));
+              store.dispatch(addNewToast({ message: 'Campaign Unarchived', color: 'success' }))
+            } else {
+              store.dispatch(addNewToast({ message: 'Campaign Archived', color: 'success' }))
+            }
+          });
+        }
+      },
+      component: Button
     }
   ];
 
@@ -73,7 +94,18 @@ export const campaignToItemList = campaign => {
       <DesktopCallouts
         data={{ priorityCount, totalLeads, health, percentCompleteUnsent, market }}
       />),
-    desktopKebab: <DesktopKebab idx={id} actions={kebabActions} />,
+    desktopKebab: (
+      <DesktopKebab idx={id}>
+        {kebabActions.map((action, idx) => {
+          const Component = action.component;
+          return (
+            <Component data-test={action.name} key={idx} {...action.data}>
+              {action.name}
+            </Component>
+          );
+        })}
+      </DesktopKebab>
+    ),
     link: `/campaign/${id}/details`,
   };
 };

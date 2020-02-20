@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Popover, PopoverBody } from 'reactstrap';
-import { exportCampaign } from '../../store/Campaigns/thunks';
+import { Popover, PopoverBody } from 'reactstrap';
 
 const KebabWrap = styled.a`
   display: flex;
@@ -47,9 +46,7 @@ const DesktopKebab = props => {
       target={"kebab" + props.idx}
       toggle={toggle}>
       <Body>
-        {props.actions.map((action, index) => (
-          <Button data-test={action.name} color="link" key={index} onClick={action.onClick}>{action.name}</Button>
-        ))}
+        {props.children}
       </Body>
     </Popover>
   );

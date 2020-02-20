@@ -1,8 +1,6 @@
 import { path } from './reducer';
 import { createSelectorContext } from '../../redux-helpers';
-import { updateIn } from '../../utils';
 import { getLeadStages } from '../leadstages/selectors';
-import { activeCampaignSelector } from '../uiStore/prospectDetailsView/selectors';
 import { prospectsResults } from '../prospectStore/selectors';
 
 const createSelector = createSelectorContext(path);

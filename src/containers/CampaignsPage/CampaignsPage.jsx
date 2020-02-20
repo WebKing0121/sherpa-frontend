@@ -1,6 +1,5 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchModule from '../../components/SearchModule';
-import List from '../../components/List/List';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 import { Spinner } from 'reactstrap';

@@ -39,7 +39,7 @@ export default function LoginForm(props) {
     setSubmitting(true);
     submit(username, password)
       .then(() => setSubmitting(false))
-      .catch(response => setSubmitting(false));
+      .catch(_ => setSubmitting(false));
   };
 
   return (

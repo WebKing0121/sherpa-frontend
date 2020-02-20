@@ -1,15 +1,14 @@
 import {
   fetchCampaignNextPage,
-  updateCampaignList,
   setFetchedCampaignStatus,
   setFetchedCampaigns,
-  resetCampaignsData,
   setArchiveCampaign,
   setUpdatedSmsTemplateCampaign,
   setFetchCampaignsNextPage,
   setFetchCampaignsNextPageSuccess,
-    setFetchedCampaignsError,
-    paginateCampaignList
+  setFetchedCampaignsError,
+  paginateCampaignList,
+  updateCampaignList
 } from './actions';
 
 import AxiosInstance from '../../axiosConfig';
@@ -19,6 +18,7 @@ import { arrayToMapIndex } from '../utils';
 import { captureSort } from './utils';
 import { fetchCampaignsBatchProspects } from '../CampaignsBatchProspectsStore/actions';
 import * as api from './api';
+import { addNewToast } from '../Toasts/actions';
 
 interface IParams {
   market: number;
@@ -118,17 +118,22 @@ export const fetchSingleCampaign = (id: string) => (dispatch: any) => {
 
 /*************************************************************************************************/
 
-export const exportCampaign = (id: number) => (dispatch: any) => {
+export const exportCampaign = (campaignName: string, id: number) => (dispatch: any) => {
+  dispatch(addNewToast({ message: "Download in progress", color: "success" }));
   return AxiosInstance.get(
     `/campaigns/${id}/export/?lead_stage=45`,
     {
-      headers: {
-        "Content-Type": "application/octet-stream"
-      }
+      responseType: 'blob'
     }
   )
-    .then((data: any) => {
-      console.log("DATA", data);
+    .then((response: any) => {
+      const url = window.URL.createObjectURL(new Blob([response.data]));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', `${campaignName}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      dispatch(addNewToast({ message: "Download Finished", color: "success" }));
     });
 }
 
@@ -174,7 +179,7 @@ export const createFollowupCampaign = (payload: any) => (dispatch: any) => {
       dispatch(updateCampaignList(xhr.data))
       return xhr;
     }).catch(error => {
-        console.log(error);
-        return error;
+      console.log(error);
+      return error;
     });
 }
