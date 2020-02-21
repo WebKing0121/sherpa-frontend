@@ -1,7 +1,8 @@
 import {
   SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_TAB,
   SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_SORT,
-  SET_CAMPAIGN_DESKTOP_TAB_DATA
+  SET_CAMPAIGN_DESKTOP_TAB_DATA,
+  RESET_CAMPAIGN_LIST_FILTER_TABS
 } from './actionTypes';
 import { ARCHIVE_CAMPAIGN, UNARCHIVE_CAMPAIGN } from '../../../../Campaigns/actionTypes';
 
@@ -51,10 +52,15 @@ export const path = [
 
 export default function reducer(state: any = initialState, action: any) {
   switch (action.type) {
+    case RESET_CAMPAIGN_LIST_FILTER_TABS:
+          return {
+              ...state,
+              tabs: initialState.tabs
+          };
     case SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_SORT:
       return {
         ...state,
-        activeSort: action.payload
+        activeSort: action.payload,
       };
     case SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_TAB:
       return {

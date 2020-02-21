@@ -56,12 +56,6 @@ export const campaignHeaderInfo = {
   actions: {
     main: [
       {
-        btnType: 'secondary',
-        text: 'Create Follow-Up',
-        // this is for adding the onclick later
-        action: 'createFollowUp'
-      },
-      {
         btnType: 'primary',
         text: 'Add Prospects',
         // this is for adding the onclick later
@@ -157,12 +151,6 @@ export const desktopCampaignHeaderInfo = {
   actions: {
     main: [
       {
-        btnType: 'secondary',
-        text: 'Create Follow-Up',
-        // this is for adding the onclick later
-        action: 'createFollowUp'
-      },
-      {
         btnType: 'primary',
         text: 'New Campaign',
         // this is for adding the onclick later
@@ -202,7 +190,8 @@ export const desktopCampaignDetailHeaderInfo = {
         btnType: 'secondary',
         text: 'Create Follow-Up',
         // this is for adding the onclick later
-        action: 'createFollowUp'
+        action: 'createFollowUp',
+        'data-test': 'open-followup-modal'
       },
       {
         btnType: 'primary',
@@ -260,3 +249,5 @@ export const campaignSortingOptions = [
   },
 ];
 
+// followup campaigns
+export const createFollowupMessage = 'By creating a Follow-up Campaign all the prospects that have not responded to the SMS from this campaign will permanently moved over to the new Campaign.'

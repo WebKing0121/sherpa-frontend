@@ -25,7 +25,7 @@ function Shmodal(props) {
   const { children, title, isOpen, toggle } = props;
 
   return (
-    <Modal isOpen={isOpen}>
+    <Modal isOpen={isOpen} data-test={props.dataTest}>
       <Heading tag='h3' toggle={toggle}>
         {title}
       </Heading>

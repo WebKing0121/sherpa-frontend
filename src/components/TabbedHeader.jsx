@@ -6,7 +6,7 @@ import TabNav from './TabNav';
 import { history } from '../history';
 import IconBg from './IconBg';
 import Modal from './Modal';
-
+import CreateFollowup from '../containers/DesktopCampaignDetailPage/CreateFollowup';
 
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
@@ -65,55 +65,43 @@ function TabbedHeader(props) {
   };
 
   const createFollowUp = (
-    <Modal isOpen={modal} toggle={toggle} title='Create Follow-Up'>
-      <div>
-        <p>
-          By creating a Follow-up Campaign all the prospects that have not responded to the SMS from this
-          campaign will permanently moved over to the new Campaign.
-        </p>
-      </div>
+  <Modal isOpen={modal} toggle={toggle} dataTest='create-followup-modal' title='Create Follow-Up'>
+    <CreateFollowup toggle={toggle}/>
+  </Modal>
+);
 
-      <Button color='primary' size='md' block className='mt-2'>
-        Continue
+const mainActions = props.data.actions
+  ? props.data.actions.main.map((a, idx) => {
+    return (
+      <Button size='md' {...a} id={a.action} color={a.btnType} className='ml-1' onClick={toggle} key={idx}>
+        {a.text}
       </Button>
-      <Button color='link' size='md' block>
-        Cancel
-      </Button>
-    </Modal>
-  );
+    );
+  })
+  : null;
 
-  const mainActions = props.data.actions
-    ? props.data.actions.main.map((a, idx) => {
+const secondaryActions =
+  props.data.actions && props.data.actions.secondary
+    ? props.data.actions.secondary.map((a, idx) => {
       return (
-        <Button size='md' id={a.action} color={a.btnType} className='ml-1' onClick={toggle} key={idx}>
-          {a.text}
+        <Button id={a.action}  className='p-0 ml-1' color='link' key={idx}>
+          <IconBg
+            color='darkNavy'
+            textcol='sherpaTeal'
+            icon={a.icon}
+            width='2rem'
+            height='2rem'
+            size='sm'
+          />
         </Button>
       );
     })
     : null;
 
-  const secondaryActions =
-    props.data.actions && props.data.actions.secondary
-      ? props.data.actions.secondary.map((a, idx) => {
-        return (
-          <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
-            <IconBg
-              color='darkNavy'
-              textcol='sherpaTeal'
-              icon={a.icon}
-              width='2rem'
-              height='2rem'
-              size='sm'
-            />
-          </Button>
-        );
-      })
-      : null;
-
-  return (
-    <StyledHeader {...props}>
-      <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
-        <div data-test='tabbed-header' className="tabbed-header">
+return (
+  <StyledHeader {...props}>
+    <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
+      <div data-test='tabbed-header' className="tabbed-header">
           <div>
             {props.children}
           </div>

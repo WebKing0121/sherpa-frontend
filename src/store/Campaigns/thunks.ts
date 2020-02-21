@@ -166,3 +166,15 @@ export const updateSmsTemplate = (data: any) => (dispatch: any) => {
       console.log('Error updating sms template on campaign', error);
     });
 };
+
+export const createFollowupCampaign = (payload: any) => (dispatch: any) => {
+  return AxiosInstance
+    .post(`/campaigns/${payload.id}/followup/`, payload)
+    .then(xhr => {
+      dispatch(updateCampaignList(xhr.data))
+      return xhr;
+    }).catch(error => {
+        console.log(error);
+        return error;
+    });
+}
