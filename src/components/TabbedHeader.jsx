@@ -5,8 +5,6 @@ import Icon from './Icon';
 import TabNav from './TabNav';
 import { history } from '../history';
 import IconBg from './IconBg';
-import Modal from './Modal';
-import CreateFollowup from '../containers/DesktopCampaignDetailPage/CreateFollowup';
 
 const StyledHeader = styled.div`
   background: var(--tealBlueGradientFlip);
@@ -57,46 +55,38 @@ const ActionsHolster = styled.div`
 `;
 
 function TabbedHeader(props) {
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
 
   const back = () => {
     history.goBack();
   };
 
-  const createFollowUp = (
-  <Modal isOpen={modal} toggle={toggle} dataTest='create-followup-modal' title='Create Follow-Up'>
-    <CreateFollowup toggle={toggle}/>
-  </Modal>
-);
-
-const mainActions = props.data.actions
-  ? props.data.actions.main.map((a, idx) => {
-    return (
-      <Button size='md' {...a} id={a.action} color={a.btnType} className='ml-1' onClick={toggle} key={idx}>
-        {a.text}
-      </Button>
-    );
-  })
-  : null;
-
-const secondaryActions =
-  props.data.actions && props.data.actions.secondary
-    ? props.data.actions.secondary.map((a, idx) => {
+  const mainActions = props.data.actions
+    ? props.data.actions.main.map((a, idx) => {
       return (
-        <Button id={a.action}  className='p-0 ml-1' color='link' key={idx}>
-          <IconBg
-            color='darkNavy'
-            textcol='sherpaTeal'
-            icon={a.icon}
-            width='2rem'
-            height='2rem'
-            size='sm'
-          />
+        <Button {...a} size='md' id={idx} color={a.btnType} className='ml-1' onClick={a.action} key={idx}>
+          {a.text}
         </Button>
       );
     })
     : null;
+
+  const secondaryActions =
+    props.data.actions && props.data.actions.secondary
+      ? props.data.actions.secondary.map((a, idx) => {
+        return (
+          <Button id={a.action} className='p-0 ml-1' color='link' key={idx}>
+            <IconBg
+              color='darkNavy'
+              textcol='sherpaTeal'
+              icon={a.icon}
+              width='2rem'
+              height='2rem'
+              size='sm'
+            />
+          </Button>
+        );
+      })
+      : null;
 
 return (
   <StyledHeader {...props}>
@@ -119,7 +109,6 @@ return (
           <ActionsHolster className='d-none d-md-flex'>
             <div>{mainActions ? mainActions : null}</div>
             <div className='mt-1'>{secondaryActions ? secondaryActions : null}</div>
-            {createFollowUp}
           </ActionsHolster>
         )}
       </HeaderTop>

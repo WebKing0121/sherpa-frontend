@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { TabContent, TabPane } from 'reactstrap';
 import { desktopCampaignDetailHeaderInfo } from '../../helpers/variables';
@@ -11,8 +11,11 @@ import { campaignNotesList, campaignNotesStatus } from '../../store/CampaignDeta
 import { useParams } from 'react-router-dom';
 import { getCampaign } from '../../store/Campaigns/selectors';
 import { fetchSingleCampaign } from '../../store/Campaigns/thunks';
+import CreateFollowup from '../DesktopCampaignDetailPage/CreateFollowup';
+import Modal from '../../components/Modal';
 
 const DesktopCampaignDetailPage = props => {
+  const [isOpen, setIsOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('2');
   const { id } = useParams();
   const campaign = useSelector(getCampaign(id));
@@ -22,6 +25,22 @@ const DesktopCampaignDetailPage = props => {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  const toggleModal =  () => setIsOpen(state => !state);
+  const actionBtns = useMemo(
+    () => {
+      const [createFollowup ] =  desktopCampaignDetailHeaderInfo.actions.main;
+      createFollowup.action = () => setIsOpen(true);
+
+      return { actions: { main: [createFollowup ] } };
+    },
+    [ desktopCampaignDetailHeaderInfo ]
+  );
+
+  const createFollowUp = (
+    <Modal isOpen={isOpen} toggle={toggleModal} dataTest='create-followup-modal' title='Create Follow-Up'>
+    <CreateFollowup toggle={toggleModal}/>
+  </Modal>
+);
   useEffect(() => {
     // when there is no campaign
     if (!campaign.id) {
@@ -46,8 +65,9 @@ const DesktopCampaignDetailPage = props => {
 
   return (
     <div className="pageContent d-flex flex-column">
+      {createFollowUp}
       <TabbedHeader
-        data={desktopCampaignDetailHeaderInfo}
+        data={{ ...desktopCampaignDetailHeaderInfo, actionBtns }}
         toggleTab={toggleTab}
         activeTab={activeTab}
       >
