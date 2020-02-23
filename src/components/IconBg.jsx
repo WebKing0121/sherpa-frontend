@@ -24,9 +24,12 @@ const IconBg = (props) => {
   let textcol;
 
   if (props.format !== "hex" || !props.format){
-    if (props.color) {
+    if (props.color && props.textcol) {
       color = "var(--" + props.color + ")";
       textcol = "var(--" + props.textcol + ")";
+    } else if (props.color){
+      color = "var(--" + props.color + "Highlight)";
+      textcol = "var(--" + props.color + ")";
     } else {
       color = "var(--blueHighlight)";
       textcol = "";
@@ -38,7 +41,7 @@ const IconBg = (props) => {
   }
 
   const size = props.width ? "calc("  + props.width + " / 2 )" : "22px";
-  let icon = <FontAwesomeIcon size={props.faSize} {...props}/>;
+  let icon = <FontAwesomeIcon size={props.faSize} color={textcol} icon={props.icon}/>;
 
   icon = props.loader ? (
       <LoadingSpinner
@@ -46,7 +49,7 @@ const IconBg = (props) => {
         color={props.loader.color}
         size={size}
         renderContent={() => (
-          <FontAwesomeIcon {...props}/>
+          <FontAwesomeIcon  size={props.faSize} color={textcol} icon={props.icon}/>
         )}
       />) : icon;
 

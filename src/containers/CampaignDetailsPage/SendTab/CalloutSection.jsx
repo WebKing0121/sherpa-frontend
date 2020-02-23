@@ -20,9 +20,25 @@ const Callout = styled.div`
   span {
     color: var(--darkGray);
   }
+
+  @media (min-width: 768px) {
+    border-left-width: 2px;
+    h3 {
+      font-size: 2rem;
+    }
+    span {
+      font-size: .8rem !important;
+      line-height: 1;
+    }
+  }
+  @media (min-width: 1200px) {
+    span {
+      font-size: 1rem !important;
+    }
+  }
 `;
 
-function CalloutBlock(props) {
+export function CalloutBlock(props) {
   return (
     <Callout color={props.color}>
       <h3 className="mb-0">{props.value}</h3>

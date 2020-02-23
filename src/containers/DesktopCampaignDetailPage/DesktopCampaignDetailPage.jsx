@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { TabContent, TabPane } from 'reactstrap';
 import { desktopCampaignDetailHeaderInfo } from '../../helpers/variables';
 import SendTab from './CampaignSendTab/CampaignSendTab';
+import MetricsTab from './CampaignMetricsTab/CampaignMetricsTab';
 import TabbedHeader from '../../components/TabbedHeader';
 import NotesTab from '../../components/NotesTab/NotesTab';
 import * as noteActions from '../../store/CampaignDetails/notes/actions';
@@ -50,10 +51,11 @@ const DesktopCampaignDetailPage = props => {
         toggleTab={toggleTab}
         activeTab={activeTab}
       >
-        {campaign.name}
+        <h1 className='text-white text-left m-0'>{campaign.name}</h1>
       </TabbedHeader>
       <TabContent activeTab={activeTab}>
         <TabPane tabId='1'>
+          <MetricsTab />
         </TabPane>
         <TabPane tabId='2'>
           <SendTab />

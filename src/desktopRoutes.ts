@@ -25,15 +25,6 @@ const Routes = [
     mobile: true
   },
   {
-    path: '/campaignDetails',
-    name: 'Campaign Details',
-    navIcon: 'exclamation-triangle',
-    alt: '',
-    exact: true,
-    component: DesktopCampaignDetails,
-    mobile: true
-  },
-  {
     path: '/support',
     name: 'Support',
     navIcon: 'question-circle',

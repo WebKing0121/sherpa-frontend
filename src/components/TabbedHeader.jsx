@@ -46,6 +46,9 @@ const HeaderTop = styled.div`
 
   margin-bottom: ${props => props.backbtn ? "-1rem" : null};
 
+  .tabbed-header {
+    flex: 1 1 auto;
+  }
 `;
 
 const ActionsHolster = styled.div`
@@ -110,7 +113,7 @@ function TabbedHeader(props) {
   return (
     <StyledHeader {...props}>
       <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
-        <div data-test='tabbed-header' style={{ width: "100%" }}>
+        <div data-test='tabbed-header' className="tabbed-header">
           <div>
             {props.children}
           </div>

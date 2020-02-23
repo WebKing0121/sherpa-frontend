@@ -10,26 +10,30 @@
 
 :root {
   // Colors
-  --darkNavy:      #{$darkNavy};
-  --charcoal:      #{$charcoal};
-  --sherpaTeal:    #{$sherpaTeal};
-  --sherpaBlue:    #{$sherpaBlue};
-  --ghostBlue:     #{$ghostBlue};
-  --yellow:        #{$yellow};
-  --orange:        #{$orange};
-  --warning:       #{$warning};
-  --green:         #{$green};
-  --purple:        #{$purple};
-  --red:           #{$red};
-  --darkGray:      #{$darkGray};
-  --gray:          #{$gray};
-  --mediumGray:    #{$mediumGray};
-  --lightGray:     #{$lightGray};
-  --white:         #{$white};
-  --lightBlue:     #{$lightBlue};
-  --highlight:     #{$highlight};
-  --blueHighlight: #{$blueHighlight};
-  --coolGray:      #{$coolGray};
+  --darkNavy:        #{$darkNavy};
+  --charcoal:        #{$charcoal};
+  --sherpaTeal:      #{$sherpaTeal};
+  --sherpaBlue:      #{$sherpaBlue};
+  --ghostBlue:       #{$ghostBlue};
+  --yellow:          #{$yellow};
+  --yellowHighlight: #{$yellowHighlight};
+  --orange:          #{$orange};
+  --orangeHighlight: #{$orangeHighlight};
+  --warning:         #{$warning};
+  --green:           #{$green};
+  --greenHighlight:  #{$greenHighlight};
+  --purple:          #{$purple};
+  --red:             #{$red};
+  --redHighlight:    #{$redHighlight};
+  --darkGray:        #{$darkGray};
+  --gray:            #{$gray};
+  --mediumGray:      #{$mediumGray};
+  --lightGray:       #{$lightGray};
+  --white:           #{$white};
+  --lightBlue:       #{$lightBlue};
+  --highlight:       #{$highlight};
+  --blueHighlight:   #{$blueHighlight};
+  --coolGray:        #{$coolGray};
 
   --xpad: var(--pad3);
   --ypad: var(--pad3);
