@@ -34,7 +34,7 @@ export const prospectToItemList = prospect => {
     mainInfo: <MainInfo addressData={addressData} />,
     statusWrapper: (
       <StatusWrapper
-        link={`/prospect/${id}/details`}
+        link={{ pathname: `/prospect/${id}/details`, state: { backButtonText: "Prospect List" } }}
         status={leadStageTitle}
       />
     )

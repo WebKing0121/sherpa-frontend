@@ -46,7 +46,8 @@ function MessagesTab(props) {
   const prospectList = prospectsToItemList({
     updateCampaignProspectFn: updateCampaignProspectSuccess,
     prospectPath: [...path, "campaignProspects"],
-    setActiveCampaign: true
+    setActiveCampaign: true,
+    backButtonText: "Campaign Details"
   })(prospectResults || []);
   const filterId = useSelector(campaignMessagesFilter);
   const dispatch = useDispatch();

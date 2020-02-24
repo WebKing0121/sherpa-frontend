@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TabbedHeader from '../../components/TabbedHeader';
 import CollapsablePane from '../../components/CollapsablePane';
 import { prospectsToItemList } from '../CampaignDetailsPage/utils';
@@ -20,7 +20,8 @@ const NewMessages = (props) => {
   const unreadSmsList = campaignProspectsUnread.map(
     prospectsToItemList({
       updateCampaignProspectFn: updateCampaignProspectsUnread,
-      prospectPath: [...path, "campaignProspectsUnread"]
+      prospectPath: [...path, "campaignProspectsUnread"],
+      backButtonText: "Unread Messages"
     }));
 
   useEffect(() => {
