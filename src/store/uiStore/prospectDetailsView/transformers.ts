@@ -4,7 +4,9 @@ export const profilesToAgents = (profiles: any) => {
       phone: profile.phone || '',
       ...profile.user,
       id: profile.id
-    }));
+    })).filter((profile: any) => {
+      return profile.isActive
+    });
   }
 
   return [];

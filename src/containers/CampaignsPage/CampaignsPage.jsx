@@ -60,11 +60,10 @@ const CampaignsPage = () => {
     // Preserve sort order menu selection on refresh
     const sorted = campaignSortingOptions.filter(x => x.value.value === sortBy);
     setActiveSort(sorted[0].value.id);
-    console.log(marketId !== activeMarketId)
+
     // refetch campaigns list if markets navigation has changed or the campaigns list has changed
     if (activeMarketId !== marketId && isFetching !== Fetching) {
       dispatch(resetCampaignFilter());
-      console.log(marketId, activeMarketId)
       dispatch(fetchSortedCampaigns({ ordering: '-created_date', market: marketId, is_archived: false, page_size: 20 }));
     }
   }, [dispatch, marketId, activeMarketId]);

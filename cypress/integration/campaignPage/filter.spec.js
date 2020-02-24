@@ -42,46 +42,47 @@ describe('Filter functionality', () => {
     cy.server();
     cy.route({ url: `**/campaigns/**`, method: 'GET' }).as('camps')
 
-    cy.fixture(`market${marketId}owners`).then((fixture) => {
+    cy.getState()
+      .then(store => {
+        const { auth: { userData: { company: { profiles } } } } = store;
+        const activeUsers = profiles.filter(profile => profile.user.isActive);
 
-      fixture.profiles.forEach((user, idx) => {
+        activeUsers.forEach(user => {
+          cy.get(filterBtn)
+            .click({ force: true });
 
-        // Open the modal
-        cy.get(filterBtn)
-          .click({ force: true });
+          cy.get('[data-test=filter-radio]').each($radio => {
+            if ($radio[0].id === `${user.user.id}`) {
+              cy.wrap($radio)
+                .click({ force: true }).then(() => {
+                  cy.get(applyFilterBtn)
+                    .click({ force: true });
 
-        cy.get('[data-test=filter-radio]').eq(idx).then($radio => {
+                  // Wait for the test so it doesn't fail on a slow connection
+                  cy.wait(`@camps`);
 
-          cy.wrap($radio)
-            .click({ force: true }).then(() => {
-              cy.get(applyFilterBtn)
-                .click({ force: true });
+                  cy.getState().then(({ campaigns: { campaigns, sortOrder } }) => {
+                    const campaignArr = sortOrder.map(item => campaigns[item]);
 
-              // Wait for the test so it doesn't fail on a slow connection
-              cy.wait(`@camps`);
+                    // Checking the UI element is correct per the store
+                    if (Cypress.dom.isDom(listItem)) {
+                      cy.get(listItem).each(($item, idx) => {
+                        cy.wrap($item)
+                          .find(`${itemHeader} h5`)
+                          .contains(campaignArr[idx].name);
+                      });
+                    }
 
-              cy.getState().then(({ campaigns: { campaigns, sortOrder } }) => {
-                const campaignArr = sortOrder.map(item => campaigns[item]);
-                console.log(campaignArr)
+                    // Checks that the radio id belongs to the correct owner in the store
+                    campaignArr.forEach((item) => {
+                      expect(parseInt($radio[0].id)).to.eq(item.owner);
+                    });
 
-                // Checking the UI element is correct per the store
-                if (Cypress.dom.isDom(listItem)) {
-                  cy.get(listItem).each(($item, idx) => {
-                    cy.wrap($item)
-                      .find(`${itemHeader} h5`)
-                      .contains(campaignArr[idx].name);
                   });
-                }
-
-                // Checks that the radio id belongs to the correct owner in the store
-                campaignArr.forEach((item) => {
-                  expect($radio[0].id).to.eq(`${item.owner}`);
                 });
-
-              });
-            });
+            }
+          })
         });
-      });
-    });
+      })
   });
 });

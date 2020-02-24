@@ -114,9 +114,8 @@ function FilterButton() {
   };
 
   const ownerOptions = ownersList.map(owner => {
-    const { user } = owner;
-    const first = user.firstName.charAt(0).toUpperCase() + user.firstName.slice(1);
-    const last = user.lastName.charAt(0).toUpperCase() + user.lastName.slice(1);
+    const first = owner.firstName.charAt(0).toUpperCase() + owner.firstName.slice(1);
+    const last = owner.lastName.charAt(0).toUpperCase() + owner.lastName.slice(1);
     return (
       <Radio
         key={`owner-${owner.id}`}

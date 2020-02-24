@@ -1,4 +1,6 @@
-export const owners = (state) => state.companyOwners.owners;
+import { profilesToAgents } from "../uiStore/prospectDetailsView/transformers";
+
+export const owners = (state) => profilesToAgents(state.companyOwners.owners);
 export const companyId = (state) => {
   let { auth: { userData: { company: { id } } } } = state;
 
