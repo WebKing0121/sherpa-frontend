@@ -59,14 +59,6 @@ const ProspectCard = props => {
   // using zillow feature at a later date
   const showZillow = false;
 
-  const dispatch = useDispatch();
-
-  // dispatch fetchCampaigns
-  useEffect(() => {
-    // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-    dispatch(fetchSortedCampaigns());
-  }, [dispatch]);
-
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -100,7 +92,7 @@ const ProspectCard = props => {
     <Card>
       <div className="card__details">
         <div className="card__details__wrapper">
-          <NameBubble className="mr-2" size="3.5rem" initials="SV"/>
+          <NameBubble className="mr-2" size="3.5rem" initials="SV" />
 
           <div className="mainDetails">
             <h2>
@@ -118,7 +110,7 @@ const ProspectCard = props => {
         {showZillow && zillowSection}
       </div>
       <div className="card__statuses">
-        <StatusActionBtns className="statusBtn"/>
+        <StatusActionBtns className="statusBtn" />
         {
           // TODO: Find where these are on mobile
         }

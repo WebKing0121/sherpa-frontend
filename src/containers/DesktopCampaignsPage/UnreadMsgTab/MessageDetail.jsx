@@ -22,18 +22,6 @@ const Wrapper = styled.div`
 `;
 
 const MessageDetail = props => {
-  const activeMarketId = useSelector(activeMarket);
-  const campaigns = useSelector(campaignsList);
-  const campaignFolders = useSelector(marketsList);
-  const isFetching = useSelector(campaignsStatus);
-  const dispatch = useDispatch();
-
-  // dispatch fetchCampaigns
-  useEffect(() => {
-    // refetch campaigns list if markets navigation has changed or the campaigns list has changed
-    dispatch(fetchSortedCampaigns());
-  }, [dispatch]);
-
   return (
     <Wrapper>
       <ProspectCard />
