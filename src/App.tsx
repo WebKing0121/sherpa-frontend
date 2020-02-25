@@ -79,7 +79,8 @@ function App() {
           previous: null
         }));
         dispatch(populateProspectMessages(messages));
-      });
+      })
+      .catch(error => { console.log(error.response) });
   };
 
   useEffect(() => {

@@ -62,7 +62,7 @@ function AccountSettingsPage() {
   const [activeTab, setActiveTab] = useState('1');
 
   const toggle = tab => {
-    if(activeTab !== tab) setActiveTab(tab);
+    if (activeTab !== tab) setActiveTab(tab);
   }
 
   return (

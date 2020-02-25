@@ -34,7 +34,6 @@ export const fetchMarkets = () => (dispatch, _) => {
   // NOTE: Needs to hit the Folder-endpoint in the future
   // For now we will render 1 folder called ALL that will contain all campaigns
   const handleError = (error, message) => {
-    console.log('error markets', error.response);
     dispatch(setFetchedMarketsError(message));
   };
 
