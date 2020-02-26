@@ -9,15 +9,24 @@ const StyledItem = styled(ListGroupItem)`
   padding: 0 !important;
   width: 100%;
   height: 100%;
+  border: none !important;
+  background: white !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
   border-radius: 0 !important;
-  border-left: none !important;
-  border-right: none !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 
   @media (min-width: 768px) {
-    border-radius: 8px !important;
-    border: none;
-    margin-bottom: var(--pad1);
+    background: transparent !important;
+    margin-bottom: var(--pad2);
+    border-bottom: none !important;
+    border-radius: 5px !important;
+
+    & > div {
+      background: white !important;
+      border-radius: 5px !important;
+      border: none;
+      border-left: none !important;
+      border-right: none !important;
+    }
   }
 
   &:hover {
@@ -49,7 +58,7 @@ const ItemName = styled(ListGroupItemHeading)`
   font-weight: ${props => (props.isBold ? '900' : '400')};
   white-space: nowrap;
   text-overflow: ellipsis;
-  width: 60vw;
+  width: 50vw;
   overflow: hidden;
   @media (min-width: 768px) {
     max-width: 40vw;
@@ -61,6 +70,8 @@ const StatusWrapper = styled.div`
   flex-direction: row;
   align-items: center;
   margin: 0;
+  flex: 1 0 auto;
+  justify-content: flex-end;
 `;
 
 const ItemContent = styled.div`

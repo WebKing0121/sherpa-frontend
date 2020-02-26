@@ -21,7 +21,7 @@ const ItemLink = styled(Link)`
 const StatusWrapper = (props) => {
   return (
     <>
-      <ItemIndicator className="textM">
+      <ItemIndicator className="textS">
         <Indicator status={props.status} />
       </ItemIndicator>
       <ItemLink
