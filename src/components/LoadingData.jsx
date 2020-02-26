@@ -13,6 +13,21 @@ const SpinWrap = styled.div`
     border-width: 0.4em;
   }
 
+  ${props => (props.appWrapper ? `
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+
+    & > [class*='spinner'] {
+      width: 7rem;
+      height: 7rem;
+      border-width: 0.6em;
+    }
+  `
+  : null)};
+
   @media (max-width: 768px) {
     margin-top: 60px;
     /* navbar icon + navlink padding + nav padding */
@@ -48,7 +63,8 @@ export const DataLoader = props => {
     networkError = 'Cannot be displayed at this time.  Please try again later.',
     renderData,
     dataTest = '',
-    fullPage = true
+    fullPage = true,
+    appWrapper = false,
   } = props;
 
   const renderedResults = whenNoResults(status, data) ? (
@@ -62,7 +78,7 @@ export const DataLoader = props => {
   return (
     <>
       {whenLoadingResults(status, data) ? (
-        <SpinWrap topPad={fullPage} data-test='spinner'>
+        <SpinWrap topPad={fullPage} appWrapper={appWrapper} data-test='spinner'>
           <Spinner color='primary' />
         </SpinWrap>
       ) : (

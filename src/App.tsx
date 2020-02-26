@@ -123,6 +123,7 @@ function App() {
   return <DataLoader
     emptyResultsMessage="User could not be authorized"
     status={determineLoadingStatus()}
+    appWrapper={true}
     data={[userData]}
     dataTest={isMobile ? 'mobile-view' : 'desktop-view'}
     renderData={() => {
