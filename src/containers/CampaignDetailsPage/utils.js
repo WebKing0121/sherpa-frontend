@@ -84,7 +84,12 @@ export const prospectToItemList = opts => campaignProspect => {
     mainInfo: <MainInfo message={message} />,
     readable: true,
     isRead: !hasUnreadSms,
-    statusWrapper: <StatusWrapper dt={dt} link={`/prospect/${id}/details`} onClick={onClickItem} />,
+    statusWrapper: (
+      <StatusWrapper
+        dt={dt}
+        link={{ pathname: `/prospect/${id}/details`, state: { backButtonText: opts.backButtonText } }}
+        onClick={onClickItem}
+      />),
     actions: actions
   };
 };

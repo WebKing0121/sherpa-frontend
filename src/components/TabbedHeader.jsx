@@ -96,7 +96,7 @@ return (
             {props.children}
           </div>
           {props.data.hasBackButton && (
-            <BackButton className='text-dark textL pl-0' color='link' onClick={back}>
+            <BackButton data-test="prospect-details-back-button" className='text-dark textL pl-0' color='link' onClick={back}>
               <BackArrowHolster>
                 <BackArrow width='auto' name='arrowDark' />
               </BackArrowHolster>

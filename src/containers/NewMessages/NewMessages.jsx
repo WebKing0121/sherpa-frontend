@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TabbedHeader from '../../components/TabbedHeader';
 import NewMessagesList from '../../components/NewMessagesList';
 import { prospectsToItemList } from '../CampaignDetailsPage/utils';

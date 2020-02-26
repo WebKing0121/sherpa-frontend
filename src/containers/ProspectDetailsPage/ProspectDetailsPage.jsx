@@ -50,7 +50,7 @@ const StyledTabContent = styled(TabContent)`
     props.activeTab === '2' ? 'var(--ghostBlue)' : 'white'};
 `;
 
-const renderTabbedHeaderContent = (prospects, id, content) => {
+const renderTabbedHeaderContent = (prospects, id, content, backButtonText) => {
   const prevIcon = <FontAwesomeIcon className="mr-1" icon="chevron-circle-left" size="sm" />;
   const nextIcon = <FontAwesomeIcon className="ml-1" icon="chevron-circle-right" size="sm" />;
 
@@ -63,7 +63,8 @@ const renderTabbedHeaderContent = (prospects, id, content) => {
               <Link
                 data-test="prospect-cycle-left"
                 style={{ color: "white", frontSize: "40px" }}
-                to={`/prospect/${prospects[id - 1]}/details`}
+                to={{ pathname: `/prospect/${prospects[id - 1]}/details`, state: { backButtonText } }}
+                replace={true}
               >
                 {prevIcon} Prev
               </Link>
@@ -77,7 +78,8 @@ const renderTabbedHeaderContent = (prospects, id, content) => {
               <Link
                 data-test="prospect-cycle-right"
                 style={{ color: "white", frontSize: "40px" }}
-                to={`/prospect/${prospects[id + 1]}/details`}
+                to={{ pathname: `/prospect/${prospects[id + 1]}/details`, state: { backButtonText } }}
+                replace={true}
               >
                 Next {nextIcon}
               </Link>
@@ -91,7 +93,7 @@ const renderTabbedHeaderContent = (prospects, id, content) => {
   );
 };
 
-function ProspectDetailsPage() {
+function ProspectDetailsPage(props) {
   // hooks
   const { prospectId } = useParams();
   const dispatch = useDispatch();
@@ -157,8 +159,15 @@ function ProspectDetailsPage() {
         renderData={() => (
           <Wrapper>
             <div ref={headerRef}>
-              <TabbedHeader toggleTab={toggleTab} activeTab={activeTab} data={prospectHeaderInfo}>
-                {renderTabbedHeaderContent(prospectsToCycle, curIdx, prospect.name)}
+              <TabbedHeader
+                toggleTab={toggleTab}
+                activeTab={activeTab}
+                data={{
+                  ...prospectHeaderInfo,
+                  fromText: props.location.state && props.location.state.backButtonText,
+                  hasBackButton: props.location.state && props.location.state.backButtonText !== undefined
+                }}>
+                {renderTabbedHeaderContent(prospectsToCycle, curIdx, prospect.name, props.location.state && props.location.state.backButtonText)}
               </TabbedHeader>
             </div>
             <StyledTabContent activeTab={activeTab}>
