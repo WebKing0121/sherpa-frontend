@@ -17,7 +17,7 @@ function SectionHeader(props) {
   return (
     <Wrapper>
       <h3 className="m-0">{props.title}</h3>
-      {props.btn && props.btn}
+      {props.btns && props.btns}
     </Wrapper>
   );
 }

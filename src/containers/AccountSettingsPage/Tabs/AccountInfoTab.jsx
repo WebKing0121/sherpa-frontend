@@ -82,13 +82,18 @@ function AccountInfoTab(props) {
   };
 
   // header buttons
-  const accountHeaderBtn = (
-    <Button color="primary" size="md" onClick={() => { }}>
-      Save Changes
-    </Button>
+  const accountHeaderBtns = (
+    <div className="d-flex align-items-end">
+      <ModalToggle config={changePassConfig}>
+        <Button className="mr-2" color="secondary" size="md">Change Password</Button>
+      </ModalToggle>
+      <Button color="primary" size="md" onClick={() => { }}>
+        Save Changes
+      </Button>
+    </div>
   );
 
-  const marketsHeaderBtn = (
+  const marketsHeaderBtns = (
     <ModalToggle config={newMarketConfig}>
       <Button color="primary" size="md" onClick={() => { }}>
         {plusIcon}New Market
@@ -100,14 +105,14 @@ function AccountInfoTab(props) {
   const accountHeader = (
     <SectionHeader
       title="Account Information"
-      btn={accountHeaderBtn}
+      btns={accountHeaderBtns}
     />
   );
 
   const marketsHeader = (
     <SectionHeader
       title="Markets"
-      btn={marketsHeaderBtn}
+      btns={marketsHeaderBtns}
     />
   );
 
@@ -116,38 +121,28 @@ function AccountInfoTab(props) {
       <SettingsSection type="form" header={accountHeader}>
         <Form>
           <Row form>
-            <Col md={6}>
+            <Col md={5}>
               <FormGroup>
                 <Label>Business Name</Label>
                 <InputGroupBorder>
-                  <Input placeholder="Name Your Template" />
+                  <Input placeholder="Enter Business Name" />
                 </InputGroupBorder>
               </FormGroup>
             </Col>
-            <Col md={6}>
+            <Col md={4}>
               <FormGroup>
                 <Label>Email</Label>
                 <InputGroupBorder>
-                  <Input placeholder="Name Your Template" />
+                  <Input placeholder="Enter Your Email" />
                 </InputGroupBorder>
               </FormGroup>
             </Col>
-          </Row>
-          <Row form>
-            <Col md={6}>
+            <Col md={3}>
               <FormGroup>
                 <Label>Time Zone</Label>
                 <InputGroupBorder>
-                  <Input placeholder="Name Your Template" />
+                  <Input placeholder="Enter Your Time Zone" />
                 </InputGroupBorder>
-              </FormGroup>
-            </Col>
-            <Col md={6}>
-              <FormGroup>
-                <Label>Password</Label>
-                <ModalToggle config={changePassConfig}>
-                  <Button className="mt-3" color="secondary" size="sm" block>Change Password</Button>
-                </ModalToggle>
               </FormGroup>
             </Col>
           </Row>
