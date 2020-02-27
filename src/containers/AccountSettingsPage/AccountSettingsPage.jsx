@@ -10,6 +10,11 @@ import UsersTab from './Tabs/UsersTab';
 import AutoSettingsTab from './Tabs/AutoSettingsTab';
 import ManageAppsTab from './Tabs/ManageAppsTab';
 import RelaySettingsTab from './Tabs/RelaySettingsTab';
+import WithPermissions from '../../components/WithPermissions';
+import { PermissionDenied } from '../../components/PermissionError';
+
+// vars
+import { ACCOUNT_SETTINGS_VIEW_PAGE } from '../../permissions/accountSettings';
 
 const SettingsBody = styled.div`
   display: flex;
@@ -63,73 +68,79 @@ function AccountSettingsPage() {
 
   const toggle = tab => {
     if (activeTab !== tab) setActiveTab(tab);
-  }
+  };
 
   return (
-    <div className="pageContent d-flex flex-column">
-      <Header>Account Settings</Header>
-      <SettingsBody>
-        <StyledNav>
-          <NavItem>
-            <StyledNavLink
-              className={classnames({ active: activeTab === '1' })}
-              onClick={() => { toggle('1'); }}
-            >Account Info & Settings</StyledNavLink>
-          </NavItem>
-          <NavItem>
-            <StyledNavLink
-              className={classnames({ active: activeTab === '2' })}
-              onClick={() => { toggle('2'); }}
-            >Billing Information</StyledNavLink>
-          </NavItem>
-          <NavItem>
-            <StyledNavLink
-              className={classnames({ active: activeTab === '3' })}
-              onClick={() => { toggle('3'); }}
-            >Users</StyledNavLink>
-          </NavItem>
-          <NavItem>
-            <StyledNavLink
-              className={classnames({ active: activeTab === '4' })}
-              onClick={() => { toggle('4'); }}
-            >Auto Settings</StyledNavLink>
-          </NavItem>
-          <NavItem>
-            <StyledNavLink
-              className={classnames({ active: activeTab === '5' })}
-              onClick={() => { toggle('5'); }}
-            >Manage App Integrations</StyledNavLink>
-          </NavItem>
-          <NavItem>
-            <StyledNavLink
-              className={classnames({ active: activeTab === '6' })}
-              onClick={() => { toggle('6'); }}
-            >Prospect Relay Settings</StyledNavLink>
-          </NavItem>
-        </StyledNav>
+    <WithPermissions
+      checkPermissions={true}
+      permission={ACCOUNT_SETTINGS_VIEW_PAGE}
+      permissionDeniedMessage={<PermissionDenied>You don't have permission to view this page.</PermissionDenied>}
+    >
+      <div className="pageContent d-flex flex-column">
+        <Header>Account Settings</Header>
+        <SettingsBody>
+          <StyledNav>
+            <NavItem>
+              <StyledNavLink
+                className={classnames({ active: activeTab === '1' })}
+                onClick={() => { toggle('1'); }}
+              >Account Info & Settings</StyledNavLink>
+            </NavItem>
+            <NavItem>
+              <StyledNavLink
+                className={classnames({ active: activeTab === '2' })}
+                onClick={() => { toggle('2'); }}
+              >Billing Information</StyledNavLink>
+            </NavItem>
+            <NavItem>
+              <StyledNavLink
+                className={classnames({ active: activeTab === '3' })}
+                onClick={() => { toggle('3'); }}
+              >Users</StyledNavLink>
+            </NavItem>
+            <NavItem>
+              <StyledNavLink
+                className={classnames({ active: activeTab === '4' })}
+                onClick={() => { toggle('4'); }}
+              >Auto Settings</StyledNavLink>
+            </NavItem>
+            <NavItem>
+              <StyledNavLink
+                className={classnames({ active: activeTab === '5' })}
+                onClick={() => { toggle('5'); }}
+              >Manage App Integrations</StyledNavLink>
+            </NavItem>
+            <NavItem>
+              <StyledNavLink
+                className={classnames({ active: activeTab === '6' })}
+                onClick={() => { toggle('6'); }}
+              >Prospect Relay Settings</StyledNavLink>
+            </NavItem>
+          </StyledNav>
 
-        <StyledTabContent activeTab={activeTab}>
-          <TabPane tabId="1">
-            <AccountInfoTab />
-          </TabPane>
-          <TabPane tabId="2">
-            <BillingInfoTab />
-          </TabPane>
-          <TabPane tabId="3">
-            <UsersTab />
-          </TabPane>
-          <TabPane tabId="4">
-            <AutoSettingsTab />
-          </TabPane>
-          <TabPane tabId="5">
-            <ManageAppsTab />
-          </TabPane>
-          <TabPane tabId="6">
-            <RelaySettingsTab />
-          </TabPane>
-        </StyledTabContent>
-      </SettingsBody>
-    </div>
+          <StyledTabContent activeTab={activeTab}>
+            <TabPane tabId="1">
+              <AccountInfoTab />
+            </TabPane>
+            <TabPane tabId="2">
+              <BillingInfoTab />
+            </TabPane>
+            <TabPane tabId="3">
+              <UsersTab />
+            </TabPane>
+            <TabPane tabId="4">
+              <AutoSettingsTab />
+            </TabPane>
+            <TabPane tabId="5">
+              <ManageAppsTab />
+            </TabPane>
+            <TabPane tabId="6">
+              <RelaySettingsTab />
+            </TabPane>
+          </StyledTabContent>
+        </SettingsBody>
+      </div>
+    </WithPermissions>
   );
 }
 
