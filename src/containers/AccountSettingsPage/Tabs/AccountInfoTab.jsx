@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SectionHeader from '../SectionHeader';
 import ModalToggle from "../ModalToggle";
 import SettingsSection from '../SettingsSection';
@@ -9,6 +9,42 @@ import { useSelector, useDispatch } from 'react-redux';
 import { activeMarkets, marketsStatus } from '../../../store/Markets/selectors';
 import { fetchMarkets } from '../../../store/Markets/actions';
 import { DataLoader } from '../../../components/LoadingData';
+import { CSSTransition } from 'react-transition-group';
+import styled from 'styled-components';
+
+const MarketModalWrapper = styled.div`
+  display: flex;
+  position: relative;
+  overflow: hidden;
+`;
+
+const SlideIn = styled(CSSTransition)`
+  --timing: .2s ease-in-out;
+  --left: 0%;
+  position: relative;
+  overflow: hidden;
+  transition: left var(--timing);
+  left: var(--left);
+  flex: 0 0 100%;
+
+  &.slide {
+    &-enter {
+      left: 110%;
+      &-active {
+        left: 110%;
+      }
+      &-done {
+        left: var(--left);
+      }
+    }
+    &-exit {
+      left: var(--left);
+      &-active {
+        left: -110%;
+      }
+    }
+  }
+`;
 
 function AccountInfoTab(props) {
   const markets = useSelector(activeMarkets);
@@ -24,6 +60,13 @@ function AccountInfoTab(props) {
       dispatch(fetchMarkets());
     }
   }, []);
+
+  const [showPhase1, setShowPhase1] = useState(true);
+
+  // modal configs init
+  let changePassConfig = {};
+  let forwardNumModalConfig = {};
+  let newMarketConfig = {};
 
   // modals
   const passwordModal = (
@@ -52,33 +95,77 @@ function AccountInfoTab(props) {
   );
 
   const marketModal = (
-    <FormGroup>
-      <InputGroupBorder>
-        <Input placeholder="Enter Market Name" />
-      </InputGroupBorder>
-    </FormGroup>
+    <MarketModalWrapper>
+      <SlideIn
+        in={showPhase1}
+        timeout={300}
+        appear={true}
+        classNames="slide"
+        unmountOnExit={true}>
+        <div className="phase1">
+          <FormGroup>
+            <Label for="state">State</Label>
+            <InputGroupBorder>
+              <Input name="state" placeholder="Enter State" />
+            </InputGroupBorder>
+          </FormGroup>
+          <FormGroup>
+            <Label for="market">Market</Label>
+            <InputGroupBorder>
+              <Input name="market" placeholder="Enter Market" />
+            </InputGroupBorder>
+          </FormGroup>
+          <Button className="mt-3" color="primary" size="lg" block onClick={() => setShowPhase1(!setShowPhase1)}>
+            Next
+          </Button>
+        </div>
+      </SlideIn>
+
+      <SlideIn
+        in={!showPhase1}
+        timeout={300}
+        appear={false}
+        classNames="slide"
+        unmountOnExit={true}>
+        <div className="phase2">
+          <FormGroup>
+            <Label for="marketName">Market Name</Label>
+            <InputGroupBorder>
+              <Input name="marketName" placeholder="Enter Market Name" />
+            </InputGroupBorder>
+          </FormGroup>
+          <FormGroup>
+            <Label for="number">Call Forwarding Number</Label>
+            <InputGroupBorder>
+              <Input name="number" placeholder="Enter Call Forwarding Number" />
+            </InputGroupBorder>
+          </FormGroup>
+          <Button className="mt-3" color="primary" size="lg" block onClick={()=>{}}>
+            Create Market
+          </Button>
+        </div>
+      </SlideIn>
+    </MarketModalWrapper>
   );
 
   // modal configs
-  const changePassConfig = {
+  changePassConfig = {
     title: "Change Password",
     btnTxt: "Confirm",
     inner: passwordModal,
     onSubmit: () => { console.log("submitted modal") }
   };
 
-  const forwardNumModalConfig = {
+  forwardNumModalConfig = {
     title: "Edit Forwarding Number",
     btnTxt: "Confirm",
     inner: forwardNumModal,
     onSubmit: () => { console.log("submitted modal") }
   };
 
-  const newMarketConfig = {
+  newMarketConfig = {
     title: "New Market",
-    btnTxt: "Create",
     inner: marketModal,
-    onSubmit: () => { console.log("submitted modal") }
   };
 
   // header buttons
