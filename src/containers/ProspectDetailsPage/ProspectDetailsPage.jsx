@@ -106,8 +106,6 @@ function ProspectDetailsPage(props) {
   const messages = useSelector(prospectMessagesList(prospectId));
   const [curIdx, setCurIdx] = useState(0);
 
-  console.log("MESSAGES 2",messages);
-
   useEffect(() => {
     if (prospectsToCycle.length > 0 && prospect.id) {
       const idx = prospectsToCycle.findIndex(p => p === prospect.id);

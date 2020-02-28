@@ -73,8 +73,6 @@ function MessagesTab(props) {
   const { messages } = props;
   const dispatch = useDispatch();
 
-  console.log("MESSAGES",messages);
-
   useEffect(() => {
     setHasUnreadMessages(messages.some(message => message.unreadByRecipient));
   }, [messages]);
@@ -191,6 +189,7 @@ function MessagesTab(props) {
       />
       <InputWrapper ref={inputRef}>
         <MessageInput
+          subjectId={props.subjectId}
           messagesStatus={props.messagesStatus}
           addNewMessage={addNewMessage}
         />

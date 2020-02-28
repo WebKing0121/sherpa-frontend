@@ -147,11 +147,9 @@ function MessageInput(props) {
   // 1) set fetching status to start spinner and dispatch thunk to fetch quick replies
   // 2) set fetching status to stop spinner after new quick replies are returned;
   useEffect(() => {
-    if (!quickReplies.length) {
-      setIsFetchingQuickReplies(Fetching);
-      dispatch(fetchQuickReplies(prospectId));
-    }
-  }, []);
+    setIsFetchingQuickReplies(Fetching);
+    dispatch(fetchQuickReplies(prospectId));
+  }, [props.subjectId]);
 
   useEffect(() => {
     setIsFetchingQuickReplies(Success);
@@ -178,11 +176,11 @@ function MessageInput(props) {
     />;
   };
 
-  const quickReplyDesktop =(
+  const quickReplyDesktop = (
     <QuickReplyDesktop placement="bottom" isOpen={modal} toggle={toggle} target="quick-reply">
       <PopoverHeader className="textXL">
         Select Quick Reply
-        <FontAwesomeIcon icon="times" onClick={toggle}/>
+        <FontAwesomeIcon icon="times" onClick={toggle} />
       </PopoverHeader>
       <PopBody>
         {mapQuickReplies()}
@@ -190,7 +188,7 @@ function MessageInput(props) {
     </QuickReplyDesktop>
   );
 
-  const quickReplyMobile =(
+  const quickReplyMobile = (
     <Modal
       isOpen={modal}
       toggle={toggle}
@@ -209,7 +207,7 @@ function MessageInput(props) {
 
   return (
     <SendMessage onSubmit={handleSubmit}>
-      { !isMobile ? header : null }
+      {!isMobile ? header : null}
       <InputGroupBorder className='mb-2'>
         <InputGroupAddon addonType='prepend'>
           <Button
@@ -248,7 +246,7 @@ function MessageInput(props) {
           </Button>
         </InputGroupAddon>
       </InputGroupBorder>
-      { isMobile ? quickReplyMobile : quickReplyDesktop }
+      {isMobile ? quickReplyMobile : quickReplyDesktop}
 
     </SendMessage>
   );
