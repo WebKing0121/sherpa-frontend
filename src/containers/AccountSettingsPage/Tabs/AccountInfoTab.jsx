@@ -1,4 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { activeMarkets } from '../../../store/Markets/selectors';
+import { fetchMarkets } from '../../../store/Markets/actions';
+import Modal from '../../../components/Modal';
+import UpdatePasswordModal from './UpdatePasswordModal';
 import SectionHeader from '../SectionHeader';
 import ModalToggle from "../ModalToggle";
 import SettingsSection from '../SettingsSection';
@@ -44,31 +49,28 @@ const SlideIn = styled(CSSTransition)`
 `;
 
 function AccountInfoTab(props) {
-  const plusIcon = <FontAwesomeIcon icon="plus-circle" />;
-
+  // local state
   const [showPhase1, setShowPhase1] = useState(true);
+  const [passwordModalOpen, setPasswordModalOpen] = useState(false);
+
+  //modal toggles
+  const passModalToggle = () => setPasswordModalOpen(state => !state);
 
   // modal configs init
-  let changePassConfig = {};
   let newMarketConfig = {};
 
-  // modals
-  const passwordModal = (
-    <>
-      <FormGroup>
-        <Label htmlFor="password">Password</Label>
-        <InputGroupBorder>
-          <Input placeholder="Enter your password" type="password" name="password" />
-        </InputGroupBorder>
-      </FormGroup>
-      <FormGroup>
-        <Label htmlFor="confirmPassword">Confirm Password</Label>
-        <InputGroupBorder>
-          <Input placeholder="Enter your password" type="password" name="confirmPassword" />
-        </InputGroupBorder>
-      </FormGroup>
-    </>
-  );
+  // selectors
+  const markets = useSelector(activeMarkets);
+
+  const plusIcon = <FontAwesomeIcon icon="plus-circle" />;
+  const dispatch = useDispatch();
+ 
+  // fetch markets if not already in the store
+  useEffect(() => {
+    if (markets.length === 0) {
+      dispatch(fetchMarkets());
+    }
+  }, []);
 
   const marketModal = (
     <MarketModalWrapper>
@@ -124,15 +126,7 @@ function AccountInfoTab(props) {
     </MarketModalWrapper>
   );
 
-  // modal configs
-  changePassConfig = {
-    title: "Change Password",
-    btnTxt: "Confirm",
-    inner: passwordModal,
-    onSubmit: () => { console.log("submitted modal") }
-  };
-
-  newMarketConfig = {
+   newMarketConfig = {
     title: "New Market",
     inner: marketModal,
   };
@@ -140,9 +134,10 @@ function AccountInfoTab(props) {
   // header buttons
   const accountHeaderBtns = (
     <div className="d-flex align-items-end">
-      <ModalToggle config={changePassConfig}>
-        <Button className="mr-2" color="secondary" size="md">Change Password</Button>
-      </ModalToggle>
+      <Button onClick={passModalToggle} className="mr-2" color="secondary" data-test='change-password-btn' size="md">Change Password</Button>
+        <Modal dataTest="change-password-modal" title="Change Password" isOpen={passwordModalOpen} toggle={passModalToggle}>
+          <UpdatePasswordModal toggle={passModalToggle} />
+        </Modal>
       <Button color="primary" size="md" onClick={() => { }}>
         Save Changes
       </Button>

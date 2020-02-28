@@ -1,17 +1,8 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import styled from 'styled-components';
-
-import List from '../../../components/List/List';
-import Select from '../../../components/InputSelect';
-import IconBg from '../../../components/IconBg';
 import NewMessagesList from '../../../components/NewMessagesList';
 
 import { prospectsToItemList } from './utils';
-import { campaignsList, campaignsStatus, activeMarket } from '../../../store/Campaigns/selectors';
-import { marketsList } from '../../../store/Markets/selectors';
-import { fetchSortedCampaigns } from '../../../store/Campaigns/thunks';
-import { DataLoader } from '../../../components/LoadingData';
 
 const Wrapper = styled.div`
   padding: var(--pad2) var(--pad3);

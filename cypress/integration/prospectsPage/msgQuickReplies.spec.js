@@ -39,7 +39,7 @@ describe('Message quick replies', () => {
         cy.get('[data-test=quick-replies]').find('li').eq(idx).click({ force: true });
         cy.get('[data-test=message-input]').then($input => {
           cy.wrap($input).should('have.value', message);
-          cy.wrap($input).clear();
+          cy.wrap($input).clear({ force: true });
         });
       });
     });
