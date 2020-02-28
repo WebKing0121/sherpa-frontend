@@ -78,7 +78,7 @@ function InputSelect2(props) {
           {icon}
         </StyledToggle>
         <StyledDropdownMenu
-          data-test='custom-dropdown'
+          data-test={props.dataTest || 'custom-dropdown'}
           flip={false}
           positionFixed={false}
           modifiers={{

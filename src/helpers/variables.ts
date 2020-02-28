@@ -251,4 +251,6 @@ export const campaignSortingOptions = [
 ];
 
 // followup campaigns
-export const createFollowupMessage = 'By creating a Follow-up Campaign all the prospects that have not responded to the SMS from this campaign will permanently moved over to the new Campaign.'
+export const createFollowupMessage = 'By creating a Follow-up Campaign all the prospects that have not responded to the SMS from this campaign will permanently moved over to the new Campaign.';
+
+export const timezones = ['US/Mountain', 'US/Arizona', 'US/Central', 'US/Pacific', 'US/Eastern', 'US/Hawaii', 'US/Alaska'];

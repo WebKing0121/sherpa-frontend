@@ -3,7 +3,11 @@ import styled from 'styled-components';
 import { InputGroup } from 'reactstrap';
 
 const StyledInputGroup = styled(InputGroup)`
-  --borderCol: ${props => props.error ? "var(--red)" : "var(--mediumGray)"};
+  --borderCol: ${props =>
+    props.error ? "var(--red)" :
+    props.readonly ? "var(--darkGray)" :
+    "var(--mediumGray)"
+  };
   --borderSize: 1px;
   --border: var(--borderSize) solid var(--borderCol) !important;
 
@@ -24,7 +28,7 @@ const StyledInputGroup = styled(InputGroup)`
 
 function InputGroupBorder(props) {
   return (
-    <StyledInputGroup border={props.border} error={props.error} className="inputGroup">
+    <StyledInputGroup border={props.border} error={props.error} readonly={props.readonly} className="inputGroup">
       {props.children}
     </StyledInputGroup>
   );

@@ -128,3 +128,10 @@ Cypress.Commands.add('dispatchAction', action => {
 // Cypress.on('uncaught:exception', (err, runnable) => {
 //     return false;
 // });
+
+Cypress.Commands.add('visitAndCheckPath', (url, path) => {
+    cy.visit(`${url}/${path}`);
+    cy.location().should(location => {
+        expect(location.pathname).to.eq(`/${path}`);
+    });
+});

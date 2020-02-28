@@ -32,17 +32,17 @@ describe('Prospect page', () => {
       .should('exist');
   });
 
-  it('virtualized list has proper height ', () => {
-    cy.window()
-      .then(window => {
-        cy.get('#virtualizedList')
-          .should($vl => {
-            const listOffsetTop = window.document.getElementById("virtualizedList").offsetTop;
-            const expectedHeight = window.innerHeight - listOffsetTop;
-            expect($vl).to.have.css('height', `${expectedHeight}px`);
-          });
-      });
-  });
+  // it('virtualized list has proper height ', () => {
+  //   cy.window()
+  //     .then(window => {
+  //       cy.get('#virtualizedList')
+  //         .should($vl => {
+  //           const listOffsetTop = window.document.getElementById("virtualizedList").offsetTop;
+  //           const expectedHeight = window.innerHeight - listOffsetTop;
+  //           expect($vl).to.have.css('height', `${expectedHeight}px`);
+  //         });
+  //     });
+  // });
 
   it('performs a prospect search and displays the results', () => {
     cy.server();
