@@ -5,7 +5,7 @@ import {
   SET_FETCH_MARKETS_ERROR,
   DECREMENT_MARKET_CAMPAIGN_COUNT
 } from './actionTypes';
-import { createMarketsFolders } from './transformers';
+import { createMarketsFolders, formatCallForwardNumber } from './transformers';
 import { history } from '../../history';
 import { saveToLocalStorage } from './utils';
 import { Fetching } from '../../helpers/variables';
@@ -30,6 +30,11 @@ export const decrementMarketCampaignCount = market => ({
   market
 });
 
+export const updateMarket = market => ({
+  type: 'UPDATE_MARKET',
+  market
+});
+
 export const fetchMarkets = () => (dispatch, _) => {
   // NOTE: Needs to hit the Folder-endpoint in the future
   // For now we will render 1 folder called ALL that will contain all campaigns
@@ -39,21 +44,24 @@ export const fetchMarkets = () => (dispatch, _) => {
 
   dispatch(setFetchMarketsStatus(Fetching));
 
-  AxiosInstance.get('/markets/')
+  return AxiosInstance.get('/markets/')
     .then(({ data }) => {
       const { results } = data;
-
       const marketFolders = createMarketsFolders(results);
+      dispatch(setFetchedMarkets(marketFolders));
 
-      if (marketFolders.length > 1 || marketFolders.length === 0) {
-        dispatch(setFetchedMarkets(marketFolders));
-        saveToLocalStorage('folderView', JSON.stringify(marketFolders));
-      } else {
-        const { id } = marketFolders[0];
-        history.push(`/markets/${id}/campaigns`);
-      }
+      return results;
     })
     .catch(error => {
       handleError(error, 'Error when fetching markets');
+    });
+};
+
+export const updateMarketThunk = (id, params) => (dispatch) => {
+  return AxiosInstance
+    .patch(`/markets/${id}/`, params)
+    .then(({ data }) => {
+      dispatch(updateMarket(formatCallForwardNumber(data)));
+      return data;
     });
 };

@@ -54,7 +54,15 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         folders: [...toDecrement]
-      }
+      };
+    case 'UPDATE_MARKET': {
+      const filtered_markets = state.folders.filter(market => market.id !== action.market.id);
+      filtered_markets.push(action.market);
+      return {
+        ...state,
+        folders: filtered_markets
+      };
+    }
     default:
       return state;
   }
