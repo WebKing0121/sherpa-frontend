@@ -38,10 +38,11 @@ const CampaignsPage = () => {
   const isFetchingMore = useSelector(campaignIsLoadingMore);
   const sortBy = useSelector(sortByOrder);
   const activeFilter = useSelector(getActiveFilter);
+  const [hasCampaignFolders, _] = useState(campaignFolders.length > 1);
 
   // helpers
   const dispatch = useDispatch();
-  const folders = getFromLocalStorage('folderView');
+  // const folders = getFromLocalStorage('folderView');
   const { marketId } = useParams();
 
   // state
@@ -53,7 +54,7 @@ const CampaignsPage = () => {
   const fetchMoreData = () => dispatch(campaignsNextPage());
 
   // check there are campaign folders to navigate back too
-  const hasCampaignFolders = campaignFolders.length > 0 || folders;
+
 
   // dispatch fetchCampaigns
   useEffect(() => {

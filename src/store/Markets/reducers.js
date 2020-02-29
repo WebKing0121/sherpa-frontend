@@ -27,7 +27,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         folders: action.campaignFolders,
-        status: Success
+        status: Success,
+        count: action.campaignFolders.length
       };
     case SET_FETCH_MARKETS_ERROR:
       return {
@@ -43,7 +44,10 @@ export default function reducer(state = initialState, action) {
         if (curr.id === action.market) {
           curr.campaignCount--;
         }
-        acc.push(curr);
+
+        if (curr.count > 0) {
+          acc.push(curr);
+        }
         return acc;
       }, [])
 
