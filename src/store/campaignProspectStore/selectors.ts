@@ -40,7 +40,7 @@ export const getCampaignProspectsUnread = createSelector(
     const leadStages = getLeadStages(state);
     const prospects = prospectsResults(state);
 
-    if (Object.keys(campaignProspectsUnread).length > 0) {
+    if (Object.keys(campaignProspectsUnread).length > 0 || leadStages.length > 0) {
       const cps = Object.keys(campaignProspectsUnread).map((key: any) => {
         if (Object.keys(prospects).length >= campaignProspectsUnread[key].length) {
           return campaignProspectsUnread[key]
@@ -54,7 +54,7 @@ export const getCampaignProspectsUnread = createSelector(
                 ...campaignProspect,
                 prospect: {
                   ...prospect,
-                  leadStageTitle: leadStage.leadStageTitle
+                  leadStageTitle: leadStage ? leadStage.leadStageTitle : ''
                 }
               }
             });
