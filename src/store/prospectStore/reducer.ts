@@ -49,8 +49,11 @@ export default function reducer(state: IProspectStore = initialState, action: an
     case UPDATE_PROSPECT_LIST: {
       let newState = { ...state };
       newState.prospects = { ...newState.prospects, ...action.payload.results };
-      newState.next = action.payload.next ? action.payload.next : state.next;
-      newState.previous = action.payload.previous ? action.payload.previous : state.previous;
+
+      if (action.payload.overridePages) {
+        newState.next = action.payload.next;
+        newState.previous = action.payload.previous;
+      }
 
       return newState;
     }
