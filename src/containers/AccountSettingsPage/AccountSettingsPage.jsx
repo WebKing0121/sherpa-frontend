@@ -94,6 +94,7 @@ function AccountSettingsPage() {
             </NavItem>
             <NavItem>
               <StyledNavLink
+                data-test="accounts-page-users-tab"
                 className={classnames({ active: activeTab === '3' })}
                 onClick={() => { toggle('3'); }}
               >Users</StyledNavLink>

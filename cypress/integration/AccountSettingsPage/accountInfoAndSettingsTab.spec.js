@@ -18,7 +18,7 @@ describe('Account Info Settings Tab', () => {
       .then(store => {
         const { markets: { folders } } = store;
         const activeMarkets = folders.filter(market => market.isActive);
-        console.log("ACTIVE MARKETS", activeMarkets, folders);
+
         cy.get('[data-test=acount-info-markets-list]')
           .children()
           .should('have.length', activeMarkets.length);
