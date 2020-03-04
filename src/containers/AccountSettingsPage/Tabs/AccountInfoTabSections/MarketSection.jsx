@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import styled from 'styled-components';
 
 // components
 import { DataLoader } from '../../../../components/LoadingData';
@@ -10,6 +11,14 @@ import Modal from '../../../../components/Modal';
 // redux
 import { activeMarkets, marketsStatus } from '../../../../store/Markets/selectors';
 import { fetchMarkets } from '../../../../store/Markets/actions';
+
+const EditBtn = styled.div`
+  display: inline-block;
+  &:hover svg {
+    cursor: pointer;
+    color: var(--sherpaBlue);
+  }
+`;
 
 const MarketSection = () => {
   const markets = useSelector(activeMarkets);
@@ -43,14 +52,16 @@ const MarketSection = () => {
                 <span className="gray">
                   Forwarding to
                   <span className="ml-1 darkGray fw-bold">{market.callForwardingNumber}</span>
-                  <FontAwesomeIcon
-                    style={{ cursor: 'pointer' }}
-                    data-test={`market-item-${market.id}`}
-                    icon="pencil-alt"
-                    color="var(--green)"
-                    className="ml-1"
-                    onClick={() => toggle(market.id)}
-                  />
+                  <EditBtn>
+                    <FontAwesomeIcon
+                      style={{ cursor: 'pointer' }}
+                      data-test={`market-item-${market.id}`}
+                      icon="pencil-alt"
+                      color="var(--green)"
+                      className="ml-2"
+                      onClick={() => toggle(market.id)}
+                    />
+                  </EditBtn>
                 </span>
                 <span>
                   <FontAwesomeIcon style={{ cursor: 'pointer' }} icon="check-circle" color="var(--green)" className="mr-1" />
