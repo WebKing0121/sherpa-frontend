@@ -1,7 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import SectionHeader from '../SectionHeader';
-import SettingsSection from '../SettingsSection';
 import {
   Button,
   FormGroup,
@@ -15,6 +14,8 @@ import InputGroupBorder from '../../../components/InputGroupBorder';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import { getCompanyData } from '../../../store/Auth/selectors';
+import TableWithSorting, { comparators } from '../../../components/TableWithSorting';
+import { getIn } from '../../../utils';
 import ModalToggle from '../ModalToggle';
 import Select from '../../../components/InputSelect2';
 
@@ -55,6 +56,38 @@ const StyledList = styled.ul`
     }
   }
 `;
+const checkIcon = <FontAwesomeIcon icon="check-circle" color="var(--green)" className="mr-1" />;
+const inActiveIcon = <FontAwesomeIcon icon="times-circle" color="var(--red)" className="mr-1" />;
+const plusIcon = <FontAwesomeIcon icon="plus" />;
+
+// sorting headers that will be used to render the clickable sorting
+// options.
+const headers = [
+  {
+    active: true,
+    sorting: 1,      // used to find the appropriate comparator function
+    name: 'A to Z',
+    type: 'string',  // used to find the approrpriate comparator function
+    path: ['user', 'fullName'] // used to find the approrpiate data to sort by
+  },
+  null,
+  null,
+  {
+    active: false,
+    sorting: 0,
+    name: 'Role',
+    type: 'string',
+    path: ['role']
+  },
+  {
+    active: false,
+    sorting: 0,
+    name: 'Status',
+    type: 'boolean',
+    path: ['user', 'isActive']
+  },
+  null
+];
 
 const roleOpts = (
   <>
@@ -141,18 +174,20 @@ const editConfig = {
 };
 
 function UsersTab(props) {
-  const checkIcon = <FontAwesomeIcon icon="check-circle" color="var(--green)" className="mr-1" />;
-  const inActiveIcon = <FontAwesomeIcon icon="times-circle" color="var(--red)" className="mr-1" />;
+  const [activeSort, setActiveSort] = useState({ id: 0, sorting: 1 });
   const company = useSelector(getCompanyData);
   const sortedUsers = useMemo(() => {
-    const users = company.profiles.sort(
-      (prof1, prof2) => prof1.user.fullName.localeCompare(prof2.user.fullName)
+    // runs whenever the active sort changes, it grabs the id and
+    // sorting-direction that needs to be sorted by.
+    const { type, path } = headers[activeSort.id];
+    const comparator = comparators[type][activeSort.sorting];
+    const users = company.profiles.concat().sort(
+      (value1, value2) => comparator(getIn(path, value1), getIn(path, value2))
     );
 
     return users;
-  }, [company.profiles]);
-  const plusIcon = <FontAwesomeIcon icon="plus" />;
-  const downIcon = <FontAwesomeIcon icon="chevron-down" size="xs" className="mr-1"/>;
+  }, [company.profiles, activeSort]);
+
   const editIcon = (
     <ModalToggle config={editConfig} >
       <FontAwesomeIcon
@@ -175,32 +210,26 @@ function UsersTab(props) {
       btn={usersHeaderBtn}
     />
   );
-
   return (
     <>
-      <SettingsSection type="table" header={usersHeader}>
-        <StyledList>
-          <li className="item header textM mb-1">
-            <span>{downIcon} A to Z</span>
-            <span></span>
-            <span></span>
-            <span>{downIcon} Role</span>
-            <span>{downIcon} Status</span>
-            <span></span>
+      <TableWithSorting
+        header={usersHeader}
+        listStyle={StyledList}
+        headers={headers}
+        setActiveSort={setActiveSort}
+      >
+        {sortedUsers.map((profile) => (
+          <li data-test={`user-${profile.id}`} className="item textM mb-1" key={profile.id}>
+            <span>{profile.user.fullName}</span>
+            <span className="gray">{profile.user.email}</span>
+            <span className="gray">{profile.phone || '---'}</span>
+            <span>{profile.role}</span>
+            {profile.user.isActive ?
+              <span>{checkIcon}Active</span> : <span>{inActiveIcon}Inactive</span>}
+            <span>{editIcon}</span>
           </li>
-          {sortedUsers.map((profile) => (
-            <li data-test={`user-${profile.id}`} className="item textM mb-1" key={profile.id}>
-              <span>{profile.user.fullName}</span>
-              <span className="gray">{profile.user.email}</span>
-              <span className="gray">{profile.phone || '---'}</span>
-              <span>{profile.role}</span>
-              {profile.user.isActive ?
-                <span>{checkIcon}Active</span> : <span>{inActiveIcon}Inactive</span>}
-		<span>{editIcon}</span>
-            </li>
-          ))}
-        </StyledList>
-      </SettingsSection>
+        ))}
+      </TableWithSorting>
     </>
   );
 }
