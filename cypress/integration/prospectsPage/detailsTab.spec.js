@@ -9,13 +9,13 @@ describe('Prospect details tab', () => {
     crmBtn = '[data-test=email-to-crm-btn]',
     zapierBtn = '[data-test=push-to-zapier-btn]',
     actionButtons = '[data-test=status-action-button]',
-        option = '.dropdown-item'
+    option = '.dropdown-item'
 
   const actions = ['Verified', 'DNC', 'Priority', 'Qualified'];
 
   before(() => {
     cy.login();
-   cy.createFixture(`prospect${prospectId}Details.json`, `prospects/${prospectId}`, 'GET', {
+    cy.createFixture(`prospect${prospectId}Details.json`, `prospects/${prospectId}`, 'GET', {
       qs: { expand: 'campaigns', sms_relay_map: 'sms_relay_map' }
     });
   });
@@ -41,16 +41,16 @@ describe('Prospect details tab', () => {
       method: 'PATCH',
     }).as('lead-stage');
     cy.get(leadStagesDropDown)
-        .find(option)
-        .then($options => {
-          for (let i = 1; i < $options.length; i++) {
+      .find(option)
+      .then($options => {
+        for (let i = 1; i < $options.length; i++) {
           cy.get(leadStagesDropDown).click({ force: true });
           cy.get(leadStagesDropDown).find(option).eq(i).click({ force: true })
           cy.wait('@lead-stage').then(xhr => {
             expect(xhr.status).to.eq(200);
           });
-          }
-        });
+        }
+      });
   });
 
   it('clicks each action button, displays loading spinner while request is processing, removes spinner after processing, has valid response with correct payload when toggling', () => {
@@ -62,13 +62,9 @@ describe('Prospect details tab', () => {
 
     cy.get(actionButtons).each(($button, idx) => {
       cy.wrap($button).click({ force: true });
-      cy.wrap($button)
-        .find('[data-test=loading-spinner]')
-        .should('exist');
+
       cy.wait('@prospect').then(xhr => {
         cy.wrap($button)
-          .find('[data-test=loading-spinner]')
-          .should('not.exist');
         cy.wrap(xhr)
           .its('status')
           .should('eq', 200);
@@ -112,7 +108,7 @@ describe('Prospect details tab', () => {
         .find(option)
         .then($options => {
           console.log($options.length)
-           for (let i = 1; i < $options.length; i++) {
+          for (let i = 1; i < $options.length; i++) {
             cy.get(agentDropDown).click({ force: true });
             console.log('test')
             cy.get(agentDropDown).find(option).eq(i).click({ force: true });
@@ -122,7 +118,7 @@ describe('Prospect details tab', () => {
             });
           }
         });
-        });
+    });
   });
 
   // it('displays the sms relay selector if the prospect has a sherpa number', () => {

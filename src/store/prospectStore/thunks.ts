@@ -121,21 +121,31 @@ export const prospectUpdate = async (
         const prospect = PartialProspectRecord(data, false);
         dispatch(updateProspectSuccess(prospect));
       }
-      onSuccess();
+      onSuccess(data);
       return data;
     })
-    .catch((error: any) => console.log('Error updating prospect detail', error.response));
+    .catch((_: any) => {
+      dispatch(addNewToast({ message: 'Failed to update prospect', color: 'danger' }));
+    });
 };
 
 export const prospectUpdateStatus = (id: string, payload: any, attr: string) => (
   dispatch: any,
   getState: any
 ) => {
-  dispatch(detailsViewActions.setActionBtnStatus({ btn: attr, updating: true }));
-  const onSuccess = () => {
-    dispatch(detailsViewActions.setActionBtnStatus({ btn: attr, updating: false }));
+  const prospect = getProspect(id)(getState());
+
+  dispatch(updateProspectSuccess({ ...prospect, ...payload }));
+  const onSuccess = (data: any) => {
+    const partialProspect = PartialProspectRecord(data);
+    delete partialProspect.doNotCall;
+    delete partialProspect.isPriority;
+    delete partialProspect.isQualifiedLead;
+    delete partialProspect.ownerVerifiedStatus;
+
+    dispatch(updateProspectSuccess({ ...partialProspect, ...payload }));
   };
-  return prospectUpdate(id, payload, dispatch, false, onSuccess);
+  return prospectUpdate(id, payload, dispatch, true, onSuccess);
 };
 
 export const prospectUpdateOptimistically = (id: string, payload: any) => (
