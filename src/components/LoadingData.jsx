@@ -26,7 +26,7 @@ const SpinWrap = styled.div`
       border-width: 0.6em;
     }
   `
-  : null)};
+    : null)};
 
   @media (max-width: 768px) {
     margin-top: 60px;

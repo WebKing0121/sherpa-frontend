@@ -16,10 +16,11 @@ import DesktopCampaignsPage from './containers/DesktopCampaignsPage/DesktopCampa
 import AccountSettingsPage from './containers/AccountSettingsPage/AccountSettingsPage';
 import DesktopCampaignDetailPage from './containers/DesktopCampaignDetailPage/DesktopCampaignDetailPage';
 import NewMessagesPage from './containers/NewMessages/NewMessages.jsx';
-import { campaignProspectUnread } from './store/campaignProspectStore/api';
-import { fetchCampaignProspectsUnread } from './store/campaignProspectStore/actions';
+import PhoneNumberManagerPage from './containers/PhoneNumberManager/PhoneNumberManagerPage';
 
 // store
+import { campaignProspectUnread } from './store/campaignProspectStore/api';
+import { fetchCampaignProspectsUnread } from './store/campaignProspectStore/actions';
 import { isAuthenticated, getUserData } from './store/Auth/selectors';
 
 
@@ -157,6 +158,7 @@ function App() {
             <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
             <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
             <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
+            <ProtectedRoute is_auth={is_auth} path='/phone-manager' component={PhoneNumberManagerPage} />
             <Route >
               <p>No Page Found</p>
             </Route>

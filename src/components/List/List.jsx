@@ -7,7 +7,7 @@ function List(props) {
   const isMobile = window.innerWidth < maxMobileWidth;
 
   const getItem = (item) => {
-    let itm = <ListItem key={'list-item-' + item.id} item={item} actions={item.actions} />;
+    let itm = <ListItem hasSidebar={props.hasSidebar} key={'list-item-' + item.id} item={item} actions={item.actions} />;
     if (isMobile && item.actions.length > 0) {
       itm = (
         <SwipeListItem threshold='.25' actions={item.actions} key={'swipable-item-' + itm.key}>
@@ -20,7 +20,7 @@ function List(props) {
 
   return (
     <>
-      <div id='my-list' className='text-left'>
+      <div id='my-list' className={props.hasSidebar ? 'text-left hasSidebar' : 'text-left'}>
         {props.items.map((item, idx) => getItem(item, idx))}
       </div>
     </>

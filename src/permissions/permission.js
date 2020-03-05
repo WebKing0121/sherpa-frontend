@@ -1,4 +1,5 @@
 import { permissions as accPermissions } from './accountSettings';
+import { permissions as phoneMangerPermissions } from './phoneNumberManager';
 
 export const roles = {
   master_admin: {
@@ -6,23 +7,28 @@ export const roles = {
       ...accPermissions.master_admin,
       ...accPermissions.admin,
       ...accPermissions.staff,
-      ...accPermissions.junior_staff
+      ...accPermissions.junior_staff,
+
+      ...phoneMangerPermissions.master_admin,
+      ...phoneMangerPermissions.admin,
+      ...phoneMangerPermissions.staff,
+      ...phoneMangerPermissions.junior_staff
     ]
   },
   admin: {
     permissions: [
-      ...accPermissions.admin,
-      ...accPermissions.staff,
-      ...accPermissions.junior_staff
+      ...phoneMangerPermissions.admin,
+      ...phoneMangerPermissions.staff,
+      ...phoneMangerPermissions.junior_staff
     ]
   },
   staff: {
     permissions: [
-      ...accPermissions.staff,
-      ...accPermissions.junior_staff
+      ...phoneMangerPermissions.staff,
+      ...phoneMangerPermissions.junior_staff
     ]
   },
   junior_staff: {
-    permissions: [...accPermissions.junior_staff]
+    permissions: [...phoneMangerPermissions.junior_staff]
   }
 }

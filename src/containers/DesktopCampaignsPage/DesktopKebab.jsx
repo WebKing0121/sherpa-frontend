@@ -11,14 +11,15 @@ const KebabWrap = styled.a`
   transition: background-color .2s, color .2s;
   z-index: 2;
   margin-left: var(--pad1);
+  color: ${props => props.disabled ? "var(--mediumGray)" : "black"} !important;
+  cursor: ${props => props.disabled ? "not-allowed" : "pointer"};
 
   &:hover,
   &:focus {
-    background: var(--ghostBlue);
-    cursor: pointer;
+    background: ${props => props.disabled ? "none" : "var(--ghostBlue)"};
   }
   &:active {
-    color: var(--sherpaBlue) !important;
+    color: ${props => props.disabled ? null : "var(--sherpaBlue)"} !important;
   }
 `;
 
@@ -44,7 +45,7 @@ const DesktopKebab = props => {
       isOpen={isOpen}
       offset={-35}
       target={"kebab" + props.idx}
-      toggle={toggle}>
+      toggle={props.disabled ? null : toggle}>
       <Body>
         {props.children}
       </Body>
@@ -55,9 +56,10 @@ const DesktopKebab = props => {
     <KebabWrap
       data-test={`kebab-${props.idx}`}
       id={"kebab" + props.idx}
-      onClick={toggle}
+      onClick={props.disabled ? null : toggle}
       tabindex="0"
-      role="button">
+      role="button"
+      disabled={props.disabled}>
       <FontAwesomeIcon icon="ellipsis-v" size={props.size || "2x"} />
       {popover}
     </KebabWrap>

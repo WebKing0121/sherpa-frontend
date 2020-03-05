@@ -266,3 +266,33 @@ textarea {
 .h-100 {
   height: 100%;
 }
+
+// custom checkbox
+.custom-checkbox {
+  --leftPad: 1.8rem;
+  --boxSize: 1.25rem;
+
+  padding: var(--pad1) 0 var(--pad1) var(--leftPad);
+  font-size: 1.2rem;
+
+  .custom-control-input {
+    width: var(--leftPad);
+    height: var(--leftPad);
+  }
+  .custom-control-label {
+    &:after,
+    &:before {
+      left: calc(0rem - var(--leftPad));
+      width: var(--boxSize);
+      height: var(--boxSize);
+    }
+  }
+  .custom-control-input:checked {
+    & ~ .custom-control-label::before {
+      background: var(--sherpaBlue);
+    }
+    & ~ .custom-control-label {
+      font-weight: 900;
+    }
+  }
+}

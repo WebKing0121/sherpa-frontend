@@ -5,6 +5,7 @@ import DesktopCampaigns from './containers/DesktopCampaignsPage/DesktopCampaigns
 import AccountSettingsPage from './containers/AccountSettingsPage/AccountSettingsPage';
 import DesktopCampaignDetails from './containers/DesktopCampaignDetailPage/DesktopCampaignDetailPage';
 import { ACCOUNT_SETTINGS_VIEW_PAGE } from './permissions/accountSettings.js';
+import PhoneNumberManagerPage from './containers/PhoneNumberManager/PhoneNumberManagerPage.jsx';
 
 const Routes = [
   {
@@ -26,6 +27,17 @@ const Routes = [
     mobile: true
   },
   {
+    path: '/phone-manager',
+    name: 'Number Manager',
+    navIcon: 'clipboard-list',
+    alt: '',
+    exact: true,
+    component: PhoneNumberManagerPage,
+    mobile: true,
+    permissionProps: { checkSubscription: true, redirect: true },
+    checkPermissions: true,
+  },
+  {
     path: '/support',
     name: 'Support',
     navIcon: 'question-circle',
@@ -43,7 +55,10 @@ const Routes = [
     component: AccountSettingsPage,
     mobile: false,
     checkPermissions: true,
-    permission: ACCOUNT_SETTINGS_VIEW_PAGE
+    permissionProps: {
+      checkRole: true,
+      permission: ACCOUNT_SETTINGS_VIEW_PAGE
+    },
   }
 ];
 

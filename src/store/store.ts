@@ -22,6 +22,7 @@ import uiStore from './uiStore/reducers';
 import prospectStore from './prospectStore/reducer';
 import nav from './Nav/reducer';
 import campaignProspectStore from './campaignProspectStore/reducer';
+import numberManagerStore from './NumberManagerStore/reducer';
 
 declare global {
   interface Window {
@@ -41,6 +42,7 @@ const reducers = combineReducers({
   leadStages,
   markets,
   nav,
+  numberManagerStore,
   prospectStore,
   prospectDetailsReducer,
   prospects,
