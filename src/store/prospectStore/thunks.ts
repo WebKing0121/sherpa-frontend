@@ -121,7 +121,7 @@ export const prospectUpdate = async (
         const prospect = PartialProspectRecord(data, false);
         dispatch(updateProspectSuccess(prospect));
       }
-      onSuccess(data);
+        onSuccess(data);
       return data;
     })
     .catch((_: any) => {
@@ -130,22 +130,20 @@ export const prospectUpdate = async (
 };
 
 export const prospectUpdateStatus = (id: string, payload: any, attr: string) => (
-  dispatch: any,
-  getState: any
+  dispatch: any, getState: any
 ) => {
   const prospect = getProspect(id)(getState());
 
   dispatch(updateProspectSuccess({ ...prospect, ...payload }));
   const onSuccess = (data: any) => {
-    const partialProspect = PartialProspectRecord(data);
-    delete partialProspect.doNotCall;
-    delete partialProspect.isPriority;
-    delete partialProspect.isQualifiedLead;
-    delete partialProspect.ownerVerifiedStatus;
-
-    dispatch(updateProspectSuccess({ ...partialProspect, ...payload }));
+    const { doNotCall, isPriority, isQualifiedLead, ownerVerifiedStatus, ...rest } = PartialProspectRecord(data);
+    dispatch(updateProspectSuccess({ ...rest, ...payload }));
   };
   return prospectUpdate(id, payload, dispatch, true, onSuccess);
+};
+
+export const prospectUpdateThunk = (id: string, payload: any) => (dispatch: any) => {
+    return prospectUpdate(id, payload, dispatch, false)
 };
 
 export const prospectUpdateOptimistically = (id: string, payload: any) => (

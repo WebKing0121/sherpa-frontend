@@ -7,10 +7,10 @@ const KebabWrap = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 var(--pad2);
+  padding: 0 var(--pad1);
   transition: background-color .2s, color .2s;
   z-index: 2;
-  margin-left: 1rem;
+  margin-left: var(--pad1);
 
   &:hover,
   &:focus {

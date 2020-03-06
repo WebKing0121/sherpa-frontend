@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import TabbedHeader from './TabbedHeader';
 import CollapsablePane from './CollapsablePane';
-import { prospectsToItemList } from '../containers/CampaignDetailsPage/utils';
 import List from './List/List';
 import { useSelector } from 'react-redux';
 import { getCampaignProspectsUnread } from '../store/campaignProspectStore/selectors';
@@ -17,7 +15,7 @@ const NewMessages = (props) => {
   const [toggles, setToggle] = useState([]);
 
   const unreadSmsList = campaignProspectsUnread.map(
-    prospectsToItemList({
+    props.listData({
       prospectPath: [...path, "campaignProspectsUnread"]
     }));
 
@@ -44,7 +42,7 @@ const NewMessages = (props) => {
               toggle={toggle(key)}
               isOpen={toggles[key]}
               header={
-                <div>
+                <div data-test='campaigns-messages-unread-list'>
                   <p>{campaign.name}</p>
                   <Status archived={campaign.isArchived}>
                     {campaign.isArchived ? 'Archived' : 'Active'}

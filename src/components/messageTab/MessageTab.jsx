@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback, useRef } from 'react';
-import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Message from './Message';
 import MessageInput from './MessageInput';
@@ -11,25 +10,27 @@ import { useDispatch } from 'react-redux';
 import { removeCampaignProspect } from '../../store/campaignProspectStore/actions';
 import { arrayToMapIndex } from '../../store/utils';
 import { populateProspectMessages, updateProspectMessage } from '../../store/ProspectDetails/messages/actions';
-import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
-import Modal from '../Modal';
-import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
 
 const MessagesWrapper = styled.div`
   @media (min-width: 768px) {
     display: flex;
     flex-direction: column;
     flex-grow: 1;
-    & > div.dataWrapper {
-      flex-grow: 1;
-      overflow-y: scroll;
-      height: 0;
+    position: static;
+    top: 0;
+
+    & > div.displayedData {
+      position: absolute;
+      height: 100%;
+      width: 100%;
+      top: 0;
+      overflow: auto;
     }
   }
 `;
 
 const StyledList = styled.ul`
-  padding: var(--pad3) var(--pad3) 0;
+  padding: var(--pad3) var(--xpad) 0;
   /* number comes from claculated height of message input */
   padding-bottom: 5.6875rem;
   width: 100%;
@@ -41,7 +42,7 @@ const StyledList = styled.ul`
   margin: 0;
 
   @media (min-width: 768px) {
-    padding-bottom: 0;
+    padding: 15rem var(--xpad) 10rem;
   }
 `;
 
@@ -63,11 +64,12 @@ const InputWrapper = styled.div`
   z-index: 2;
 
   @media (min-width: 768px) {
-    position: relative;
+    position: absolute;
   }
 `;
 
 function MessagesTab(props) {
+  const [mappedMessages, setMappedMessages] = useState([]);
   const [messagesStatus, setMessagesStatus] = useState(vars.Success);
   const [hasUnreadMessages, setHasUnreadMessages] = useState(false);
   const { messages } = props;
@@ -103,7 +105,7 @@ function MessagesTab(props) {
     }
   };
 
-  const mappedMessages = () => {
+  const mapMessages = () => {
     if (messages.length) return [...messages].reverse().map(msg => <Message key={msg.dt} {...msg} onClick={msg.unreadByRecipient ? updateMessage(msg.id) : null} />);
     return <Placeholder className="textXL">{vars.messagesPlaceholderText}</Placeholder>;
   };
@@ -115,15 +117,16 @@ function MessagesTab(props) {
   tabContent.scrollTop = messagesRef.scrollHeight;
 
   const fetchMessagesCB = useCallback(() => {
-    fetchMessages(props.subjectId)
+    const { subjectId } = props;
+    subjectId && fetchMessages(subjectId)
       .then(res => {
         dispatch(populateProspectMessages({ [props.subjectId]: arrayToMapIndex('id', res) }));
         setMessagesStatus(res ? vars.Success : vars.FetchError);
       })
       .catch(error => {
-        console.log('some errors');
+        console.log(error);
       });
-  }, [props.subjectId]);
+  }, [dispatch, props.subjectId]);
 
   const scrollToNewMessageCB = useCallback(() => {
     const { current } = messagesRef;
@@ -183,7 +186,7 @@ function MessagesTab(props) {
         emptyResultsMessage=''
         renderData={() => (
           <StyledList noMsg={messages.length === "0"} ref={messagesRef}>
-            {mappedMessages()}
+            {mapMessages()}
           </StyledList>
         )}
       />

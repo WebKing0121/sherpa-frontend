@@ -1,17 +1,13 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import List from '../../../components/List/List';
-import Select from '../../../components/InputSelect';
 import MessagesTab from '../../../components/messageTab/MessageTab';
 import ProspectCard from './ProspectCard';
-
-import { campaignsList, campaignsStatus, activeMarket } from '../../../store/Campaigns/selectors';
-import { marketsList } from '../../../store/Markets/selectors';
-import { campaignsToItemList } from './utils';
-import { fetchSortedCampaigns } from '../../../store/Campaigns/thunks';
-import { DataLoader } from '../../../components/LoadingData';
+import { useSelector } from 'react-redux';
+import { uiGetActiveProspect } from '../../../store/uiStore/campaignsPageDesktopView/campaignsList/filterData/selectors';
+import { prospectMessagesList } from '../../../store/ProspectDetails/messages/selectors';
+import { getCampaignProspectsUnread } from '../../../store/campaignProspectStore/selectors';
+import { getProspect } from '../../../store/prospectStore/selectors';
 
 const Wrapper = styled.div`
   padding: 0;
@@ -22,12 +18,26 @@ const Wrapper = styled.div`
 `;
 
 const MessageDetail = props => {
+  const [subjectId, setSubjectId] = useState(0);
+  const active_prospect = useSelector(uiGetActiveProspect);
+  const prospect_messages = useSelector(prospectMessagesList(subjectId));
+  const unreadMessages = useSelector(getCampaignProspectsUnread);
+  const prospect = useSelector(getProspect(subjectId));
+
+  useEffect(() => {
+    setSubjectId(active_prospect || (unreadMessages[0] && unreadMessages[0][0] && unreadMessages[0][0].id));
+  }, [unreadMessages, active_prospect])
+
   return (
     <Wrapper>
-      <ProspectCard />
+      <ProspectCard
+        data-test='prospect-card'
+        {...prospect}
+      />
       <MessagesTab
-        messages={[]}
-        subjectId={2}
+        data-test='desktop-campaign-prospect-messages'
+        messages={prospect_messages}
+        subjectId={subjectId}
         scrollToBot={true}
         showInitials={true}
         isDesktop={true}

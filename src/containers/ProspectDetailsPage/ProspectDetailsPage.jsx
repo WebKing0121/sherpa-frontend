@@ -20,9 +20,6 @@ import { getProspectsToCycle } from '../../store/uiStore/prospectDetailsView/sel
 import { Link } from 'react-router-dom';
 import { prospectMessagesList } from '../../store/ProspectDetails/messages/selectors';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { getQuickReplies } from '../../store/SmsTemplateStore/selectors';
-import { fetchQuickReplies } from '../../store/SmsTemplateStore/actions';
-import Modal from '../../components/Modal';
 
 const Wrapper = styled.div`
   display: flex;

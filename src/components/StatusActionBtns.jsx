@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  activeProspectSelector,
   actionBtnStatusSelector
 } from '../store/uiStore/prospectDetailsView/selectors';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -74,7 +73,7 @@ export const getNewVerifiedStatus = status => {
 };
 
 const StatusActionBtns = props => {
-  const prospectId = useSelector(activeProspectSelector);
+  const { prospectId } = props;
   const prospect = useSelector(getProspect(prospectId));
   const actionBtnStatus = useSelector(actionBtnStatusSelector);
   const dispatch = useDispatch();

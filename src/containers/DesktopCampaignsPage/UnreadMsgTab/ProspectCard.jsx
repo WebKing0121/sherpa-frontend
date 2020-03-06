@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import NameBubble from '../../../components/NameBubble';
@@ -9,17 +8,16 @@ import StatusActionBtns from '../../../components/StatusActionBtns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Collapse } from 'reactstrap';
 
-import { fetchSortedCampaigns } from '../../../store/Campaigns/thunks';
-
 const Card = styled.div`
   --padding: var(--pad2) var(--pad3);
   position: relative;
   background: white;
   box-shadow: 0 6px 22px -8px #626262;
-  width: calc(100% - var(--pad2) - var(--pad2));
+  width: calc(100% - var(--pad3) - var(--pad3));
   z-index: 2;
-  margin: var(--pad3) var(--pad2) 0;
+  margin: var(--padding) 0;
   border-radius: 5px;
+
   .card__details {
     padding: var(--padding);
     &__wrapper {
@@ -58,7 +56,6 @@ const ProspectCard = props => {
   const [isOpen, setIsOpen] = useState(false);
   // using zillow feature at a later date
   const showZillow = false;
-
   const toggle = () => {
     setIsOpen(!isOpen);
   };
@@ -82,25 +79,24 @@ const ProspectCard = props => {
   );
 
   const zillowLink = (
-    <ZillowLink href="#" className="ml-2 textS" rel='noopener noreferrer' target='_blank'>
+    <ZillowLink href={props.zillowLink} className="ml-2 textS" rel='noopener noreferrer' target='_blank'>
       <FontAwesomeIcon icon="external-link-alt" />
-      View property on Zillow
     </ZillowLink>
   );
 
   return (
-    <Card>
+    <Card data-test='prospect-card'>
       <div className="card__details">
         <div className="card__details__wrapper">
           <NameBubble className="mr-2" size="3.5rem" initials="SV" />
 
           <div className="mainDetails">
             <h2>
-              Sean Vaughn
+              {props.name}
               {!showZillow && zillowLink}
               {showZillow && toggleIcon}
             </h2>
-            <span className="darkGray">559-905-9702</span>
+    <span className="darkGray">{props.phoneFormattedDisplay}</span>
           </div>
 
           <div className="kebab">
@@ -110,7 +106,7 @@ const ProspectCard = props => {
         {showZillow && zillowSection}
       </div>
       <div className="card__statuses">
-        <StatusActionBtns className="statusBtn" />
+    <StatusActionBtns className="statusBtn" prospectId={props.id} />
         {
           // TODO: Find where these are on mobile
         }

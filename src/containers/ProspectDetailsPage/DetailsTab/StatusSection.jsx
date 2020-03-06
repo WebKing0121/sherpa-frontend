@@ -60,7 +60,7 @@ const DetailsTab = props => {
         options={leadOptions}
       />
       <StatusActions>
-        <StatusActionBtns />
+        <StatusActionBtns prospectId={prospectId} />
       </StatusActions>
     </div>
   );

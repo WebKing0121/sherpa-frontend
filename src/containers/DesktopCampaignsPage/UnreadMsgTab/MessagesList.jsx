@@ -1,11 +1,10 @@
-import React from 'react';
+import React  from 'react';
 import styled from 'styled-components';
+import { prospectsToItemList } from './utils';
 import NewMessagesList from '../../../components/NewMessagesList';
 
-import { prospectsToItemList } from './utils';
-
 const Wrapper = styled.div`
-  padding: var(--pad2) var(--pad3);
+  padding: var(--ypad) var(--xpad);
 `;
 
 const MessagesList = props => {

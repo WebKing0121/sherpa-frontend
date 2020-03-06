@@ -15,8 +15,8 @@ const UnreadIndicator = styled.div`
   &:after {
     /* if a count is given do secondary styling */
     content: ${props => (props.count ? "'" + props.count + "'" : "''")};
-    width: ${props => (props.count ? 'var(--size)' : '10px')};
-    height: ${props => (props.count ? 'var(--size)' : '10px')};
+    width: ${props => (props.count ? 'var(--size)' : '.7rem')};
+    height: ${props => (props.count ? 'var(--size)' : '.7rem')};
     position: absolute;
     top: 0px;
     left: 50%;

@@ -48,7 +48,8 @@ function App() {
 
   // local state
   const [isMobile, setIsMobile] = useState(window.innerWidth < vars.maxMobileWidth);
-  const [showDesktop, setShowDesktop] = useState(vars.showDesktopStateEnvs);
+
+  const showDesktop = vars.showDesktopStateEnvs;
 
   const dispatch = useDispatch();
 

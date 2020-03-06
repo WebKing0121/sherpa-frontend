@@ -53,6 +53,12 @@ const StyledMessage = styled.div`
   hyphens: auto;
   border: 2px solid ${props => props.fromProspect ? 'white' : 'var(--sherpaBlue)'};
   border-color: ${props => props.unread ? "var(--sherpaBlue)" : null};
+
+  @media (min-width: 768px) {
+    background: ${props => (props.fromProspect ? 'var(--ghostBlue)' : 'var(--sherpaBlue)')};
+    border: 2px solid ${props => props.fromProspect ? 'var(--ghostBlue)' : 'var(--sherpaBlue)'};
+    border-color: ${props => props.unread ? "var(--sherpaBlue)" : null};
+  }
 `;
 
 const TimeStamp = styled.time`

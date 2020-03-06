@@ -2,13 +2,15 @@ import {
   SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_TAB,
   SET_CAMPAIGN_DESKTOP_PAGE_ACTIVE_SORT,
   SET_CAMPAIGN_DESKTOP_TAB_DATA,
-  RESET_CAMPAIGN_LIST_FILTER_TABS
+  RESET_CAMPAIGN_LIST_FILTER_TABS,
+  SET_ACTIVE_CAMPAIGN_PROSPECT
 } from './actionTypes';
 import { ARCHIVE_CAMPAIGN, UNARCHIVE_CAMPAIGN } from '../../../../Campaigns/actionTypes';
 
 const initialState = {
   activeSort: '-created_date',
   activeTab: 'active',
+  activeProspect: 0,
   tabs: {
     'all': {
       count: 0,
@@ -132,6 +134,12 @@ export default function reducer(state: any = initialState, action: any) {
           archived: newArchivedState
         }
       };
+    }
+    case SET_ACTIVE_CAMPAIGN_PROSPECT: {
+        return {
+            ...state,
+            activeProspect: action.payload
+        }
     }
     default:
       return state;

@@ -6,6 +6,12 @@ import UnreadMsgTab from './UnreadMsgTab/UnreadMsgTab';
 import TabbedHeader from '../../components/TabbedHeader';
 import Modal from '../../components/Modal';
 import CreateCampaignForm from '../../components/NewCampaignForm';
+import styled from 'styled-components';
+
+const StyledTabContent = styled(TabContent)`
+  overflow: hidden;
+  flex: 0 0 calc(100vh - 16vw);
+`;
 
 const DesktopCampaignsPage = props => {
   const [activeTab, setActiveTab] = useState('1');
@@ -46,7 +52,7 @@ const DesktopCampaignsPage = props => {
       >
         <h1 className='text-white text-left m-0'>Campaigns</h1>
       </TabbedHeader>
-      <TabContent className="h-100" activeTab={activeTab}>
+      <StyledTabContent activeTab={activeTab}>
         <TabPane tabId='1'>
           <CampaignsListTab />
         </TabPane>
@@ -55,7 +61,7 @@ const DesktopCampaignsPage = props => {
         </TabPane>
         <TabPane tabId='3'>
         </TabPane>
-      </TabContent>
+      </StyledTabContent>
       {isOpen ? createCampaign : null}
     </div>
   );

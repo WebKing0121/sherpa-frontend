@@ -30,3 +30,5 @@ export const uiGetCampaigns = (state: any) => {
 
   return { sortedBy, nextPage, campaigns: selectedCampaigns, count };
 }
+
+export const uiGetActiveProspect = createSelector('activeProspect');

@@ -93,7 +93,7 @@ const ItemContent = styled.div`
   }
 
   @media (min-width: 768px) {
-    padding: calc(1.5 * var(--pad1)) var(--pad2);
+    padding: var(--pad2) var(--pad2);
   }
 `;
 
@@ -123,8 +123,8 @@ function ListItem(props) {
         {props.item.desktopKebab ? props.item.desktopKebab : null}
         {props.item.link && (
           <Link to={props.item.link} className="stretched-link"></Link>
-
         )}
+      {props.item.messageSelect ? props.item.messageSelect : null}
       </ItemContent>
     </StyledItem>
   );

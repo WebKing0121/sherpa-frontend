@@ -35,7 +35,7 @@ const SpinWrap = styled.div`
   }
 `;
 
-const NoResults = styled.p`
+export const NoResults = styled.p`
   display: flex;
   text-align: center;
   align-items: center;

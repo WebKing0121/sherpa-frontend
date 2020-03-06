@@ -18,6 +18,10 @@ const StyledHeader = styled.div`
 
   @media (min-width: 768px) {
     padding-bottom: ${props => (props.toggleTab ? '0' : 'var(--pad4)')};
+    flex: 0 0 16vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 `;
 

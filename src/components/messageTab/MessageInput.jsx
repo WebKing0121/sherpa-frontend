@@ -12,26 +12,26 @@ import { quickRepliesPlaceholderText, Success, Fetching } from '../../helpers/va
 import { DataLoader } from '../LoadingData';
 import { useParams } from 'react-router-dom';
 import * as vars from '../../helpers/variables';
+import { uiGetActiveProspect } from '../../store/uiStore/campaignsPageDesktopView/campaignsList/filterData/selectors';
 
 const QuickReplies = styled.ul`
-  padding: 0;
+padding: 0;
 
-  li {
-    list-style: none;
-    font-weight: bold;
-    padding: var(--pad1) var(--pad3);
+li {
+  list-style: none;
+  font-weight: bold;
+  padding: var(--pad1) var(--pad3);
 
-    &:active {
-      background: var(--lightGray);
-    }
+  &:active {
+    background: var(--lightGray);
   }
+}
 `;
 
 const SendMessage = styled.form`
-  padding: var(--pad2) var(--pad3);
-  width: 100%;
-  background: white;
-
+padding: var(--pad2) var(--pad3);
+width: 100%;
+background: white;
 
   @media (min-width: 768px) {
     box-shadow: 0 0 12px -3px var(--mediumGray);
@@ -46,6 +46,10 @@ const SendMessage = styled.form`
       height: calc(1.5em + 3rem);
     }
   }
+  #sendMessage {
+    height: calc(1.5em + 3rem);
+  }
+}
 `;
 
 const Header = styled.div`
@@ -116,7 +120,7 @@ function MessageInput(props) {
   const [isFetchingMessages, setIsFetchingMessages] = useState(false);
   // quick replies use the data loader component, which using a string instead of a boolean
   const [isFetchingQuickReplies, setIsFetchingQuickReplies] = useState(Success);
-
+  const active_prospect = useSelector(uiGetActiveProspect);
   const { prospectId } = useParams();
   const dispatch = useDispatch();
   const quickReplies = useSelector(getQuickReplies);
@@ -147,11 +151,11 @@ function MessageInput(props) {
   // 1) set fetching status to start spinner and dispatch thunk to fetch quick replies
   // 2) set fetching status to stop spinner after new quick replies are returned;
   useEffect(() => {
-    if (!quickReplies.length) {
+    if (!quickReplies.length && (prospectId || active_prospect)) {
       setIsFetchingQuickReplies(Fetching);
-      dispatch(fetchQuickReplies(prospectId));
+      dispatch(fetchQuickReplies(prospectId || active_prospect));
     }
-  }, []);
+  }, [dispatch, prospectId, active_prospect]);
 
   useEffect(() => {
     setIsFetchingQuickReplies(Success);
