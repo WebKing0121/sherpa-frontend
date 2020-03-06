@@ -21,10 +21,6 @@ const PreviewText = styled.p`
   }
 `;
 
-const TemplateTag = styled.span`
-  background: var(--highlight);
-`;
-
 const Header = styled.div`
   display: flex;
   justify-content: space-between;
@@ -44,7 +40,7 @@ function ReviewSend(props) {
     <Wrapper>
       <Header>
         <Label for='previewText'>Preview</Label>
-        <CharCount className='textM'>{message.length}/160 Characters</CharCount>
+        <CharCount className='textM'>{(message && message.length) || 0}/160 Characters</CharCount>
       </Header>
       <PreviewText data-test='sms-template-preview' className='textL mt-1'>
         {message}

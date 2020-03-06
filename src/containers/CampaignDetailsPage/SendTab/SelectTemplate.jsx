@@ -17,14 +17,14 @@ function SelectTemplate(props) {
     </DropdownItem>
   ));
 
-  const msg = templateChoices[templateId] ? templateChoices[templateId].message : '';
+  const msg = templateChoices[templateId] && templateChoices[templateId].message ? templateChoices[templateId].message : '';
 
   return (
     <PaddedContent data-test='sms-template-dropdown'>
       <Label htmlFor='SearchField'>Template</Label>
       <InputSelect2
         id='SearchField'
-        value={templateChoices[templateId] ? templateChoices[templateId].templateName : null}
+        value={templateChoices[templateId] && templateChoices[templateId].templateName ? templateChoices[templateId].templateName : null}
         placeholder="Search"
         options={templateOptions}
       />
