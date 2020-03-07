@@ -4,6 +4,7 @@ import SupportPage from './containers/SupportPage/SupportPage.jsx';
 import DesktopCampaigns from './containers/DesktopCampaignsPage/DesktopCampaignsPage';
 import AccountSettingsPage from './containers/AccountSettingsPage/AccountSettingsPage';
 import DesktopCampaignDetails from './containers/DesktopCampaignDetailPage/DesktopCampaignDetailPage';
+import { ACCOUNT_SETTINGS_VIEW_PAGE } from './permissions/accountSettings.js';
 
 const Routes = [
   {
@@ -40,7 +41,9 @@ const Routes = [
     alt: 'account settings',
     exact: true,
     component: AccountSettingsPage,
-    mobile: false
+    mobile: false,
+    checkPermissions: true,
+    permission: ACCOUNT_SETTINGS_VIEW_PAGE
   }
 ];
 

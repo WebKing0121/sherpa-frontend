@@ -57,6 +57,15 @@ function InputSelect2(props) {
   const icon = props.icon ? props.icon : (
     <FontAwesomeIcon className="icon" icon="chevron-up" rotation={!dropdownOpen ? 180 : null} />
   );
+
+  const placeholder = (
+    <div data-test='dropdown-value' className="gray">{props.placeholder}</div>
+  );
+
+  const value = (
+    <div data-test='dropdown-value'>{props.value}</div>
+  );
+
   return (
     <Wrapper>
       <Dropdown
@@ -65,7 +74,7 @@ function InputSelect2(props) {
         toggle={toggle}
         direction="down">
         <StyledToggle tag="span" className="form-control">
-          <div data-test='dropdown-value'>{props.value || props.placeholder}</div>
+          {!props.value ? placeholder : value}
           {icon}
         </StyledToggle>
         <StyledDropdownMenu

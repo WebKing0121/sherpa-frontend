@@ -6,7 +6,12 @@ import { Card, Input, Label, FormGroup, Button } from 'reactstrap';
 import { LoadingSpinner } from '../../components/LoadingSpinner';
 
 const StyledCard = styled(Card)`
-  padding: var(--pad5) var(--pad4);
+  padding: var(--ypad) var(--xpad);
+  border-radius: var(--pad2) !important;
+
+  @media (min-width: 768px) {
+    padding: var(--pad6) var(--pad7);
+  }
 `;
 const LogoHolster = styled.div`
   padding-bottom: var(--pad5);
@@ -17,6 +22,15 @@ const CardHeader = styled.h1`
 `;
 const FullWidth = styled.div`
   width: 100%;
+
+  @media (min-width: 768px) {
+    width: 40%;
+    max-width: 500px;
+  }
+  @media (min-width: 1700px) {
+    width: 30%;
+    max-width: 700px;
+  }
 `;
 const Error = styled.p`
   color: var(--red);

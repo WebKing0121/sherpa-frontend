@@ -25,22 +25,22 @@ const DesktopCampaignDetailPage = props => {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
-  const toggleModal =  () => setIsOpen(state => !state);
+  const toggleModal = () => setIsOpen(state => !state);
   const actionBtns = useMemo(
     () => {
-      const [createFollowup ] =  desktopCampaignDetailHeaderInfo.actions.main;
+      const [createFollowup] = desktopCampaignDetailHeaderInfo.actions.main;
       createFollowup.action = () => setIsOpen(true);
 
-      return { actions: { main: [createFollowup ] } };
+      return { actions: { main: [createFollowup] } };
     },
-    [ desktopCampaignDetailHeaderInfo ]
+    [desktopCampaignDetailHeaderInfo]
   );
 
   const createFollowUp = (
     <Modal isOpen={isOpen} toggle={toggleModal} dataTest='create-followup-modal' title='Create Follow-Up'>
-    <CreateFollowup toggle={toggleModal}/>
-  </Modal>
-);
+      <CreateFollowup toggle={toggleModal} />
+    </Modal>
+  );
   useEffect(() => {
     // when there is no campaign
     if (!campaign.id) {

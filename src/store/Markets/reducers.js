@@ -27,7 +27,8 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         folders: action.campaignFolders,
-        status: Success
+        status: Success,
+        count: action.campaignFolders.length
       };
     case SET_FETCH_MARKETS_ERROR:
       return {
@@ -43,14 +44,25 @@ export default function reducer(state = initialState, action) {
         if (curr.id === action.market) {
           curr.campaignCount--;
         }
-        acc.push(curr);
+
+        if (curr.count > 0) {
+          acc.push(curr);
+        }
         return acc;
       }, [])
 
       return {
         ...state,
         folders: [...toDecrement]
-      }
+      };
+    case 'UPDATE_MARKET': {
+      const filtered_markets = state.folders.filter(market => market.id !== action.market.id);
+      filtered_markets.push(action.market);
+      return {
+        ...state,
+        folders: filtered_markets
+      };
+    }
     default:
       return state;
   }

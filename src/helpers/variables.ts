@@ -154,7 +154,8 @@ export const desktopCampaignHeaderInfo = {
         btnType: 'primary',
         text: 'New Campaign',
         // this is for adding the onclick later
-        action: 'addProspects'
+        action: 'addProspects',
+        'data-test': 'desktop-new-campaign-button'
       }
     ]
   }

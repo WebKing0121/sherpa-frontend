@@ -3,7 +3,9 @@ import styled from 'styled-components';
 import { InputGroup } from 'reactstrap';
 
 const StyledInputGroup = styled(InputGroup)`
-  --border: 1px solid var(--mediumGray) !important;
+  --borderCol: ${props => props.error ? "var(--red)" : "var(--mediumGray)"};
+  --borderSize: 1px;
+  --border: var(--borderSize) solid var(--borderCol) !important;
 
   border-top: ${props => props.border === "full" ? "var(--border)" : "0"};
   border-right: ${props => props.border === "full" ? "var(--border)" : "0"};
@@ -16,13 +18,13 @@ const StyledInputGroup = styled(InputGroup)`
   }
 
   @media (min-width: 768px) {
-    --border: 2px solid var(--mediumGray) !important;
+    --borderSize: 2px;
   }
 `;
 
 function InputGroupBorder(props) {
   return (
-    <StyledInputGroup border={props.border} className="inputGroup">
+    <StyledInputGroup border={props.border} error={props.error} className="inputGroup">
       {props.children}
     </StyledInputGroup>
   );

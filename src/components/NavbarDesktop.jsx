@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import { logout } from '../store/Auth/actions';
+import WithPermissions from './WithPermissions';
 
 const SlideIn = styled(CSSTransition)`
   --timing: .3s;
@@ -205,31 +206,30 @@ const NavArrow = props => {
 
 const NavbarDesktop = props => {
   const [collapse, setCollapse] = useState(false);
-  const pageName = useSelector(path);
   const toggleNavbar = () => setCollapse(!collapse);
-  const closeNavbar = () => setCollapse(false);
 
   const routes = Routes.map((r, idx) => {
     let activeClass = props.page.location.pathname === r.path ? 'active' : '';
     let textClass = "navText align-items-center textL";
     let linkClass = "navLink textL stretched-link w-100 d-flex";
-    let iconClass = collapse ? "mr-1" : "";
 
     return (
-      <StyledNavItem className={activeClass} key={idx} onClick={() => dispatch(setPath(r.path))}>
-        <NavLink className={linkClass} tag={Link} to={r.path} >
-          <FontAwesomeIcon icon={r.navIcon} size="lg" />
-          <SlideIn
-            in={collapse}
-            timeout={300}
-            appear={true}
-            className={textClass}
-            classNames="slide"
-            unmountOnExit={true}>
-            <span>{r.name}</span>
-          </SlideIn>
-        </NavLink>
-      </StyledNavItem>
+      <WithPermissions key={idx} checkPermissions={r.checkPermissions} permission={r.permission}>
+        <StyledNavItem data-test={`desktop-nav-${r.name}`} className={activeClass} onClick={() => dispatch(setPath(r.path))}>
+          <NavLink className={linkClass} tag={Link} to={r.path} >
+            <FontAwesomeIcon icon={r.navIcon} size="lg" />
+            <SlideIn
+              in={collapse}
+              timeout={300}
+              appear={true}
+              className={textClass}
+              classNames="slide"
+              unmountOnExit={true}>
+              <span>{r.name}</span>
+            </SlideIn>
+          </NavLink>
+        </StyledNavItem>
+      </WithPermissions>
     );
   });
 

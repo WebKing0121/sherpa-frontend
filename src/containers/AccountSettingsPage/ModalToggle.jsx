@@ -17,11 +17,13 @@ function ModalToggle(props) {
   return (
     <>
       {betterChild}
-      <Modal isOpen={modal} toggle={toggle} title={props.config.title} data-test='filter-modal'>
+      <Modal isOpen={modal} fade={props.config.fade} toggle={toggle} title={props.config.title} data-test='filter-modal'>
         {props.config.inner}
-        <Button color='primary' size='lg' block className='mt-4' onClick={onclick}>
-          {props.config.btnTxt}
-        </Button>
+        {props.config.btnTxt && (
+          <Button color='primary' size='lg' block className='mt-4' onClick={onclick}>
+            {props.config.btnTxt}
+          </Button>
+        )}
       </Modal>
     </>
   );

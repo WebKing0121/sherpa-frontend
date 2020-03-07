@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { Button } from 'reactstrap';
 import Icon from './Icon';
@@ -55,7 +55,6 @@ const ActionsHolster = styled.div`
 `;
 
 function TabbedHeader(props) {
-
   const back = () => {
     history.goBack();
   };
@@ -63,7 +62,15 @@ function TabbedHeader(props) {
   const mainActions = props.data.actions
     ? props.data.actions.main.map((a, idx) => {
       return (
-        <Button {...a} size='md' id={idx} color={a.btnType} className='ml-1' onClick={a.action} key={idx}>
+        <Button
+          {...a}
+          size='md'
+          id={idx}
+          color={a.btnType}
+          className='ml-1'
+          onClick={a.action}
+          key={idx}
+        >
           {a.text}
         </Button>
       );
@@ -88,10 +95,10 @@ function TabbedHeader(props) {
       })
       : null;
 
-return (
-  <StyledHeader {...props}>
-    <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
-      <div data-test='tabbed-header' className="tabbed-header">
+  return (
+    <StyledHeader {...props}>
+      <HeaderTop backbtn={props.data.hasBackButton ? 1 : 0}>
+        <div data-test='tabbed-header' className="tabbed-header">
           <div>
             {props.children}
           </div>

@@ -23,7 +23,11 @@ const PageWrapper = styled.div`
   align-items: center;
   justify-content: center;
   padding: var(--pad3);
-  ;
+
+  @media (min-width: 768px) {
+    align-items: flex-end;
+    padding: var(--pad8);
+  }
 `;
 
 export default function LoginPage(props) {

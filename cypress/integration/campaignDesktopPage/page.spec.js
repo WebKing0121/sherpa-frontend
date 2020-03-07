@@ -212,5 +212,52 @@ describe('Campaign Desktop Page', () => {
             assert.equal(archived.sortOrder.length, archived2.sortOrder.length + 1);
           })
       });
-  })
+  });
+
+  it('Creates a new campaign', () => {
+    cy.viewport(950, 800);
+    cy.server();
+    cy.route({ method: 'POST', url: '**/campaigns/**' }).as('campaigns-create');
+    cy
+      .get('[data-test="desktop-new-campaign-button"]')
+      .click();
+
+    // fill in the form
+    cy
+      .get('[data-test=campaign-form]')
+      .within(() => {
+        cy.get('[name=name]').type('test-campaign');
+        cy.get('[for=market]')
+          .parent()
+          .click();
+        cy.get('[id=react-select-2-option-0]').click();
+        cy.get('[data-test=campaign-form-submit]').click();
+
+        cy.wait('@campaigns-create')
+          .then(xhr => {
+            expect(xhr.status).to.eq(201)
+          });
+      });
+  });
+
+  it('Fails validation when creating a new campaing', () => {
+    cy.viewport(950, 800);
+    cy.login();
+    cy.visit(campaignPath);
+    cy.server();
+    cy.route({ method: 'POST', url: '**/campaigns/**' }).as('campaigns-create');
+    cy
+      .get('[data-test="desktop-new-campaign-button"]')
+      .click();
+
+    // fill in the form
+    cy
+      .get('[data-test=campaign-form]')
+      .within(() => {
+        cy.get('[name=name]').type('test-campaign');
+
+	cy.get('[data-test=campaign-form-submit]').click();
+	cy.get('[data-test=campaign-form-market-error]').should('exist')
+      });
+  });
 });

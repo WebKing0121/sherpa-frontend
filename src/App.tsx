@@ -157,6 +157,9 @@ function App() {
             <ProtectedRoute is_auth={is_auth} path='/new-messages' component={NewMessagesPage} exact />
             <ProtectedRoute is_auth={is_auth} path='/prospects' component={ProspectsSearch} />
             <ProtectedRoute is_auth={is_auth} path='/support' component={SupportPage} />
+            <Route >
+              <p>No Page Found</p>
+            </Route>
           </Switch>
           {is_auth && <ToastContainer />}
         </Router>

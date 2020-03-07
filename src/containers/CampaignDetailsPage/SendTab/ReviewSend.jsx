@@ -57,37 +57,6 @@ const PreviewText = styled.p`
   }
 `;
 
-const TransitionStyling = styled(CSSTransition)`
-  position: relative;
-  width: 100%;
-  --timing: 0.07s;
-  transition: left var(--timing) ease, transform var(--timing) ease;
-
-  &.words {
-    &-enter {
-      left: -120%;
-      transform: scale(0.8);
-
-      &-active {
-        left: 0%;
-        filter: blur(1px);
-        transform: scale(1);
-      }
-    }
-    &-exit {
-      left: 0%;
-      transform: scale(1);
-
-      &-active {
-        transition-timing-function: ease-in;
-        left: 120%;
-        filter: blur(1px);
-        transform: scale(0.8);
-      }
-    }
-  }
-`;
-
 const LeadWrapper = styled.div`
   min-height: 330px;
   position: relative;
@@ -101,26 +70,21 @@ const ButtonSection = styled.div`
 `;
 
 function renderLead({ transProps, campaignProspects, count }) {
-  let show = false;
-
   return campaignProspects.map((x, idx) => {
-    idx === count ? (show = true) : (show = false);
     return (
-      <TransitionStyling in={show} {...transProps} key={'lead-id-' + x.id}>
-        <div>
-          <LeadInfo>
-            <h3 className='fw-bold name'>{x.prospect.name}</h3>
-            <p className='phoneNum textM'>{x.prospect.phoneDisplay}</p>
-            <p className='address m-0 textL'>
-              {`${x.prospect.propertyAddress}, ${x.prospect.propertyCity}, ${x.prospect.propertyState} ${x.prospect.propertyZip}`}
-            </p>
-          </LeadInfo>
+      idx === count ? (<div>
+        <LeadInfo>
+          <h3 className='fw-bold name'>{x.prospect.name}</h3>
+          <p className='phoneNum textM'>{x.prospect.phoneDisplay}</p>
+          <p className='address m-0 textL'>
+            {`${x.prospect.propertyAddress}, ${x.prospect.propertyCity}, ${x.prospect.propertyState} ${x.prospect.propertyZip}`}
+          </p>
+        </LeadInfo>
 
-          <PreviewText data-test='batch-prospect-message' className='textL'>
-            {x.smsMsgText}
-          </PreviewText>
-        </div>
-      </TransitionStyling>
+        <PreviewText data-test='batch-prospect-message' className='textL'>
+          {x.smsMsgText}
+        </PreviewText>
+      </div>) : null
     );
   });
 }

@@ -1,20 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { TabContent, TabPane } from 'reactstrap';
 import CampaignsListTab from './CampaignsListTab/CampaignsListTab';
 import { desktopCampaignHeaderInfo } from '../../helpers/variables';
 import UnreadMsgTab from './UnreadMsgTab/UnreadMsgTab';
 import TabbedHeader from '../../components/TabbedHeader';
+import Modal from '../../components/Modal';
+import CreateCampaignForm from '../../components/NewCampaignForm';
 
 const DesktopCampaignsPage = props => {
   const [activeTab, setActiveTab] = useState('1');
+  const [isOpen, setIsOpen] = useState(false);
+  const [formState, setFormState] = useState({});
 
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
   };
 
+  const toggle = () => setIsOpen(!isOpen);
+
+  const createCampaign = (
+    <Modal isOpen={isOpen} toggle={toggle} title='Create Campaign'>
+      <CreateCampaignForm
+        saveFormState={(values) => setFormState(values)}
+        initialState={formState}
+      />
+    </Modal>
+  );
+
+  const actionBtns = useMemo(
+    () => {
+      const [newCampaign] = desktopCampaignHeaderInfo.actions.main;
+      newCampaign.action = () => setIsOpen(true);
+
+      return { actions: { main: [newCampaign] } };
+    },
+    [desktopCampaignHeaderInfo]
+  );
+
   return (
     <div className="pageContent d-flex flex-column">
-      <TabbedHeader data={desktopCampaignHeaderInfo} toggleTab={toggleTab} activeTab={activeTab}><h1 className='text-white text-left m-0'>Campaigns</h1></TabbedHeader>
+      <TabbedHeader
+        data={{ ...desktopCampaignHeaderInfo, actionBtns }}
+        toggleTab={toggleTab}
+        activeTab={activeTab}
+      >
+        <h1 className='text-white text-left m-0'>Campaigns</h1>
+      </TabbedHeader>
       <TabContent className="h-100" activeTab={activeTab}>
         <TabPane tabId='1'>
           <CampaignsListTab />
@@ -25,6 +56,7 @@ const DesktopCampaignsPage = props => {
         <TabPane tabId='3'>
         </TabPane>
       </TabContent>
+      {isOpen ? createCampaign : null}
     </div>
   );
 };
