@@ -53,3 +53,21 @@ export const release_phone_number =
 
     return new Promise((resolve: Function) => resolve(null));
   }
+
+export const updatePhoneStatus =
+  (phoneNumber: any, payload: any) => (dispatch: any, getState: any) => {
+    dispatch(updatePhoneNumber({ ...phoneNumber, ...payload }));
+    dispatch(addNewToast({ message: 'Updated Number Status.', color: 'success' }))
+    return Axios
+      .patch(`/phone-numbers/${phoneNumber.id}/`, payload)
+      .then(({ data }) => {
+        return data;
+      })
+      .catch(_ => {
+        dispatch(addNewToast({
+          message: 'Something went wrong while updating phone status.',
+          color: 'danger'
+        }));
+        dispatch(updatePhoneNumber(phoneNumber));
+      });
+  };
