@@ -1,6 +1,7 @@
 describe('Prospect details tab', () => {
   const url = Cypress.env('clientUrl'),
     prospectId = Cypress.env('testProspect'),
+    campaignId = Cypress.env('testCampaign'),
     prospectUrl = `prospect/${prospectId}/details`,
     leadStagesDropDown = '[data-test=prospect-lead-stages-drop-down]',
     agentDropDown = '[data-test=agent-drop-down]',
@@ -9,7 +10,9 @@ describe('Prospect details tab', () => {
     crmBtn = '[data-test=email-to-crm-btn]',
     zapierBtn = '[data-test=push-to-zapier-btn]',
     actionButtons = '[data-test=status-action-button]',
-    option = '.dropdown-item'
+    option = '.dropdown-item',
+    modalClose = '.modal-header button',
+    submitBtn = "[data-test='crm-modal-submit']"
 
   const actions = ['Verified', 'DNC', 'Priority', 'Qualified'];
 
@@ -121,35 +124,6 @@ describe('Prospect details tab', () => {
     });
   });
 
-  // it('displays the sms relay selector if the prospect has a sherpa number', () => {
-  //   cy.get(smsRelayDropDown).should('exist');
-  // });
-
-  // it('has the correct users in the sms relay selector', () => {
-  //   cy.getState().then(({ auth }) => {
-  //     cy.get(smsRelayDropDown).then($dropDown => {
-  //       cy.wrap($dropDown)
-  //         .find('option')
-  //         .then($owners => {
-  //           cy.server();
-  //           cy.route({ url: `**/sms-relay-maps`, method: 'POST' }).as('sms-relay-maps');
-  //           const firstOption = $owners[0].value;
-  //           const ownersCopy = $owners.slice(!firstOption ? 1 : 0);
-  //           cy.wrap(ownersCopy).each(($owner, idx) => {
-  //             const owner = auth.userData.company.profiles[idx].user;
-  //             if (owner.fullName) {
-  //               cy.wrap($owner).contains(owner.fullName);
-  //             }
-  //             cy.wrap($dropDown).select($owner[0].value);
-  //             cy.wrap($dropDown).should('have.value', $owner[0].value);
-  //             cy.wait('@sms-relay-maps').then(xhr => {
-  //               expect(xhr.status).to.eq(200);
-  //             });
-  //           });
-  //         });
-  //     });
-  //   });
-  // });
 
   it('displays the date picker component', () => {
     cy.get(dateTime).should('exist');
@@ -199,15 +173,18 @@ describe('Prospect details tab', () => {
     cy.reload();
     cy.login();
     cy.fixture(`prospect${prospectId}Details`).then(fixture => {
-      fixture.campaigns[0].podioPushEmailAddress = null;
       cy.server();
       cy.route({
         method: 'GET',
         url: `**/prospects/${prospectId}/**`,
-        response: fixture
+        response: [{ id: campaignId, name: 'test campaign', podioPushEmailAddress: null  }]
       }).as('prospect-details');
       cy.visit(`${url}/${prospectUrl}`);
       cy.wait('@prospect-details');
+      cy.get(crmBtn).click({ force: true });
+      cy.get('input[type=radio]').first().click({ force: true });
+      cy.get(modalClose).click({ force: true });
+      cy.wait('@prospect-details')
       cy.get(crmBtn).should('be.disabled');
     });
   });
@@ -220,7 +197,9 @@ describe('Prospect details tab', () => {
       'email-podio'
     );
     cy.get(crmBtn).click({ force: true });
-    cy.get(crmBtn)
+    cy.get('input[type=radio]').first().click({ force: true });
+    cy.get(submitBtn).click({ force: true });
+    cy.get(submitBtn)
       .find('[data-test=loading-spinner]')
       .should('exist');
     cy.wait('@email-podio').then(xhr => {
@@ -255,10 +234,14 @@ describe('Prospect details tab', () => {
       cy.route({
         method: 'GET',
         url: `**/prospects/${prospectId}/**`,
-        response: fixture
+        response: [{ id: campaignId, name: 'test campaign', zapierWebhook: null  }]
       }).as('prospect-details');
       cy.visit(`${url}/${prospectUrl}`);
       cy.wait('@prospect-details');
+      cy.get(zapierBtn).click({ force: true });
+      cy.get('input[type=radio]').first().click({ force: true });
+      cy.get(modalClose).click({ force: true });
+      cy.wait('@prospect-details')
       cy.get(zapierBtn).should('be.disabled');
     });
   });
@@ -271,7 +254,9 @@ describe('Prospect details tab', () => {
       'push-zapier'
     );
     cy.get(zapierBtn).click({ force: true });
-    cy.get(zapierBtn)
+    cy.get('input[type=radio]').first().click({ force: true });
+    cy.get(submitBtn).click({ force: true });
+    cy.get(submitBtn)
       .find('[data-test=loading-spinner]')
       .should('exist');
     cy.wait('@push-zapier').then(xhr => {

@@ -192,6 +192,7 @@ function MessagesTab(props) {
       />
       <InputWrapper ref={inputRef}>
         <MessageInput
+          subjectId={props.subjectId}
           messagesStatus={props.messagesStatus}
           addNewMessage={addNewMessage}
         />

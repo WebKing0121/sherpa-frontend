@@ -17,7 +17,8 @@ import Modal from '../../../components/Modal';
 import {
   agentSelector,
   activeProspectSelector,
-  activeCampaignSelector
+  activeCampaignSelector,
+  activeCampaign
 } from '../../../store/uiStore/prospectDetailsView/selectors';
 import { getProspect } from '../../../store/prospectStore/selectors';
 import {
@@ -185,7 +186,7 @@ const FieldsSection = () => {
   const prospect = useSelector(getProspect(prospectId));
   const activeCampaignId = useSelector(activeCampaignSelector);
   const [campaigns, setCampaigns] = useState([]);
-  const [activeCampaign, setActiveCampaign] = useState({});
+  const [prospectActiveCampaign, setProspectActiveCampaign] = useState({});
   const [campaignsLoading, setCampaignIsLoading] = useState(false);
   const agents = useSelector(agentSelector);
   const dispatch = useDispatch();
@@ -199,24 +200,19 @@ const FieldsSection = () => {
   const {
     agent,
     reminderDateLocal,
-    sherpaPhoneNumber,
     emailedToPodio,
     pushedToZapier,
     zillowLink,
-    smsRelayMap: {
-      rep: { id }
-    }
   } = prospect;
 
   // clears active-campaign when navigating away
   useEffect(() => () => dispatch(clearActiveCampaign()), [dispatch]);
 
   useEffect(() => {
-  if (activeCampaignId) {
-    const campaign = prospect.campaigns.find(c => c.id === activeCampaignId) || {};
-    setActiveCampaign(campaign)
-  }
-  }, [activeCampaignId])
+    const campaignFound = campaigns.find(cp => cp.id === activeCampaignId) || {};
+    setProspectActiveCampaign(campaignFound);
+  }, [activeCampaignId]);
+
   // agent controls
   const emptyAgentOption = {
     id: '',
@@ -230,31 +226,6 @@ const FieldsSection = () => {
     } = e;
     let payload = { agent: parseInt(value) };
     dispatch(prospectUpdateOptimistically(prospect.id, payload));
-  };
-
-  // SMS RELAY
-  const emptyRelayOption = {
-    id: '',
-    fullName: 'None',
-    phone: '',
-    role: ''
-  };
-  const onRelayChange = e => {
-    let {
-      target: { value }
-    } = e;
-    // if none-selected then remove it
-    if (!value) {
-      dispatch(prospectRemoveRelay(prospect.id, { smsRelayMap: null }));
-    } else {
-      // add new relay
-      dispatch(
-        prospectSetRelay({
-          prospect: prospect.id,
-          rep: parseInt(value)
-        })
-      );
-    }
   };
 
   // REMINDERS
@@ -304,14 +275,18 @@ const FieldsSection = () => {
       setFieldBtnStatus({ ...fieldBtnStatus, [field]: true });
       dispatch(action(...args)).then(() => setFieldBtnStatus(newFieldBtnStatus));
     } else {
-      // dispatch thunk to show campaigns
-      fetchProspectCampaigns();
+    // dispatch thunk to show campaigns
+    fetchProspectCampaigns();
       setModal(true);
       setEmailtoCrm(field === 'isEmailingToCrm' ? true : false);
     }
   };
-  let agentOpts = RenderAgentOptions(agents, emptyAgentOption, onAgentChange);
 
+  useEffect(() => {
+    console.log(campaigns)
+  }, [campaigns])
+  let agentOpts = RenderAgentOptions(agents, emptyAgentOption, onAgentChange);
+  console.log(emailedToPodio);
   return (
     <>
       <FieldSelect
@@ -343,7 +318,7 @@ const FieldsSection = () => {
             data-test='email-to-crm-btn'
             color='primary'
             className='fw-bold'
-            disabled={emailedToPodio || fieldBtnStatus.isEmailingToCrm || (activeCampaignId && !activeCampaign.podioPushEmailAddress)}
+            disabled={emailedToPodio || fieldBtnStatus.isEmailingToCrm || (activeCampaignId && !prospectActiveCampaign.podioPushEmailAddress)}
             onClick={() => handleFieldBtnClick(prospectEmailToCrmAction, 'isEmailingToCrm')}
           >
             {fieldBtnStatus.isEmailingToCrm || emailedToPodio ? (
@@ -367,7 +342,7 @@ const FieldsSection = () => {
             data-test='push-to-zapier-btn'
             color='primary'
             className='fw-bold'
-            disabled={pushedToZapier || fieldBtnStatus.isPushingToZapier || (activeCampaignId && !activeCampaign.zapierWebhook)}
+            disabled={pushedToZapier || fieldBtnStatus.isPushingToZapier || (activeCampaignId && !prospectActiveCampaign.zapierWebhook)}
             onClick={() => handleFieldBtnClick(prospectPushToZapierAction, 'isPushingToZapier')}
           >
             {fieldBtnStatus.isPushingToZapier || pushedToZapier ? (
@@ -400,7 +375,7 @@ const FieldsSection = () => {
                   border='3px'
                   renderContent={() => (
                     <>
-                      {campaigns.map((campaign, idx) => (
+                      {campaigns.length && campaigns.map((campaign, idx) => (
                         <Radio
                           key={idx}
                           type='radio'
@@ -421,10 +396,11 @@ const FieldsSection = () => {
                 color='primary'
                 block
                 size='lg'
+                data-test='crm-modal-submit'
                 disabled={
-                  !activeCampaign.id ||
-                  (emailToCrm && (emailedToPodio || !activeCampaign.podioPushEmailAddress)) ||
-                  (!emailToCrm && (pushedToZapier || !activeCampaign.zapierWebhook)) ||
+                  !prospectActiveCampaign.id ||
+                  (emailToCrm && (emailedToPodio || !prospectActiveCampaign.podioPushEmailAddress)) ||
+                  (!emailToCrm && (pushedToZapier || !prospectActiveCampaign.zapierWebhook)) ||
                   submitting
                 }
               >

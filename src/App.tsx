@@ -77,7 +77,8 @@ function App() {
         dispatch(updateProspectList({
           results: arrayToMapIndex('id', prospects),
           next: null,
-          previous: null
+          previous: null,
+          overridePages: false
         }));
         dispatch(populateProspectMessages(messages));
       })

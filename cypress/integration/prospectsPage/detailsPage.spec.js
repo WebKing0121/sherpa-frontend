@@ -32,21 +32,49 @@ describe('Prospect details page', () => {
       .and('be.visible');
   });
 
-  it('takes the user back to the prospects page when clicking the "prospect List" button', () => {
+  it('takes the user back to the unread-messages when clicking the back button', () => {
     cy.login();
     cy.server();
-    cy.stubResponse({
-      method: 'GET',
-      url: `prospects/${prospectId}/**`,
-      response: `prospect${prospectId}`
-    });
-    cy.visit(`${url}/prospects`);
-    cy.visit(`${url}/${prospectUrl}`);
-    cy.get(`[data-test=tabbed-header]`)
-      .find('button')
-      .click();
-    cy.location().should(location => {
-      expect(location.pathname).to.eq(`/prospects`);
-    });
+    cy.route({ url: '**/campaign-prospects/unread/**' }).as('unread-messages');
+    cy.visit(`${url}/new-messages`);
+
+    cy.wait('@unread-messages')
+
+    cy.get('[data-test=list-item-link]')
+      .first()
+      .click({ force: true });
+
+    cy
+      .get('[data-test=prospect-details-back-button]')
+      .contains('Unread Messages')
+      .click({ force: true })
+      .then(() => {
+        cy.location().should(location => {
+          expect(location.pathname).to.eq('/new-messages');
+        })
+      })
+  });
+
+  it('takes the user back to the campaign-details when clicking the back button', () => {
+    cy.login();
+    cy.server();
+    cy.route({ url: '**/campaign-prospects/**' }).as('campaign-messages');
+    cy.visit('http://localhost:3000/markets/2/campaigns/1/details');
+
+    cy.wait('@campaign-messages')
+
+    cy.get('[data-test=list-item-link]')
+      .first()
+      .click({ force: true });
+
+    cy
+      .get('[data-test=prospect-details-back-button]')
+      .contains('Campaign Details')
+      .click({ force: true })
+      .then(() => {
+        cy.location().should(location => {
+          expect(location.pathname).to.eq('/markets/2/campaigns/1/details');
+        })
+      })
   });
 });

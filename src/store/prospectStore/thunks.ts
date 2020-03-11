@@ -9,7 +9,6 @@ import {
 } from '../uiStore/prospectSearchView/actions';
 import {
   fetchProspectsSuccess,
-  resetProspects,
   updateProspectList,
   updateProspectSuccess,
   fetchProspect,
@@ -24,12 +23,12 @@ import { getProspect } from './selectors';
 
 // utils
 import { arrayToMapIndex } from '../utils';
-import { ProspectRecord, PartialProspectRecord, IProspect } from './interfaces';
+import { ProspectRecord, PartialProspectRecord } from './interfaces';
 
 // search thunk generators
 export const searchProspectsThunkCreator = (initActions: any, successActions: any, failActions: any) => {
   // returns a thunk with specific custom init/success/fail actions
-  return (term: string) => (dispatch: any, getState: any) => {
+  return (term: string) => (dispatch: any) => {
     initActions(dispatch);
     return api
       .listProspects(term)
@@ -78,7 +77,7 @@ export const prospectSearchNextPage = () => (dispatch: any, getState: any) => {
       const prospectRecords = data.results.map((prospect: any) => ProspectRecord(prospect, false));
       const prospectsMap = arrayToMapIndex('id', prospectRecords);
 
-      dispatch(updateProspectList({ ...data, results: prospectsMap }));
+      dispatch(updateProspectList({ ...data, results: prospectsMap, overridePages: true }));
       dispatch(fetchProspectNextPage(false));
 
       return data;
@@ -89,7 +88,7 @@ export const prospectSearchNextPage = () => (dispatch: any, getState: any) => {
 };
 
 // prospect details
-export const prospectFetchSingle = (id: any) => (dispatch: any, getState: any) => {
+export const prospectFetchSingle = (id: any) => (dispatch: any) => {
   dispatch(fetchProspect(true));
 
   return api
@@ -99,10 +98,6 @@ export const prospectFetchSingle = (id: any) => (dispatch: any, getState: any) =
 
       dispatch(updateProspectSuccess(prospect));
       dispatch(fetchProspectSuccess(false));
-
-      if (prospect.campaigns.length === 1) {
-        dispatch(detailsViewActions.setActiveCampaign(prospect.campaigns[0].id));
-      }
     })
     .catch(error => console.log('Error fetching prospect detail', error));
 };
