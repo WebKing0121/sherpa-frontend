@@ -37,25 +37,6 @@ describe('Prospect details tab', () => {
     cy.get('[data-test=Details]').should('have.class', 'active');
   });
 
-  it('makes a successful API call for each leadstage in dropdown', () => {
-    cy.server();
-    cy.route({
-      url: `**/prospects/*`,
-      method: 'PATCH',
-    }).as('lead-stage');
-    cy.get(leadStagesDropDown)
-      .find(option)
-      .then($options => {
-        for (let i = 1; i < $options.length; i++) {
-          cy.get(leadStagesDropDown).click({ force: true });
-          cy.get(leadStagesDropDown).find(option).eq(i).click({ force: true })
-          cy.wait('@lead-stage').then(xhr => {
-            expect(xhr.status).to.eq(200);
-          });
-        }
-      });
-  });
-
   it('clicks each action button, displays loading spinner while request is processing, removes spinner after processing, has valid response with correct payload when toggling', () => {
     cy.server();
     cy.route({ method: 'PATCH', url: `**/prospects/${prospectId}` }).as('prospect');
@@ -104,6 +85,25 @@ describe('Prospect details tab', () => {
         });
       }
     });
+  });
+
+  it('makes a successful API call for each leadstage in dropdown', () => {
+    cy.server();
+    cy.route({
+      url: `**/prospects/*`,
+      method: 'PATCH',
+    }).as('lead-stage');
+    cy.get(leadStagesDropDown)
+      .find(option)
+      .then($options => {
+        for (let i = 1; i < $options.length; i++) {
+          cy.get(leadStagesDropDown).click({ force: true });
+          cy.get(leadStagesDropDown).find(option).eq(i).click({ force: true })
+          cy.wait('@lead-stage').then(xhr => {
+            expect(xhr.status).to.eq(200);
+          });
+        }
+      });
   });
 
   it('has the correct agents in the agent selector, selects each option', () => {

@@ -38,6 +38,7 @@ import moment from 'moment-timezone';
 import { LoadingSpinner } from '../../../components/LoadingSpinner';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { prospectGetCampaigns } from '../../../store/prospectStore/api';
+import { getLeadStages } from '../../../store/leadstages/selectors';
 
 const BtnHolster = styled.div`
   display: flex;
@@ -179,9 +180,12 @@ const RenderAgentOptions = (agents, emptyOption, onClick) => {
   return options;
 };
 
+
 // TODO: Break all these fields into their own
 // sub-component to avoid re-renders
 const FieldsSection = () => {
+  const leadStages = useSelector(getLeadStages);
+  console.log(leadStages)
   const prospectId = useSelector(activeProspectSelector);
   const prospect = useSelector(getProspect(prospectId));
   const activeCampaignId = useSelector(activeCampaignSelector);
@@ -282,13 +286,42 @@ const FieldsSection = () => {
     }
   };
 
-  useEffect(() => {
-    console.log(campaigns)
-  }, [campaigns])
   let agentOpts = RenderAgentOptions(agents, emptyAgentOption, onAgentChange);
-  console.log(emailedToPodio);
+
+  // on change lead
+  const onLeadStageChange = e => {
+    let value = e.target.value;
+    // ignore default optoin
+    if (value) {
+      dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
+    }
+
+  };
+
+  // render lead options
+  let leadOptions = leadStages.map((item, key) => (
+    <DropdownItem onClick={onLeadStageChange} key={key} value={item.id}>
+      {item.leadStageTitle}
+    </DropdownItem>
+  ));
+  let activeLead = 0;
+  for (var i = 0; i < leadStages.length; i++) {
+    if (leadStages[i].id === prospect.leadStage) {
+      activeLead = leadStages[i].leadStageTitle;
+    }
+  }
   return (
     <>
+      <FieldWrapper data-test='prospect-lead-stages-drop-down'>
+        <Label>Lead Stage</Label>
+        <InputSelect
+          id='statusSelect'
+          value={activeLead}
+          placeholder={"Select Lead Stage"}
+          options={leadOptions}
+          icon={<IconBg icon='project-diagram' size='sm' />}
+        />
+      </FieldWrapper>
       <FieldSelect
         name='status'
         id='statusSelect'

@@ -9,8 +9,8 @@ import {
 import { prospectUpdateOptimistically } from '../../../store/prospectStore/thunks';
 import { getLeadStages } from '../../../store/leadstages/selectors';
 import { getProspect } from '../../../store/prospectStore/selectors';
-import { DropdownItem } from 'reactstrap';
-
+import { DropdownItem, Label } from 'reactstrap';
+import IconBg from '../../../components/IconBg';
 const StatusActions = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -18,47 +18,19 @@ const StatusActions = styled.div`
   justify-content: space-between;
 `;
 
-const DetailsTab = props => {
-  const leadStages = useSelector(getLeadStages);
-  const prospectId = useSelector(activeProspectSelector);
-  const prospect = useSelector(getProspect(prospectId));
-  const dispatch = useDispatch();
-
-  // on change lead
-  const onLeadStageChange = e => {
-    let value = e.target.value;
-    // ignore default optoin
-    if (value) {
-      dispatch(prospectUpdateOptimistically(prospect.id, { leadStage: parseInt(value) }));
-    }
-
-  };
-
-  // render lead options
-  let leadOptions = leadStages.map((item, key) => (
-    <DropdownItem onClick={onLeadStageChange} key={key} value={item.id}>
-      {item.leadStageTitle}
-    </DropdownItem>
-  ));
-  leadOptions.unshift(
-    <DropdownItem onClick={onLeadStageChange} key={1000} value={0}>Select Lead Stage</DropdownItem>
-  );
-
-  let activeLead = 0;
-  for (var i = 0; i < leadStages.length; i++) {
-    if (leadStages[i].id === prospect.leadStage) {
-      activeLead = leadStages[i].leadStageTitle;
-    }
+const FieldWrapper = styled.div`
+  &:not(:last-child) {
+    margin-bottom: var(--pad4);
   }
+  .iconBg {
+    color: var(--sherpaBlue);
+  }
+`;
+const DetailsTab = props => {
+  const prospectId = useSelector(activeProspectSelector);
 
   return (
-    <div data-test='prospect-lead-stages-drop-down'>
-      <InputSelect
-        id='statusSelect'
-        value={activeLead}
-        placeholder={"Select Lead Stage"}
-        options={leadOptions}
-      />
+    <div>
       <StatusActions>
         <StatusActionBtns prospectId={prospectId} />
       </StatusActions>
