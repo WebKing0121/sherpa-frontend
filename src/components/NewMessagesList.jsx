@@ -16,7 +16,8 @@ const NewMessages = (props) => {
 
   const unreadSmsList = campaignProspectsUnread.map(
     props.listData({
-      prospectPath: [...path, "campaignProspectsUnread"]
+      prospectPath: [...path, "campaignProspectsUnread"],
+      backButtonText: props.backButtonText
     }));
 
   useEffect(() => {

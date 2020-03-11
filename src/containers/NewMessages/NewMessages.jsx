@@ -7,7 +7,7 @@ const NewMessages = (props) => {
   return (
     <div className="pageContent">
       <TabbedHeader data={{}}><h1 className='text-white text-left m-0'>New Messages</h1></TabbedHeader>
-      <NewMessagesList listData={ prospectsToItemList }/>
+      <NewMessagesList backButtonText="Unread Messages" listData={ prospectsToItemList }/>
     </div>
   );
 }
