@@ -128,11 +128,14 @@ describe('campaign messages', () => {
       .first()
       .within(() => {
         cy.get('[data-test=swipeable-list-item-action]').each($button => {
-          cy.wrap($button)
-            .within(() => {
-              cy.get('a')
-                .click({ force: true })
-            })
+	  if ($button[0].innerText.trim() !== "DNC") {
+	    console.log("CLICK", $button[0].innerText);
+	    cy.wrap($button)
+              .within(() => {
+		cy.get('a')
+                  .click({ force: true })
+              })
+	  }
         });
       });
     cy.wait('@action');
@@ -154,9 +157,6 @@ describe('campaign messages', () => {
         cy.wrap($buttons[0])
           .should('have.css', 'background-color')
           .and(ownerVerifiedStatus !== 'verified' ? 'not.eq' : 'eq', white);
-        cy.wrap($buttons[1])
-          .should('have.css', 'background-color')
-          .and(!doNotCall ? 'not.eq' : 'eq', white);
         cy.wrap($buttons[2])
           .should('have.css', 'background-color')
           .and(!isPriority ? 'not.eq' : 'eq', white);
@@ -164,7 +164,11 @@ describe('campaign messages', () => {
           .should('have.css', 'background-color')
           .and(!isQualifiedLead ? 'not.eq' : 'eq', white);
         // reseting status buttons
-        cy.wrap($buttons).each($btn => cy.wrap($btn[0]).click({ force: true }));
+        cy.wrap($buttons).each($btn => {
+	  if ($btn[0].innerText.trim() !== "DNC") {
+	    cy.wrap($btn[0]).click({ force: true })
+	  }
+	});
       });
     });
   });

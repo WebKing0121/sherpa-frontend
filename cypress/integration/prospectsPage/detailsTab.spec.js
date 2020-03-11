@@ -11,7 +11,7 @@ describe('Prospect details tab', () => {
     actionButtons = '[data-test=status-action-button]',
     option = '.dropdown-item'
 
-  const actions = ['Verified', 'DNC', 'Priority', 'Qualified'];
+  const actions = ['Verified', 'Priority', 'Qualified'];
 
   before(() => {
     cy.login();
@@ -61,42 +61,45 @@ describe('Prospect details tab', () => {
     const prospectStatus = {};
 
     cy.get(actionButtons).each(($button, idx) => {
-      cy.wrap($button).click({ force: true });
+      if ($button[0].innerText !== "DNC") {
+        console.log("BTN", $button[0].innerText);
+        cy.wrap($button).click({ force: true });
 
-      cy.wait('@prospect').then(xhr => {
-        cy.wrap($button)
-        cy.wrap(xhr)
-          .its('status')
-          .should('eq', 200);
+        cy.wait('@prospect').then(xhr => {
+          cy.wrap($button)
+          cy.wrap(xhr)
+            .its('status')
+            .should('eq', 200);
 
-        const currentAction = actions[idx],
-          reqStatus = xhr.request.body[currentAction],
-          resStatus = xhr.response.body[currentAction];
+          const currentAction = actions[idx],
+            reqStatus = xhr.request.body[currentAction],
+            resStatus = xhr.response.body[currentAction];
 
-        prospectStatus[currentAction] = reqStatus;
+          prospectStatus[currentAction] = reqStatus;
 
-        expect(reqStatus).to.eq(resStatus);
-      });
-      //should toggle back previous state
-      cy.wrap($button).click({ force: true });
-      cy.wait('@prospect').then(xhr => {
-        cy.wrap(xhr)
-          .its('status')
-          .should('eq', 200);
+          expect(reqStatus).to.eq(resStatus);
+        });
+        //should toggle back previous state
+        cy.wrap($button).click({ force: true });
+        cy.wait('@prospect').then(xhr => {
+          cy.wrap(xhr)
+            .its('status')
+            .should('eq', 200);
 
-        const currentAction = actions[idx],
-          resStatus = xhr.response.body[currentAction];
+          const currentAction = actions[idx],
+            resStatus = xhr.response.body[currentAction];
 
-        if (currentAction === 'ownerVerifiedStatus') {
-          if (prospectStatus[currentAction] === 'verified') {
-            expect(resStatus).to.eq('unverified');
+          if (currentAction === 'ownerVerifiedStatus') {
+            if (prospectStatus[currentAction] === 'verified') {
+              expect(resStatus).to.eq('unverified');
+            } else {
+              expect(resStatus).to.eq('verified');
+            }
           } else {
-            expect(resStatus).to.eq('verified');
+            expect(resStatus).to.eq(!prospectStatus[currentAction]);
           }
-        } else {
-          expect(resStatus).to.eq(!prospectStatus[currentAction]);
-        }
-      });
+        });
+      }
     });
   });
 

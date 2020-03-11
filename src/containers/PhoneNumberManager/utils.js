@@ -6,13 +6,19 @@ import { Button } from 'reactstrap';
 import WithPermissions from '../../components/WithPermissions';
 import { NUMBER_MANAGER_VIEW_KEBAB } from '../../permissions/phoneNumberManager';
 import { getIn, all, any } from '../../utils';
+import store from '../../store/store';
+import { release_phone_number } from '../../store/NumberManagerStore/thunks';
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.
  */
 
 export const numberToItemList = number => {
-  const { id, parsedCreated, phone, market, status, parsedLastSend, parsedLastReceived } = number;
+  const {
+    id, parsedCreated, phone,
+    market, status, parsedLastSend,
+    parsedLastReceived
+  } = number;
   const subInfoStr = market.name;
   const kebabActions = [
     {
@@ -27,7 +33,7 @@ export const numberToItemList = number => {
     {
       name: 'Release',
       data: {
-        onClick: () => console.log("Ready to Rename"),
+        onClick: () => store.dispatch(release_phone_number({ ...number, market: market.id })),
         color: 'link'
       },
       component: Button

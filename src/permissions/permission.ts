@@ -1,7 +1,8 @@
 import { permissions as accPermissions } from './accountSettings';
 import { permissions as phoneMangerPermissions } from './phoneNumberManager';
 
-export const roles = {
+
+export const roles: { [key: string]: any } = {
   master_admin: {
     permissions: [
       ...accPermissions.master_admin,

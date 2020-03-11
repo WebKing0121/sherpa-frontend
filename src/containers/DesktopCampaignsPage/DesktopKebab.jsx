@@ -45,7 +45,7 @@ const DesktopKebab = props => {
       isOpen={isOpen}
       offset={-35}
       target={"kebab" + props.idx}
-      toggle={props.disabled ? null : toggle}>
+      toggle={props.disabled ? () => null : toggle}>
       <Body>
         {props.children}
       </Body>

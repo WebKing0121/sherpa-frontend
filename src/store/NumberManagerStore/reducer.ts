@@ -2,6 +2,7 @@ import {
   FETCH_PHONE_NUMBERS,
   FETCH_PHONE_NUMBERS_SUCCESS,
   FETCH_PHONE_NUMBERS_ERROR,
+  UPDATE_PHONE_NUMBER
 } from './actionTypes';
 
 // TODO(Diego): Finish up defining reducers
@@ -33,6 +34,16 @@ export default function reducer(state: any = initialState, action: any) {
         error: action.payload
       }
     };
+    case UPDATE_PHONE_NUMBER: {
+      const id = action.payload.id;
+      return {
+        ...state,
+        numbers: {
+          ...state.numbers,
+          [id]: { ...state.numbers[id], ...action.payload }
+        }
+      }
+    }
     default:
       return state;
   }
