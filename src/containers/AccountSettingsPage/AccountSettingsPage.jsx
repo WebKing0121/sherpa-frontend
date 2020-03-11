@@ -73,6 +73,7 @@ function AccountSettingsPage() {
   return (
     <WithPermissions
       checkPermissions={true}
+      checkRole={true}
       permission={ACCOUNT_SETTINGS_VIEW_PAGE}
       permissionDeniedMessage={<PermissionDenied>You don't have permission to view this page.</PermissionDenied>}
     >

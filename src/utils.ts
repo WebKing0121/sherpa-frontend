@@ -70,3 +70,6 @@ export const updateIn = (
 };
 
 export const identity = (x: any) => x;
+export const all = (coll: Array<any>) => coll.reduce((acc: boolean, el: any) => acc && el, true);
+export const any = (coll: Array<any>) => coll.reduce((acc: boolean, el: any) => acc || el, false);
+export const compose = (...fns: Array<Function>) => (args: any) => fns.reduceRight((args: any, f: Function) => f(args), args);

@@ -214,7 +214,12 @@ const NavbarDesktop = props => {
     let linkClass = "navLink textL stretched-link w-100 d-flex";
 
     return (
-      <WithPermissions key={idx} checkPermissions={r.checkPermissions} permission={r.permission}>
+      <WithPermissions
+        key={idx}
+        name={r.name}
+        checkPermissions={r.checkPermissions}
+        {...r.permissionProps}
+      >
         <StyledNavItem data-test={`desktop-nav-${r.name}`} className={activeClass} onClick={() => dispatch(setPath(r.path))}>
           <NavLink className={linkClass} tag={Link} to={r.path} >
             <FontAwesomeIcon icon={r.navIcon} size="lg" />

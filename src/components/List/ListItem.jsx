@@ -82,14 +82,19 @@ const ItemContent = styled.div`
   padding: var(--pad2) var(--pad3);
 
   .itemBody {
-    flex: 4 1 auto;
+    flex: ${props => props.hasSidebar ? 1 : 4} 1 auto;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
   }
 
   .desktopCallouts {
-    flex-grow: 2;
+    flex-grow: ${props => props.hasSidebar ? 4 : 2};
+
+    .callout {
+      flex: ${props => props.hasSidebar ? 1 : null};
+      align-items: flex-start;
+    }
   }
 
   @media (min-width: 768px) {
@@ -100,7 +105,7 @@ const ItemContent = styled.div`
 function ListItem(props) {
   return (
     <StyledItem islink={props.item.link ? 1 : 0} style={props.style} data-test='list-item'>
-      <ItemContent id={props.id}>
+      <ItemContent hasSidebar={props.hasSidebar} id={props.id}>
         <IconHolster icon={props.item.icon} readable={props.item.readable} isRead={props.item.isRead} />
         <div className='itemBody'>
           <ItemHeader data-test='list-item-header'>
