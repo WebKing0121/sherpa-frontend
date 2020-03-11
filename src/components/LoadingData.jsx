@@ -19,6 +19,7 @@ const SpinWrap = styled.div`
     justify-content: center;
     width: 100vw;
     height: 100vh;
+    margin: 0 !important;
 
     & > [class*='spinner'] {
       width: 7rem;
