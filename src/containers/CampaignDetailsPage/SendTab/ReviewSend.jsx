@@ -58,8 +58,20 @@ const PreviewText = styled.p`
 `;
 
 const LeadWrapper = styled.div`
-  min-height: 330px;
+  height: 0px;
+  min-height: 400px;
   position: relative;
+ 
+.displayedData {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+
+& >  p {
+ flex: 1; 
+}
+}
 `;
 
 const ButtonSection = styled.div`
@@ -72,7 +84,7 @@ const ButtonSection = styled.div`
 function renderLead({ transProps, campaignProspects, count }) {
   return campaignProspects.map((x, idx) => {
     return (
-      idx === count ? (<div>
+      idx === count ? (<>
         <LeadInfo>
           <h3 className='fw-bold name'>{x.prospect.name}</h3>
           <p className='phoneNum textM'>{x.prospect.phoneDisplay}</p>
@@ -84,7 +96,7 @@ function renderLead({ transProps, campaignProspects, count }) {
         <PreviewText data-test='batch-prospect-message' className='textL'>
           {x.smsMsgText}
         </PreviewText>
-      </div>) : null
+      </>) : null
     );
   });
 }
