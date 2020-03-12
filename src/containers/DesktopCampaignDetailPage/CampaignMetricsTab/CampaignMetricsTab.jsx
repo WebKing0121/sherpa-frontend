@@ -5,9 +5,13 @@ import {
   Row,
   Button
 } from 'reactstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+// components
 import IconBg from '../../../components/IconBg';
 import { CalloutBlock } from '../../CampaignDetailsPage/SendTab/CalloutSection';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BatchStatsSection from './BatchStatsSection';
+
 
 const Wrapper = styled.div`
   --border: 2px solid var(--mediumGray);
@@ -56,14 +60,6 @@ const Section = styled.div`
   }
 `;
 
-const StyledList = styled.ul`
-  li {
-    span {
-      text-align: left;
-      flex: 0 0 calc(100% / 6);
-    }
-  }
-`;
 
 const SimpleList = styled.ul`
   display: flex;
@@ -109,33 +105,11 @@ const Card = styled.div`
   }
 `;
 
-const DeliveryStatus = props => {
-  const Indicator = styled.div`
-    background: ${props =>
-      props.value < 70 ? "var(--red)" :
-      props.value < 90 ? "var(--yellow)" :
-      "var(--green)"};
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin-right: 4px;
-  `;
-
-  return (
-    <div className="d-flex align-items-center">
-      <Indicator value={props.value}/>
-      {props.value}%
-    </div>
-  );
-}
-
 const CampaignSendTab = props => {
   const circleSize = "2rem";
   const iconSize = "sm";
-
-  const downIcon = <FontAwesomeIcon icon="chevron-down" size="xs" className="mr-1"/>
-  const addIcon = <FontAwesomeIcon icon="plus-circle" size="xl" color="var(--green)" className="mr-1"/>;
-  const downloadIcon = <Button className="p-0" color="link"><FontAwesomeIcon icon="download" className="ml-2" color="var(--sherpaBlue)" style={{fontSize: ".75rem"}} /></Button>;
+  const addIcon = <FontAwesomeIcon icon="plus-circle" size="xl" color="var(--green)" className="mr-1" />;
+  const downloadIcon = <Button className="p-0" color="link"><FontAwesomeIcon icon="download" className="ml-2" color="var(--sherpaBlue)" style={{ fontSize: ".75rem" }} /></Button>;
 
   return (
     <Wrapper>
@@ -186,32 +160,32 @@ const CampaignSendTab = props => {
               <h4 className="header fw-black textXL m-0">Message Stats</h4>
               <SimpleList className="p-0">
                 <li className="item textM">
-                  <IconBg className="icon" color="yellow" icon="times" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="yellow" icon="times" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Daily Send Limit</span>
                   <span className="value fw-black textXL">9100</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="yellow" icon="paper-plane" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="yellow" icon="paper-plane" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Sends Available</span>
                   <span className="value fw-black textXL">4831</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="orange" icon="share" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="orange" icon="share" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Skipped</span>
                   <span className="value fw-black textXL">0</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="red" icon="phone-slash" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="red" icon="phone-slash" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Undeliverable</span>
                   <span className="value fw-black textXL">239</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="red" icon="skull" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="red" icon="skull" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Auto Dead Rate</span>
                   <span className="value fw-black textXL">28%</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="red" icon="skull" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="red" icon="skull" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Total Auto Dead</span>
                   <span className="value fw-black textXL">53</span>
                 </li>
@@ -224,37 +198,37 @@ const CampaignSendTab = props => {
               <h4 className="header fw-black textXL m-0">Import Stats</h4>
               <SimpleList className="p-0">
                 <li className="item textM">
-                  <IconBg className="icon" color="green" icon="address-book" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="green" icon="address-book" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Phone Numbers</span>
                   <span className="value fw-black textXL">10392</span>
                   <span>{downloadIcon}</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="green" icon="mobile-alt" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="green" icon="mobile-alt" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Mobile</span>
                   <span className="value fw-black textXL">82%</span>
                   <span>{downloadIcon}</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="green" icon="phone" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="green" icon="phone" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Landline</span>
                   <span className="value fw-black textXL">9100</span>
                   <span>{downloadIcon}</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="green" icon="question" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="green" icon="question" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Other Phone</span>
                   <span className="value fw-black textXL">4831</span>
                   <span>{downloadIcon}</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="red" icon="gavel" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="red" icon="gavel" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">Litigators Removed</span>
                   <span className="value fw-black textXL">28%</span>
                   <span>{downloadIcon}</span>
                 </li>
                 <li className="item textM">
-                  <IconBg className="icon" color="red" icon="phone-slash" faSize={iconSize} width={circleSize} height={circleSize}/>
+                  <IconBg className="icon" color="red" icon="phone-slash" faSize={iconSize} width={circleSize} height={circleSize} />
                   <span className="name">DNC Skipped</span>
                   <span className="value fw-black textXL">293</span>
                   <span>{downloadIcon}</span>
@@ -266,57 +240,7 @@ const CampaignSendTab = props => {
       </section>
 
       <Section>
-        <h2 className="fw-bold mb-3">Batch Stats</h2>
-        <StyledList>
-          <li className="item header textM mb-1">
-            <span>{downIcon} Batch</span>
-            <span>{downIcon} Response</span>
-            <span>{downIcon} Attempts</span>
-            <span>{downIcon} Delivery</span>
-            <span>{downIcon} Skipped</span>
-            <span>{downIcon} Last Send</span>
-          </li>
-          <li className="item textM mb-1">
-            <span className="fw-black">#401</span>
-            <span>23%</span>
-            <span>100</span>
-            <span><DeliveryStatus value={91}/></span>
-            <span>0</span>
-            <span className="gray">10/2/19 | 10:34pm</span>
-          </li>
-          <li className="item textM mb-1">
-            <span className="fw-black">#402</span>
-            <span>43%</span>
-            <span>2</span>
-            <span><DeliveryStatus value={99}/></span>
-            <span>0</span>
-            <span className="gray">10/2/19 | 10:34pm</span>
-          </li>
-          <li className="item textM mb-1">
-            <span className="fw-black">#403</span>
-            <span>13%</span>
-            <span>100</span>
-            <span><DeliveryStatus value={78}/></span>
-            <span>0</span>
-            <span className="gray">10/2/19 | 10:34pm</span>
-          </li>
-          <li className="item textM mb-1">
-            <span className="fw-black">#404</span>
-            <span>73%</span>
-            <span>45</span>
-            <span><DeliveryStatus value={33}/></span>
-            <span>0</span>
-            <span className="gray">10/2/19 | 10:34pm</span>
-          </li>
-          <li className="item textM mb-1">
-            <span className="fw-black">#405</span>
-            <span>23%</span>
-            <span>100</span>
-            <span><DeliveryStatus value={45}/></span>
-            <span>0</span>
-            <span className="gray">10/2/19 | 10:34pm</span>
-          </li>
-        </StyledList>
+        <BatchStatsSection />
       </Section>
     </Wrapper>
   );

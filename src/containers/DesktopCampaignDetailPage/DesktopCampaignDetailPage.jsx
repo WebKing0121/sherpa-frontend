@@ -20,6 +20,7 @@ const DesktopCampaignDetailPage = props => {
   const { id } = useParams();
   const campaign = useSelector(getCampaign(id));
   const dispatch = useDispatch();
+  const notesList = useSelector(campaignNotesList);
 
   const toggleTab = tab => {
     if (activeTab !== tab) setActiveTab(tab);
@@ -46,9 +47,8 @@ const DesktopCampaignDetailPage = props => {
     if (!campaign.id) {
       dispatch(fetchSingleCampaign(id));
     }
-  }, [campaign]);
+  }, []);
 
-  const notesList = useSelector(campaignNotesList);
 
   const notesProps = {
     fetchNotes: noteActions.fetchCampaignNotes,
