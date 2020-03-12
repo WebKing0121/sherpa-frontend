@@ -11,11 +11,14 @@ const Wrapper = styled.div`
   pointer-events: none;
   position: fixed;
   bottom: 0;
-  left: 0;
+  right: 0;
   display: flex;
   flex-direction: column-reverse;
   z-index: 10000;
-  * {
+  @media (min-width: 768px) {
+    max-width: 500px;  
+   }
+* {
     pointer-events: all;
   }
 `;
