@@ -15,6 +15,19 @@ import {
   setProspectCyclePath, setActiveCampaign
 } from '../../store/uiStore/prospectDetailsView/actions';
 
+export const getBlockedReasonMessage = str => {
+  switch(str) {
+      case "time":
+        return "Messaging disabled from 8:30pm to 8:30am in compliance with TCPA law";
+      case "subscription":
+        return "No active subscription";
+      case "active-numbers":
+        return "Not enough active numbers in this market"
+      default:
+        return null;
+  }
+}
+
 /*
  * Helper functions to transform a campaign to an appropriate interface for the =ItemList=
  * component to render.

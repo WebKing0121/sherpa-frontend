@@ -6,8 +6,8 @@ describe('campaign send tab', () => {
     sendTab = '[data-test=Send]',
     smsTemplateDropDown = '[data-test=sms-template-dropdown]',
     option = '.dropdown-item',
-    dropDown = '[data-test=custom-dropdown]',
-    dropDownValue = '.dropdown span';
+    messagingDisabled = '[data-test=disabled-messaging-message]',
+    disabledReasons = Cypress.env('messagingDisabled')
 
   before(() => {
     cy.login();
@@ -53,7 +53,6 @@ describe('campaign send tab', () => {
         acc[curr.id] = curr;
         return acc;
       }, {});
-      console.log(campaign);
       cy.getState().then(({ smsTemplates: { templates } }) => {
         const { message } = templates[campaign[campaignId].smsTemplate];
         cy.get('[data-test=sms-template-preview]').contains(message);
@@ -114,5 +113,44 @@ describe('campaign send tab', () => {
         cy.get('[data-test=batch-prospect-message]').contains(smsMsg);
       });
     });
+  });
+
+
+  it('displays the correct message when messages are blocked for "time"', () => {
+    cy.reload();
+    cy.login();
+    cy.server();
+    cy.fixture('campaigns').then(fixture => {
+      const newFixture = {
+        ...fixture,
+        results: fixture.results.map(result => ({
+          ...result,
+          blockReason: "time"
+        }))
+      }
+      cy.route({ url: `**/campaigns/?ordering=-created_date&market=2&is_archived=false&page_size=20`, response: newFixture }).as('campaigns')
+      cy.visit(`${url}/${campaignUrl}`);
+      cy.wait('@campaigns');
+      cy.get(messagingDisabled).contains(disabledReasons.time);
+    })
+  });
+
+  it('displays the correct message when messages are blocked for "active-numbers"', () => {
+    cy.reload();
+    cy.login();
+    cy.server();
+    cy.fixture('campaigns').then(fixture => {
+      const newFixture = {
+        ...fixture,
+        results: fixture.results.map(result => ({
+          ...result,
+          blockReason: "active-numbers"
+        }))
+      }
+      cy.route({ url: `**/campaigns/?ordering=-created_date&market=2&is_archived=false&page_size=20`, response: newFixture }).as('campaigns')
+      cy.visit(`${url}/${campaignUrl}`);
+      cy.wait('@campaigns');
+      cy.get(messagingDisabled).contains(disabledReasons['active-numbers']);
+    })
   });
 });

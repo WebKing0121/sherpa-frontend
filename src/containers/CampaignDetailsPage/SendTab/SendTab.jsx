@@ -15,6 +15,7 @@ import { updateSmsTemplate } from '../../../store/Campaigns/thunks';
 import { fetchCampaignsBatchProspects } from '../../../store/CampaignsBatchProspectsStore/actions';
 
 import CollapsablePane from '../../../components/CollapsablePane';
+import { getBlockedReasonMessage } from '../utils';
 
 const MessagingDisabled = styled.h3`
   padding: 16px;
@@ -58,8 +59,10 @@ const SendTab = ({ campaign }) => {
     dispatch(updateSmsTemplate(updatedCampaignTemplate));
   };
 
-  if (userData.company.isMessagingDisabled) {
-    return <MessagingDisabled>Messaging disabled from 8:30pm to 8:30am in compliance with TCPA law</MessagingDisabled>;
+  const blockReason = getBlockedReasonMessage(campaign.blockReason);
+
+  if (blockReason) {
+    return <MessagingDisabled data-test='disabled-messaging-message'>{blockReason}</MessagingDisabled>;
   }
 
   return (
